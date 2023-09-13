@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 const Main = ({ navigation }: any) => {
   return (
     <Container>
-      <Text>홈 화면</Text>
+      <Text>홈 화면!</Text>
       <MenuBtn onPress={() => navigation.navigate("PictureLobby")}>
         <Text>그림 맞추기</Text>
       </MenuBtn>
