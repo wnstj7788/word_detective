@@ -1,9 +1,6 @@
 package com.ssafy.backend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +9,7 @@ import javax.persistence.Id;
 @Getter
 @Entity
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Word {
     @Id
@@ -24,4 +21,7 @@ public class Word {
 
     @Column(name = "url", length = 330)
     private String url;
+
+    @Column(name = "category_id")
+    private Long categoryId;
 }
