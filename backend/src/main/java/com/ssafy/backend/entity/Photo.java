@@ -11,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Photo {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "photo_id", nullable = false)
     private Long id;
 

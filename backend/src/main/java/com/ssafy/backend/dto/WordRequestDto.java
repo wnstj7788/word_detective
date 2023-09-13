@@ -11,9 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WordRequestDto {
-    Long id;
-    String name;
-    String url;
+    private Long id;
+    private String name;
+    private String url;
 
     @Builder
     public Word toEntity() {

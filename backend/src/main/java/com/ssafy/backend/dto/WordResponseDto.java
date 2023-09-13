@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WordResponseDto {
-    Long id;
-    String name;
-    String url;
+    private Long id;
+    private String name;
+    private String url;
 
     public static WordResponseDto fromEntity(Word word) {
         return WordResponseDto.builder()
