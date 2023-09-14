@@ -13,7 +13,7 @@ const Stage = ({ navigation }: any) => {
 
   //TODO: api 호출해야
   const testWordList = [];
-  const [wordList, setWordList] = useState<IStage>(initialStage); //모임 데이터
+  // const [wordList, setWordList] = useState<IStage>(initialStage); //모임 데이터
 
   if (isLoaded) {
     return (

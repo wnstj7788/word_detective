@@ -29,7 +29,7 @@ const Main = ({ navigation }: any) => {
               />
               <BtnText>단어 맞추기</BtnText>
             </MenuBtn>
-            <MenuBtn onPress={() => navigation.navigate("TutorialTwo")}>
+            <MenuBtn onPress={() => navigation.navigate("LetterLobby")}>
               <BtnImg
                 source={require("../../assets/button/home/HomeWordDivideMatch.png")}
                 resizeMode="contain"

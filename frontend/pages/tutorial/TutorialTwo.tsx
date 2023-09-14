@@ -4,54 +4,54 @@ import useCachedResources from "../../hooks/useCachedResources";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 
-
 const Main = ({ navigation }: any) => {
-    const isLoaded = useCachedResources();
+  const isLoaded = useCachedResources();
 
-    if (isLoaded) {
-        return (
-            <Container>
-                <ContainerBg source={require("../../assets/background/main/tutorialBackground.png")}>
-                    {/* <HeaderContainer>
+  if (isLoaded) {
+    return (
+      <Container>
+        <ContainerBg source={require("../../assets/background/main/tutorialBackground.png")}>
+          {/* <HeaderContainer>
                         <Header navigation={navigation} />
                     </HeaderContainer> */}
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <View style={{ flex: 1}} />
-                        <View style={{ flex: 11 }}>
-                            <SpeechBubbleImg
-                                source={require("../../assets/etc/tutorialBallon.png")}
-                                resizeMode="contain"
-                            />
-                            <TextTotutial>일단 먼저 {'\n'}<AppleText>사과</AppleText> 카드 를 찾아보자! </TextTotutial>
+          <View style={{ flex: 1, flexDirection: "row" }}>
+            <View style={{ flex: 1 }} />
+            <View style={{ flex: 11 }}>
+              <SpeechBubbleImg
+                source={require("../../assets/etc/tutorialBallon.png")}
+                resizeMode="contain"
+              />
+              <TextTotutial>
+                일단 먼저 {"\n"}
+                <AppleText>사과</AppleText> 카드 를 찾아보자!{" "}
+              </TextTotutial>
 
-                            <GirlImg
-                                source={require("../../assets/character/standingChracter2.png")}
-                                resizeMode="contain"
-                            />
+              <GirlImg
+                source={require("../../assets/character/standingCharacter2.png")}
+                resizeMode="contain"
+              />
 
-                            <ArrowBtnImg
-                                source={require("../../assets/etc/arrowTuto.png")}
-                                resizeMode="contain"
-                            />
-                        </View>
-                        <View style={{ flex: 1}} />
-                    </View>
-                </ContainerBg>
-            </Container>
-        );
-    } else {
-        return null;
-    }
-};``
+              <ArrowBtnImg
+                source={require("../../assets/etc/arrowTuto.png")}
+                resizeMode="contain"
+              />
+            </View>
+            <View style={{ flex: 1 }} />
+          </View>
+        </ContainerBg>
+      </Container>
+    );
+  } else {
+    return null;
+  }
+};
+``;
 export default Main;
 
 //전체 컨테이너의 배경 이미지
 const HeaderContainer = styled.View`
   flex: 1;
 `;
-
-
-
 
 //버튼 컨테이너
 const SpeechBubbleImg = styled.Image`
@@ -71,7 +71,6 @@ const GirlImg = styled.Image`
   top: 0px;
 `;
 
-
 const ArrowBtnImg = styled.Image`
   position: absolute;
   width: 30px;
@@ -79,7 +78,6 @@ const ArrowBtnImg = styled.Image`
   left: 285px;
   top: 209px;
 `;
-
 
 const TextTotutial = styled.Text`
   position: absolute;
@@ -94,14 +92,8 @@ const TextTotutial = styled.Text`
   line-height: 31px;
   text-align: center;
   color: #000000;
-  
 `;
 
 const AppleText = styled.Text`
   color: red; /* 빨간색으로 변경 */
 `;
-
-
-
-
-
