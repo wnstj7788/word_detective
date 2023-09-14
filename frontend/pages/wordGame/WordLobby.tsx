@@ -72,7 +72,7 @@ const BtnText = styled.Text`
 `;
 const BubbleText = styled.Text`
   position: absolute;
-  top: 12%;
+  top: 10%;
   left: 37%;
   font-family: "BMJUA";
   font-size: 20px;
