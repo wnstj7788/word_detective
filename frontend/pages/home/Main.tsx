@@ -49,7 +49,7 @@ const Main = ({ navigation }: any) => {
 };
 export default Main;
 
-//전체 컨테이너의 배경 이미지
+//헤더 컨테이너
 const HeaderContainer = styled.View`
   flex: 1;
 `;
