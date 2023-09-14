@@ -17,7 +17,7 @@ export default function App() {
       <StatusBar hidden={true} />
       <Stack.Navigator
         initialRouteName="Main"
-        screenOptions={{ headerShown: false }}
+        screenOptions={{ headerShown: false, animation: "fade" }}
       >
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Main" component={Main} />
