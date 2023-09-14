@@ -41,6 +41,7 @@ const Container = styled.View`
   width: 100%;
   padding-left: 95px;
   padding-right: 95px;
+  background-color: transparent;
 `;
 
 //헤더 왼쪽

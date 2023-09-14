@@ -11,9 +11,9 @@ const Main = ({ navigation }: any) => {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
-          <HeaderContainer>
+          {/* <HeaderContainer>
             <Header navigation={navigation} />
-          </HeaderContainer>
+          </HeaderContainer> */}
           <BtnContainer>
             <MenuBtn onPress={() => navigation.navigate("PictureLobby")}>
               <BtnImg
