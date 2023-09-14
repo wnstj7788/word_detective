@@ -29,12 +29,12 @@ const Main = ({ navigation }: any) => {
               />
               <BtnText>단어 맞추기</BtnText>
             </MenuBtn>
-            <MenuBtn onPress={() => navigation.navigate("LetterLobby")}>
+            <MenuBtn onPress={() => navigation.navigate("TutorialTwo")}>
               <BtnImg
                 source={require("../../assets/button/home/HomeWordDivideMatch.png")}
                 resizeMode="contain"
               />
-              <BtnText>단어 나누기</BtnText>
+              <BtnText>단어 나누기1</BtnText>
             </MenuBtn>
           </BtnContainer>
           <TouchableOpacity onPress={() => navigation.navigate("Stage")}>
