@@ -6,8 +6,7 @@ import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 
 const LetterLobby = ({ navigation }: any) => {
   const isLoaded = useCachedResources();
-  if(isLoaded) {
-
+  if (isLoaded) {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
@@ -15,7 +14,7 @@ const LetterLobby = ({ navigation }: any) => {
             <Header navigation={navigation} />
           </HeaderContainer>
           <BtnContainer>
-            <View style={{ position: 'relative' }}>
+            <View style={{ position: "relative" }}>
               <Image source={require("../../assets/character/menuDog.png")}></Image>
               <BubbleText>단어 나누기!</BubbleText>
             </View>
@@ -38,9 +37,8 @@ const LetterLobby = ({ navigation }: any) => {
         </ContainerBg>
       </Container>
     );
-  }
-  else{
-    return null
+  } else {
+    return null;
   }
 };
 export default LetterLobby;
