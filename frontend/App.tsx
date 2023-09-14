@@ -10,6 +10,9 @@ import WordLobby from "./pages/wordGame/WordLobby";
 import LetterLobby from "./pages/letterGame/LetterLobby";
 import WordNoteMain from "./pages/wordNote/WordNoteMain";
 import Stage from "./pages/etc/Stage";
+import TutorialOne from "./pages/tutorial/TutorialOne";
+import TutorialTwo from "./pages/tutorial/TutorialTwo";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +34,8 @@ export default function App() {
         <Stack.Screen name="WordLobby" component={WordLobby} />
         <Stack.Screen name="LetterLobby" component={LetterLobby} />
         <Stack.Screen name="WordNoteMain" component={WordNoteMain} />
+          <Stack.Screen name="TutorialOne" component={TutorialOne} />
+          <Stack.Screen name="TutorialTwo" component={TutorialTwo} />
       </Stack.Navigator>
     </NavigationContainer>
   );
