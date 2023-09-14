@@ -41,10 +41,7 @@ const Container = styled.View`
   width: 100%;
   padding-left: 95px;
   padding-right: 95px;
-<<<<<<< HEAD
-=======
   background-color: transparent;
->>>>>>> 2f5f315410fcbb05cbbe5c4e8b9faa12f9af40f8
 `;
 
 //헤더 왼쪽
