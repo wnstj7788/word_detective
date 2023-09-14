@@ -1,4 +1,46 @@
-s
+import { View, Text, Image, ImageBackground } from "react-native";
+import styled from "styled-components/native";
+import useCachedResources from "../../hooks/useCachedResources";
+import Header from "../etc/Header";
+import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
+
+const LetterLobby = ({ navigation }: any) => {
+  const isLoaded = useCachedResources();
+  if (isLoaded) {
+    return (
+      <Container>
+        <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
+          <HeaderContainer>
+            <Header navigation={navigation} />
+          </HeaderContainer>
+          <BtnContainer>
+            <View style={{ position: "relative" }}>
+              <Image source={require("../../assets/character/menuDog.png")}></Image>
+              <BubbleText>단어 나누기!</BubbleText>
+            </View>
+
+            <MenuBtn onPress={() => navigation.navigate("WordLobby")}>
+              <BtnImg
+                source={require("../../assets/button/gameMode/detectiveModeBtn.png")}
+                resizeMode="contain"
+              />
+              <BtnText>탐정 놀이</BtnText>
+            </MenuBtn>
+            <MenuBtn onPress={() => navigation.navigate("LetterLobby")}>
+              <BtnImg
+                source={require("../../assets/button/gameMode/stageModeBtn.png")}
+                resizeMode="contain"
+              />
+              <BtnText>스테이지</BtnText>
+            </MenuBtn>
+          </BtnContainer>
+        </ContainerBg>
+      </Container>
+    );
+  } else {
+    return null;
+  }
+};
 export default LetterLobby;
 const HeaderContainer = styled.View`
   flex: 1;
@@ -27,7 +69,7 @@ const BtnText = styled.Text`
 `;
 const BubbleText = styled.Text`
   position: absolute;
-  top: 12%;
+  top: 10%;
   left: 37%;
   font-family: "BMJUA";
   font-size: 20px;
