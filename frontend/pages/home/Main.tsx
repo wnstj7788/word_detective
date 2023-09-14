@@ -12,7 +12,7 @@ const Main = ({ navigation }: any) => {
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
           <HeaderContainer>
-            <Header />
+            <Header navigation={navigation} />
           </HeaderContainer>
           <BtnContainer>
             <MenuBtn onPress={() => navigation.navigate("PictureLobby")}>
