@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageBackground } from "react-native";
+import { View, Text, Image, ImageBackground, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import Header from "../etc/Header";
@@ -11,9 +11,9 @@ const Main = ({ navigation }: any) => {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
-          {/* <HeaderContainer>
+          <HeaderContainer>
             <Header navigation={navigation} />
-          </HeaderContainer> */}
+          </HeaderContainer>
           <BtnContainer>
             <MenuBtn onPress={() => navigation.navigate("PictureLobby")}>
               <BtnImg
@@ -37,6 +37,9 @@ const Main = ({ navigation }: any) => {
               <BtnText>단어 나누기</BtnText>
             </MenuBtn>
           </BtnContainer>
+          <TouchableOpacity onPress={() => navigation.navigate("Stage")}>
+            <Text>스테이지</Text>
+          </TouchableOpacity>
         </ContainerBg>
       </Container>
     );
