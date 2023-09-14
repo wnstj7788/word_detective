@@ -2,6 +2,7 @@ import { View, Text, Image, ImageBackground } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import Header from "../etc/Header";
+import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 
 const Main = ({ navigation }: any) => {
   const isLoaded = useCachedResources();
@@ -10,9 +11,9 @@ const Main = ({ navigation }: any) => {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
-          <HeaderContainer>
+          {/* <HeaderContainer>
             <Header navigation={navigation} />
-          </HeaderContainer>
+          </HeaderContainer> */}
           <BtnContainer>
             <MenuBtn onPress={() => navigation.navigate("PictureLobby")}>
               <BtnImg
@@ -45,19 +46,6 @@ const Main = ({ navigation }: any) => {
 };
 export default Main;
 
-//전체 컨테이너
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
-//전체 컨테이너의 배경 이미지
-const ContainerBg = styled.ImageBackground`
-  width: 100%;
-  height: 100%;
-`;
-
 //전체 컨테이너의 배경 이미지
 const HeaderContainer = styled.View`
   flex: 1;
@@ -69,18 +57,6 @@ const BtnContainer = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-`;
-
-//각 메뉴 버튼
-const MenuBtn = styled.TouchableOpacity`
-  justify-content: center;
-  align-items: center;
-  width: 200px;
-  height: 200px;
-  background-color: #f3ca85;
-  border: 10px solid #fef8df;
-  border-radius: 20px;
-  margin: 10px;
 `;
 
 //버튼 안의 이미지(사이즈 제한)
