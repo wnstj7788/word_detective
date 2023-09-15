@@ -40,6 +40,15 @@ const Main = ({ navigation }: any) => {
           <TouchableOpacity onPress={() => navigation.navigate("Stage")}>
             <Text>스테이지</Text>
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("TutorialOne")}>
+            <Text>튜토리얼 1</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("TutorialTwo")}>
+            <Text>튜토리얼 2</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text>로그인</Text>
+          </TouchableOpacity>
         </ContainerBg>
       </Container>
     );

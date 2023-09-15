@@ -10,10 +10,12 @@ const Main = ({ navigation }: any) => {
   if (isLoaded) {
     return (
       <Container>
+
         <ContainerBg source={require("../../assets/background/main/tutorialBackground.png")}>
           {/* <HeaderContainer>
                         <Header navigation={navigation} />
                     </HeaderContainer> */}
+          <TouchableWithoutFeedback>
           <View style={{ flex: 1, flexDirection: "row" }}>
             <View style={{ flex: 1 }} />
             <View style={{ flex: 11 }}>
@@ -38,7 +40,9 @@ const Main = ({ navigation }: any) => {
             </View>
             <View style={{ flex: 1 }} />
           </View>
+          </TouchableWithoutFeedback>
         </ContainerBg>
+
       </Container>
     );
   } else {
@@ -50,6 +54,10 @@ export default Main;
 
 //전체 컨테이너의 배경 이미지
 const HeaderContainer = styled.View`
+  flex: 1;
+`;
+
+const TouchableWithoutFeedback  = styled.TouchableOpacity` 
   flex: 1;
 `;
 
