@@ -14,6 +14,7 @@ const Main = ({ navigation }: any) => {
           {/* <HeaderContainer>
                         <Header navigation={navigation} />
                     </HeaderContainer> */}
+          <TouchableWithoutFeedback onPress={() => navigation.navigate('TutorialTwo')}>
           <View style={{ flex: 1, flexDirection: "row" }}>
             <View style={{ flex: 1 }} />
             <View style={{ flex: 11 }}>
@@ -37,6 +38,7 @@ const Main = ({ navigation }: any) => {
             </View>
             <View style={{ flex: 1 }} />
           </View>
+            </TouchableWithoutFeedback>
         </ContainerBg>
       </Container>
     );
@@ -52,6 +54,9 @@ const HeaderContainer = styled.View`
   flex: 1;
 `;
 
+const TouchableWithoutFeedback  = styled.TouchableOpacity` 
+  flex: 1;
+`;
 //버튼 컨테이너
 const SpeechBubbleImg = styled.Image`
   position: absolute;
