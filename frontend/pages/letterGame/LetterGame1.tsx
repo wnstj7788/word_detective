@@ -17,7 +17,7 @@ const Word1Type: ICard = {
   wordHidden: true, //글씨는 숨기지 않음
   wordHiddenIndx: 1, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
 };
-
+const number=Word1Type.wordHiddenIndx;
 const LetterGame1 = () => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -25,8 +25,12 @@ const LetterGame1 = () => {
   const { word } = route.params;
   const handleCardClick = (choice: string) => {
     // Do something with the choice
-    console.log(`Clicked on: ${choice}`);
-    console.log(word);
+    const characters = [...word.name];
+    if(choice===characters[number]){
+      console.log("성공");
+    }else{
+      console.log("실패");
+    }
   };
   //선지 8개의 배열
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
