@@ -1,10 +1,20 @@
 import styled from "styled-components/native";
 
-//전체 컨테이너
-export const Container = styled.View`
+//전체 컨테이너 스타일
+const centerStyles = `
   flex: 1;
   justify-content: center;
   align-items: center;
+`;
+
+//전체 컨테이너
+export const Container = styled.View`
+  ${centerStyles}
+`;
+
+//전체 버튼컨테이너(컴포넌트 용)
+export const BtnContainer = styled.TouchableOpacity`
+  ${centerStyles}
 `;
 
 //전체 컨테이너의 배경 이미지
