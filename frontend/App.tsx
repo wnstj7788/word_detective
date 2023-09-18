@@ -13,10 +13,22 @@ import Stage from "./pages/etc/Stage";
 import TutorialOne from "./pages/tutorial/TutorialOne";
 import TutorialTwo from "./pages/tutorial/TutorialTwo";
 
-
-const Stack = createNativeStackNavigator();
+//네비게이션 관련 타입. 넘겨줄 인자가 없으면 undefined, 있으면 객체로 써주기
+export type RootStackParamList = {
+  Home: undefined;
+  Main: undefined;
+  Login: undefined;
+  Stage: undefined;
+  PictureLobby: undefined;
+  WordLobby: undefined;
+  LetterLobby: undefined;
+  WordNoteMain: undefined;
+  TutorialOne: undefined;
+  TutorialTwo: undefined;
+};
 
 export default function App() {
+  const Stack = createNativeStackNavigator<RootStackParamList>();
   return (
     <NavigationContainer>
       <StatusBar hidden={true} />
@@ -34,8 +46,8 @@ export default function App() {
         <Stack.Screen name="WordLobby" component={WordLobby} />
         <Stack.Screen name="LetterLobby" component={LetterLobby} />
         <Stack.Screen name="WordNoteMain" component={WordNoteMain} />
-          <Stack.Screen name="TutorialOne" component={TutorialOne} />
-          <Stack.Screen name="TutorialTwo" component={TutorialTwo} />
+        <Stack.Screen name="TutorialOne" component={TutorialOne} />
+        <Stack.Screen name="TutorialTwo" component={TutorialTwo} />
       </Stack.Navigator>
     </NavigationContainer>
   );

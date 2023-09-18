@@ -1,9 +1,10 @@
 import { View, Text, Image } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { Container, ContainerBg } from "../../styles/globalStyles";
 import Header from "./Header";
+import StageCard from "../components/StageCard";
 import { IStage } from "../../types/types";
 import { initialStage } from "../initialType";
 
@@ -11,9 +12,37 @@ import { initialStage } from "../initialType";
 const Stage = ({ navigation }: any) => {
   const isLoaded = useCachedResources();
 
-  //TODO: api 호출해야
-  const testWordList = [];
-  // const [wordList, setWordList] = useState<IStage>(initialStage); //모임 데이터
+  //TODO: api 호출해야, 현재는 임시 데이터로 사용중
+  const [stageList, setStageList] = useState<IStage[]>([initialStage]); //모임 데이터
+  const wordList = [
+    "사과",
+    "오렌지",
+    "수박",
+    "토마토",
+    "체리",
+    "바나나",
+    "딸기",
+    "멜론",
+    "복숭아",
+    "포도",
+  ];
+
+  let testList: IStage[] = [];
+  wordList.map(word => {
+    let tempStage: IStage = initialStage;
+    tempStage.word.name = word;
+    testList.push({
+      word: {
+        name: word,
+        imgSrc: "",
+      },
+      clear: false,
+    });
+  });
+
+  useEffect(() => {
+    setStageList(testList);
+  }, []);
 
   if (isLoaded) {
     return (
@@ -29,8 +58,10 @@ const Stage = ({ navigation }: any) => {
             <CharacterContainer>
               <Image source={require("../../assets/character/fruitCharacter.png")} />
             </CharacterContainer>
-            <StageListContainer>
-              <Text>스테이지 영역</Text>
+            <StageListContainer horizontal>
+              {stageList.map(stage => {
+                return <StageCard stage={stage} />;
+              })}
             </StageListContainer>
           </ContentContainer>
         </ContainerBg>
@@ -58,12 +89,12 @@ const ContentContainer = styled.View`
 //캐릭터 영역
 const CharacterContainer = styled.View`
   flex: 1;
-  background-color: #f1a2ff;
+  /* background-color: #f1a2ff; */
   padding-left: 50px;
 `;
 
 //스테이지 영역
 const StageListContainer = styled.ScrollView`
-  flex: 3;
-  background-color: #50ff7f;
+  flex: 4;
+  /* background-color: aqua; */
 `;
