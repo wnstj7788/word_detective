@@ -1,17 +1,24 @@
-import { View, Text, Image, ImageBackground } from "react-native";
+import { View, Text, Image, ImageBackground, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../App";
+import { useNavigation } from "@react-navigation/native";
 import Header from "../etc/Header";
+import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 
-const Main = ({ navigation }: any) => {
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+const Main = () => {
   const isLoaded = useCachedResources();
+  const navigation = useNavigation<RootStackNavigationProp>();
 
   if (isLoaded) {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
           <HeaderContainer>
-            <Header navigation={navigation} />
+            <Header />
           </HeaderContainer>
           <BtnContainer>
             <MenuBtn onPress={() => navigation.navigate("PictureLobby")}>
@@ -33,9 +40,20 @@ const Main = ({ navigation }: any) => {
                 source={require("../../assets/button/home/HomeWordDivideMatch.png")}
                 resizeMode="contain"
               />
-              <BtnText>단어 나누기</BtnText>
+              <BtnText>단어 나누기1</BtnText>
             </MenuBtn>
           </BtnContainer>
+          <TestContainer>
+            <TouchableOpacity onPress={() => navigation.navigate("TutorialOne")}>
+              <Text>튜토리얼 1</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("TutorialTwo")}>
+              <Text>튜토리얼 2</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text>로그인</Text>
+            </TouchableOpacity>
+          </TestContainer>
         </ContainerBg>
       </Container>
     );
@@ -45,20 +63,7 @@ const Main = ({ navigation }: any) => {
 };
 export default Main;
 
-//전체 컨테이너
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
-//전체 컨테이너의 배경 이미지
-const ContainerBg = styled.ImageBackground`
-  width: 100%;
-  height: 100%;
-`;
-
-//전체 컨테이너의 배경 이미지
+//헤더 컨테이너
 const HeaderContainer = styled.View`
   flex: 1;
 `;
@@ -69,18 +74,6 @@ const BtnContainer = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-`;
-
-//각 메뉴 버튼
-const MenuBtn = styled.TouchableOpacity`
-  justify-content: center;
-  align-items: center;
-  width: 200px;
-  height: 200px;
-  background-color: #f3ca85;
-  border: 10px solid #fef8df;
-  border-radius: 20px;
-  margin: 10px;
 `;
 
 //버튼 안의 이미지(사이즈 제한)
@@ -95,4 +88,10 @@ const BtnText = styled.Text`
   font-family: "BMJUA";
   font-size: 32px;
   color: #945023;
+`;
+
+//헤더 컨테이너
+const TestContainer = styled.View`
+  flex-direction: row;
+  justify-content: center;
 `;
