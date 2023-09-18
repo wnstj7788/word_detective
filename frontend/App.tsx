@@ -6,13 +6,13 @@ import Header from "./pages/etc/Header";
 import Login from "./pages/etc/Login";
 import Main from "./pages/home/Main";
 import PictureLobby from "./pages/pictureGame/PictureLobby";
-import PictureGame1 from "./pages/wordGame/WordGame1";
+import PictureGame1 from "./pages/pictureGame/PictureGame1";
 
 import WordLobby from "./pages/wordGame/WordLobby";
 import WordGame1 from "./pages/wordGame/WordGame1";
 
 import LetterLobby from "./pages/letterGame/LetterLobby";
-import LetterGame1 from "./pages/wordGame/WordGame1";
+import LetterGame1 from "./pages/letterGame/LetterGame1";
 
 import WordNoteMain from "./pages/wordNote/WordNoteMain";
 import Stage from "./pages/etc/Stage";
@@ -20,20 +20,18 @@ import TutorialOne from "./pages/tutorial/TutorialOne";
 import TutorialTwo from "./pages/tutorial/TutorialTwo";
 import { IWord } from "./types/types";
 
-
 //네비게이션 관련 타입. 넘겨줄 인자가 없으면 undefined, 있으면 객체로 써주기
 export type RootStackParamList = {
   Home: undefined;
   Main: {
-    cameFromTutorialTwo : boolean;
+    cameFromTutorialTwo: boolean;
   };
   Login: undefined;
   Stage: {
     gameType: string;
   };
   PictureLobby: {
-    cameFromMainModal? : boolean;
-
+    cameFromMainModal?: boolean;
   };
   PictureGame1: {
     word: IWord;
@@ -48,7 +46,7 @@ export type RootStackParamList = {
   };
   WordNoteMain: undefined;
   TutorialOne: undefined;
-  TutorialTwo:  undefined;
+  TutorialTwo: undefined;
 };
 
 export default function App() {
