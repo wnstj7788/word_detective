@@ -9,14 +9,24 @@ import { IStage } from "../../types/types";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-const StageCard = (props: { stage: IStage }) => {
-  console.dir(props.stage);
+const StageCard = (props: { stage: IStage; gameType: string }) => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
 
   if (isLoaded) {
+    //TODO: gameType에 따라 스테이지로 연결
     return (
-      <CardContainer onPress={() => navigation.navigate("PictureLobby")}>
+      <CardContainer
+        onPress={() => {
+          if (props.gameType === "word") {
+            return navigation.navigate("WordGame1", {
+              word: props.stage.word,
+            });
+          } else {
+            return navigation.navigate("PictureLobby");
+          }
+        }}
+      >
         <Text key={props.stage.word.name}>{props.stage.word.name}</Text>
       </CardContainer>
     );

@@ -1,17 +1,20 @@
 import { View, Text, Image, ImageBackground } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
 
-const WordLobby = () => {
+const WordGame1 = () => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
+  const route = useRoute<StagePageRouteProp>();
+  const { word } = route.params;
 
   if (isLoaded) {
     return (
@@ -23,7 +26,8 @@ const WordLobby = () => {
           <BtnContainer>
             <View style={{ position: "relative" }}>
               <Image source={require("../../assets/character/menuDog.png")}></Image>
-              <BubbleText>단어 맞추기!</BubbleText>
+              <BubbleText>WordGame1</BubbleText>
+              <Text>{word.name}</Text>
             </View>
 
             <MenuBtn onPress={() => navigation.navigate("WordLobby")}>
@@ -33,7 +37,7 @@ const WordLobby = () => {
               />
               <BtnText>탐정 놀이</BtnText>
             </MenuBtn>
-            <MenuBtn onPress={() => navigation.navigate("Stage", { gameType: "word" })}>
+            <MenuBtn onPress={() => navigation.navigate("LetterLobby")}>
               <BtnImg
                 source={require("../../assets/button/gameMode/stageModeBtn.png")}
                 resizeMode="contain"
@@ -48,7 +52,7 @@ const WordLobby = () => {
     return null;
   }
 };
-export default WordLobby;
+export default WordGame1;
 //전체 컨테이너의 배경 이미지
 const HeaderContainer = styled.View`
   flex: 1;

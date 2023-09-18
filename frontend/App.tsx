@@ -7,20 +7,27 @@ import Login from "./pages/etc/Login";
 import Main from "./pages/home/Main";
 import PictureLobby from "./pages/pictureGame/PictureLobby";
 import WordLobby from "./pages/wordGame/WordLobby";
+import WordGame1 from "./pages/wordGame/WordGame1";
 import LetterLobby from "./pages/letterGame/LetterLobby";
 import WordNoteMain from "./pages/wordNote/WordNoteMain";
 import Stage from "./pages/etc/Stage";
 import TutorialOne from "./pages/tutorial/TutorialOne";
 import TutorialTwo from "./pages/tutorial/TutorialTwo";
+import { IWord } from "./types/types";
 
 //네비게이션 관련 타입. 넘겨줄 인자가 없으면 undefined, 있으면 객체로 써주기
 export type RootStackParamList = {
   Home: undefined;
   Main: undefined;
   Login: undefined;
-  Stage: undefined;
+  Stage: {
+    gameType: string;
+  };
   PictureLobby: undefined;
   WordLobby: undefined;
+  WordGame1: {
+    word: IWord;
+  };
   LetterLobby: undefined;
   WordNoteMain: undefined;
   TutorialOne: undefined;
@@ -44,6 +51,7 @@ export default function App() {
         <Stack.Screen name="Stage" component={Stage} />
         <Stack.Screen name="PictureLobby" component={PictureLobby} />
         <Stack.Screen name="WordLobby" component={WordLobby} />
+        <Stack.Screen name="WordGame1" component={WordGame1} />
         <Stack.Screen name="LetterLobby" component={LetterLobby} />
         <Stack.Screen name="WordNoteMain" component={WordNoteMain} />
         <Stack.Screen name="TutorialOne" component={TutorialOne} />
