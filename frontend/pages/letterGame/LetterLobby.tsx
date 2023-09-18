@@ -26,14 +26,14 @@ const LetterLobby = () => {
               <BubbleText>단어 나누기!</BubbleText>
             </View>
 
-            <MenuBtn onPress={() => navigation.navigate("WordLobby")}>
+            <MenuBtn onPress={() => navigation.navigate("Main")}>
               <BtnImg
                 source={require("../../assets/button/gameMode/detectiveModeBtn.png")}
                 resizeMode="contain"
               />
               <BtnText>탐정 놀이</BtnText>
             </MenuBtn>
-            <MenuBtn onPress={() => navigation.navigate("LetterLobby")}>
+            <MenuBtn onPress={() => navigation.navigate("Stage", { gameType: "letter" })}>
               <BtnImg
                 source={require("../../assets/button/gameMode/stageModeBtn.png")}
                 resizeMode="contain"
