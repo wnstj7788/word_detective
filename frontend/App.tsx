@@ -20,15 +20,21 @@ import TutorialOne from "./pages/tutorial/TutorialOne";
 import TutorialTwo from "./pages/tutorial/TutorialTwo";
 import { IWord } from "./types/types";
 
+
 //네비게이션 관련 타입. 넘겨줄 인자가 없으면 undefined, 있으면 객체로 써주기
 export type RootStackParamList = {
   Home: undefined;
-  Main: undefined;
+  Main: {
+    cameFromTutorialTwo : boolean;
+  };
   Login: undefined;
   Stage: {
     gameType: string;
   };
-  PictureLobby: undefined;
+  PictureLobby: {
+    cameFromMainModal? : boolean;
+
+  };
   PictureGame1: {
     word: IWord;
   };
@@ -42,7 +48,7 @@ export type RootStackParamList = {
   };
   WordNoteMain: undefined;
   TutorialOne: undefined;
-  TutorialTwo: undefined;
+  TutorialTwo:  undefined;
 };
 
 export default function App() {

@@ -20,18 +20,19 @@ const Main = () => {
           {/* <HeaderContainer>
                         <Header />
                     </HeaderContainer> */}
-          <TouchableWithoutFeedback>
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <View style={{ flex: 1 }} />
-              <View style={{ flex: 11 }}>
-                <SpeechBubbleImg
-                  source={require("../../assets/etc/tutorialBallon.png")}
-                  resizeMode="contain"
-                />
-                <TextTotutial>
-                  일단 먼저 {"\n"}
-                  <AppleText>사과</AppleText> 카드 를 찾아보자!{" "}
-                </TextTotutial>
+
+          <TouchableWithoutFeedback onPress={() => navigation.navigate('Main',{ cameFromTutorialTwo: true })}>
+          <View style={{ flex: 1, flexDirection: "row" }}>
+            <View style={{ flex: 1 }} />
+            <View style={{ flex: 11 }}>
+              <SpeechBubbleImg
+                source={require("../../assets/etc/tutorialBallon.png")}
+                resizeMode="contain"
+              />
+              <TextTotutial>
+                일단 먼저 {"\n"}
+                <AppleText>사과</AppleText> 카드 를 찾아보자!{" "}
+              </TextTotutial>
 
                 <GirlImg
                   source={require("../../assets/character/standingCharacter2.png")}
