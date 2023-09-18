@@ -1,21 +1,27 @@
 import { View, Text, Image, ImageBackground } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../App";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 
-const PictureLobby = ({ navigation }: any) => {
-  const isLoaded = useCachedResources();
-  if(isLoaded) {
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
+const PictureLobby = () => {
+  const isLoaded = useCachedResources();
+  const navigation = useNavigation<RootStackNavigationProp>();
+
+  if (isLoaded) {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
           <HeaderContainer>
-            <Header navigation={navigation} />
+            <Header />
           </HeaderContainer>
           <BtnContainer>
-            <View style={{ position: 'relative' }}>
+            <View style={{ position: "relative" }}>
               <Image source={require("../../assets/character/menuDog.png")}></Image>
               <BubbleText>그림 맞추기!</BubbleText>
             </View>
@@ -38,9 +44,8 @@ const PictureLobby = ({ navigation }: any) => {
         </ContainerBg>
       </Container>
     );
-  }
-  else{
-    return null
+  } else {
+    return null;
   }
 };
 export default PictureLobby;
@@ -78,4 +83,3 @@ const BubbleText = styled.Text`
   font-family: "BMJUA";
   font-size: 20px;
 `;
-

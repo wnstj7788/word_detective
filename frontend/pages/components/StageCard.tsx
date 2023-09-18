@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
-import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import useCachedResources from "../../hooks/useCachedResources";
 import { BtnContainer } from "../../styles/globalStyles";
 import styled from "styled-components/native";

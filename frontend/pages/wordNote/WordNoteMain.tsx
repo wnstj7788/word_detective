@@ -1,17 +1,23 @@
 import { View, Text, Image } from "react-native";
 import styled from "styled-components/native";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../App";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Header from "../etc/Header";
 import { Container, ContainerBg } from "../../styles/globalStyles";
 
 // 이미지 파일 경로
 const wordNoteImage = require("../../assets/etc/wordNote.png");
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-const WordNoteMain = ({ navigation }: any) => {
+const WordNoteMain = () => {
+  const navigation = useNavigation<RootStackNavigationProp>();
+
   return (
     <Container>
       <ContainerBg source={require("../../assets/background/wordNoteBg.png")}>
         <HeaderContainer>
-          <Header navigation={navigation} />
+          <Header />
         </HeaderContainer>
         <WordNoteWrap>
           <WordNoteImage source={wordNoteImage} resizeMode="stretch" />
