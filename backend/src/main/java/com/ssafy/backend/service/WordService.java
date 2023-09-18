@@ -4,10 +4,13 @@ import com.ssafy.backend.dto.WordResponseDto;
 import com.ssafy.backend.entity.Word;
 import com.ssafy.backend.repository.WordRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -24,5 +27,28 @@ public class WordService {
     public List<WordResponseDto> getWordByCategory(Long categoryId) {
         List<Word> words = wordRepository.findByCategoryIdOrderByNameAsc(categoryId);
         return words.stream().map(WordResponseDto::fromEntity).collect(Collectors.toList());
+    }
+
+    /**
+     * 랜덤 단어 목록 조회
+     *
+     * @param answer 정답
+     * @param cnt    정답의 중복 개수
+     * @return 랜덤 단어 목록
+     */
+    public List<WordResponseDto> getWordByRandom(String answer, Long cnt) {
+        Word word = wordRepository.findByName(answer).orElseThrow(
+                () -> new IllegalArgumentException("해당 단어가 존재하지 않습니다.")
+        );
+        final int wordCnt = 8;
+
+        List<WordResponseDto> responseDtos = IntStream.iterate(0, i -> i < cnt, i -> i + 1)
+                .mapToObj(i -> WordResponseDto.fromEntity(word))
+                .collect(Collectors.toList());
+        List<Word> randomWord = wordRepository.findRandomWord(answer, wordCnt - cnt);
+
+        responseDtos.addAll(randomWord.stream().map(WordResponseDto::fromEntity).collect(Collectors.toList()));
+
+        return responseDtos;
     }
 }
