@@ -11,6 +11,12 @@ import { useEffect } from "react";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
+/**
+ * 문제에 사용되는 단어 카드
+ * @param word 단어 정보
+ * @param type 문제 정보: 각 스테이지의 문제 정보를 ICard 타입에 맞게 정의해서 보내기
+ * (WordGame1 참고)
+ */
 const QuestionCard = (props: { word: IWord; type: ICard }) => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();

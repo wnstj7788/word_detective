@@ -13,9 +13,9 @@ type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
 
 //통글씨인식 첫번째문제 : 그림 맞추기
 const Word1Type: ICard = {
-  pictureHidden: true,
-  wordHidden: false,
-  wordHiddenIndx: 0,
+  pictureHidden: true, //그림 숨기기
+  wordHidden: false, //글씨는 숨기지 않음
+  wordHiddenIndx: 0, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
 };
 
 const WordGame1 = () => {
