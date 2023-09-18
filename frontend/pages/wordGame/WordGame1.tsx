@@ -15,6 +15,9 @@ const WordGame1 = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
   const { word } = route.params;
+  //선지 8개의 배열
+  //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
+  const choiceList = ["사과", "오렌지", "수박", "토마토", "체리", "바나나", "딸기", "사과"];
 
   if (isLoaded) {
     return (
@@ -25,7 +28,13 @@ const WordGame1 = () => {
               <Text>카드영역</Text>
             </QCardContainer>
             <ACardContainer>
-              <Text>미니카드영역</Text>
+              {choiceList.map(choice => {
+                return (
+                  <ACard>
+                    <Text>{choice}</Text>
+                  </ACard>
+                );
+              })}
             </ACardContainer>
           </ContentContainer>
         </ContainerBg>
@@ -52,6 +61,16 @@ const QCardContainer = styled.View`
 
 const ACardContainer = styled.View`
   flex: 2;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ACard = styled.View`
+  width: 25%;
+  height: 50%;
+  background-color: yellow;
   justify-content: center;
   align-items: center;
 `;
