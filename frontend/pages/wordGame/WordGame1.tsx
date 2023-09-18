@@ -4,11 +4,19 @@ import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
+import QuestionCard from "../components/QuestionCard";
+import { ICard } from "../../types/types";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
+
+//통글씨인식 첫번째문제 : 그림 맞추기
+const Word1Type: ICard = {
+  pictureHidden: true,
+  wordHidden: false,
+  wordHiddenIndx: 0,
+};
 
 const WordGame1 = () => {
   const isLoaded = useCachedResources();
@@ -25,12 +33,12 @@ const WordGame1 = () => {
         <ContainerBg source={require("../../assets/background/game/fruit.png")}>
           <ContentContainer>
             <QCardContainer>
-              <Text>카드영역</Text>
+              <QuestionCard word={word} type={Word1Type} />
             </QCardContainer>
             <ACardContainer>
-              {choiceList.map(choice => {
+              {choiceList.map((choice, index) => {
                 return (
-                  <ACard>
+                  <ACard key={index}>
                     <Text>{choice}</Text>
                   </ACard>
                 );
