@@ -6,7 +6,7 @@ import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
-
+import Canvas from "../wordGame/Canvas";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
 
@@ -25,7 +25,7 @@ const PictureGame1 = () => {
               <Text>카드영역</Text>
             </QCardContainer>
             <ACardContainer>
-              <Text>미니카드영역</Text>
+              <Canvas />
             </ACardContainer>
           </ContentContainer>
         </ContainerBg>
