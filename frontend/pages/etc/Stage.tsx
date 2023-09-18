@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { Container, ContainerBg } from "../../styles/globalStyles";
 import Header from "./Header";
 import StageCard from "../components/StageCard";
@@ -12,11 +12,16 @@ import { IStage } from "../../types/types";
 import { initialStage } from "../initialType";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+type StagePageRouteProp = RouteProp<RootStackParamList, "Stage">;
 
 //TODO: 배경이 스크롤되도록 변경
 const Stage = () => {
   const isLoaded = useCachedResources();
-  const navigation = useNavigation<RootStackNavigationProp>();
+  // const navigation = useNavigation<RootStackNavigationProp>();
+  const route = useRoute<StagePageRouteProp>();
+  // 네비게이션 사이를 넘어가며 전달한 param
+  //gameType = letter OR word OR picture(string)
+  const { gameType } = route.params;
 
   //TODO: api 호출해야, 현재는 임시 데이터로 사용중
   const [stageList, setStageList] = useState<IStage[]>([initialStage]); //모임 데이터
@@ -66,7 +71,7 @@ const Stage = () => {
             </CharacterContainer>
             <StageListContainer horizontal>
               {stageList.map(stage => {
-                return <StageCard stage={stage} />;
+                return <StageCard stage={stage} gameType={gameType} key={stage.word.name} />;
               })}
             </StageListContainer>
           </ContentContainer>
@@ -95,12 +100,10 @@ const ContentContainer = styled.View`
 //캐릭터 영역
 const CharacterContainer = styled.View`
   flex: 1;
-  /* background-color: #f1a2ff; */
   padding-left: 50px;
 `;
 
 //스테이지 영역
 const StageListContainer = styled.ScrollView`
   flex: 4;
-  /* background-color: aqua; */
 `;
