@@ -2,15 +2,21 @@ import { View, Text, Image } from "react-native";
 import { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
+import { RootStackParamList } from "../../App";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 import { Container, ContainerBg } from "../../styles/globalStyles";
 import Header from "./Header";
 import StageCard from "../components/StageCard";
 import { IStage } from "../../types/types";
 import { initialStage } from "../initialType";
 
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 //TODO: 배경이 스크롤되도록 변경
-const Stage = ({ navigation }: any) => {
+const Stage = () => {
   const isLoaded = useCachedResources();
+  const navigation = useNavigation<RootStackNavigationProp>();
 
   //TODO: api 호출해야, 현재는 임시 데이터로 사용중
   const [stageList, setStageList] = useState<IStage[]>([initialStage]); //모임 데이터
@@ -52,7 +58,7 @@ const Stage = ({ navigation }: any) => {
           resizeMode="stretch"
         >
           <HeaderContainer>
-            <Header navigation={navigation} />
+            <Header />
           </HeaderContainer>
           <ContentContainer>
             <CharacterContainer>
