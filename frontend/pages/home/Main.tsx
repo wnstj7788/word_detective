@@ -1,9 +1,9 @@
-import { View, Text,Image, ImageBackground, TouchableOpacity } from "react-native";
+import { View, Text, Image, ImageBackground, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../App";
-import {useFocusEffect, useNavigation} from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import React, { useEffect, useState } from "react";
@@ -17,16 +17,16 @@ const Main = ({ route }: any) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
   useFocusEffect(
-      React.useCallback(() => {
-        // 이 함수는 화면이 포커스를 받을 때 실행됩니다.
-        // TutorialTwo에서 돌아왔을 때의 동작을 정의합니다.
-        if (route.params?.cameFromTutorialTwo) {
-          // TutorialTwo 화면에서 돌아왔을 때 실행할 코드
+    React.useCallback(() => {
+      // 이 함수는 화면이 포커스를 받을 때 실행됩니다.
+      // TutorialTwo에서 돌아왔을 때의 동작을 정의합니다.
+      if (route.params?.cameFromTutorialTwo) {
+        // TutorialTwo 화면에서 돌아왔을 때 실행할 코드
 
-          setModalVisible(true);
-          console.log("Returned from TutorialTwo");
-        }
-      }, [route.params?.cameFromTutorialTwo])
+        setModalVisible(true);
+        console.log("Returned from TutorialTwo");
+      }
+    }, [route.params?.cameFromTutorialTwo])
   );
 
   const closeModal = () => {
@@ -41,7 +41,7 @@ const Main = ({ route }: any) => {
             <Header />
           </HeaderContainer>
           <BtnContainer>
-            <MenuBtn onPress={() => navigation.navigate("PictureLobby",{})}>
+            <MenuBtn onPress={() => navigation.navigate("PictureLobby", {})}>
               <BtnImg
                 source={require("../../assets/button/home/HomePicMatch.png")}
                 resizeMode="contain"
@@ -63,20 +63,17 @@ const Main = ({ route }: any) => {
               <BtnText>단어 나누기1</BtnText>
             </MenuBtn>
             <Modal
-                animationIn="slideInUp"
-                animationOut="slideOutDown"
-                backdropColor="rgba(255, 255, 255, 0.5)"
-                isVisible={isModalVisible}
-                onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
-                backdropTransitionOutTiming={0}
-                statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
+              animationIn="slideInUp"
+              animationOut="slideOutDown"
+              backdropColor="rgba(255, 255, 255, 0.5)"
+              isVisible={isModalVisible}
+              onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
+              backdropTransitionOutTiming={0}
+              statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
             >
-                  <MainModal ></MainModal>
-
-
+              <MainModal></MainModal>
             </Modal>
-
-        </BtnContainer>
+          </BtnContainer>
           <TestContainer>
             <TouchableOpacity onPress={() => navigation.navigate("TutorialOne")}>
               <Text>튜토리얼 1</Text>
@@ -129,4 +126,3 @@ const TestContainer = styled.View`
   flex-direction: row;
   justify-content: center;
 `;
-
