@@ -37,7 +37,6 @@ const Stage = () => {
     "복숭아",
     "포도",
   ];
-
   let testList: IStage[] = [];
   wordList.map(word => {
     let tempStage: IStage = initialStage;
