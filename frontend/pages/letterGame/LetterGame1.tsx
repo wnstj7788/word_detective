@@ -10,7 +10,7 @@ import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
 
-const WordGame1 = () => {
+const LetterGame1 = () => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
@@ -35,7 +35,7 @@ const WordGame1 = () => {
     return null;
   }
 };
-export default WordGame1;
+export default LetterGame1;
 
 const ContentContainer = styled.View`
   flex: 1;

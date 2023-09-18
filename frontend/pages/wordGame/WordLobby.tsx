@@ -26,7 +26,7 @@ const WordLobby = () => {
               <BubbleText>단어 맞추기!</BubbleText>
             </View>
 
-            <MenuBtn onPress={() => navigation.navigate("WordLobby")}>
+            <MenuBtn onPress={() => navigation.navigate("Main")}>
               <BtnImg
                 source={require("../../assets/button/gameMode/detectiveModeBtn.png")}
                 resizeMode="contain"

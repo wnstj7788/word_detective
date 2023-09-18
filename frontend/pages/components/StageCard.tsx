@@ -14,16 +14,18 @@ const StageCard = (props: { stage: IStage; gameType: string }) => {
   const navigation = useNavigation<RootStackNavigationProp>();
 
   if (isLoaded) {
-    //TODO: gameType에 따라 스테이지로 연결
+    //gameType에 따라 스테이지로 연결
     return (
       <CardContainer
         onPress={() => {
-          if (props.gameType === "word") {
-            return navigation.navigate("WordGame1", {
-              word: props.stage.word,
-            });
+          if (props.gameType === "picture") {
+            return navigation.navigate("PictureGame1", { word: props.stage.word });
+          } else if (props.gameType === "word") {
+            return navigation.navigate("WordGame1", { word: props.stage.word });
+          } else if (props.gameType === "letter") {
+            return navigation.navigate("LetterGame1", { word: props.stage.word });
           } else {
-            return navigation.navigate("PictureLobby");
+            return null;
           }
         }}
       >

@@ -100,12 +100,10 @@ const ContentContainer = styled.View`
 //캐릭터 영역
 const CharacterContainer = styled.View`
   flex: 1;
-  /* background-color: #f1a2ff; */
   padding-left: 50px;
 `;
 
 //스테이지 영역
 const StageListContainer = styled.ScrollView`
   flex: 4;
-  /* background-color: aqua; */
 `;

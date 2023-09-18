@@ -26,14 +26,14 @@ const PictureLobby = () => {
               <BubbleText>그림 맞추기!</BubbleText>
             </View>
 
-            <MenuBtn onPress={() => navigation.navigate("WordLobby")}>
+            <MenuBtn onPress={() => navigation.navigate("Main")}>
               <BtnImg
                 source={require("../../assets/button/gameMode/detectiveModeBtn.png")}
                 resizeMode="contain"
               />
               <BtnText>탐정 놀이</BtnText>
             </MenuBtn>
-            <MenuBtn onPress={() => navigation.navigate("LetterLobby")}>
+            <MenuBtn onPress={() => navigation.navigate("Stage", { gameType: "picture" })}>
               <BtnImg
                 source={require("../../assets/button/gameMode/stageModeBtn.png")}
                 resizeMode="contain"
