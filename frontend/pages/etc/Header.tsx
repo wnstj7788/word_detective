@@ -1,8 +1,15 @@
 import { View, Text, Image } from "react-native";
 import styled from "styled-components/native";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../App";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const Header = ({ navigation }: any) => {
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+const Header = () => {
+  const navigation = useNavigation<RootStackNavigationProp>();
+
   const [isSoundOn, setSoundOn] = useState(true);
   const toggleSound = () => {
     setSoundOn(!isSoundOn);

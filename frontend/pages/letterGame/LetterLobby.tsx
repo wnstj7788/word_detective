@@ -1,17 +1,24 @@
 import { View, Text, Image, ImageBackground } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../App";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 
-const LetterLobby = ({ navigation }: any) => {
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+const LetterLobby = () => {
   const isLoaded = useCachedResources();
+  const navigation = useNavigation<RootStackNavigationProp>();
+
   if (isLoaded) {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
           <HeaderContainer>
-            <Header navigation={navigation} />
+            <Header />
           </HeaderContainer>
           <BtnContainer>
             <View style={{ position: "relative" }}>

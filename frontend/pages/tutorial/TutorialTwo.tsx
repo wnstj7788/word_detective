@@ -1,48 +1,52 @@
 import { View, Text, Image, ImageBackground } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../App";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 
-const Main = ({ navigation }: any) => {
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+const Main = () => {
   const isLoaded = useCachedResources();
+  const navigation = useNavigation<RootStackNavigationProp>();
 
   if (isLoaded) {
     return (
       <Container>
-
         <ContainerBg source={require("../../assets/background/main/tutorialBackground.png")}>
           {/* <HeaderContainer>
-                        <Header navigation={navigation} />
+                        <Header />
                     </HeaderContainer> */}
           <TouchableWithoutFeedback>
-          <View style={{ flex: 1, flexDirection: "row" }}>
-            <View style={{ flex: 1 }} />
-            <View style={{ flex: 11 }}>
-              <SpeechBubbleImg
-                source={require("../../assets/etc/tutorialBallon.png")}
-                resizeMode="contain"
-              />
-              <TextTotutial>
-                일단 먼저 {"\n"}
-                <AppleText>사과</AppleText> 카드 를 찾아보자!{" "}
-              </TextTotutial>
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <View style={{ flex: 1 }} />
+              <View style={{ flex: 11 }}>
+                <SpeechBubbleImg
+                  source={require("../../assets/etc/tutorialBallon.png")}
+                  resizeMode="contain"
+                />
+                <TextTotutial>
+                  일단 먼저 {"\n"}
+                  <AppleText>사과</AppleText> 카드 를 찾아보자!{" "}
+                </TextTotutial>
 
-              <GirlImg
-                source={require("../../assets/character/standingCharacter2.png")}
-                resizeMode="contain"
-              />
+                <GirlImg
+                  source={require("../../assets/character/standingCharacter2.png")}
+                  resizeMode="contain"
+                />
 
-              <ArrowBtnImg
-                source={require("../../assets/etc/arrowTuto.png")}
-                resizeMode="contain"
-              />
+                <ArrowBtnImg
+                  source={require("../../assets/etc/arrowTuto.png")}
+                  resizeMode="contain"
+                />
+              </View>
+              <View style={{ flex: 1 }} />
             </View>
-            <View style={{ flex: 1 }} />
-          </View>
           </TouchableWithoutFeedback>
         </ContainerBg>
-
       </Container>
     );
   } else {
@@ -57,7 +61,7 @@ const HeaderContainer = styled.View`
   flex: 1;
 `;
 
-const TouchableWithoutFeedback  = styled.TouchableOpacity` 
+const TouchableWithoutFeedback = styled.TouchableOpacity`
   flex: 1;
 `;
 

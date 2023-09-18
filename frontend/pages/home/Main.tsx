@@ -1,18 +1,24 @@
 import { View, Text, Image, ImageBackground, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../App";
+import { useNavigation } from "@react-navigation/native";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 
-const Main = ({ navigation }: any) => {
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+const Main = () => {
   const isLoaded = useCachedResources();
+  const navigation = useNavigation<RootStackNavigationProp>();
 
   if (isLoaded) {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
           <HeaderContainer>
-            <Header navigation={navigation} />
+            <Header />
           </HeaderContainer>
           <BtnContainer>
             <MenuBtn onPress={() => navigation.navigate("PictureLobby")}>
@@ -37,18 +43,20 @@ const Main = ({ navigation }: any) => {
               <BtnText>단어 나누기1</BtnText>
             </MenuBtn>
           </BtnContainer>
-          <TouchableOpacity onPress={() => navigation.navigate("Stage")}>
-            <Text>스테이지</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("TutorialOne")}>
-            <Text>튜토리얼 1</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("TutorialTwo")}>
-            <Text>튜토리얼 2</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text>로그인</Text>
-          </TouchableOpacity>
+          <TestContainer>
+            <TouchableOpacity onPress={() => navigation.navigate("Stage")}>
+              <Text>스테이지</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("TutorialOne")}>
+              <Text>튜토리얼 1</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("TutorialTwo")}>
+              <Text>튜토리얼 2</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text>로그인</Text>
+            </TouchableOpacity>
+          </TestContainer>
         </ContainerBg>
       </Container>
     );
@@ -83,4 +91,10 @@ const BtnText = styled.Text`
   font-family: "BMJUA";
   font-size: 32px;
   color: #945023;
+`;
+
+//헤더 컨테이너
+const TestContainer = styled.View`
+  flex-direction: row;
+  justify-content: center;
 `;
