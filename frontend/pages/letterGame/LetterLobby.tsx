@@ -19,7 +19,7 @@ const LetterLobby = ({ navigation }: any) => {
               <BubbleText>단어 나누기!</BubbleText>
             </View>
 
-            <MenuBtn onPress={() => navigation.navigate("WordLobby")}>
+            <MenuBtn onPress={() => navigation.navigate("Stage")}>
               <BtnImg
                 source={require("../../assets/button/gameMode/detectiveModeBtn.png")}
                 resizeMode="contain"
