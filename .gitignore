@@ -763,4 +763,6 @@ google-services.json
 ### Gradle Patch ###
 # Java heap dump
 
+*.pt
+fastapi/dataset
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,intellij+all,intellij,java,node,react,reactnative,gradle,git,python
