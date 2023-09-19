@@ -52,16 +52,16 @@ const WordGame1 = () => {
             <ACardContainer>
               {testList.slice(0, 4).map((choice, index) => {
                 return (
-                  <ACard key={index}>
+                  <ACardFirst key={index}>
                     <MiniCard word={choice} isFront={true} />
-                  </ACard>
+                  </ACardFirst>
                 );
               })}
               {testList.slice(4, 8).map((choice, index) => {
                 return (
-                  <ACard key={index}>
+                  <ACardSecond key={index}>
                     <MiniCard word={choice} isFront={true} />
-                  </ACard>
+                  </ACardSecond>
                 );
               })}
             </ACardContainer>
@@ -103,5 +103,12 @@ const ACard = styled.View`
   width: 25%;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+`;
+
+const ACardFirst = styled(ACard)`
+  margin-bottom: 20px;
+`;
+
+const ACardSecond = styled(ACard)`
+  margin-top: 20px;
 `;
