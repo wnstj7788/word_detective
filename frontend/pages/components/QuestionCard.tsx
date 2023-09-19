@@ -72,7 +72,7 @@ const QuestionCard = (props: { word: IWord; type: ICard }) => {
           )}
         </View>
         <SoundBtn>
-          <Image source={require("../../assets/button/audioBtn.png")} />
+          <Image source={require("../../assets/button/audioBtn.png")} resizeMode="stretch" />
         </SoundBtn>
       </CardContainer>
     );
@@ -84,8 +84,8 @@ export default QuestionCard;
 
 //전체 카드 컨테이너
 const CardContainer = styled(Container)`
-  width: 168px;
-  max-height: 251px;
+  width: 200px;
+  max-height: 300px;
   background-color: white;
   border-radius: 0 30px;
   margin: 10px auto;
@@ -107,8 +107,8 @@ const CardContainer = styled(Container)`
 
 //이미지 영역
 const ImgContainer = styled.View`
-  width: 150px;
-  height: 150px;
+  width: 175px;
+  height: 175px;
   background-color: #f8f4e8;
   border-radius: 20px;
   justify-content: center;
@@ -123,8 +123,8 @@ const QmarkImage = styled.Image`
 
 //원래 카드의 이미지
 const PictureImage = styled.Image`
-  width: 130px;
-  height: 130px;
+  width: 150px;
+  height: 150px;
 `;
 
 //글씨 영역
@@ -135,32 +135,32 @@ const QTextContainer = styled.View`
 //카드의 이름 전체 텍스트
 const WordText = styled.Text`
   font-family: "BMJUA";
-  font-size: 40px;
-  margin: 5px 0;
+  font-size: 48px;
+  margin-top: 5px;
 `;
 
 //카드 이름 중 빈칸인 부분-빈칸
 const WordHiddenContainer = styled.View`
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   border: 1px solid black;
   border-radius: 10px;
   justify-content: center;
   align-items: center;
-  margin: 5px 3px;
+  margin: 6px 3px;
 `;
 
 //카드 이름 중 빈칸인 부분-텍스트
 const WordHidden = styled.Text`
   font-family: "BMJUA";
-  font-size: 40px;
+  font-size: 44px;
   color: lightgray;
 `;
 
 //발음 듣기 버튼
 const SoundBtn = styled.TouchableOpacity`
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  height: 45px;
   border: 1px solid black;
   border-radius: 10px;
   justify-content: center;
