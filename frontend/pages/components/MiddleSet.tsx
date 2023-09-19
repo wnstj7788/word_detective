@@ -8,7 +8,7 @@ interface MiddleSetProps {
 const MiddleSet: React.FC<MiddleSetProps> = ({ children }) => {
     return (
         <View style={{ flex: 1, flexDirection: "row" }}>
-            <View style={{ flex: 1 }} />
+            <View style={{ flex: 1}} />
             <View style={{ flex: 11 }}>
                 {children}
             </View>

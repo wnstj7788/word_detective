@@ -24,7 +24,7 @@ import { IWord } from "./types/types";
 export type RootStackParamList = {
   Home: undefined;
   Main: {
-    cameFromTutorialTwo: boolean;
+    cameFromTutorialTwo?: boolean;
   };
   Login: undefined;
   Stage: {

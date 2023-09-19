@@ -22,21 +22,21 @@ const Main = () => {
                         <Header />
                     </HeaderContainer> */}
                     <TouchableWithoutFeedback onPress={() => navigation.navigate("TutorialTwo")}>
-                        <View style={{flex: 1, flexDirection: "row"}}>
-                            <View style={{flex: 1 }}/>
-                            <View style={{flex: 11}}>
-                                <ContentBox>
-                                    <SpeechBubbleImg
+                        <MiddleSet>
+                            <ContentBox>
+                                <SpeechBubbleImg
                                     source={require("../../assets/etc/tutoOne.png")}
-                                    resizeMode="contain"/>
+                                    resizeMode="contain">
                                     <TextTotutial>
-                                        안녕! 나는 단어탐정이야 ! 내가 모아놓은 단어카드를 잃어버렸는데 도와줘 !{" "}
+                                        안녕! 나는 단어탐정이야 ! {"\n"}
+                                        내가 모아놓은 단어카드를 {"\n"}
+                                         잃어버렸는데 도와줘 !{" "}
                                     </TextTotutial>
-                                </ContentBox>
+                                </SpeechBubbleImg>
 
-                            </View>
-                            <View style={{flex: 1}}/>
-                        </View>
+                            </ContentBox>
+
+                        </MiddleSet>
                     </TouchableWithoutFeedback>
                 </ContainerBg>
             </Container>
@@ -58,24 +58,21 @@ const TouchableWithoutFeedback = styled.TouchableOpacity`
 
 `;
 //버튼 컨테이너
-const SpeechBubbleImg = styled.Image`
-  position: absolute;
-    
+const SpeechBubbleImg = styled.ImageBackground`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  min-width: 100%;
 `;
 
-
 const TextTotutial = styled.Text`
-  position: absolute;
-  width: 321px;
-  height: 160px;
-  left: 139px;
   font-family: "BMJUA";
   font-style: normal;
   font-weight: 400;
   font-size: 30px;
-  line-height: 31px;
-  text-align: center;
   color: #000000;
+  top: -5%;
+  right: 15%;
 `;
 
 
@@ -83,5 +80,5 @@ const ContentBox = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-\
+
 `;
