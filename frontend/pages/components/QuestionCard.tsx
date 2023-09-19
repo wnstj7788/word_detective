@@ -1,15 +1,10 @@
 import { View, Text, Image } from "react-native";
 import { Platform } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../App";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import useCachedResources from "../../hooks/useCachedResources";
-import { BtnContainer } from "../../styles/globalStyles";
+import { Container } from "../../styles/globalStyles";
 import styled, { css } from "styled-components/native";
 import { ICard, IWord } from "../../types/types";
 import { useEffect } from "react";
-
-type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 /**
  * 문제에 사용되는 단어 카드
@@ -19,7 +14,6 @@ type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
  */
 const QuestionCard = (props: { word: IWord; type: ICard }) => {
   const isLoaded = useCachedResources();
-  const navigation = useNavigation<RootStackNavigationProp>();
   //단어를 글자단위로 쪼갠 리스트
   let wordToLetterList: String[] = props.word.name.split("");
   function getImage(name: string): any {
@@ -52,7 +46,7 @@ const QuestionCard = (props: { word: IWord; type: ICard }) => {
       <CardContainer>
         <ImgContainer>
           {props.type.pictureHidden ? (
-            <QmarkImage source={require("../../assets/etc/qmark.png")} resizeMode="stretch" />
+            <QmarkImage source={require("../../assets/etc/qmark.png")} resizeMode="contain" />
           ) : (
             // <PictureImage source={require(`{props.word.imgSrc}`)} />
             <PictureImage source={getImage(props.word.name)} />
@@ -89,7 +83,7 @@ const QuestionCard = (props: { word: IWord; type: ICard }) => {
 export default QuestionCard;
 
 //전체 카드 컨테이너
-const CardContainer = styled(BtnContainer)`
+const CardContainer = styled(Container)`
   width: 168px;
   max-height: 251px;
   background-color: white;
