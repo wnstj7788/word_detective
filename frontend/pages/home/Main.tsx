@@ -7,7 +7,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import React, { useEffect, useState } from "react";
-import MainModal from "../components/MainModal";
+import MainModal from "../tutorial/MainModal";
 import Modal from "react-native-modal"; // 모달 패키지
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -70,6 +70,7 @@ const Main = ({ route }: any) => {
               onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
               backdropTransitionOutTiming={0}
               statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
+
             >
               <MainModal></MainModal>
             </Modal>

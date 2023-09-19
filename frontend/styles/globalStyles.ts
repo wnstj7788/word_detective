@@ -34,3 +34,5 @@ export const MenuBtn = styled.TouchableOpacity`
   border-radius: 20px;
   margin: 10px;
 `;
+
+

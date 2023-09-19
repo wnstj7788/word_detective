@@ -7,9 +7,9 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import React, { useEffect, useState } from "react";
-import MainModal from "../components/MainModal";
+import MainModal from "../tutorial/MainModal";
 import Modal from "react-native-modal";
-import PictureModal from "../components/PictureModal"; // 모달 패키지
+import PictureModal from "../tutorial/PictureModal"; // 모달 패키지
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -47,7 +47,7 @@ const PictureLobby = ({ route }: any) => {
               <BubbleText>그림 맞추기!</BubbleText>
             </View>
 
-            <MenuBtn onPress={() => navigation.navigate("Main")}>
+            <MenuBtn onPress={() => navigation.navigate("Main",{})}>
               <BtnImg
                 source={require("../../assets/button/gameMode/detectiveModeBtn.png")}
                 resizeMode="contain"
