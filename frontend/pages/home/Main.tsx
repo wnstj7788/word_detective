@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageBackground, TouchableOpacity } from "react-native";
+import { View, Text, Image, ImageBackground, TouchableOpacity,StyleSheet  } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -41,7 +41,7 @@ const Main = ({ route }: any) => {
             <Header />
           </HeaderContainer>
           <BtnContainer>
-            <MenuBtn onPress={() => navigation.navigate("PictureLobby", {})}>
+            <MenuBtn style = {{zIndex : 4}} onPress={() => navigation.navigate("PictureLobby", {})}>
               <BtnImg
                 source={require("../../assets/button/home/HomePicMatch.png")}
                 resizeMode="contain"
@@ -62,18 +62,20 @@ const Main = ({ route }: any) => {
               />
               <BtnText>단어 나누기1</BtnText>
             </MenuBtn>
-            <Modal
-              animationIn="slideInUp"
-              animationOut="slideOutDown"
-              backdropColor="rgba(255, 255, 255, 0.5)"
-              isVisible={isModalVisible}
-              onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
-              backdropTransitionOutTiming={0}
-              statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
 
-            >
-              <MainModal></MainModal>
-            </Modal>
+            {/*<MainModal visible={isModalVisible} closeModal={closeModal} />*/}
+            {/*<Modal*/}
+            {/*  animationIn="slideInUp"*/}
+            {/*  animationOut="slideOutDown"*/}
+            {/*  backdropColor="rgba(255, 255, 255, 0.5)"*/}
+            {/*  isVisible={isModalVisible}*/}
+            {/*  onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용*/}
+            {/*  backdropTransitionOutTiming={0}*/}
+            {/*  statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.*/}
+
+            {/*>*/}
+            {/*  <MainModal></MainModal>*/}
+            {/*</Modal>*/}
           </BtnContainer>
           <TestContainer>
             <TouchableOpacity onPress={() => navigation.navigate("TutorialOne")}>
@@ -86,6 +88,14 @@ const Main = ({ route }: any) => {
               <Text>로그인</Text>
             </TouchableOpacity>
           </TestContainer>
+
+          {route.params?.cameFromTutorialTwo && (
+              <MainModal
+                  visible={isModalVisible}
+                  closeModal={closeModal}
+
+              />
+          )}
         </ContainerBg>
       </Container>
     );
@@ -94,6 +104,10 @@ const Main = ({ route }: any) => {
   }
 };
 export default Main;
+
+
+
+
 
 //헤더 컨테이너
 const HeaderContainer = styled.View`
