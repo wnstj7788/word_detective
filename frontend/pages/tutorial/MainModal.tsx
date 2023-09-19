@@ -12,39 +12,49 @@ type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const MyModal = ({onClose}: any) => {
     const navigation = useNavigation<RootStackNavigationProp>();
     return (
+        <Total>
+            <MiddleSet>
+                <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}/>
+                <ContentBox style={{flex: 8}}>
+                    <BtnContainer>
+                        {/*<MenuBtnModal onPress={() => navigation.navigate("PictureLobby", {})}>*/}
+                        {/*    <BtnImg*/}
+                        {/*        source={require("../../assets/button/home/HomePicMatch.png")}*/}
+                        {/*        resizeMode="contain"*/}
+                        {/*    />*/}
+                        {/*    <BtnText>그림 맞추기</BtnText>*/}
+                        {/*</MenuBtnModal>*/}
+                    </BtnContainer>
+                    <Box>
+                        <SpeechBubbleImg
+                            source={require("../../assets/etc/tutoThree.png")}
+                            resizeMode="contain">
+                            <TextTotutial>
+                                그림 먼저 맞춰볼까?
+                            </TextTotutial>
+                        </SpeechBubbleImg>
 
-        <MiddleSet>
-            <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}/>
-            <ContentBox style={{flex: 8}}>
-                <BtnContainer>
-                    <MenuBtnModal onPress={() => navigation.navigate("PictureLobby", {})}>
-                        <BtnImg
-                            source={require("../../assets/button/home/HomePicMatch.png")}
-                            resizeMode="contain"
-                        />
-                        <BtnText>그림 맞추기</BtnText>
-                    </MenuBtnModal>
-                </BtnContainer>
-                <Box>
-                    <SpeechBubbleImg
-                        source={require("../../assets/etc/tutoThree.png")}
-                        resizeMode="contain">
-                        <TextTotutial>
-                            그림 먼저 맞춰볼까?
-                        </TextTotutial>
-                    </SpeechBubbleImg>
+                    </Box>
 
-                </Box>
+                </ContentBox>
 
-            </ContentBox>
-
-        </MiddleSet>
+            </MiddleSet>
+        </Total>
 
 
     );
 };
 
 export default MyModal;
+
+const Total = styled.View`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+`;
 
 
 const TouchableWithoutFeedback = styled.TouchableOpacity`
@@ -56,11 +66,12 @@ const SpeechBubbleImg = styled.ImageBackground`
   flex: 1;
   justify-content: center;
   align-items: center;
+  left: 40px;
 `;
 
 const ContentBox = styled.View`
   flex-direction: row;
-  flex : 8;
+  flex: 8;
   justify-content: center;
   align-items: center;
 
