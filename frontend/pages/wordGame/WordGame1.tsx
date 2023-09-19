@@ -6,7 +6,9 @@ import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import QuestionCard from "../components/QuestionCard";
-import { ICard } from "../../types/types";
+import MiniCard from "../components/MiniCard";
+import { ICard, IWord } from "../../types/types";
+import { initialWord } from "../initialType";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
@@ -26,20 +28,39 @@ const WordGame1 = () => {
   //선지 8개의 배열
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
   const choiceList = ["사과", "오렌지", "수박", "토마토", "체리", "바나나", "딸기", "사과"];
+  let testList: IWord[] = [];
+  choiceList.map(word => {
+    let tempStage: IWord = initialWord;
+    tempStage.name = word;
+    testList.push({
+      name: word,
+      imgSrc: "",
+    });
+  });
 
   if (isLoaded) {
     return (
       <Container>
-        <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+        <ContainerBg
+          source={require("../../assets/background/game/fruit.png")}
+          resizeMode="stretch"
+        >
           <ContentContainer>
             <QCardContainer>
               <QuestionCard word={word} type={Word1Type} />
             </QCardContainer>
             <ACardContainer>
-              {choiceList.map((choice, index) => {
+              {testList.slice(0, 4).map((choice, index) => {
                 return (
                   <ACard key={index}>
-                    <Text>{choice}</Text>
+                    <MiniCard word={choice} isFront={true} />
+                  </ACard>
+                );
+              })}
+              {testList.slice(4, 8).map((choice, index) => {
+                return (
+                  <ACard key={index}>
+                    <MiniCard word={choice} isFront={true} />
                   </ACard>
                 );
               })}
@@ -65,6 +86,7 @@ const QCardContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  /* background-color: aqua; */
 `;
 
 const ACardContainer = styled.View`
@@ -73,12 +95,13 @@ const ACardContainer = styled.View`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  padding-right: 30px;
+  /* background-color: yellow; */
 `;
 
 const ACard = styled.View`
   width: 25%;
-  height: 50%;
-  background-color: yellow;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10px;
 `;
