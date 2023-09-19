@@ -1,56 +1,49 @@
-import { View, Text, Image, ImageBackground } from "react-native";
+import {View, Text, Image, ImageBackground} from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
-import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../App";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {useNavigation} from "@react-navigation/native";
+import {RootStackParamList} from "../../App";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import Header from "../etc/Header";
-import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
+import {Container, ContainerBg, MenuBtn} from "../../styles/globalStyles";
+import MiddleSet from "../components/MiddleSet";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const Main = () => {
-  const isLoaded = useCachedResources();
-  const navigation = useNavigation<RootStackNavigationProp>();
+    const isLoaded = useCachedResources();
+    const navigation = useNavigation<RootStackNavigationProp>();
 
-  if (isLoaded) {
-    return (
-      <Container>
-        <ContainerBg source={require("../../assets/background/main/tutorialBackground.png")}>
-          {/* <HeaderContainer>
+    if (isLoaded) {
+        return (
+            <Container>
+                <ContainerBg source={require("../../assets/background/main/tutorialBackground.png")}>
+                    {/* <HeaderContainer>
                         <Header />
                     </HeaderContainer> */}
-          <TouchableWithoutFeedback onPress={() => navigation.navigate("TutorialTwo")}>
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <View style={{ flex: 1 }} />
-              <View style={{ flex: 11 }}>
-                <SpeechBubbleImg
-                  source={require("../../assets/etc/tutorialBallon.png")}
-                  resizeMode="contain"
-                />
-                <TextTotutial>
-                  안녕! 나는 단어탐정이야 ! 내가 모아놓은 단어카드를 잃어버렸는데 도와줘 !{" "}
-                </TextTotutial>
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate("TutorialTwo")}>
+                        <View style={{flex: 1, flexDirection: "row"}}>
+                            <View style={{flex: 1 }}/>
+                            <View style={{flex: 11}}>
+                                <ContentBox>
+                                    <SpeechBubbleImg
+                                    source={require("../../assets/etc/tutoOne.png")}
+                                    resizeMode="contain"/>
+                                    <TextTotutial>
+                                        안녕! 나는 단어탐정이야 ! 내가 모아놓은 단어카드를 잃어버렸는데 도와줘 !{" "}
+                                    </TextTotutial>
+                                </ContentBox>
 
-                <GirlImg
-                  source={require("../../assets/character/standingCharacter.png")}
-                  resizeMode="contain"
-                />
-
-                <ArrowBtnImg
-                  source={require("../../assets/etc/arrowTuto.png")}
-                  resizeMode="contain"
-                />
-              </View>
-              <View style={{ flex: 1 }} />
-            </View>
-          </TouchableWithoutFeedback>
-        </ContainerBg>
-      </Container>
-    );
-  } else {
-    return null;
-  }
+                            </View>
+                            <View style={{flex: 1}}/>
+                        </View>
+                    </TouchableWithoutFeedback>
+                </ContainerBg>
+            </Container>
+        );
+    } else {
+        return null;
+    }
 };
 ``;
 export default Main;
@@ -62,39 +55,20 @@ const HeaderContainer = styled.View`
 
 const TouchableWithoutFeedback = styled.TouchableOpacity`
   flex: 1;
+
 `;
 //버튼 컨테이너
 const SpeechBubbleImg = styled.Image`
   position: absolute;
-  width: 437px;
-  height: 278px;
-  left: 87px;
-  top: 41px;
+    
 `;
 
-//버튼 안의 이미지(사이즈 제한)
-const GirlImg = styled.Image`
-  position: absolute;
-  width: 184.02px;
-  height: 360px;
-  left: 524px;
-  top: 0px;
-`;
-
-const ArrowBtnImg = styled.Image`
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  left: 285px;
-  top: 209px;
-`;
 
 const TextTotutial = styled.Text`
   position: absolute;
   width: 321px;
   height: 160px;
   left: 139px;
-  top: 108px;
   font-family: "BMJUA";
   font-style: normal;
   font-weight: 400;
@@ -102,4 +76,12 @@ const TextTotutial = styled.Text`
   line-height: 31px;
   text-align: center;
   color: #000000;
+`;
+
+
+const ContentBox = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+\
 `;
