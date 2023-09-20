@@ -6,6 +6,8 @@ import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
+import Modal from "react-native-modal";
+import { useState } from "react";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -15,7 +17,7 @@ const LetterLobby = () => {
 
   if (isLoaded) {
     return (
-      <Container>
+
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
           <HeaderContainer>
             <Header />
@@ -42,7 +44,6 @@ const LetterLobby = () => {
             </MenuBtn>
           </BtnContainer>
         </ContainerBg>
-      </Container>
     );
   } else {
     return null;
