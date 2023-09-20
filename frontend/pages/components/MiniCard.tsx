@@ -1,7 +1,7 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, ImageBackground, TouchableOpacity, TouchableHighlight } from "react-native";
 import { Platform } from "react-native";
 import useCachedResources from "../../hooks/useCachedResources";
-import { BtnContainer } from "../../styles/globalStyles";
+import { Container } from "../../styles/globalStyles";
 import styled, { css } from "styled-components/native";
 import { IWord } from "../../types/types";
 
@@ -9,8 +9,15 @@ import { IWord } from "../../types/types";
  * 문제 중에 사용되는 미니 단어 카드
  * @param word 단어 정보
  * @param isFront 카드가 앞면인지. 그림이 앞면, 물음표가 뒷면
+ * @param isTouchable 카드가 터치 가능한지 아닌지(드래그x 터치o)
+ * @param getFunc 클릭했을 때 작동할 함수
  */
-const MiniCard = (props: { word: IWord; isFront: boolean }) => {
+const MiniCard = (props: {
+  word: IWord;
+  isFront: boolean;
+  isTouchable: boolean;
+  onClick(word: IWord): void;
+}) => {
   const isLoaded = useCachedResources();
 
   //test용
@@ -42,14 +49,28 @@ const MiniCard = (props: { word: IWord; isFront: boolean }) => {
   //TODO: 이미지 소스는 임시로 getImage 사용, 추후 변경해야
   if (isLoaded) {
     return (
-      <CardContainer $isFront={props.isFront}>
-        {props.isFront ? (
-          // <PictureImage source={require("../../assets/card/fruit/apple.png")} />
-          <PictureImage source={getImage(props.word.name)} />
-        ) : (
-          <QmarkImage source={require("../../assets/etc/qmark.png")} resizeMode="contain" />
-        )}
-      </CardContainer>
+      // 터치 불가능하면 아예 투명, 터치 안되도록
+      <TouchableHighlight
+        activeOpacity={props.isTouchable ? 0.6 : 1}
+        underlayColor="white"
+        onPress={() => {
+          if (props.isTouchable) {
+            //TODO: 게임으로 클릭한 단어 데이터 넘겨주는 함수가 들어가야
+            // console.log(props.word.name);
+            props.onClick(props.word);
+          }
+        }}
+        style={{ borderRadius: 30 }}
+      >
+        <CardContainer $isFront={props.isFront}>
+          {props.isFront ? (
+            // <PictureImage source={require("../../assets/card/fruit/apple.png")} />
+            <PictureImage source={getImage(props.word.name)} />
+          ) : (
+            <QmarkImage source={require("../../assets/etc/qmark.png")} resizeMode="contain" />
+          )}
+        </CardContainer>
+      </TouchableHighlight>
     );
   } else {
     return null;
@@ -58,7 +79,7 @@ const MiniCard = (props: { word: IWord; isFront: boolean }) => {
 export default MiniCard;
 
 //전체 카드 컨테이너
-const CardContainer = styled(BtnContainer)<{ $isFront: boolean }>`
+const CardContainer = styled(Container)<{ $isFront: boolean }>`
   width: 135px;
   max-height: 135px;
   background-color: ${props => (props.$isFront ? "white" : "#FFEBC4")};

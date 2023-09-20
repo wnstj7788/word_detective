@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageBackground } from "react-native";
+import { View, Text, Image, ImageBackground, TouchableWithoutFeedback } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
@@ -9,6 +9,7 @@ import QuestionCard from "../components/QuestionCard";
 import MiniCard from "../components/MiniCard";
 import { ICard, IWord } from "../../types/types";
 import { initialWord } from "../initialType";
+import { useEffect, useState } from "react";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
@@ -24,19 +25,34 @@ const WordGame1 = () => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
-  const { word } = route.params;
+  const { word } = route.params; //목표 단어
+
+  const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
+
   //선지 8개의 배열
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
   const choiceList = ["사과", "오렌지", "수박", "토마토", "체리", "바나나", "딸기", "사과"];
   let testList: IWord[] = [];
   choiceList.map(word => {
-    let tempStage: IWord = initialWord;
+    let tempStage: IWord = { ...initialWord }; //initialWord를 복사해서 사용
     tempStage.name = word;
     testList.push({
       name: word,
       imgSrc: "",
     });
   });
+
+  useEffect(() => {
+    console.log(clickedWord);
+  }, [clickedWord]);
+
+  //미니카드 클릭했을 때 단어값 전달받기
+  const getMiniCardInfo = (word: IWord) => {
+    setClickedWord(word);
+  };
+
+  //클릭한 카드가 목표 단어와 같은지 확인하는 함수
+  const checkAnswer = () => (word.name === clickedWord.name ? true : false);
 
   if (isLoaded) {
     return (
@@ -50,20 +66,34 @@ const WordGame1 = () => {
               <QuestionCard word={word} type={Word1Type} />
             </QCardContainer>
             <ACardContainer>
-              {testList.slice(0, 4).map((choice, index) => {
-                return (
-                  <ACardFirst key={index}>
-                    <MiniCard word={choice} isFront={true} />
-                  </ACardFirst>
-                );
-              })}
-              {testList.slice(4, 8).map((choice, index) => {
-                return (
-                  <ACardSecond key={index}>
-                    <MiniCard word={choice} isFront={true} />
-                  </ACardSecond>
-                );
-              })}
+              <ACardLine>
+                {testList.slice(0, 4).map((choice, index) => {
+                  return (
+                    <ACardFirst key={index}>
+                      <MiniCard
+                        word={choice}
+                        isFront={true}
+                        isTouchable={true}
+                        onClick={getMiniCardInfo}
+                      />
+                    </ACardFirst>
+                  );
+                })}
+              </ACardLine>
+              <ACardLine>
+                {testList.slice(4, 8).map((choice, index) => {
+                  return (
+                    <ACardSecond key={index}>
+                      <MiniCard
+                        word={choice}
+                        isFront={true}
+                        isTouchable={true}
+                        onClick={getMiniCardInfo}
+                      />
+                    </ACardSecond>
+                  );
+                })}
+              </ACardLine>
             </ACardContainer>
           </ContentContainer>
         </ContainerBg>
@@ -91,24 +121,29 @@ const QCardContainer = styled.View`
 
 const ACardContainer = styled.View`
   flex: 2;
-  flex-direction: row;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   padding-right: 30px;
-  /* background-color: yellow; */
+`;
+
+const ACardLine = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
 `;
 
 const ACard = styled.View`
   width: 25%;
   justify-content: center;
   align-items: center;
+  border-radius: 30px;
 `;
 
 const ACardFirst = styled(ACard)`
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const ACardSecond = styled(ACard)`
-  margin-top: 20px;
+  margin-top: 10px;
 `;
