@@ -14,6 +14,7 @@ import WordGame1 from "./pages/wordGame/WordGame1";
 
 import LetterLobby from "./pages/letterGame/LetterLobby";
 import LetterGame1 from "./pages/letterGame/LetterGame1";
+import LetterGame2 from "./pages/letterGame/LetterGame2";
 
 import WordNoteMain from "./pages/wordNote/WordNoteMain";
 import Stage from "./pages/etc/Stage";
@@ -25,7 +26,7 @@ import { IWord } from "./types/types";
 export type RootStackParamList = {
   Home: undefined;
   Main: {
-    cameFromTutorialTwo?: boolean;
+    cameFromTutorialTwo: boolean;
   };
   Login: undefined;
   Stage: {
@@ -44,6 +45,9 @@ export type RootStackParamList = {
   WordGame1: {
     word: IWord;
   };
+  LetterGame2:{
+    word : IWord;
+  }
   LetterLobby: undefined;
   LetterGame1: {
     word: IWord;
@@ -73,6 +77,7 @@ export default function App() {
         <Stack.Screen name="PictureGame2" component={PictureGame2} />
         <Stack.Screen name="WordLobby" component={WordLobby} />
         <Stack.Screen name="WordGame1" component={WordGame1} />
+        <Stack.Screen name="LetterGame2" component={LetterGame2} />
         <Stack.Screen name="LetterLobby" component={LetterLobby} />
         <Stack.Screen name="LetterGame1" component={LetterGame1} />
         <Stack.Screen name="WordNoteMain" component={WordNoteMain} />
