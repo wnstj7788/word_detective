@@ -56,6 +56,10 @@ export type RootStackParamList = {
   LetterGame2: {
     word: IWord;
   };
+  MiniCard:{
+    word: IWord;
+    isFront:boolean;
+  }
   WordNoteMain: undefined;
   TutorialOne: undefined;
   TutorialTwo: undefined;

@@ -28,10 +28,15 @@ const LetterGame1 = () => {
   const { word } = route.params;
   const [shakeAnimation] = useState(new Animated.Value(0));
   const shake = (index: number) => {
+
     Animated.sequence([
+      // @ts-ignore
       Animated.timing(shakeAnimations[index], { toValue: 10, duration: 50, useNativeDriver: true }),
+      // @ts-ignore
       Animated.timing(shakeAnimations[index], { toValue: -10, duration: 100, useNativeDriver: true }),
+      // @ts-ignore
       Animated.timing(shakeAnimations[index], { toValue: 10, duration: 100, useNativeDriver: true }),
+      // @ts-ignore
       Animated.timing(shakeAnimations[index], { toValue: 0, duration: 50, useNativeDriver: true })
     ]).start();
   };
@@ -60,7 +65,8 @@ const LetterGame1 = () => {
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
   const choiceList = ["슴", "진", "과", "자", "고", "람", "막", "골"];
   const [shakeAnimations, setShakeAnimations] = useState(
-    choiceList.reduce((acc, _, index) => {
+    choiceList.reduce((acc, _, index : number) => {
+      // @ts-ignore
       acc[index] = new Animated.Value(0);
       return acc;
     }, {})
@@ -88,9 +94,12 @@ const LetterGame1 = () => {
             </QCardContainer>
             <ACardContainer>
               {choiceList.map((choice, index) => {
+
+                // @ts-ignore
                 return (
                   <ACardWrapper style={{borderRadius:30 }} activeOpacity={0.6} underlayColor={"white"} onPress={() => handleCardClick(choice, index)}>
-                  <ACard key={index} style={{ transform: [{ translateX: shakeAnimations[index] }] }}>
+
+                    <ACard key={index} style={ { transform: [{ translateX: shakeAnimations[index] }] }}>
                     <StyledText>{choice}</StyledText>
                   </ACard>
                   </ACardWrapper>

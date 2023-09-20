@@ -4,20 +4,19 @@ import styled from "styled-components/native";
 import {ParamListBase, useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../App";
-import MyModal from "./MainModal";
+
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const GameClearModal = ({ word, onClose, nextScreen }: any) => {
   const click=()=>{
     if(nextScreen){
-      navigation.navigate(nextScreen, { word: { word }});
+      navigation.navigate(nextScreen, { word });
     };
   }
   const navigation = useNavigation<RootStackNavigationProp>();
   return (
     <ModelView>
-      <ChalkBoard source={require("../../assets/character/resultCharacter.png")}>
-      </ChalkBoard>
+      <ChalkBoard source={require("../../assets/character/resultCharacter.png")}/>
       <NextFlex>
         <Travel onPress={click}>
           <NextButton source={require("../../assets/button/resultNext.png")}/>
