@@ -11,19 +11,52 @@ import QuestionCard from "../components/QuestionCard";
 import MiniCard from "../components/MiniCard";
 import { ICard } from "../../types/types";
 import OXCard from "../components/OXCard";
+import { useState } from "react";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 
 const PictureGame2 = () => {
+  const [count, setCount] = useState(0);
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
   const { word } = route.params;
-  console.log(word);
   const Word1Type: ICard = {
     pictureHidden: false, //그림 숨기기
     wordHidden: false, //글씨는 숨기지 않음
     wordHiddenIndx: 1, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
+  };
+  const answer = ["사과", "오렌지", "사과", "오렌지", "사과", "오렌지", "사과", "사과", "사과"];
+
+  const newCards = answer.map(item => {
+    return {
+      imgSrc: "",
+      name: item,
+    };
+  });
+
+  const oAnswerCheck = () => {
+    if (word.name === newCards[count].name) {
+      setCount(prevCount => prevCount + 1);
+
+      if (count === 7) {
+        alert("goodjob");
+      }
+    } else {
+      alert("틀렸어 ㅄ아");
+    }
+  };
+
+  const xAnswerCheck = () => {
+    if (word.name != newCards[count].name) {
+      setCount(prevCount => prevCount + 1);
+
+      if (count === 7) {
+        alert("goodjob");
+      }
+    } else {
+      alert("틀렸어 ㅄ아");
+    }
   };
 
   if (isLoaded) {
@@ -37,9 +70,11 @@ const PictureGame2 = () => {
               </QCardContainer>
             </QCardContainer>
             <ACardContainer>
-              <MiniCard word={word} isFront={true} />
-              <OXCard word={word} isFront={true} />
-              <OXCard word={word} isFront={false} />
+              <MiniCard word={newCards[count]} isFront={true} />
+              <OXCardContainer>
+                <OXCard word={word} isFront={true} onPress={() => oAnswerCheck()} />
+                <OXCard word={word} isFront={false} onPress={() => xAnswerCheck()} />
+              </OXCardContainer>
             </ACardContainer>
           </ContentContainer>
         </ContainerBg>
@@ -68,4 +103,9 @@ const ACardContainer = styled.View`
   flex: 2;
   justify-content: center;
   align-items: center;
+`;
+const OXCardContainer = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-around;
 `;

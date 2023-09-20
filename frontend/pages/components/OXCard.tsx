@@ -10,25 +10,20 @@ import { IWord } from "../../types/types";
  * @param word 단어 정보
  * @param isFront 카드가 앞면인지. 그림이 앞면, 물음표가 뒷면
  */
-const OXCard = (props: { word: IWord; isFront: boolean }) => {
+
+interface OXCardProps {
+  word: IWord;
+  isFront: boolean;
+  onPress: () => void;
+}
+
+const OXCard = (props: OXCardProps) => {
   const isLoaded = useCachedResources();
 
-  //test용
-  //   function getImage(name: string): any {
-  //     switch (name) {
-  //       case "사과":
-  //         return require("../../assets/card/OXCard/O.png");
-  //       case "오렌지":
-  //         return require("../../assets/card/OXCard/X.png");
-  //     }
-  //   }
-
-  //TODO: 이미지 소스는 임시로 getImage 사용, 추후 변경해야
   if (isLoaded) {
     return (
-      <CardContainer $isFront={props.isFront}>
+      <CardContainer $isFront={props.isFront} onPress={props.onPress}>
         {props.isFront ? (
-          // <PictureImage source={require("../../assets/card/fruit/apple.png")} />
           <PictureImage source={require("../../assets/card/OXCard/O.png")} resizeMode="contain" />
         ) : (
           <PictureImage source={require("../../assets/card/OXCard/X.png")} resizeMode="contain" />
@@ -39,6 +34,7 @@ const OXCard = (props: { word: IWord; isFront: boolean }) => {
     return null;
   }
 };
+
 export default OXCard;
 
 //전체 카드 컨테이너
