@@ -28,11 +28,9 @@ export const MenuBtn = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   width: 200px;
-  height: 200px;
+  aspect-ratio: 1/1;
   background-color: #f3ca85;
   border: 10px solid #fef8df;
   border-radius: 20px;
   margin: 10px;
 `;
-
-
