@@ -10,7 +10,6 @@ type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const GameClearModal = ({ word, onClose, nextScreen }: any) => {
   const click=()=>{
     if(nextScreen){
-      console.log(word)
       navigation.navigate(nextScreen, { word: { word }});
     };
   }
