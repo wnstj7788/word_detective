@@ -10,6 +10,7 @@ import PictureGame1 from "./pages/pictureGame/PictureGame1";
 
 import WordLobby from "./pages/wordGame/WordLobby";
 import WordGame1 from "./pages/wordGame/WordGame1";
+import WordGame2 from "./pages/wordGame/WordGame2";
 
 import LetterLobby from "./pages/letterGame/LetterLobby";
 import LetterGame1 from "./pages/letterGame/LetterGame1";
@@ -40,6 +41,9 @@ export type RootStackParamList = {
   WordGame1: {
     word: IWord;
   };
+  WordGame2: {
+    word: IWord;
+  };
   LetterLobby: undefined;
   LetterGame1: {
     word: IWord;
@@ -68,6 +72,7 @@ export default function App() {
         <Stack.Screen name="PictureGame1" component={PictureGame1} />
         <Stack.Screen name="WordLobby" component={WordLobby} />
         <Stack.Screen name="WordGame1" component={WordGame1} />
+        <Stack.Screen name="WordGame2" component={WordGame2} />
         <Stack.Screen name="LetterLobby" component={LetterLobby} />
         <Stack.Screen name="LetterGame1" component={LetterGame1} />
         <Stack.Screen name="WordNoteMain" component={WordNoteMain} />

@@ -6,18 +6,11 @@ import styled, { css } from "styled-components/native";
 import { IWord } from "../../types/types";
 
 /**
- * 문제 중에 사용되는 미니 단어 카드
+ * 미니 단어 카드를 넣어야할 위치, 통글씨 게임2에서 사용
  * @param word 단어 정보
- * @param isFront 카드가 앞면인지. 그림이 앞면, 물음표가 뒷면
- * @param isTouchable 카드가 터치 가능한지 아닌지(드래그x 터치o)
  * @param onClick 클릭했을 때 작동할 함수, 단어의 정보를 부모가 넘겨받는 기능 등
  */
-const MiniCard = (props: {
-  word: IWord;
-  isFront: boolean;
-  isTouchable: boolean;
-  onClick(word?: IWord): void;
-}) => {
+const WordMiniCard = (props: { word: IWord; onClick(word?: IWord): void }) => {
   const isLoaded = useCachedResources();
 
   //test용
@@ -49,63 +42,29 @@ const MiniCard = (props: {
   //TODO: 이미지 소스는 임시로 getImage 사용, 추후 변경해야
   if (isLoaded) {
     return (
-      // 터치 불가능하면 아예 투명, 터치 안되도록
-      <TouchableHighlight
-        activeOpacity={props.isTouchable ? 0.6 : 1}
-        underlayColor="white"
-        onPress={() => {
-          if (props.isTouchable) {
-            //클릭한 단어 데이터를 부모로 넘겨주기
-            props.onClick(props.word);
-          }
-        }}
-        style={{ borderRadius: 30 }}
-      >
-        <CardContainer $isFront={props.isFront}>
-          {props.isFront ? (
-            // <PictureImage source={require("../../assets/card/fruit/apple.png")} />
-            <PictureImage source={getImage(props.word.name)} />
-          ) : (
-            <QmarkImage source={require("../../assets/etc/qmark.png")} resizeMode="contain" />
-          )}
-        </CardContainer>
-      </TouchableHighlight>
+      <CardContainer>
+        <Shadow />
+        <PictureImage source={getImage(props.word.name)} />
+      </CardContainer>
     );
   } else {
     return null;
   }
 };
-export default MiniCard;
+export default WordMiniCard;
 
-//전체 카드 컨테이너
-const CardContainer = styled(Container)<{ $isFront: boolean }>`
+//전체 컨테이너
+const CardContainer = styled(Container)`
   width: 135px;
   max-height: 135px;
-  background-color: ${props => (props.$isFront ? "white" : "#FFEBC4")};
+  background-color: white;
   border-radius: 30px;
-  ${Platform.select({
-    ios: css`
-      shadow-color: black;
-      shadow-offset: {
-	    width: 0,
-	    height: 2,
-      };
-      shadow-opacity: 0.5;
-      shadow-radius: 10;
-    `,
-    android: css`
-      elevation: 5;
-    `,
-  })}
 `;
 
-//물음표 이미지
-const QmarkImage = styled.Image`
-  width: 80px;
-  height: 80px;
-`;
+//카드 그림자
+const Shadow = styled.View``;
 
-//원래 카드의 이미지
+//카드의 이미지
 const PictureImage = styled.Image`
   width: 100px;
   height: 100px;
