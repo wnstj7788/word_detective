@@ -93,12 +93,9 @@ const CardContainer = styled(Container)`
   ${Platform.select({
     ios: css`
       shadow-color: black;
-      shadow-offset: {
-	    width: 0,
-	    height: 2,
-      };
+      shadow-offset: 0px 2px;
       shadow-opacity: 0.5;
-      shadow-radius: 10;
+      shadow-radius: 10px;
     `,
     android: css`
       elevation: 5;
