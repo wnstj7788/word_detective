@@ -63,20 +63,17 @@ const CardContainer = styled(BtnContainer)<{ $isFront: boolean }>`
   max-height: 135px;
   background-color: ${props => (props.$isFront ? "white" : "#FFEBC4")};
   border-radius: 30px;
-  ${Platform.select({
-    ios: css`
-      shadow-color: black;
-      shadow-offset: {
-	    width: 0,
-	    height: 2,
-      };
-      shadow-opacity: 0.5;
-      shadow-radius: 10;
-    `,
-    android: css`
-      elevation: 5;
-    `,
-  })}
+
+  ${Platform.OS === 'ios' && `
+    shadow-color: black;
+    shadow-offset: 0px 2px;
+    shadow-opacity: 0.5;
+    shadow-radius: 10px;
+  `}
+
+  ${Platform.OS === 'android' && `
+    elevation: 5;
+  `}
 `;
 
 //물음표 이미지
