@@ -9,9 +9,13 @@ import {
   InteractionManager,
   Alert,
 } from "react-native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { Svg, Path } from "react-native-svg";
 import ViewShot from "react-native-view-shot";
-
+import QuestionCard from "../components/QuestionCard";
+import { RootStackParamList } from "../../App";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 
 const Canvas = () => {
@@ -19,6 +23,7 @@ const Canvas = () => {
   const [isClearButtonClicked, setClearButtonClicked] = useState(false);
   const [capturedImageURI, setCapturedImageURI] = useState(null);
   const svgRef = useRef(null);
+  const navigation = useNavigation<RootStackNavigationProp>();
 
   const handleTouchStart = useCallback(event => {
     const locationX = event.nativeEvent.locationX;
@@ -65,6 +70,7 @@ const Canvas = () => {
               strokeLinejoin={"round"}
               strokeLinecap={"round"}
             />
+            <Text>사과를 그려보세요</Text>
           </Svg>
         </View>
       </ViewShot>
@@ -110,6 +116,13 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  nextButton: {
+    marginTop: 10,
+    backgroundColor: "black",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
   },
   //   captureButton: {
   //     marginTop: 10,
