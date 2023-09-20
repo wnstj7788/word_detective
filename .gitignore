@@ -765,4 +765,5 @@ google-services.json
 
 *.pt
 fastapi/dataset
+fastapi/draw/quickdraw
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,intellij+all,intellij,java,node,react,reactnative,gradle,git,python
