@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageBackground, TouchableOpacity, Animated } from "react-native";
+import { View, Text, Image, ImageBackground, TouchableOpacity, Animated, TouchableHighlight, Vibration } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute, useFocusEffect } from "@react-navigation/native";
@@ -42,6 +42,7 @@ const LetterGame1 = () => {
       openModal();
     } else {
       shake(index);
+      Vibration.vibrate(350);
     }
   };
 
@@ -88,11 +89,11 @@ const LetterGame1 = () => {
             <ACardContainer>
               {choiceList.map((choice, index) => {
                 return (
-                  <TouchableOpacity onPress={() => handleCardClick(choice, index)}>
+                  <ACardWrapper style={{borderRadius:30 }} activeOpacity={0.6} underlayColor={"white"} onPress={() => handleCardClick(choice, index)}>
                   <ACard key={index} style={{ transform: [{ translateX: shakeAnimations[index] }] }}>
                     <StyledText>{choice}</StyledText>
                   </ACard>
-                  </TouchableOpacity>
+                  </ACardWrapper>
                 );
               })}
             </ACardContainer>
@@ -126,12 +127,19 @@ const ACardContainer = styled.View`
   align-items: center;
   
 `;
-
-const ACard = styled(Animated.View)`
+const ACardWrapper = styled.TouchableHighlight`
   width: 20%;
   aspect-ratio: 1;
-  background-color: white;
   margin: 2.9%;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+`;
+const ACard = styled(Animated.View)`
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: white;
+  //margin: 2.9%;
   elevation: 5;
   border-radius: 20px;
   justify-content: center;
