@@ -5,10 +5,12 @@ import styled from "styled-components/native";
 import WordNoteCard from "../components/WordNoteCard";
 import { IWord } from "../../types/types";
 import useCachedResources from "../../hooks/useCachedResources";
+import { Container, ContainerBg } from "../../styles/globalStyles";
+
+// 라우터 관련 import
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { Container, ContainerBg } from "../../styles/globalStyles";
 
 // 이미지 소스 미리 선언
 const wordNoteBgImage = require("../../assets/background/wordNoteBg.png");
@@ -17,6 +19,12 @@ const pandaImage = require("../../assets/etc/panda.png");
 const pencilImage = require("../../assets/etc/pencil.png");
 
 const WordNoteMain = () => {
+  const [changeCategorySignal, setChangeCategorySignal] = useState<number>(1);
+
+  // change 함수의 파라미터 num의 타입을 number로 선언
+  const changeCategory = (categoryType: number) => {
+    setChangeCategorySignal(categoryType);
+  };
   return (
     <Container>
       <ContainerBg source={wordNoteBgImage}>
@@ -26,17 +34,19 @@ const WordNoteMain = () => {
 
         <WordNoteContainer>
           <WordNoteList>
-            <WordNoteCard />
+            <WordNoteCard categoryType={changeCategorySignal} />
           </WordNoteList>
 
           <WordNoteCategory>
-            <WordCategoryBtn>
+            <WordCategoryBtn onPress={() => changeCategory(1)}>
               <CategoryBtnImg source={appleImage} resizeMode="contain" />
             </WordCategoryBtn>
-            <WordCategoryBtn2>
+
+            <WordCategoryBtn2 onPress={() => changeCategory(2)}>
               <CategoryBtnImg source={pandaImage} resizeMode="contain" />
             </WordCategoryBtn2>
-            <WordCategoryBtn3>
+
+            <WordCategoryBtn3 onPress={() => changeCategory(3)}>
               <CategoryBtnImg source={pencilImage} resizeMode="contain" />
             </WordCategoryBtn3>
           </WordNoteCategory>
