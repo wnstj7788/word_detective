@@ -1,7 +1,7 @@
 import { View, Text, ImageBackground, TouchableOpacity, TouchableHighlight } from "react-native";
 import { Platform } from "react-native";
 import useCachedResources from "../../hooks/useCachedResources";
-import { Container } from "../../styles/globalStyles";
+import { Container, ContainerBg } from "../../styles/globalStyles";
 import styled, { css } from "styled-components/native";
 import { IWord } from "../../types/types";
 
@@ -43,8 +43,9 @@ const WordMiniCard = (props: { word: IWord; onClick(word?: IWord): void }) => {
   if (isLoaded) {
     return (
       <CardContainer>
-        <Shadow />
-        <PictureImage source={getImage(props.word.name)} />
+        <CardBackground source={require("../../assets/etc/wordMiniCard.png")}>
+          <PictureImage source={getImage(props.word.name)} />
+        </CardBackground>
       </CardContainer>
     );
   } else {
@@ -61,8 +62,12 @@ const CardContainer = styled(Container)`
   border-radius: 30px;
 `;
 
-//카드 그림자
-const Shadow = styled.View``;
+//카드 배경
+const CardBackground = styled(ContainerBg)`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
 
 //카드의 이미지
 const PictureImage = styled.Image`
