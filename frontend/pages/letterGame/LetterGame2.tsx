@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageBackground, TouchableOpacity } from "react-native";
+import { View, Text, Image, ImageBackground, TouchableOpacity, Animated, TouchableHighlight } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute, useFocusEffect } from "@react-navigation/native";
@@ -19,6 +19,7 @@ const Word1Type: ICard={
   wordHiddenIndx:1,
 }
 const LetterGame2 = () =>{
+
   const isLoaded=useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
@@ -28,18 +29,45 @@ const LetterGame2 = () =>{
     setModalVisible(true);
   };
   const choiceList = ["ㅅ", "ㅜ", "ㄴ", "ㅐ", "ㅓ", "ㅂ", "ㄷ", "ㅠ"];
-
+  const shakeAnimation = (index: number) => {
+    const rotate = animValues[index];
+    Animated.sequence([
+      Animated.timing(rotate, {
+        toValue: 1,
+        duration: 50,
+        useNativeDriver: true,
+      }),
+      Animated.timing(rotate, {
+        toValue: -1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(rotate, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(rotate, {
+        toValue: 0,
+        duration: 50,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
   const closeModal = () =>{
     setModalVisible(false)
   }
-  const handleCardClick = (choice: string) => {
-    // Do something with the choice
-    if(choice==="ㅅ"){
+  const handleCardClick = (choice: string, index: number) => {
+    if (choice === "ㅅ") {
       openModal();
-    }else{
-
+    } else {
+      shakeAnimation(index);
     }
   };
+  console.log(word)
+  const syllable=[...word.name];
+  const animValues = choiceList.map(() => new Animated.Value(0));
+
   return(
     <ContainerBg source={require("../../assets/background/game/fruit.png")}>
       <Modal
@@ -50,7 +78,6 @@ const LetterGame2 = () =>{
         onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
         backdropTransitionOutTiming={0}
         statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
-
       >
         <GameClearModal nextScreen="LetterLobby" word={word.word}></GameClearModal>
 
@@ -61,17 +88,32 @@ const LetterGame2 = () =>{
         </QCardContainer>
         <CardsContainer>
           <BCardContainer>
-
+            {syllable.map((syll, index)=>{
+              return(
+                <BCard>
+                  <StyledText>{syll}</StyledText>
+                </BCard>
+              )
+            })}
 
           </BCardContainer>
         <ACardContainer>
           {choiceList.map((choice, index) => {
             return (
-              <TouchableOpacity onPress={() => handleCardClick(choice)}>
-                <ACard key={index}>
+              <ACardWrapper onPress={() => handleCardClick(choice, index)}>
+                <ACard key={index} style={{
+                  transform: [
+                    {
+                      rotate: animValues[index].interpolate({
+                        inputRange: [-1, 1],
+                        outputRange: ["-5deg", "5deg"],
+                      }),
+                    },
+                  ],
+                }}>
                   <StyledText>{choice}</StyledText>
                 </ACard>
-              </TouchableOpacity>
+              </ACardWrapper>
             );
           })}
         </ACardContainer>
@@ -80,8 +122,20 @@ const LetterGame2 = () =>{
     </ContainerBg>
   )
 }
+const ACardWrapper = styled.TouchableHighlight`
+  width: 20%;
+  aspect-ratio: 1;
+  margin: 2.9%;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+`;
 const BCardContainer = styled.View`
-
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  top: 3%; 
 `;
 const CardsContainer = styled.View`
   flex : 2;
@@ -101,8 +155,8 @@ const ACardContainer = styled.View`
   
 `;
 
-const ACard = styled.View`
-  width: 20%;
+const ACard = Animated.createAnimatedComponent(styled.View`
+  width: 100%;
   aspect-ratio: 1;
   background-color: white;
   margin: 2.9%;
@@ -110,8 +164,10 @@ const ACard = styled.View`
   border-radius: 20px;
   justify-content: center;
   align-items: center;
+`);
+const BCard=styled.View`
+  margin-left: 2%;
 `;
-
 const StyledText = styled.Text`
   font-size: 70px;
   font-family: "BMJUA";
