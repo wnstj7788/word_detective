@@ -1,12 +1,15 @@
-import { View, Text, Image, ImageBackground, TouchableOpacity } from "react-native";
+import { View, Text, Image, ImageBackground, TouchableOpacity, Animated } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
-import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
+import { useNavigation, RouteProp, useRoute, useFocusEffect } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import QuestionCard from "../components/QuestionCard";
 import { ICard } from "../../types/types";
+import GameClearModal from "../components/GameClearModal";
+import Modal from "react-native-modal";
+import React, { useState } from "react";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
@@ -23,22 +26,61 @@ const LetterGame1 = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
   const { word } = route.params;
-  const handleCardClick = (choice: string) => {
-    // Do something with the choice
+  const [shakeAnimation] = useState(new Animated.Value(0));
+  const shake = (index: number) => {
+    Animated.sequence([
+      Animated.timing(shakeAnimations[index], { toValue: 10, duration: 50, useNativeDriver: true }),
+      Animated.timing(shakeAnimations[index], { toValue: -10, duration: 100, useNativeDriver: true }),
+      Animated.timing(shakeAnimations[index], { toValue: 10, duration: 100, useNativeDriver: true }),
+      Animated.timing(shakeAnimations[index], { toValue: 0, duration: 50, useNativeDriver: true })
+    ]).start();
+  };
+
+  const handleCardClick = (choice: string, index: number) => {
     const characters = [...word.name];
-    if(choice===characters[number]){
-      console.log("성공");
-    }else{
-      console.log("실패");
+    if (choice === characters[number]) {
+      openModal();
+    } else {
+      shake(index);
     }
   };
+
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () =>{
+    setModalVisible(false)
+  }
+
   //선지 8개의 배열
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
   const choiceList = ["슴", "진", "과", "자", "고", "람", "막", "골"];
+  const [shakeAnimations, setShakeAnimations] = useState(
+    choiceList.reduce((acc, _, index) => {
+      acc[index] = new Animated.Value(0);
+      return acc;
+    }, {})
+  );
   if (isLoaded) {
     return (
-      <Container>
         <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+          <Modal
+            animationIn="slideInUp"
+            animationOut="slideOutDown"
+            backdropColor="rgba(0, 0, 0, 0.5)"
+            isVisible={isModalVisible}
+            onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
+            backdropTransitionOutTiming={0}
+            statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
+
+          >
+            <GameClearModal nextScreen="LetterGame2" word={word}></GameClearModal>
+
+
+          </Modal>
           <ContentContainer>
             <QCardContainer>
               <QuestionCard word={word} type={Word1Type} />
@@ -46,8 +88,8 @@ const LetterGame1 = () => {
             <ACardContainer>
               {choiceList.map((choice, index) => {
                 return (
-                  <TouchableOpacity onPress={() => handleCardClick(choice)}>
-                  <ACard key={index}>
+                  <TouchableOpacity onPress={() => handleCardClick(choice, index)}>
+                  <ACard key={index} style={{ transform: [{ translateX: shakeAnimations[index] }] }}>
                     <StyledText>{choice}</StyledText>
                   </ACard>
                   </TouchableOpacity>
@@ -56,7 +98,6 @@ const LetterGame1 = () => {
             </ACardContainer>
           </ContentContainer>
         </ContainerBg>
-      </Container>
     );
   } else {
     return null;
@@ -86,15 +127,16 @@ const ACardContainer = styled.View`
   
 `;
 
-const ACard = styled.View`
+const ACard = styled(Animated.View)`
   width: 20%;
   aspect-ratio: 1;
   background-color: white;
-  margin: 2%;
+  margin: 2.9%;
   elevation: 5;
   border-radius: 20px;
   justify-content: center;
   align-items: center;
+  
 `;
 
 const StyledText = styled.Text`
@@ -103,3 +145,5 @@ const StyledText = styled.Text`
   text-align: center;
   justify-content: center;
 `;
+
+
