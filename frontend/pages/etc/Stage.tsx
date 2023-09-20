@@ -68,7 +68,7 @@ const Stage = () => {
             <CharacterContainer>
               <Image source={require("../../assets/character/fruitCharacter.png")} />
             </CharacterContainer>
-            <StageListContainer horizontal>
+            <StageListContainer horizontal showsHorizontalScrollIndicator={false}>
               {stageList.map(stage => {
                 return <StageCard stage={stage} gameType={gameType} key={stage.word.name} />;
               })}
