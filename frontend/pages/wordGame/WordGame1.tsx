@@ -106,9 +106,11 @@ const ACard = styled.View`
 `;
 
 const ACardFirst = styled(ACard)`
-  margin-bottom: 20px;
+  margin-bottom: 5%;
+  background-color: red;
 `;
 
 const ACardSecond = styled(ACard)`
-  margin-top: 20px;
+  margin-top: 5%;
+  background-color: blue;
 `;
