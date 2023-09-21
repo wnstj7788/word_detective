@@ -59,6 +59,9 @@ const Main = ({ route }: any) => {
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
               <Text>로그인</Text>
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("CameraCon")}>
+              <Text>카메라 </Text>
+            </TouchableOpacity>
           </TestContainer>
         </ContainerBg>
       </Container>
