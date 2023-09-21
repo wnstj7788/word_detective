@@ -2,11 +2,11 @@ package com.ssafy.backend.service;
 
 import com.ssafy.backend.dto.WordResponseDto;
 import com.ssafy.backend.entity.Word;
+import com.ssafy.backend.exception.CustomException;
+import com.ssafy.backend.exception.ErrorCode;
 import com.ssafy.backend.repository.WordRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +38,7 @@ public class WordService {
      */
     public List<WordResponseDto> getWordByRandom(String answer, Long cnt) {
         Word word = wordRepository.findByName(answer).orElseThrow(
-                () -> new IllegalArgumentException("해당 단어가 존재하지 않습니다.")
+                () -> new CustomException(ErrorCode.WORD_NOT_FOUND)
         );
         final int wordCnt = 8;
 
