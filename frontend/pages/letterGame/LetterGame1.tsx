@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageBackground, TouchableOpacity, Animated, TouchableHighlight, Vibration } from "react-native";
+import { View, Text, Image, ImageBackground, TouchableOpacity, Animated, TouchableHighlight, Vibration, Platform } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute, useFocusEffect } from "@react-navigation/native";
@@ -20,14 +20,18 @@ const Word1Type: ICard = {
   wordHidden: true, //글씨는 숨기지 않음
   wordHiddenIndx: 1, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
 };
-const number = Word1Type.wordHiddenIndx;
+const number=Word1Type.wordHiddenIndx;
+interface ShakeAnimations {
+  [key: number]: Animated.Value;
+}
 const LetterGame1 = () => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
   const { word } = route.params;
-  const [shakeAnimation] = useState(new Animated.Value(0));
+
   const shake = (index: number) => {
+
     Animated.sequence([
       Animated.timing(shakeAnimations[index], { toValue: 10, duration: 50, useNativeDriver: true }),
       Animated.timing(shakeAnimations[index], {
@@ -67,39 +71,30 @@ const LetterGame1 = () => {
   //선지 8개의 배열
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
   const choiceList = ["슴", "진", "과", "자", "고", "람", "막", "골"];
-  const [shakeAnimations, setShakeAnimations] = useState(
-    choiceList.reduce((acc, _, index) => {
+  const [shakeAnimations, setShakeAnimations] = useState<ShakeAnimations>(
+    choiceList.reduce<ShakeAnimations>((acc, _, index: number) => {
       acc[index] = new Animated.Value(0);
       return acc;
     }, {})
   );
+
   if (isLoaded) {
     return (
 
-      <ContainerBg source={require("../../assets/background/game/fruit.png")}>
-        <Modal
-          animationIn="slideInUp"
-          animationOut="slideOutDown"
-          backdropColor="rgba(0, 0, 0, 0.5)"
-          isVisible={isModalVisible}
-          onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
-          backdropTransitionOutTiming={0}
-          statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
-        >
-          <GameClearModal nextScreen="LetterGame2" word={word}></GameClearModal>
-        </Modal>
-        <ContentContainer>
-          <QCardContainer>
-            <QuestionCard word={word} type={Word1Type} />
-          </QCardContainer>
-          <ACardContainer>
-            {choiceList.map((choice, index) => {
-              return (
-                <TouchableOpacity onPress={() => handleCardClick(choice, index)}>
-                  <ACard
-                    key={index}
-                    style={{ transform: [{ translateX: shakeAnimations[index] }] }}
-                  >
+
+          </Modal>
+          <ContentContainer>
+            <QCardContainer>
+              <QuestionCard word={word} type={Word1Type} />
+            </QCardContainer>
+            <ACardContainer>
+              {choiceList.map((choice, index) => {
+
+                // @ts-ignore
+                return (
+                  <ACardWrapper style={{borderRadius:30 }} activeOpacity={0.6} underlayColor={"white"} onPress={() => handleCardClick(choice, index)}>
+
+                    <ACard key={index} style={ { transform: [{ translateX: shakeAnimations[index] }] }}>
                     <StyledText>{choice}</StyledText>
                   </ACard>
                 </TouchableOpacity>
@@ -149,7 +144,9 @@ const ACard = styled(Animated.View)`
   aspect-ratio: 1;
   background-color: white;
   //margin: 2.9%;
-  elevation: 5;
+  ${Platform.OS === 'android' && `
+    elevation: 5;
+  `}
   border-radius: 20px;
   justify-content: center;
   align-items: center;

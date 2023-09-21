@@ -39,9 +39,9 @@ export default OXCard;
 
 //전체 카드 컨테이너
 const CardContainer = styled(BtnContainer)<{ $isFront: boolean }>`
-  width: 135px;
-  max-height: 135px;
+  height: 20%;
   background-color: white;
+  aspect-ratio: 1;
   border-radius: 30px;
   ${Platform.select({
     ios: css`
