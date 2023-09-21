@@ -30,6 +30,7 @@ const WordNoteMain = () => {
       openModal();
     }
   };
+
   const [childItem, setChildItem] = useState("");
   const [changeCategorySignal, setChangeCategorySignal] = useState<number>(1);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -49,13 +50,17 @@ const WordNoteMain = () => {
       <Modal
         animationIn="slideInUp"
         animationOut="slideOutDown"
-        backdropColor="rgba(0, 0, 0, 0.5)"
         isVisible={isModalVisible}
+        backdropColor="rgba(0, 0, 0, 0.5)"
         onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
         backdropTransitionOutTiming={0}
         statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
       >
-        <GameClearModal nextScreen="LetterGame2"></GameClearModal>
+        <WordCardDetailModal
+          onClose={closeModal}
+          isVisible={isModalVisible}
+          item={childItem}
+        ></WordCardDetailModal>
       </Modal>
       <ContainerBg source={wordNoteBgImage}>
         <HeaderContainer>
