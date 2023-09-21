@@ -32,20 +32,22 @@ public class WordService {
     /**
      * 랜덤 단어 목록 조회
      *
-     * @param answer 정답
-     * @param cnt    정답의 중복 개수
+     * @param answer     정답
+     * @param correctCnt 정답의 중복 개수
+     * @param randCnt    랜덤 단어 개수
      * @return 랜덤 단어 목록
      */
-    public List<WordResponseDto> getWordByRandom(String answer, Long cnt) {
+    public List<WordResponseDto> getWordByRandom(String answer, Long correctCnt, Long randCnt) {
         Word word = wordRepository.findByName(answer).orElseThrow(
                 () -> new CustomException(ErrorCode.WORD_NOT_FOUND)
         );
-        final int wordCnt = 8;
 
-        List<WordResponseDto> responseDtos = IntStream.iterate(0, i -> i < cnt, i -> i + 1)
+        if (randCnt < correctCnt) throw new CustomException(ErrorCode.RAND_CNT_LESS_THAN_CORRECT_CNT);
+
+        List<WordResponseDto> responseDtos = IntStream.iterate(0, i -> i < correctCnt, i -> i + 1)
                 .mapToObj(i -> WordResponseDto.fromEntity(word))
                 .collect(Collectors.toList());
-        List<Word> randomWord = wordRepository.findRandomWord(answer, wordCnt - cnt);
+        List<Word> randomWord = wordRepository.findRandomWord(answer, randCnt - correctCnt);
 
         responseDtos.addAll(randomWord.stream().map(WordResponseDto::fromEntity).collect(Collectors.toList()));
 

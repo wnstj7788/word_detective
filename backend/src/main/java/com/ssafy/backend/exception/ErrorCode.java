@@ -21,7 +21,9 @@ public enum ErrorCode {
     // 해당 단어가 없을때
     WORD_NOT_FOUND("WORD_NOT_FOUND", "해당 단어가 없음"),
     // 해당 파일이 없을때
-    FILE_NOT_FOUND("FILE_NOT_FOUND", "해당 파일이 없음");
+    FILE_NOT_FOUND("FILE_NOT_FOUND", "해당 파일이 없음"),
+    // 랜덤 단어 개수가 정답의 중복 개수 보다 작을때
+    RAND_CNT_LESS_THAN_CORRECT_CNT("RAND_CNT_LESS_THAN_CORRECT_CNT", "랜덤 단어 개수가 정답의 중복 개수 보다 작음");
 
     private final String code;
     private final String description;
