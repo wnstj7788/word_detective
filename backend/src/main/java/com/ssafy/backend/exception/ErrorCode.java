@@ -21,7 +21,7 @@ public enum ErrorCode {
     // 해당 단어가 없을때
     WORD_NOT_FOUND("WORD_NOT_FOUND", "해당 단어가 없음"),
     // 해당 파일이 없을때
-    FILE_NOT_FOUND("FILE_NOT_FOUND", "해당 파일이 없음")
+    FILE_NOT_FOUND("FILE_NOT_FOUND", "해당 파일이 없음");
 
     private final String code;
     private final String description;
