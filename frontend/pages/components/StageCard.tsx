@@ -9,7 +9,7 @@ import { IStage } from "../../types/types";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-const StageCard = (props: { stage: IStage; gameType: string }) => {
+const StageCard = (props: { stage: IStage; gameType: string;  isApple: boolean }) => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   function getImage(name: string): any {
@@ -37,10 +37,15 @@ const StageCard = (props: { stage: IStage; gameType: string }) => {
     }
   }
 
+  const cardStyle = {
+      borderWidth: 7,
+      borderColor: props.isApple ? "red" : "white",
+    };
+
   if (isLoaded) {
     //gameType에 따라 스테이지로 연결
     return (
-      <CardContainer
+      <CardContainer style={cardStyle} // cardStyle을 스타일로 적용
         onPress={() => {
           if (props.gameType === "picture") {
             return navigation.navigate("PictureGame1", { word: props.stage.word });
@@ -73,7 +78,7 @@ export default StageCard;
 // 스테이지 카드 전체 Container
 const CardContainer = styled(BtnContainer)`
   width: 168px;
-  height: 251px;
+  max-height: 251px;
   background-color: white;
   margin: 30px;
   border-radius: 20px;
@@ -86,13 +91,13 @@ const FullStar = styled.Image`
   position: absolute;
   top: -30px;
   right: -30px;
-  z-index: 10px;
+  z-index: 10;
 `;
 const EmptyStar = styled.Image`
   position: absolute;
   top: -30px;
   right: -30px;
-  z-index: 10px;
+  z-index: 10;
 `;
 
 // 스테이지 카드

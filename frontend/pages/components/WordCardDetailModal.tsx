@@ -1,60 +1,90 @@
 import React from "react";
-import { View, Text, Button, TouchableOpacity } from "react-native";
-import styled from "styled-components/native";
-import { ParamListBase, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../App";
-type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+import { Modal, View, Text, TouchableOpacity } from "react-native";
+import styled, { css } from "styled-components/native";
+interface WordCardDetailModalProps {
+  isVisible: boolean;
+  onClose: () => void;
+  item: string;
+}
 
-const WordCardDetailModal = ({ word, onClose, nextScreen }: any) => {
-  const click = () => {
-    if (nextScreen) {
-      console.log(word);
-      navigation.navigate(nextScreen, { word: { word } });
+const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, onClose, item }) => {
+  function getImage(name: string) {
+    switch (name) {
+      case "사과":
+        return require("../../assets/card/fruit/apple.png");
+      case "오렌지":
+        return require("../../assets/card/fruit/orange.png");
+      case "수박":
+        return require("../../assets/card/fruit/watermelon.png");
+      case "토마토":
+        return require("../../assets/card/fruit/tomato.png");
+      case "체리":
+        return require("../../assets/card/fruit/cherry.png");
+      case "바나나":
+        return require("../../assets/card/fruit/banana.png");
+      case "딸기":
+        return require("../../assets/card/fruit/strawberry.png");
+      case "고양이":
+        return require("../../assets/card/animal/cat.png");
     }
-  };
-  const navigation = useNavigation<RootStackNavigationProp>();
+  }
+
   return (
-    <ModelView>
-      <ChalkBoard></ChalkBoard>
-      <NextFlex>
-        <Travel onPress={click}>
-          <NextButton source={require("../../assets/button/resultNext.png")} />
-        </Travel>
-        <SubText>다음으로</SubText>
-      </NextFlex>
-    </ModelView>
+    <ModalContainer>
+      <ModalLeft>
+        {/* <WordTitle>{item}</WordTitle> */}
+        <WordCardCard source={require("../../assets/card/wordCard1.png")} resizeMode="stretch">
+          <WordImg source={getImage(item)}></WordImg>
+        </WordCardCard>
+        {/* <TouchableOpacity onPress={onClose}>
+          <ModalCloseText>닫기</ModalCloseText>
+        </TouchableOpacity> */}
+      </ModalLeft>
+      <ModalRight></ModalRight>
+    </ModalContainer>
   );
 };
 
 export default WordCardDetailModal;
-const SubText = styled.Text`
-  color: white;
-  font-family: "Hayanbunpil";
-  letter-spacing: 2px;
-  font-size: 18px;
-  flex: 1;
+
+const ModalContainer = styled.View`
+  flex-direction: row;
 `;
 
-const NextFlex = styled.View`
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+const ModalLeft = styled.View`
+  border-radius: 10px;
+  padding: 20px;
+  height: 300px;
+  border-radius: 0px;
+  flex: 3;
 `;
-const Travel = styled.TouchableOpacity`
-  flex: 1;
-  justify-content: flex-end;
-  align-items: center;
-`;
-const ChalkBoard = styled.View`
+
+const WordCardCard = styled.ImageBackground`
+  width: 270px;
+  height: 350px;
   position: absolute;
-  height: 100%;
-  resize-mode: contain;
+  top: -20px;
+  left: 30px;
+`;
+const WordImg = styled.Image`
+  width: 65%;
+  height: 50%;
+  top: 70px;
+  left: 50px;
+  z-index: 3;
+  transform: rotate(10deg);
 `;
 
-const ModelView = styled.View`
-  align-items: center;
-  justify-content: center;
+const ModalRight = styled.View`
+  background-color: coral;
+  height: 300px;
+  border-radius: 0px;
+  flex: 2;
 `;
 
-const NextButton = styled.Image``;
+const WordTitle = styled.Text`
+  font-size: 120px;
+  font-family: "BMJUA";
+`;
+
+const ModalCloseText = styled.Text``;

@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageBackground, Platform } from "react-native";
+import { View, Text, Image, ImageBackground, Platform, Dimensions } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
@@ -12,9 +12,13 @@ import MiniCard from "../components/MiniCard";
 import { ICard } from "../../types/types";
 import OXCard from "../components/OXCard";
 import { useState } from "react";
+import GameClearModal from "../components/GameClearModal";
+import Modal from "react-native-modal";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
-
+const { width, height } = Dimensions.get('window');
+const squareSize = width * 0.18;
+const miniCardSize = width * 0.18;
 const PictureGame2 = () => {
   const [count, setCount] = useState(0);
   const isLoaded = useCachedResources();
@@ -34,6 +38,8 @@ const PictureGame2 = () => {
       name: item,
     };
   });
+  // 모달
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const oAnswerCheck = () => {
     if (word.name === newCards[count].name) {

@@ -8,7 +8,8 @@ import Header from "../etc/Header";
 import {Container, ContainerBg, MenuBtn} from "../../styles/globalStyles";
 import React, {useEffect, useState} from "react";
 import MainModal from "../tutorial/MainModal";
-import Modal from "react-native-modal"; // 모달 패키지
+import Modal from "react-native-modal";
+import MiddleSet from "../components/MiddleSet"; // 모달 패키지
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const Main = ({route}: any) => {
@@ -24,39 +25,36 @@ const Main = ({route}: any) => {
         return (
             <Container>
                 <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
-                    <HeaderContainer>
-                        <Header/>
-                    </HeaderContainer>
-                    <View style={{flex: 8, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-
-                        <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-                            <BtnContainer>
-                                <MenuBtnDraw
-                                    cameFromTutorialTwo={route.params?.cameFromTutorialTwo}
-                                    onPress={() => {
-                                        console.log("ddddd");
-                                        navigation.navigate("PictureLobby", {});
-                                    }}
-                                >
-                                    <BtnImg
-                                        source={require("../../assets/button/home/HomePicMatch.png")}
-                                        resizeMode="contain"
-                                    />
-                                    <BtnText>그림 맞추기</BtnText>
-                                </MenuBtnDraw>
-                            </BtnContainer>
+                    <Header/>
+                    <MiddleSet>
+                        <MiddleSetRow>
                             <Box>
                                 <SpeechBubbleImg
-                                    source={require("../../assets/etc/tutoThree.png")}
+                                    source={require("../../assets/etc/tutorialFour.png")}
                                     resizeMode="contain">
                                     <TextTotutial>
-                                        그림 먼저 맞춰볼까?
+                                        스테이지를 {"\n"} 눌러보자
                                     </TextTotutial>
                                 </SpeechBubbleImg>
 
                             </Box>
-                        </View>
-                    </View>
+                            <BtnContainer>
+                                <MenuBtnDraw
+                                    cameFromTutorialTwo={route.params?.cameFromTutorialThree}
+                                    onPress={() => {
+                                        console.log("ddddd");
+                                        navigation.navigate("TutorialFive", {cameFromTutorialFour: true});
+                                    }}
+                                >
+                                    <BtnImg
+                                        source={require("../../assets/button/gameMode/stageModeBtn.png")}
+                                        resizeMode="contain"
+                                    />
+                                    <BtnText>스테이지</BtnText>
+                                </MenuBtnDraw>
+                            </BtnContainer>
+                        </MiddleSetRow>
+                    </MiddleSet>
                     <TestContainer>
                         <TouchableOpacity onPress={() => navigation.navigate("TutorialOne")}>
                             <Text>튜토리얼 1</Text>
@@ -69,8 +67,8 @@ const Main = ({route}: any) => {
                         </TouchableOpacity>
                     </TestContainer>
                 </ContainerBg>
-            </Container>
-        );
+            </Container>)
+            ;
     } else {
         return null;
     }
@@ -123,8 +121,8 @@ const ContentBox = styled.View`
 `;
 
 const BtnContainer = styled.View`
-  justify-content: flex-end;
-  align-items: flex-end;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex: 1;
 
 
@@ -142,8 +140,8 @@ const TextTotutial = styled.Text`
   font-weight: 400;
   font-size: 30px;
   color: #000000;
-  top: -5%;
-  right: 10%;
+  top: -8%;
+  left: 15%;
 `;
 
 
@@ -151,7 +149,7 @@ const BtnImg = styled.Image`
   max-width: 120px;
   max-height: 120px;
   margin-bottom: 5px;
-  
+
 `;
 
 //버튼의 글씨
@@ -162,4 +160,9 @@ const BtnText = styled.Text`
 `;
 
 
-
+const MiddleSetRow = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
