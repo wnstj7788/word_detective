@@ -92,7 +92,7 @@ const EmptyStar = styled.Image`
   position: absolute;
   top: -30px;
   right: -30px;
-  z-index: 10px;
+  z-index: 10;
 `;
 
 // 스테이지 카드

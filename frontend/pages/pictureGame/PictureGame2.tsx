@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageBackground, Platform } from "react-native";
+import { View, Text, Image, ImageBackground, Platform, Dimensions } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
@@ -14,7 +14,9 @@ import OXCard from "../components/OXCard";
 import { useState } from "react";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
-
+const { width, height } = Dimensions.get('window');
+const squareSize = width * 0.18;
+const miniCardSize = width * 0.18;
 const PictureGame2 = () => {
   const [count, setCount] = useState(0);
   const isLoaded = useCachedResources();
@@ -26,6 +28,7 @@ const PictureGame2 = () => {
     wordHidden: false, //글씨는 숨기지 않음
     wordHiddenIndx: 1, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
   };
+
   const answer = ["사과", "오렌지", "사과", "오렌지", "사과", "오렌지", "사과", "사과", "사과"];
 
   const newCards = answer.map(item => {
@@ -75,6 +78,7 @@ const PictureGame2 = () => {
                 <MiniCard word={newCards[count]} isFront={true}  isTouchable={false} onClick={()=>{
                   console.log();
                 }}/>
+
               </MiniCardContainer>
               <OXCardContainer>
                 <OXOneCard>
@@ -108,7 +112,7 @@ const QCardContainer = styled.View`
   align-items: center;
 `;
 const OXOneCard = styled.View`
-  margin:10%;
+  margin:7%;
 `
 const ACardContainer = styled.View`
   flex: 2;
@@ -127,13 +131,13 @@ const MiniCardContainer=styled.View`
   `;
 const BackGroundSquare = styled.View`
   position: absolute;
-  width: 27%;  
-  aspect-ratio: 1; 
+  width: 135px;
+  aspect-ratio: 1;
   border-radius: 20px;
   background-color: white;
   transform: rotate(-10deg);
-  z-index: -1;
   ${Platform.OS === 'android' && `
     elevation: 5;
   `}
 `;
+
