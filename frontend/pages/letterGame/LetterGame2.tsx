@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageBackground, TouchableOpacity, Animated, TouchableHighlight } from "react-native";
+import { View, Text, Image, ImageBackground, TouchableOpacity, Animated, TouchableHighlight, Platform } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute, useFocusEffect } from "@react-navigation/native";
@@ -23,7 +23,7 @@ const LetterGame2 = () =>{
   const isLoaded=useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
-  const {word} = route.params.word
+  const {word} = route.params
   const [isModalVisible, setModalVisible] = useState(false);
   const openModal = () => {
     setModalVisible(true);
@@ -79,7 +79,7 @@ const LetterGame2 = () =>{
         backdropTransitionOutTiming={0}
         statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
       >
-        <GameClearModal nextScreen="LetterLobby" word={word.word}></GameClearModal>
+        <GameClearModal nextScreen="LetterLobby" word={word}></GameClearModal>
 
       </Modal>
       <ContentContainer>
@@ -156,11 +156,14 @@ const ACardContainer = styled.View`
 `;
 
 const ACard = Animated.createAnimatedComponent(styled.View`
+  
   width: 100%;
   aspect-ratio: 1;
   background-color: white;
   margin: 2.9%;
-  elevation: 5;
+  ${Platform.OS === 'android' && `
+    elevation: 5;
+  `}
   border-radius: 20px;
   justify-content: center;
   align-items: center;
