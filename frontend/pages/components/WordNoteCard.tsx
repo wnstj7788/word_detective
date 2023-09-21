@@ -55,6 +55,7 @@ const WordNoteCard = (categoryType: { categoryType: number }) => {
       keyExtractor={item => item}
       renderItem={({ item }) => (
         <CardContainer>
+          <MainLogo source={require("../../assets/logo/mainLogo2.png")}></MainLogo>
           <CardImage source={getImage(item)}></CardImage>
           <CardText>{item}</CardText>
         </CardContainer>
@@ -67,10 +68,12 @@ const WordNoteCard = (categoryType: { categoryType: number }) => {
 export default WordNoteCard;
 
 const CardContainer = styled(BtnContainer)`
-  width: 150px;
+  width: 151px;
   height: 100%;
   background-color: white;
   border-radius: 30px;
+  border: 5px solid black;
+  padding: 0px;
 `;
 
 const Gap = styled.View`
@@ -78,9 +81,17 @@ const Gap = styled.View`
 `;
 
 const CardImage = styled.Image`
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
 `;
 const CardText = styled.Text`
-  font-size: 30px;
+  margin-top: 20px;
+  font-size: 40px;
+  font-family: "BMJUA";
+`;
+
+const MainLogo = styled.Image`
+  width: 70%;
+  position: absolute;
+  z-index: 100;
 `;

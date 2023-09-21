@@ -25,6 +25,7 @@ const WordNoteMain = () => {
   const changeCategory = (categoryType: number) => {
     setChangeCategorySignal(categoryType);
   };
+
   return (
     <Container>
       <ContainerBg source={wordNoteBgImage}>
@@ -33,7 +34,7 @@ const WordNoteMain = () => {
         </HeaderContainer>
 
         <WordNoteContainer>
-          <WordNoteList>
+          <WordNoteList categoryType={changeCategorySignal}>
             <WordNoteCard categoryType={changeCategorySignal} />
           </WordNoteList>
 
@@ -70,9 +71,16 @@ const WordNoteContainer = styled.View`
 `;
 
 // 단어카드 목록
-const WordNoteList = styled.View`
+const WordNoteList = styled.View<{ categoryType: number }>`
   flex: 8;
-  background-color: rgb(233, 203, 181);
+  background-color: ${props =>
+    props.categoryType === 1
+      ? "#fcceba" // 카테고리 1일 때 배경색
+      : props.categoryType === 2
+      ? "#93c996" // 카테고리 2일 때 배경색
+      : "#c3e5ef"};
+  border: 8px solid black;
+  border-right-width: 0px;
   border-radius: 50px 0px 0px 50px;
   padding: 15px 15px 15px 20px;
   flex-direction: row;
@@ -84,6 +92,8 @@ const WordNoteCategory = styled.View`
   background-color: rgb(244, 236, 216);
   border-radius: 0px 10px 10px 0px;
   justify-content: center;
+  border: 8px solid black;
+  border-left-width: 0px;
 `;
 
 // 단어장 카테고리 버튼 ( 과일, 동물, 사물 )

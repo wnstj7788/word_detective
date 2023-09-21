@@ -6,17 +6,17 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../App";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-const GameClearModal = ({ word, onClose, nextScreen }: any) => {
+const WordCardDetailModal = ({ word, onClose, nextScreen }: any) => {
   const click = () => {
     if (nextScreen) {
+      console.log(word);
       navigation.navigate(nextScreen, { word: { word } });
     }
   };
-
   const navigation = useNavigation<RootStackNavigationProp>();
   return (
     <ModelView>
-      <ChalkBoard source={require("../../assets/character/resultCharacter.png")}></ChalkBoard>
+      <ChalkBoard></ChalkBoard>
       <NextFlex>
         <Travel onPress={click}>
           <NextButton source={require("../../assets/button/resultNext.png")} />
@@ -27,10 +27,9 @@ const GameClearModal = ({ word, onClose, nextScreen }: any) => {
   );
 };
 
-export default GameClearModal;
+export default WordCardDetailModal;
 const SubText = styled.Text`
   color: white;
-
   font-family: "Hayanbunpil";
   letter-spacing: 2px;
   font-size: 18px;
@@ -47,7 +46,7 @@ const Travel = styled.TouchableOpacity`
   justify-content: flex-end;
   align-items: center;
 `;
-const ChalkBoard = styled.Image`
+const ChalkBoard = styled.View`
   position: absolute;
   height: 100%;
   resize-mode: contain;

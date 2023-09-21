@@ -34,9 +34,17 @@ const LetterGame1 = () => {
 
     Animated.sequence([
       Animated.timing(shakeAnimations[index], { toValue: 10, duration: 50, useNativeDriver: true }),
-      Animated.timing(shakeAnimations[index], { toValue: -10, duration: 100, useNativeDriver: true }),
-      Animated.timing(shakeAnimations[index], { toValue: 10, duration: 100, useNativeDriver: true }),
-      Animated.timing(shakeAnimations[index], { toValue: 0, duration: 50, useNativeDriver: true })
+      Animated.timing(shakeAnimations[index], {
+        toValue: -10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(shakeAnimations[index], {
+        toValue: 10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(shakeAnimations[index], { toValue: 0, duration: 50, useNativeDriver: true }),
     ]).start();
   };
 
@@ -56,9 +64,9 @@ const LetterGame1 = () => {
     setModalVisible(true);
   };
 
-  const closeModal = () =>{
-    setModalVisible(false)
-  }
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   //선지 8개의 배열
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
@@ -72,18 +80,6 @@ const LetterGame1 = () => {
 
   if (isLoaded) {
     return (
-        <ContainerBg source={require("../../assets/background/game/fruit.png")}>
-          <Modal
-            animationIn="slideInUp"
-            animationOut="slideOutDown"
-            backdropColor="rgba(0, 0, 0, 0.5)"
-            isVisible={isModalVisible}
-            onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
-            backdropTransitionOutTiming={0}
-            statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
-
-          >
-            <GameClearModal nextScreen="LetterGame2" word={word}></GameClearModal>
 
 
           </Modal>
@@ -101,12 +97,13 @@ const LetterGame1 = () => {
                     <ACard key={index} style={ { transform: [{ translateX: shakeAnimations[index] }] }}>
                     <StyledText>{choice}</StyledText>
                   </ACard>
-                  </ACardWrapper>
-                );
-              })}
-            </ACardContainer>
-          </ContentContainer>
-        </ContainerBg>
+                </TouchableOpacity>
+              );
+            })}
+          </ACardContainer>
+        </ContentContainer>
+      </ContainerBg>
+>>>>>>> Stashed changes
     );
   } else {
     return null;
@@ -133,7 +130,6 @@ const ACardContainer = styled.View`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  
 `;
 const ACardWrapper = styled.TouchableHighlight`
   width: 20%;
@@ -154,7 +150,6 @@ const ACard = styled(Animated.View)`
   border-radius: 20px;
   justify-content: center;
   align-items: center;
-  
 `;
 
 const StyledText = styled.Text`
@@ -163,5 +158,3 @@ const StyledText = styled.Text`
   text-align: center;
   justify-content: center;
 `;
-
-
