@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageBackground Platform } from "react-native";
+import { View, Text, Image, ImageBackground, Platform } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
@@ -72,7 +72,9 @@ const PictureGame2 = () => {
             <ACardContainer>
               <MiniCardContainer>
                 <BackGroundSquare/>
-                <MiniCard word={newCards[count]} isFront={true} />
+                <MiniCard word={newCards[count]} isFront={true}  isTouchable={false} onClick={()=>{
+                  console.log();
+                }}/>
               </MiniCardContainer>
               <OXCardContainer>
                 <OXOneCard>
