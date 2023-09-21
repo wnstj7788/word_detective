@@ -8,7 +8,8 @@ import Header from "../etc/Header";
 import {Container, ContainerBg, MenuBtn} from "../../styles/globalStyles";
 import React, {useEffect, useState} from "react";
 import MainModal from "../tutorial/MainModal";
-import Modal from "react-native-modal"; // 모달 패키지
+import Modal from "react-native-modal";
+import MiddleSet from "../components/MiddleSet"; // 모달 패키지
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const Main = ({route}: any) => {
@@ -24,18 +25,14 @@ const Main = ({route}: any) => {
         return (
             <Container>
                 <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
-                    <HeaderContainer>
-                        <Header/>
-                    </HeaderContainer>
-                    <View style={{flex: 8, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-
-                        <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+                    <Header/>
+                    <MiddleSet>
+                        <MiddleSetRow>
                             <BtnContainer>
                                 <MenuBtnDraw
                                     cameFromTutorialTwo={route.params?.cameFromTutorialTwo}
                                     onPress={() => {
-                                        console.log("ddddd");
-                                        navigation.navigate("PictureLobby", {});
+                                        navigation.navigate("TutorialFour", {cameFromTutorialThree: true});
                                     }}
                                 >
                                     <BtnImg
@@ -55,8 +52,9 @@ const Main = ({route}: any) => {
                                 </SpeechBubbleImg>
 
                             </Box>
-                        </View>
-                    </View>
+                        </MiddleSetRow>
+
+                    </MiddleSet>
                     <TestContainer>
                         <TouchableOpacity onPress={() => navigation.navigate("TutorialOne")}>
                             <Text>튜토리얼 1</Text>
@@ -78,12 +76,12 @@ const Main = ({route}: any) => {
 export default Main;
 
 
-//헤더 컨테이너
-const HeaderContainer = styled.View`
+const MiddleSetRow = styled.View`
   flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
-
-//버튼 컨테이너
 
 //헤더 컨테이너
 const TestContainer = styled.View`
@@ -151,7 +149,7 @@ const BtnImg = styled.Image`
   max-width: 120px;
   max-height: 120px;
   margin-bottom: 5px;
-  
+
 `;
 
 //버튼의 글씨
