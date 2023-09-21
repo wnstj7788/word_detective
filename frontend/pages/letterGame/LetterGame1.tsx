@@ -75,40 +75,7 @@ const LetterGame1 = () => {
   );
   if (isLoaded) {
     return (
-<<<<<<< Updated upstream
-        <ContainerBg source={require("../../assets/background/game/fruit.png")}>
-          <Modal
-            animationIn="slideInUp"
-            animationOut="slideOutDown"
-            backdropColor="rgba(0, 0, 0, 0.5)"
-            isVisible={isModalVisible}
-            onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
-            backdropTransitionOutTiming={0}
-            statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
 
-          >
-            <GameClearModal nextScreen="LetterGame2" word={word}></GameClearModal>
-
-
-          </Modal>
-          <ContentContainer>
-            <QCardContainer>
-              <QuestionCard word={word} type={Word1Type} />
-            </QCardContainer>
-            <ACardContainer>
-              {choiceList.map((choice, index) => {
-                return (
-                  <ACardWrapper style={{borderRadius:30 }} activeOpacity={0.6} underlayColor={"white"} onPress={() => handleCardClick(choice, index)}>
-                  <ACard key={index} style={{ transform: [{ translateX: shakeAnimations[index] }] }}>
-                    <StyledText>{choice}</StyledText>
-                  </ACard>
-                  </ACardWrapper>
-                );
-              })}
-            </ACardContainer>
-          </ContentContainer>
-        </ContainerBg>
-=======
       <ContainerBg source={require("../../assets/background/game/fruit.png")}>
         <Modal
           animationIn="slideInUp"
