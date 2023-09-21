@@ -6,22 +6,15 @@ import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import QuestionCard from "../components/QuestionCard";
-import MiniCard from "../components/MiniCard";
+import WordMiniCard from "../components/WordMiniCard";
 import { ICard, IWord } from "../../types/types";
 import { initialWord } from "../initialType";
 import { useEffect, useState } from "react";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
-type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
+type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame2">;
 
-//통글씨인식 첫번째문제 : 그림 맞추기
-const Word1Type: ICard = {
-  pictureHidden: true, //그림 숨기기
-  wordHidden: false, //글씨는 숨기지 않음
-  wordHiddenIndx: 0, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
-};
-
-const WordGame1 = () => {
+const WordGame2 = () => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
@@ -31,7 +24,7 @@ const WordGame1 = () => {
 
   //선지 8개의 배열
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
-  const choiceList = ["사과", "오렌지", "수박", "토마토", "체리", "바나나", "딸기", "사과"];
+  const choiceList = ["사과", "오렌지", "수박", "바나나", "딸기", "사과"];
   let testList: IWord[] = [];
   choiceList.map(word => {
     let tempStage: IWord = { ...initialWord }; //initialWord를 복사해서 사용
@@ -44,10 +37,6 @@ const WordGame1 = () => {
 
   useEffect(() => {
     console.log(clickedWord);
-    if (checkAnswer()) {
-      console.log("clear!");
-      navigation.navigate("WordGame2", { word: word });
-    }
   }, [clickedWord]);
 
   //미니카드 클릭했을 때 단어값 전달받기
@@ -66,39 +55,29 @@ const WordGame1 = () => {
           resizeMode="stretch"
         >
           <ContentContainer>
-            <QCardContainer>
-              <QuestionCard word={word} type={Word1Type} />
-            </QCardContainer>
             <ACardContainer>
               <ACardLine>
-                {testList.slice(0, 4).map((choice, index) => {
+                {testList.slice(0, 3).map((choice, index) => {
                   return (
                     <ACardFirst key={index}>
-                      <MiniCard
-                        word={choice}
-                        isFront={true}
-                        isTouchable={true}
-                        onClick={getMiniCardInfo}
-                      />
+                      <WordMiniCard word={choice} onClick={getMiniCardInfo} />
                     </ACardFirst>
                   );
                 })}
               </ACardLine>
               <ACardLine>
-                {testList.slice(4, 8).map((choice, index) => {
+                {testList.slice(3, 6).map((choice, index) => {
                   return (
                     <ACardSecond key={index}>
-                      <MiniCard
-                        word={choice}
-                        isFront={true}
-                        isTouchable={true}
-                        onClick={getMiniCardInfo}
-                      />
+                      <WordMiniCard word={choice} onClick={getMiniCardInfo} />
                     </ACardSecond>
                   );
                 })}
               </ACardLine>
             </ACardContainer>
+            <QCardContainer>
+              <Text>카드더미</Text>
+            </QCardContainer>
           </ContentContainer>
         </ContainerBg>
       </Container>
@@ -107,7 +86,7 @@ const WordGame1 = () => {
     return null;
   }
 };
-export default WordGame1;
+export default WordGame2;
 
 const ContentContainer = styled.View`
   flex: 1;

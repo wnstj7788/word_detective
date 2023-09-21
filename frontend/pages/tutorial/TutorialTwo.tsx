@@ -21,7 +21,7 @@ const Main = () => {
                     {/* <HeaderContainer>
                         <Header />
                     </HeaderContainer> */}
-                    <TouchableWithoutFeedback onPress={() => navigation.navigate('Main', {cameFromTutorialTwo: true})}>
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate('TutorialThree', {cameFromTutorialTwo: true})}>
                         <MiddleSet>
                             <ContentBox>
                                 <SpeechBubbleImg

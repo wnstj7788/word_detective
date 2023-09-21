@@ -54,36 +54,14 @@ const StageCard = (props: { stage: IStage; gameType: string }) => {
         }}
       >
         {props.stage.clear ? (
-          <Image
-            source={require("../../assets/etc/star1.png")}
-            style={{ position: "absolute", top: -30, right: -30, zIndex: 10 }}
-          />
+          <FullStar source={require("../../assets/etc/star1.png")} />
         ) : (
-          <Image
-            source={require("../../assets/etc/star2.png")}
-            style={{ position: "absolute", top: -30, right: -30, zIndex: 10 }}
-          />
+          <EmptyStar source={require("../../assets/etc/star2.png")} />
         )}
-        <View
-          style={{
-            width: 140,
-            height: 140,
-            backgroundColor: "beige",
-            borderRadius: 20,
-            marginBottom: 20,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Image
-            source={getImage(props.stage.word.name)}
-            style={{ width: 120, height: 120 }}
-            resizeMode={"contain"}
-          ></Image>
-        </View>
-        <Text key={props.stage.word.name} style={{ fontSize: 40, fontFamily: "BMJUA" }}>
-          {props.stage.word.name}
-        </Text>
+        <StageImgWrap>
+          <StageImg source={getImage(props.stage.word.name)} resizeMode={"contain"}></StageImg>
+        </StageImgWrap>
+        <StageText key={props.stage.word.name}>{props.stage.word.name}</StageText>
       </CardContainer>
     );
   } else {
@@ -92,13 +70,48 @@ const StageCard = (props: { stage: IStage; gameType: string }) => {
 };
 export default StageCard;
 
+// 스테이지 카드 전체 Container
 const CardContainer = styled(BtnContainer)`
   width: 168px;
   height: 251px;
   background-color: white;
   margin: 30px;
-
   border-radius: 20px;
   elevation: 5;
   shadow-radius: 20px;
+`;
+
+// 스테이지 별
+const FullStar = styled.Image`
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  z-index: 10px;
+`;
+const EmptyStar = styled.Image`
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  z-index: 10px;
+`;
+
+// 스테이지 카드
+const StageImgWrap = styled.View`
+  width: 140px;
+  height: 140px;
+  background-color: beige;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StageImg = styled.Image`
+  width: 120px;
+  height: 120px;
+`;
+
+const StageText = styled.Text`
+  font-size: 40px;
+  font-family: "BMJUA";
 `;

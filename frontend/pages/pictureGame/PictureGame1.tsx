@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageBackground } from "react-native";
+import { View, Text, Image, ImageBackground, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
@@ -6,15 +6,23 @@ import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
-import Canvas from "../wordGame/Canvas";
+import Canvas from "./Canvas";
+import QuestionCard from "../components/QuestionCard";
+import { ICard } from "../../types/types";
+
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
-type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
+type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame1">;
 
 const PictureGame1 = () => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
   const { word } = route.params;
+  const Word1Type: ICard = {
+    pictureHidden: false, //그림 숨기기
+    wordHidden: false, //글씨는 숨기지 않음
+    wordHiddenIndx: 1, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
+  };
 
   if (isLoaded) {
     return (
@@ -22,13 +30,16 @@ const PictureGame1 = () => {
         <ContainerBg source={require("../../assets/background/game/fruit.png")}>
           <ContentContainer>
             <QCardContainer>
-              <Text>카드영역</Text>
+              <QuestionCard word={word} type={Word1Type} />
             </QCardContainer>
             <ACardContainer>
               <Canvas />
             </ACardContainer>
           </ContentContainer>
         </ContainerBg>
+        <TouchableOpacity onPress={() => navigation.navigate("PictureGame2", { word: word })}>
+          <Text>next</Text>
+        </TouchableOpacity>
       </Container>
     );
   } else {

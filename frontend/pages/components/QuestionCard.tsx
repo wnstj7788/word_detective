@@ -42,6 +42,7 @@ const QuestionCard = (props: { word: IWord; type: ICard }) => {
   }
   //TODO: 이미지 소스는 임시로 사과로 세팅해둠(일단 과일만 정상작동하게 변경했음)
   if (isLoaded) {
+    console.log(props.word.name+"letter");
     return (
       <CardContainer>
         <ImgContainer>
@@ -92,12 +93,9 @@ const CardContainer = styled(Container)`
   ${Platform.select({
     ios: css`
       shadow-color: black;
-      shadow-offset: {
-	    width: 0,
-	    height: 2,
-      };
+      shadow-offset: 0px 2px;
       shadow-opacity: 0.5;
-      shadow-radius: 10;
+      shadow-radius: 10px;
     `,
     android: css`
       elevation: 5;
