@@ -8,6 +8,8 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.backend.entity.Photo;
 import com.ssafy.backend.entity.User;
 import com.ssafy.backend.entity.Word;
+import com.ssafy.backend.exception.CustomException;
+import com.ssafy.backend.exception.ErrorCode;
 import com.ssafy.backend.repository.PhotoRepository;
 import com.ssafy.backend.repository.UserRepository;
 import com.ssafy.backend.repository.WordRepository;
@@ -35,11 +37,11 @@ public class S3Service {
     @Transactional
     public String uploadFile(Long userId, Long wordId, MultipartFile file) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new IllegalArgumentException("해당 유저가 없습니다.")
+                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
 
         Word word = wordRepository.findById(wordId).orElseThrow(
-                () -> new IllegalArgumentException("해당 단어가 없습니다.")
+                () -> new CustomException(ErrorCode.WORD_NOT_FOUND)
         );
         Photo prePhoto = photoRepository.findByUserAndWord(user, word).orElse(null);
 
@@ -76,10 +78,10 @@ public class S3Service {
             try {
                 s3.deleteObject(bucket, key);
             } catch (AmazonServiceException e) {
-                e.printStackTrace();
+                throw new CustomException(ErrorCode.FILE_NOT_FOUND);
             }
         } catch (Exception exception) {
-            throw new IllegalArgumentException("해당 파일이 없습니다.");
+            throw new CustomException(ErrorCode.FILE_NOT_FOUND);
         }
     }
 }

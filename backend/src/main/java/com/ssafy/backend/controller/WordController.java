@@ -20,7 +20,7 @@ public class WordController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<WordResponseDto>> getWordByRandom(@RequestParam String answer, @RequestParam Long cnt) {
-        return ResponseEntity.ok(wordService.getWordByRandom(answer, cnt));
+    public ResponseEntity<List<WordResponseDto>> getWordByRandom(@RequestParam String answer, @RequestParam Long correctCnt, @RequestParam Long randCnt) {
+        return ResponseEntity.ok(wordService.getWordByRandom(answer, correctCnt, randCnt));
     }
 }
