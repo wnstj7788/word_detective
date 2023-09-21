@@ -91,9 +91,7 @@ const PictureGame3 = () => {
               </ACardLine>
             </ACardContainer>
             <QCardContainer>
-              <QCardContainer>
-                <MiniCard word={word} type={Word1Type} />
-              </QCardContainer>
+              <QCardContainer></QCardContainer>
             </QCardContainer>
           </ContentContainer>
         </ContainerBg>
