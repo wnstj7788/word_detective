@@ -70,19 +70,13 @@ const WordNoteCard = (props: { categoryType: number; callbackprop(data: string):
           }}
         >
           <MainLogo source={require("../../assets/logo/mainLogo2.png")}></MainLogo>
+
           <CardImage source={getImage(item)}></CardImage>
+
           <CardText>{item}</CardText>
         </CardContainer>
       )}
       ItemSeparatorComponent={() => <Gap />}
-      // 모달 컴포넌트 추가
-      ListFooterComponent={
-        <WordCardDetailModal
-          isVisible={modalVisible}
-          onClose={() => setModalVisible(false)}
-          item={selectedItem}
-        />
-      }
     />
   );
 };
@@ -96,6 +90,9 @@ const CardContainer = styled(BtnContainer)`
   border-radius: 30px;
   border: 5px solid black;
   padding: 0px;
+  justify-self: center;
+  box-sizing: content-box;
+  align-content: center;
 `;
 
 const Gap = styled.View`
@@ -106,7 +103,9 @@ const CardImage = styled.Image`
   width: 70%;
   height: 50%;
   top: 20px;
+  z-index: 3;
 `;
+
 const CardText = styled.Text`
   margin-top: 20px;
   font-size: 40px;
