@@ -15,7 +15,13 @@ public enum ErrorCode {
     // 이미 존재할때
     ALREADY_EXIST("ALREADY_EXIST", "이미 존재함"),
     // 권한이 없을때
-    UNAUTHORIZED("UNAUTHORIZED", "권한 없음");
+    UNAUTHORIZED("UNAUTHORIZED", "권한 없음"),
+    // 해당 유저가 없을때
+    USER_NOT_FOUND("USER_NOT_FOUND", "해당 유저가 없음"),
+    // 해당 단어가 없을때
+    WORD_NOT_FOUND("WORD_NOT_FOUND", "해당 단어가 없음"),
+    // 해당 파일이 없을때
+    FILE_NOT_FOUND("FILE_NOT_FOUND", "해당 파일이 없음")
 
     private final String code;
     private final String description;
