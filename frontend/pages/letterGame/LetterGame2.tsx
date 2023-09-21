@@ -78,7 +78,7 @@ const LetterGame2 = () =>{
         backdropTransitionOutTiming={0}
         statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
       >
-        <GameClearModal nextScreen="LetterLobby" word={word}></GameClearModal>
+        <GameClearModal nextScreen="LetterGame3" word={word}></GameClearModal>
 
       </Modal>
       <ContentContainer>
@@ -122,19 +122,20 @@ const LetterGame2 = () =>{
   )
 }
 const ACardWrapper = styled.TouchableHighlight`
-  width: 20%;
+  width: 17%;
   aspect-ratio: 1;
   margin: 2.9%;
   border-radius: 20px;
   justify-content: center;
   align-items: center;
+  
 `;
 const BCardContainer = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
   text-align: center;
-  top: 3%; 
+  top: 3%;
 `;
 const CardsContainer = styled.View`
   flex : 2;
@@ -144,14 +145,15 @@ const QCardContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  
 `;
 const ACardContainer = styled.View`
   flex: 2;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  
+  width: 100%;
 `;
 
 const ACard = Animated.createAnimatedComponent(styled.View`
@@ -159,7 +161,7 @@ const ACard = Animated.createAnimatedComponent(styled.View`
   width: 100%;
   aspect-ratio: 1;
   background-color: white;
-  margin: 2.9%;
+  margin: 2%;
   ${Platform.OS === 'android' && `
     elevation: 5;
   `}
