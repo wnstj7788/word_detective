@@ -15,10 +15,11 @@ const Header = () => {
     setSoundOn(!isSoundOn);
   };
 
+
   return (
     <Container>
       <HeaderLeft>
-        <HeaderBtn onPress={() => navigation.navigate("Main")}>
+        <HeaderBtn onPress={() => navigation.navigate("Main",{})}>
           <Image source={require("../../assets/button/header/headerHomeBtn.png")} />
         </HeaderBtn>
         <HeaderBtn onPress={() => navigation.navigate("WordNoteMain")}>

@@ -17,7 +17,7 @@ import WordGame2 from "./pages/wordGame/WordGame2";
 import LetterLobby from "./pages/letterGame/LetterLobby";
 import LetterGame1 from "./pages/letterGame/LetterGame1";
 import LetterGame2 from "./pages/letterGame/LetterGame2";
-
+import LetterGame3 from "./pages/letterGame/LetterGame3";
 import WordNoteMain from "./pages/wordNote/WordNoteMain";
 import Stage from "./pages/etc/Stage";
 import TutorialOne from "./pages/tutorial/TutorialOne";
@@ -64,6 +64,9 @@ export type RootStackParamList = {
   LetterGame2: {
     word: IWord;
   };
+  LetterGame3:{
+    word: IWord;
+  }
   MiniCard:{
     word: IWord;
     isFront:boolean;
@@ -115,6 +118,7 @@ export default function App() {
         <Stack.Screen name="WordLobby" component={WordLobby} />
         <Stack.Screen name="WordGame1" component={WordGame1} />
         <Stack.Screen name="WordGame2" component={WordGame2} />
+        <Stack.Screen name="LetterGame3" component={LetterGame3}/>
         <Stack.Screen name="LetterLobby" component={LetterLobby} />
         <Stack.Screen name="LetterGame1" component={LetterGame1} />
         <Stack.Screen name="LetterGame2" component={LetterGame2} />
