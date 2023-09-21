@@ -64,7 +64,6 @@ const LetterGame2 = () =>{
       shakeAnimation(index);
     }
   };
-  console.log(word)
   const syllable=[...word.name];
   const animValues = choiceList.map(() => new Animated.Value(0));
 
