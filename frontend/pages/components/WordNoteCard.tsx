@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import { Text, FlatList, Image } from "react-native";
+import { Text, FlatList, Image, TouchableOpacity, Modal } from "react-native";
 import { BtnContainer } from "../../styles/globalStyles";
 import styled from "styled-components/native";
 import { IStage } from "../../types/types";
 import { current } from "@reduxjs/toolkit";
 
-const WordNoteCard = (categoryType: { categoryType: number }) => {
+// 모달
+import WordCardDetailModal from "./WordCardDetailModal";
+const WordNoteCard = (props: { categoryType: number; callbackprop(data: string): void }) => {
   let currentWordList;
 
   const wordList = ["사과", "오렌지", "수박", "토마토", "체리", "바나나", "딸기", "멜론"];
   const wordList2 = ["판다", "고양이", "강아지", "코끼리", "토끼", "원숭이", "달팽이", "사자"];
   const wordList3 = ["연필", "가위", "지우개", "만년필", "그릇", "키보드", "마우스", "의자"];
   // console.log(num.num);
-  switch (categoryType.categoryType) {
+  switch (props.categoryType) {
     case 1:
       currentWordList = wordList;
       break;
@@ -48,19 +50,39 @@ const WordNoteCard = (categoryType: { categoryType: number }) => {
     }
   }
 
+  // 모달 열기를 위한 상태와 선택된 아이템 상태 추가
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState("");
+
   return (
     <FlatList
       horizontal={true}
       data={currentWordList}
       keyExtractor={item => item}
       renderItem={({ item }) => (
-        <CardContainer>
+        <CardContainer
+          onPress={() => {
+            console.log(props.callbackprop);
+            props.callbackprop(item);
+
+            setSelectedItem(item);
+            setModalVisible(true);
+          }}
+        >
           <MainLogo source={require("../../assets/logo/mainLogo2.png")}></MainLogo>
           <CardImage source={getImage(item)}></CardImage>
           <CardText>{item}</CardText>
         </CardContainer>
       )}
       ItemSeparatorComponent={() => <Gap />}
+      // 모달 컴포넌트 추가
+      ListFooterComponent={
+        <WordCardDetailModal
+          isVisible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          item={selectedItem}
+        />
+      }
     />
   );
 };
@@ -81,8 +103,9 @@ const Gap = styled.View`
 `;
 
 const CardImage = styled.Image`
-  width: 90px;
-  height: 90px;
+  width: 70%;
+  height: 50%;
+  top: 20px;
 `;
 const CardText = styled.Text`
   margin-top: 20px;
@@ -91,7 +114,10 @@ const CardText = styled.Text`
 `;
 
 const MainLogo = styled.Image`
-  width: 70%;
+  width: 60%;
+  height: 40%;
+  top: -5px;
+  right: 55px;
   position: absolute;
   z-index: 100;
 `;
