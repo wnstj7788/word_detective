@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class S3Service {
     private final WordRepository wordRepository;
 
     @Transactional
-    public String uploadFile(Long userId, Long wordId, MultipartFile file) throws IOException {
+    public String uploadFile(UUID userId, Long wordId, MultipartFile file) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
