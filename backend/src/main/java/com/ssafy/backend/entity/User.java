@@ -1,9 +1,13 @@
 package com.ssafy.backend.entity;
 
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Getter
 @Entity
@@ -12,12 +16,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false)
-    private Long id;
-
-    @Column(name = "email", nullable = false, length = 330)
-    private String email;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "user_id", columnDefinition = "BINARY(16)")
+    private UUID id;
 
     @Column(name = "picture")
     private Integer picture;
@@ -28,6 +30,11 @@ public class User {
     @Column(name = "letter")
     private Integer letter;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @PrePersist
+    private void prePersist() {
+        this.id = UUID.randomUUID();
+        this.picture = 0;
+        this.word = 0;
+        this.letter = 0;
+    }
 }
