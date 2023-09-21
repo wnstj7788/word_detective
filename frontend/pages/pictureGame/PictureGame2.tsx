@@ -1,4 +1,4 @@
-import { View, Text, Image, ImageBackground } from "react-native";
+import { View, Text, Image, ImageBackground, Platform } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
@@ -70,10 +70,19 @@ const PictureGame2 = () => {
               </QCardContainer>
             </QCardContainer>
             <ACardContainer>
-              <MiniCard word={newCards[count]} isFront={true} />
+              <MiniCardContainer>
+                <BackGroundSquare/>
+                <MiniCard word={newCards[count]} isFront={true}  isTouchable={false} onClick={()=>{
+                  console.log();
+                }}/>
+              </MiniCardContainer>
               <OXCardContainer>
+                <OXOneCard>
                 <OXCard word={word} isFront={true} onPress={() => oAnswerCheck()} />
+                </OXOneCard>
+                <OXOneCard>
                 <OXCard word={word} isFront={false} onPress={() => xAnswerCheck()} />
+                </OXOneCard>
               </OXCardContainer>
             </ACardContainer>
           </ContentContainer>
@@ -98,7 +107,9 @@ const QCardContainer = styled.View`
   justify-content: center;
   align-items: center;
 `;
-
+const OXOneCard = styled.View`
+  margin:10%;
+`
 const ACardContainer = styled.View`
   flex: 2;
   justify-content: center;
@@ -108,4 +119,21 @@ const OXCardContainer = styled.View`
   flex: 1;
   flex-direction: row;
   justify-content: space-around;
+  align-items: center;
+`;
+const MiniCardContainer=styled.View`
+  margin-top: 5%;
+  position:relative;
+  `;
+const BackGroundSquare = styled.View`
+  position: absolute;
+  width: 27%;  
+  aspect-ratio: 1; 
+  border-radius: 20px;
+  background-color: white;
+  transform: rotate(-10deg);
+  z-index: -1;
+  ${Platform.OS === 'android' && `
+    elevation: 5;
+  `}
 `;

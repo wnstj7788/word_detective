@@ -28,7 +28,7 @@ import TutorialThree from "./pages/tutorial/TutorialThree";
 export type RootStackParamList = {
   Home: undefined;
   Main: {
-    cameFromTutorialTwo: boolean;
+    cameFromTutorialTwo?: boolean;
   };
   Login: undefined;
   Stage: {
@@ -57,6 +57,10 @@ export type RootStackParamList = {
   LetterGame2: {
     word: IWord;
   };
+  MiniCard:{
+    word: IWord;
+    isFront:boolean;
+  }
   WordNoteMain: undefined;
   TutorialOne: undefined;
   TutorialTwo: undefined;
