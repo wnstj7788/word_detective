@@ -33,30 +33,37 @@ const WordGame2 = () => {
 
   const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
 
-  //선지 8개의 배열
+  //선지 6개의 배열
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
   const choiceList = ["사과", "오렌지", "수박", "바나나", "딸기", "사과"];
+  const dropRandList = shuffleArray(choiceList);
+  const dragRandList = shuffleArray(choiceList);
+
   let dropList: IWord[] = []; //드롭될 위치들
   let dragList: IWord[] = []; //드래그할 카드들
-  choiceList.map(word => {
-    let tempStage: IWord = { ...initialWord }; //initialWord를 복사해서 사용
-    tempStage.name = word;
+  dropRandList.map((word, index) => {
+    // let tempStage: IWord = { ...initialWord }; //initialWord를 복사해서 사용
+    // tempStage.name = word;
     dropList.push({
       name: word,
       imgSrc: "",
+      index: index,
     });
+  });
+  dragRandList.map((word, index) => {
     dragList.push({
       name: word,
       imgSrc: "",
+      index: index,
     });
   });
 
-  const [shuffledDropList] = useState<IWord[]>(shuffleArray(dropList)); //리스트를 섞기
-  const [shuffledDragList] = useState<IWord[]>(shuffleArray(dragList)); //리스트를 섞기
+  const [shuffledDropList, setShuffledDropList] = useState<IWord[]>(dropList); //리스트를 섞기
+  const [shuffledDragList, setShuffledDragList] = useState<IWord[]>(dragList); //리스트를 섞기
 
-  useEffect(() => {
-    console.log(clickedWord);
-  }, [clickedWord]);
+  // useEffect(() => {
+  //   console.log(shuffledDragList);
+  // }, [shuffledDragList]);
 
   //미니카드 클릭했을 때 단어값 전달받기
   const getMiniCardInfo = (word: IWord) => {
@@ -85,10 +92,13 @@ const WordGame2 = () => {
                             console.log("들오옴!!");
                           }}
                           onDrop={({ payload }) => {
-                            console.log(
-                              "Draggable with the following payload was dropped",
-                              payload
-                            );
+                            if (choice.name === payload.name) {
+                              console.log("정답!!!", payload);
+                              const updatedDragList = shuffledDragList.filter(
+                                item => item !== payload
+                              );
+                              setShuffledDragList(updatedDragList);
+                            }
                           }}
                         >
                           {({ active, viewProps }) => {
@@ -100,6 +110,8 @@ const WordGame2 = () => {
                                     width: "100%",
                                     height: "100%",
                                     backgroundColor: active ? "blue" : "green",
+                                    justifyContent: "center",
+                                    alignItems: "center",
                                   },
                                 ]}
                               >
@@ -121,10 +133,13 @@ const WordGame2 = () => {
                             console.log("들오옴!!");
                           }}
                           onDrop={({ payload }) => {
-                            console.log(
-                              "Draggable with the following payload was dropped",
-                              payload
-                            );
+                            if (choice.name === payload.name) {
+                              console.log("정답!!!", payload);
+                              const updatedDragList = shuffledDragList.filter(
+                                item => item !== payload
+                              );
+                              setShuffledDragList(updatedDragList);
+                            }
                           }}
                         >
                           {({ active, viewProps }) => {
@@ -136,6 +151,8 @@ const WordGame2 = () => {
                                     width: "100%",
                                     height: "100%",
                                     backgroundColor: active ? "blue" : "green",
+                                    justifyContent: "center",
+                                    alignItems: "center",
                                   },
                                 ]}
                               >
@@ -152,13 +169,23 @@ const WordGame2 = () => {
               <QCardContainer>
                 {shuffledDragList.map((dragCard, index) => {
                   return (
-                    <MiniCard
-                      word={dragCard}
-                      isFront={true}
-                      isTouchable={false}
-                      onClick={getMiniCardInfo}
-                      draggable={Draggable}
-                    />
+                    <View
+                      style={{
+                        position: "absolute",
+                        top: -60,
+                        left: 0,
+                        zIndex: index,
+                        // transform: `rotate(${3 * index}deg)`,
+                      }}
+                    >
+                      <MiniCard
+                        word={dragCard}
+                        isFront={true}
+                        isTouchable={false}
+                        onClick={getMiniCardInfo}
+                        draggable={Draggable}
+                      />
+                    </View>
                   );
                 })}
               </QCardContainer>
