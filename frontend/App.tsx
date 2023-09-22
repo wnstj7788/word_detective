@@ -27,6 +27,7 @@ import TutorialThree from "./pages/tutorial/TutorialThree";
 import TutorialFour from "./pages/tutorial/TutorialFour";
 import TutorialFive from "./pages/tutorial/TutorialFive";
 import CameraCon from "./pages/tutorial/CameraCon";
+import LetterCanvas from "./pages/letterGame/LetterCanvas";
 
 //네비게이션 관련 타입. 넘겨줄 인자가 없으면 undefined, 있으면 객체로 써주기
 export type RootStackParamList = {
@@ -91,7 +92,9 @@ export type RootStackParamList = {
 
   CameraCon : undefined;
 
-
+  LetterCanvas: {
+    list:string[];
+  }
 
 
 };
@@ -129,6 +132,7 @@ export default function App() {
         <Stack.Screen name="TutorialFour" component={TutorialFour} />
         <Stack.Screen name="TutorialFive" component={TutorialFive} />
         <Stack.Screen name="CameraCon" component={CameraCon} />
+        <Stack.Screen name="LetterCanvas" component={LetterCanvas}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
