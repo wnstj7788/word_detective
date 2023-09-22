@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, FlatList, Image, TouchableOpacity, Modal } from "react-native";
+import { Text, FlatList, Image, TouchableOpacity, View, Modal } from "react-native";
 import { BtnContainer } from "../../styles/globalStyles";
 import styled from "styled-components/native";
 import { IStage } from "../../types/types";
@@ -64,16 +64,18 @@ const WordNoteCard = (props: { categoryType: number; callbackprop(data: string):
           onPress={() => {
             console.log(props.callbackprop);
             props.callbackprop(item);
-
             setSelectedItem(item);
             setModalVisible(true);
           }}
+          style={{ width: 150 }}
         >
           <MainLogo source={require("../../assets/logo/mainLogo2.png")}></MainLogo>
-
-          <CardImage source={getImage(item)}></CardImage>
-
-          <CardText>{item}</CardText>
+          <CardInnerContainer>
+            <ViewTest>
+              <CardImage source={getImage(item)} resizeMode="center"></CardImage>
+            </ViewTest>
+            <CardText>{item}</CardText>
+          </CardInnerContainer>
         </CardContainer>
       )}
       ItemSeparatorComponent={() => <Gap />}
@@ -84,15 +86,19 @@ const WordNoteCard = (props: { categoryType: number; callbackprop(data: string):
 export default WordNoteCard;
 
 const CardContainer = styled(BtnContainer)`
-  width: 151px;
+  width: 150px;
   height: 100%;
   background-color: white;
-  border-radius: 30px;
   border: 5px solid black;
-  padding: 0px;
-  justify-self: center;
-  box-sizing: content-box;
-  align-content: center;
+  border-radius: 20px 20px 0px 20px;
+`;
+const CardInnerContainer = styled.View`
+  background-color: beige;
+  width: 90%;
+  height: 88%;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  padding-top: 20px;
 `;
 
 const Gap = styled.View`
@@ -100,16 +106,17 @@ const Gap = styled.View`
 `;
 
 const CardImage = styled.Image`
-  width: 70%;
-  height: 50%;
-  top: 20px;
-  z-index: 3;
+  width: 90%;
+  height: 90%;
+  left: 6px;
+  top: 6px;
 `;
 
 const CardText = styled.Text`
-  margin-top: 20px;
   font-size: 40px;
   font-family: "BMJUA";
+  flex: 1;
+  text-align: center;
 `;
 
 const MainLogo = styled.Image`
@@ -119,4 +126,8 @@ const MainLogo = styled.Image`
   right: 55px;
   position: absolute;
   z-index: 100;
+`;
+
+const ViewTest = styled.View`
+  flex: 2;
 `;

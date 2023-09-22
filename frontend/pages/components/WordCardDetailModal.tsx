@@ -32,59 +32,92 @@ const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, on
   return (
     <ModalContainer>
       <ModalLeft>
-        {/* <WordTitle>{item}</WordTitle> */}
-        <WordCardCard source={require("../../assets/card/wordCard1.png")} resizeMode="stretch">
+        <WordCardDesign source={require("../../assets/card/wordCard1.png")} resizeMode="stretch">
           <WordImg source={getImage(item)}></WordImg>
-        </WordCardCard>
-        {/* <TouchableOpacity onPress={onClose}>
-          <ModalCloseText>닫기</ModalCloseText>
-        </TouchableOpacity> */}
+        </WordCardDesign>
       </ModalLeft>
-      <ModalRight></ModalRight>
+
+      <ModalRight>
+        <WordStampDesign source={require("../../assets/card/wordCard2.png")}>
+          <WordTitle>{item}</WordTitle>
+          <ModalCloseBtn onPress={onClose}>
+            <ModalCloseBtnImg source={require("../../assets/etc/closeImg.png")}></ModalCloseBtnImg>
+          </ModalCloseBtn>
+        </WordStampDesign>
+      </ModalRight>
     </ModalContainer>
   );
 };
 
 export default WordCardDetailModal;
 
+// Modal Container
 const ModalContainer = styled.View`
   flex-direction: row;
 `;
 
+// Modal Container 왼쪽 영역 ( 카드 이미지 )
 const ModalLeft = styled.View`
   border-radius: 10px;
   padding: 20px;
   height: 300px;
   border-radius: 0px;
   flex: 3;
+  border: 5px solid black;
 `;
 
-const WordCardCard = styled.ImageBackground`
+const WordCardDesign = styled.ImageBackground`
   width: 270px;
   height: 350px;
   position: absolute;
   top: -20px;
   left: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 const WordImg = styled.Image`
   width: 65%;
   height: 50%;
-  top: 70px;
-  left: 50px;
   z-index: 3;
   transform: rotate(10deg);
 `;
 
+// Modal Container 오른쪽 영역 ( 도장 )
 const ModalRight = styled.View`
-  background-color: coral;
-  height: 300px;
   border-radius: 0px;
-  flex: 2;
+  flex: 3;
+  border-radius: 10px;
+  padding: 20px;
+  border-radius: 0px;
+  border: 5px solid black;
+`;
+const WordStampDesign = styled.ImageBackground`
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid red;
+`;
+const ModalCloseBtn = styled.TouchableOpacity`
+  width: 20%;
+  height: 20%;
+  border: 1px solid black;
+  justify-content: flex-end;
+`;
+
+const ModalCloseBtnImg = styled.Image`
+  width: 100%;
+  height: 100%;
 `;
 
 const WordTitle = styled.Text`
-  font-size: 120px;
+  border: 1px solid blue;
+  font-size: 60px;
   font-family: "BMJUA";
+  text-align: center;
+  text-shadow-color: white; /* 텍스트 테두리 색상 */
+  text-shadow-offset: 2px 2px; /* 텍스트 테두리 오프셋 (x, y) */
+  text-shadow-radius: 2px; /* 텍스트 테두리 반지름 */
 `;
-
-const ModalCloseText = styled.Text``;
