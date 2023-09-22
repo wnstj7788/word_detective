@@ -12,6 +12,7 @@ import { initialWord } from "../initialType";
 import { useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import GameClearModal from "../components/GameClearModal";
+import useShuffle from "../../hooks/useShuffle";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
@@ -44,6 +45,8 @@ const WordGame1 = () => {
       imgSrc: "",
     });
   });
+
+  const shuffledChoiceList = useShuffle(testList);
 
   //클릭하면 정답인지 확인
   useEffect(() => {
@@ -87,7 +90,7 @@ const WordGame1 = () => {
             </QCardContainer>
             <ACardContainer>
               <ACardLine>
-                {testList.slice(0, 4).map((choice, index) => {
+                {shuffledChoiceList.slice(0, 4).map((choice, index) => {
                   return (
                     <ACardFirst key={index}>
                       <MiniCard
@@ -101,7 +104,7 @@ const WordGame1 = () => {
                 })}
               </ACardLine>
               <ACardLine>
-                {testList.slice(4, 8).map((choice, index) => {
+                {shuffledChoiceList.slice(4, 8).map((choice, index) => {
                   return (
                     <ACardSecond key={index}>
                       <MiniCard
