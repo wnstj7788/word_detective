@@ -123,7 +123,6 @@ export default function App() {
         <Stack.Screen name="WordGame1" component={WordGame1} />
         <Stack.Screen name="WordGame2" component={WordGame2} />
         <Stack.Screen name="WordGame3" component={WordGame3} />
-        <Stack.Screen name="WordCanvas" component={WordCanvas} />
         <Stack.Screen name="LetterGame3" component={LetterGame3} />
         <Stack.Screen name="LetterLobby" component={LetterLobby} />
         <Stack.Screen name="LetterGame1" component={LetterGame1} />
@@ -135,7 +134,6 @@ export default function App() {
         <Stack.Screen name="TutorialFour" component={TutorialFour} />
         <Stack.Screen name="TutorialFive" component={TutorialFive} />
         <Stack.Screen name="CameraCon" component={CameraCon} />
-        <Stack.Screen name="LetterCanvas" component={LetterCanvas} />
       </Stack.Navigator>
     </NavigationContainer>
   );
