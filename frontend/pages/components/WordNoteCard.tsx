@@ -67,13 +67,12 @@ const WordNoteCard = (props: { categoryType: number; callbackprop(data: string):
             setSelectedItem(item);
             setModalVisible(true);
           }}
-          style={{ width: 150 }}
         >
           <MainLogo source={require("../../assets/logo/mainLogo2.png")}></MainLogo>
           <CardInnerContainer>
-            <ViewTest>
-              <CardImage source={getImage(item)} resizeMode="center"></CardImage>
-            </ViewTest>
+            <CardImageWrap>
+              <CardImage source={getImage(item)} resizeMode="contain"></CardImage>
+            </CardImageWrap>
             <CardText>{item}</CardText>
           </CardInnerContainer>
         </CardContainer>
@@ -86,17 +85,18 @@ const WordNoteCard = (props: { categoryType: number; callbackprop(data: string):
 export default WordNoteCard;
 
 const CardContainer = styled(BtnContainer)`
-  width: 150px;
-  height: 100%;
+  flex: 1;
+  aspect-ratio: 3/4;
   background-color: white;
   border: 5px solid black;
   border-radius: 20px 20px 0px 20px;
+  justify-content: center;
+  align-items: center;
 `;
 const CardInnerContainer = styled.View`
   background-color: beige;
   width: 90%;
-  height: 88%;
-  margin-bottom: 10px;
+  height: 80%;
   border-radius: 20px;
   padding-top: 20px;
 `;
@@ -106,28 +106,26 @@ const Gap = styled.View`
 `;
 
 const CardImage = styled.Image`
-  width: 90%;
-  height: 90%;
-  left: 6px;
-  top: 6px;
+  width: 100%;
+  height: 100%;
 `;
 
 const CardText = styled.Text`
+  flex: 1;
   font-size: 40px;
   font-family: "BMJUA";
-  flex: 1;
   text-align: center;
 `;
 
 const MainLogo = styled.Image`
   width: 60%;
   height: 40%;
-  top: -5px;
-  right: 55px;
   position: absolute;
+  top: 0;
+  left: 0;
   z-index: 100;
 `;
 
-const ViewTest = styled.View`
+const CardImageWrap = styled.View`
   flex: 2;
 `;
