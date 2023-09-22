@@ -100,7 +100,7 @@ const HeaderContainer = styled.View`
 // 단어장 컨테이너
 const WordNoteContainer = styled.View`
   flex: 4;
-  padding: 23px;
+  padding: 30px;
   flex-direction: row;
 `;
 
