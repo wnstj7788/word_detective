@@ -2,10 +2,13 @@ version: '3.8'
 
 services:
   database:
+    restart: "always"
     image: mysql:latest
     container_name: database
     environment:
-      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_PASSWORD: ${PASSWORD}
+      MYSQL_USER: ${USER}
       MYSQL_DATABASE: ${DATABASE}
     volumes:
       - ./database/mysql-init/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -13,6 +16,7 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
       - --skip-character-set-client-handshake
+      - --default-authentication-plugin=mysql_native_password
     networks:
       - backend
     ports:
