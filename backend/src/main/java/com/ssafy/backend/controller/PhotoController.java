@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/photo")
@@ -19,7 +20,7 @@ public class PhotoController {
 
     @PostMapping()
     public ResponseEntity<String> uploadFile(
-            @RequestParam("userId") Long userId,
+            @RequestParam("userId") UUID userId,
             @RequestParam("wordId") Long wordId,
             @RequestParam("file") MultipartFile file) throws IOException {
         return ResponseEntity.ok(s3Service.uploadFile(userId, wordId, file));

@@ -78,7 +78,7 @@ export default StageCard;
 // 스테이지 카드 전체 Container
 const CardContainer = styled(BtnContainer)`
   width: 168px;
-  height: 251px;
+  max-height: 251px;
   background-color: white;
   margin: 30px;
   border-radius: 20px;
@@ -91,13 +91,13 @@ const FullStar = styled.Image`
   position: absolute;
   top: -30px;
   right: -30px;
-  z-index: 10px;
+  z-index: 10;
 `;
 const EmptyStar = styled.Image`
   position: absolute;
   top: -30px;
   right: -30px;
-  z-index: 10px;
+  z-index: 10;
 `;
 
 // 스테이지 카드

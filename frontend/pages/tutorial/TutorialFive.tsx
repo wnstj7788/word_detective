@@ -59,7 +59,7 @@ const Stage = () => {
                         <CharacterContainer>
                             <Image source={require("../../assets/character/fruitCharacter.png")} />
                         </CharacterContainer>
-                        <StageListContainer horizontal showsHorizontalScrollIndicator={false}>
+                        <StageListContainer >
                             {stageList.map(stage => {
                                 // "사과" 여부를 판단하여 isApple prop을 전달합니다.
                                 const isApple = stage.word.name === "사과";
@@ -70,7 +70,7 @@ const Stage = () => {
                             source={require("../../assets/etc/tutoThree.png")}
                             resizeMode="contain">
                             <TextTotutial>
-                                스태이지를 {"\n"} 눌러보자
+                                사과를 {"\n"} 눌러보자
                             </TextTotutial>
                         </SpeechBubbleImg>
                     </ContentContainer>
@@ -103,14 +103,20 @@ const CharacterContainer = styled.View`
 `;
 
 //스테이지 영역
-const StageListContainer = styled.ScrollView`
-  flex: 1.5;
+const StageListContainer = styled.View`
+  flex: 2;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+
 `;
 const SpeechBubbleImg = styled.ImageBackground`
   flex: 3;
   justify-content: center;
   align-items: center;
   height: 100%;
+
 `;
 
 const TextTotutial = styled.Text`

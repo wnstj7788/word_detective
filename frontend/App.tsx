@@ -17,7 +17,7 @@ import WordGame2 from "./pages/wordGame/WordGame2";
 import LetterLobby from "./pages/letterGame/LetterLobby";
 import LetterGame1 from "./pages/letterGame/LetterGame1";
 import LetterGame2 from "./pages/letterGame/LetterGame2";
-
+import LetterGame3 from "./pages/letterGame/LetterGame3";
 import WordNoteMain from "./pages/wordNote/WordNoteMain";
 import Stage from "./pages/etc/Stage";
 import TutorialOne from "./pages/tutorial/TutorialOne";
@@ -26,6 +26,7 @@ import { IWord } from "./types/types";
 import TutorialThree from "./pages/tutorial/TutorialThree";
 import TutorialFour from "./pages/tutorial/TutorialFour";
 import TutorialFive from "./pages/tutorial/TutorialFive";
+import CameraCon from "./pages/tutorial/CameraCon";
 
 //네비게이션 관련 타입. 넘겨줄 인자가 없으면 undefined, 있으면 객체로 써주기
 export type RootStackParamList = {
@@ -63,6 +64,9 @@ export type RootStackParamList = {
   LetterGame2: {
     word: IWord;
   };
+  LetterGame3:{
+    word: IWord;
+  }
   MiniCard:{
     word: IWord;
     isFront:boolean;
@@ -84,6 +88,10 @@ export type RootStackParamList = {
     cameFromTutorialFour: boolean;
 
   }
+
+  CameraCon : undefined;
+
+
 
 
 };
@@ -110,6 +118,7 @@ export default function App() {
         <Stack.Screen name="WordLobby" component={WordLobby} />
         <Stack.Screen name="WordGame1" component={WordGame1} />
         <Stack.Screen name="WordGame2" component={WordGame2} />
+        <Stack.Screen name="LetterGame3" component={LetterGame3}/>
         <Stack.Screen name="LetterLobby" component={LetterLobby} />
         <Stack.Screen name="LetterGame1" component={LetterGame1} />
         <Stack.Screen name="LetterGame2" component={LetterGame2} />
@@ -119,6 +128,7 @@ export default function App() {
         <Stack.Screen name="TutorialThree" component={TutorialThree} />
         <Stack.Screen name="TutorialFour" component={TutorialFour} />
         <Stack.Screen name="TutorialFive" component={TutorialFive} />
+        <Stack.Screen name="CameraCon" component={CameraCon} />
       </Stack.Navigator>
     </NavigationContainer>
   );

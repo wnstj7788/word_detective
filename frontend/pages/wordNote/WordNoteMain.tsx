@@ -2,15 +2,19 @@ import { View, Text, Image } from "react-native";
 import { useEffect, useState } from "react";
 import Header from "../etc/Header";
 import styled from "styled-components/native";
-import WordNoteCard from "../components/WordNoteCard";
 import { IWord } from "../../types/types";
 import useCachedResources from "../../hooks/useCachedResources";
 import { Container, ContainerBg } from "../../styles/globalStyles";
+import Modal from "react-native-modal";
+//카드 관련 import
+import WordCardDetailModal from "../components/WordCardDetailModal";
+import WordNoteCard from "../components/WordNoteCard";
 
 // 라우터 관련 import
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import GameClearModal from "../components/GameClearModal";
 
 // 이미지 소스 미리 선언
 const wordNoteBgImage = require("../../assets/background/wordNoteBg.png");
@@ -19,15 +23,45 @@ const pandaImage = require("../../assets/etc/panda.png");
 const pencilImage = require("../../assets/etc/pencil.png");
 
 const WordNoteMain = () => {
-  const [changeCategorySignal, setChangeCategorySignal] = useState<number>(1);
+  const handleCallback = (data: string) => {
+    console.log("넘어옴");
+    if (data) {
+      setChildItem(data);
+      openModal();
+    }
+  };
 
+  const [childItem, setChildItem] = useState("");
+  const [changeCategorySignal, setChangeCategorySignal] = useState<number>(1);
+  const [isModalVisible, setModalVisible] = useState(false);
   // change 함수의 파라미터 num의 타입을 number로 선언
   const changeCategory = (categoryType: number) => {
     setChangeCategorySignal(categoryType);
   };
+  const openModal = () => {
+    setModalVisible(true);
+  };
 
+  const closeModal = () => {
+    setModalVisible(false);
+  };
   return (
     <Container>
+      <Modal
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        isVisible={isModalVisible}
+        backdropColor="rgba(0, 0, 0, 0.5)"
+        onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
+        backdropTransitionOutTiming={0}
+        statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
+      >
+        <WordCardDetailModal
+          onClose={closeModal}
+          isVisible={isModalVisible}
+          item={childItem}
+        ></WordCardDetailModal>
+      </Modal>
       <ContainerBg source={wordNoteBgImage}>
         <HeaderContainer>
           <Header />
@@ -35,7 +69,7 @@ const WordNoteMain = () => {
 
         <WordNoteContainer>
           <WordNoteList categoryType={changeCategorySignal}>
-            <WordNoteCard categoryType={changeCategorySignal} />
+            <WordNoteCard callbackprop={handleCallback} categoryType={changeCategorySignal} />
           </WordNoteList>
 
           <WordNoteCategory>

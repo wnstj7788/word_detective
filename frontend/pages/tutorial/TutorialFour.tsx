@@ -33,7 +33,7 @@ const Main = ({route}: any) => {
                                     source={require("../../assets/etc/tutorialFour.png")}
                                     resizeMode="contain">
                                     <TextTotutial>
-                                        스태이지를 {"\n"} 눌러보자
+                                        스테이지를 {"\n"} 눌러보자
                                     </TextTotutial>
                                 </SpeechBubbleImg>
 
@@ -50,7 +50,7 @@ const Main = ({route}: any) => {
                                         source={require("../../assets/button/gameMode/stageModeBtn.png")}
                                         resizeMode="contain"
                                     />
-                                    <BtnText>스태이지</BtnText>
+                                    <BtnText>스테이지</BtnText>
                                 </MenuBtnDraw>
                             </BtnContainer>
                         </MiddleSetRow>
