@@ -70,7 +70,7 @@ const MiniCard = (props: {
             onDragEnd={() => {
               // console.log("Ended draggging");
             }}
-            payload="my-draggable-item"
+            payload={props.word}
           >
             {({ viewProps }: any) => {
               return (
