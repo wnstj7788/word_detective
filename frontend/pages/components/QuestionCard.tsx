@@ -42,7 +42,7 @@ const QuestionCard = (props: { word: IWord; type: ICard }) => {
   }
   //TODO: 이미지 소스는 임시로 사과로 세팅해둠(일단 과일만 정상작동하게 변경했음)
   if (isLoaded) {
-    console.log(props.word.name+"letter");
+    console.log(props.word.name + "letter");
     return (
       <CardContainer>
         <ImgContainer>
@@ -58,17 +58,21 @@ const QuestionCard = (props: { word: IWord; type: ICard }) => {
             <WordText key={props.word.name}>{props.word.name}</WordText>
           ) : (
             <QTextContainer>
-              {wordToLetterList.map((letter, index) => {
-                if (index >= props.type.wordHiddenIndx) return null;
-                else return <WordText key={index}>{letter}</WordText>;
+              {wordToLetterList.slice(0, props.type.wordHiddenIndx).map((letter, index) => {
+                // if (index >= props.type.wordHiddenIndx) return null;
+                // else return <WordText key={index}>{letter}</WordText>;
+                return <WordText key={index}>{letter}</WordText>;
               })}
               <WordHiddenContainer>
                 <WordHidden>{wordToLetterList[props.type.wordHiddenIndx]}</WordHidden>
               </WordHiddenContainer>
-              {wordToLetterList.map((letter, index) => {
-                if (index <= props.type.wordHiddenIndx) return null;
-                else return <WordText key={index}>{letter}</WordText>;
-              })}
+              {wordToLetterList
+                .slice(props.type.wordHiddenIndx + 1, wordToLetterList.length)
+                .map((letter, index) => {
+                  // if (index <= props.type.wordHiddenIndx) return null;
+                  // else return <WordText key={index}>{letter}</WordText>;
+                  return <WordText key={index}>{letter}</WordText>;
+                })}
             </QTextContainer>
           )}
         </View>
