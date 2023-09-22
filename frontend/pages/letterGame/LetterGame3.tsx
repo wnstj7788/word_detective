@@ -4,49 +4,26 @@ import styled from "styled-components/native";
 import { ContainerBg } from "../../styles/globalStyles";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
+// import { Sketch } from 'expo-pixi';
 type StagePageRouteProp = RouteProp<RootStackParamList, "LetterGame2">;
+
 // @ts-ignore
-import Canvas from "react-native-canvas";
+// const { width, height } = Dimensions.get('window');
 const LetterGame3 = () => {
-  const canvasRef = useRef(null);
-  const [ctx, setCtx] = useState(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  useEffect(() => {
-    if (canvasRef.current) {
-      const canvas = canvasRef.current;
-      // @ts-ignore
-      const context = canvas.getContext('2d');
-      // @ts-ignore
-      canvas.width = dimensions.width;
-      // @ts-ignore
-      canvas.height = dimensions.height;
-      setCtx(context);
-    }
-  }, [dimensions]);
 
-
-  // Initialize pan responder for touch events on the canvas
-  const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onPanResponderGrant: (evt) => {
-      // @ts-ignore
-      ctx.beginPath();
-      // @ts-ignore
-      ctx.moveTo(evt.nativeEvent.locationX, evt.nativeEvent.locationY);
-    },
-    onPanResponderMove: (evt) => {
-      // @ts-ignore
-      ctx.lineTo(evt.nativeEvent.locationX, evt.nativeEvent.locationY);
-      // @ts-ignore
-      ctx.stroke();
-    },
-    onPanResponderEnd: () => {
-      // @ts-ignore
-      ctx.closePath();
-    },
-  });
   const route = useRoute<StagePageRouteProp>();
   const {word} = route.params;
+  // const onReady = async ({gl, sketch }) => {
+  //   // You can do something when the sketch is ready
+  //   console.log('Sketch is ready!');
+  // };
+  //
+  // const onChangeAsync = async ({gl, sketch }) => {
+  //   // This gets triggered whenever the user draws
+  //   // You can save the drawing if needed
+  //   const { uri } = await sketch.takeSnapshotAsync();
+  //   console.log(uri);
+  // };
   return (
     <ContainerBg source={require("../../assets/background/game/fruit.png")}>
       <Container>
@@ -68,12 +45,14 @@ const LetterGame3 = () => {
 
           </Progress>
         </ContainerA>
-        <ContainerB onLayout={(event) => {
-          const { width, height } = event.nativeEvent.layout;
-          setDimensions({ width, height });
-        }}
-                    {...panResponder.panHandlers}>
-          <Canvas ref={canvasRef}/>
+        <ContainerB>
+          {/*<Sketch*/}
+          {/*  style={{ flex: 1 }}*/}
+          {/*  strokeWidth={10}  // The width of the brush stroke*/}
+          {/*  strokeColor="blue"  // The color of the brush stroke*/}
+          {/*  onChangeAsync={onChangeAsync}*/}
+          {/*  onReady={onReady}*/}
+          {/*/>*/}
         </ContainerB>
 
       </Container>
