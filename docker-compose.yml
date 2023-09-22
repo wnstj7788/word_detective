@@ -16,12 +16,16 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    ports:
+      - "9999:9999"
     networks:
       - backend
   fastapi:
     build:
       context: ./fastapi
       dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
     networks:
       - backend
 networks:
