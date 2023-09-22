@@ -19,6 +19,7 @@ import { ICard, IWord } from "../../types/types";
 import { initialWord } from "../initialType";
 import { useEffect, useState } from "react";
 import { createDndContext } from "react-native-easy-dnd"; //dragabble
+import { shuffleArray } from "../../utils/utils";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame2">;
@@ -50,6 +51,9 @@ const WordGame2 = () => {
     });
   });
 
+  const [shuffledDropList] = useState<IWord[]>(shuffleArray(dropList)); //리스트를 섞기
+  const [shuffledDragList] = useState<IWord[]>(shuffleArray(dragList)); //리스트를 섞기
+
   useEffect(() => {
     console.log(clickedWord);
   }, [clickedWord]);
@@ -73,7 +77,7 @@ const WordGame2 = () => {
             <ContentContainer>
               <ACardContainer>
                 <ACardLine>
-                  {dropList.slice(0, 3).map((choice, index) => {
+                  {shuffledDropList.slice(0, 3).map((choice, index) => {
                     return (
                       <ACardFirst key={index}>
                         <Droppable
@@ -109,7 +113,7 @@ const WordGame2 = () => {
                   })}
                 </ACardLine>
                 <ACardLine>
-                  {dropList.slice(3, 6).map((choice, index) => {
+                  {shuffledDropList.slice(3, 6).map((choice, index) => {
                     return (
                       <ACardSecond key={index}>
                         <Droppable
@@ -146,7 +150,7 @@ const WordGame2 = () => {
                 </ACardLine>
               </ACardContainer>
               <QCardContainer>
-                {dragList.map((dragCard, index) => {
+                {shuffledDragList.map((dragCard, index) => {
                   return (
                     <MiniCard
                       word={dragCard}

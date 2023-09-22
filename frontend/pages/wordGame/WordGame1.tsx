@@ -10,6 +10,9 @@ import MiniCard from "../components/MiniCard";
 import { ICard, IWord } from "../../types/types";
 import { initialWord } from "../initialType";
 import { useEffect, useState } from "react";
+import Modal from "react-native-modal";
+import GameClearModal from "../components/GameClearModal";
+import { shuffleArray } from "../../utils/utils";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
@@ -28,6 +31,7 @@ const WordGame1 = () => {
   const { word } = route.params; //목표 단어
 
   const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
+  const [isModalVisible, setModalVisible] = useState(false); //clear modal관련
 
   //선지 8개의 배열
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
@@ -42,11 +46,13 @@ const WordGame1 = () => {
     });
   });
 
+  const [shuffledChoiceList] = useState<IWord[]>(shuffleArray(testList)); //리스트를 섞기
+
+  //클릭하면 정답인지 확인
   useEffect(() => {
     console.log(clickedWord);
     if (checkAnswer()) {
-      console.log("clear!");
-      navigation.navigate("WordGame2", { word: word });
+      setModalVisible(true);
     }
   }, [clickedWord]);
 
@@ -65,13 +71,26 @@ const WordGame1 = () => {
           source={require("../../assets/background/game/fruit.png")}
           resizeMode="stretch"
         >
+          <Modal
+            animationIn="slideInUp"
+            animationOut="slideOutDown"
+            backdropColor="rgba(0, 0, 0, 0.5)"
+            isVisible={isModalVisible}
+            onBackButtonPress={() => {
+              setModalVisible(false);
+            }} // onRequestClose 대신 onBackButtonPress 사용
+            backdropTransitionOutTiming={0}
+            statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
+          >
+            <GameClearModal nextScreen="WordGame2" word={word}></GameClearModal>
+          </Modal>
           <ContentContainer>
             <QCardContainer>
               <QuestionCard word={word} type={Word1Type} />
             </QCardContainer>
             <ACardContainer>
               <ACardLine>
-                {testList.slice(0, 4).map((choice, index) => {
+                {shuffledChoiceList.slice(0, 4).map((choice, index) => {
                   return (
                     <ACardFirst key={index}>
                       <MiniCard
@@ -85,7 +104,7 @@ const WordGame1 = () => {
                 })}
               </ACardLine>
               <ACardLine>
-                {testList.slice(4, 8).map((choice, index) => {
+                {shuffledChoiceList.slice(4, 8).map((choice, index) => {
                   return (
                     <ACardSecond key={index}>
                       <MiniCard
