@@ -12,7 +12,7 @@ import { initialWord } from "../initialType";
 import { useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import GameClearModal from "../components/GameClearModal";
-import useShuffle from "../../hooks/useShuffle";
+import { shuffleArray } from "../../utils/utils";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
@@ -46,7 +46,7 @@ const WordGame1 = () => {
     });
   });
 
-  const shuffledChoiceList = useShuffle(testList);
+  const [shuffledChoiceList] = useState<IWord[]>(shuffleArray(testList)); //리스트를 섞기
 
   //클릭하면 정답인지 확인
   useEffect(() => {

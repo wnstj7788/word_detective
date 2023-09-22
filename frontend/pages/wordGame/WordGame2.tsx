@@ -19,7 +19,7 @@ import { ICard, IWord } from "../../types/types";
 import { initialWord } from "../initialType";
 import { useEffect, useState } from "react";
 import { createDndContext } from "react-native-easy-dnd"; //dragabble
-import useShuffle from "../../hooks/useShuffle";
+import { shuffleArray } from "../../utils/utils";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame2">;
@@ -51,8 +51,8 @@ const WordGame2 = () => {
     });
   });
 
-  const shuffledDropList = useShuffle(dropList);
-  const shuffledDragList = useShuffle(dragList);
+  const [shuffledDropList] = useState<IWord[]>(shuffleArray(dropList)); //리스트를 섞기
+  const [shuffledDragList] = useState<IWord[]>(shuffleArray(dragList)); //리스트를 섞기
 
   useEffect(() => {
     console.log(clickedWord);
