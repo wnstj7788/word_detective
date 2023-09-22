@@ -1,9 +1,35 @@
-import { View, Text, ImageBackground, TouchableOpacity, TouchableHighlight } from "react-native";
+import { Animated, TouchableHighlight } from "react-native";
 import { Platform } from "react-native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { Container } from "../../styles/globalStyles";
 import styled, { css } from "styled-components/native";
 import { IWord } from "../../types/types";
+
+//test용
+function getImage(name: string): any {
+  switch (name) {
+    case "사과":
+      return require("../../assets/card/fruit/apple.png");
+    case "오렌지":
+      return require("../../assets/card/fruit/orange.png");
+    case "수박":
+      return require("../../assets/card/fruit/watermelon.png");
+    case "토마토":
+      return require("../../assets/card/fruit/tomato.png");
+    case "체리":
+      return require("../../assets/card/fruit/cherry.png");
+    case "바나나":
+      return require("../../assets/card/fruit/banana.png");
+    case "딸기":
+      return require("../../assets/card/fruit/strawberry.png");
+    case "멜론":
+      return require("../../assets/card/fruit/melon.png");
+    case "복숭아":
+      return require("../../assets/card/fruit/peach.png");
+    case "포도":
+      return require("../../assets/card/fruit/grapes.png");
+  }
+}
 
 /**
  * 문제 중에 사용되는 미니 단어 카드
@@ -17,34 +43,9 @@ const MiniCard = (props: {
   isFront: boolean;
   isTouchable: boolean;
   onClick(word?: IWord): void;
+  draggable?: React.ForwardRefExoticComponent<any>;
 }) => {
   const isLoaded = useCachedResources();
-
-  //test용
-  function getImage(name: string): any {
-    switch (name) {
-      case "사과":
-        return require("../../assets/card/fruit/apple.png");
-      case "오렌지":
-        return require("../../assets/card/fruit/orange.png");
-      case "수박":
-        return require("../../assets/card/fruit/watermelon.png");
-      case "토마토":
-        return require("../../assets/card/fruit/tomato.png");
-      case "체리":
-        return require("../../assets/card/fruit/cherry.png");
-      case "바나나":
-        return require("../../assets/card/fruit/banana.png");
-      case "딸기":
-        return require("../../assets/card/fruit/strawberry.png");
-      case "멜론":
-        return require("../../assets/card/fruit/melon.png");
-      case "복숭아":
-        return require("../../assets/card/fruit/peach.png");
-      case "포도":
-        return require("../../assets/card/fruit/grapes.png");
-    }
-  }
 
   //TODO: 이미지 소스는 임시로 getImage 사용, 추후 변경해야
   if (isLoaded) {
@@ -61,14 +62,30 @@ const MiniCard = (props: {
         }}
         style={{ borderRadius: 30 }}
       >
-        <CardContainer $isFront={props.isFront}>
-          {props.isFront ? (
-            // <PictureImage source={require("../../assets/card/fruit/apple.png")} />
-            <PictureImage source={getImage(props.word.name)} />
-          ) : (
-            <QmarkImage source={require("../../assets/etc/qmark.png")} resizeMode="contain" />
-          )}
-        </CardContainer>
+        {props.draggable ? (
+          <props.draggable
+            onDragStart={() => {
+              // console.log("Started draggging");
+            }}
+            onDragEnd={() => {
+              // console.log("Ended draggging");
+            }}
+            payload="my-draggable-item"
+          >
+            {({ viewProps }: any) => {
+              return (
+                <Animated.View
+                  {...viewProps}
+                  style={[viewProps.style, { width: 135, height: 135 }]}
+                >
+                  <CardComponent word={props.word} isFront={props.isFront}></CardComponent>
+                </Animated.View>
+              );
+            }}
+          </props.draggable>
+        ) : (
+          <CardComponent word={props.word} isFront={props.isFront}></CardComponent>
+        )}
       </TouchableHighlight>
     );
   } else {
@@ -77,6 +94,21 @@ const MiniCard = (props: {
 };
 export default MiniCard;
 
+//카드의 내용물(카드 이미지)
+//Draggable때문에 중복 사용하게 되어서 따로 뺌
+const CardComponent = (props: { word: IWord; isFront: boolean }) => {
+  return (
+    <CardContainer $isFront={props.isFront}>
+      {props.isFront ? (
+        // <PictureImage source={require("../../assets/card/fruit/apple.png")} />
+        <PictureImage source={getImage(props.word.name)} />
+      ) : (
+        <QmarkImage source={require("../../assets/etc/qmark.png")} resizeMode="contain" />
+      )}
+    </CardContainer>
+  );
+};
+
 //전체 카드 컨테이너
 const CardContainer = styled(Container)<{ $isFront: boolean }>`
   width: 135px;
@@ -84,14 +116,16 @@ const CardContainer = styled(Container)<{ $isFront: boolean }>`
   background-color: ${props => (props.$isFront ? "white" : "#FFEBC4")};
   border-radius: 30px;
 
-  ${Platform.OS === 'ios' && `
+  ${Platform.OS === "ios" &&
+  `
     shadow-color: black;
     shadow-offset: 0px 2px;
     shadow-opacity: 0.5;
     shadow-radius: 10px;
   `}
 
-  ${Platform.OS === 'android' && `
+  ${Platform.OS === "android" &&
+  `
     elevation: 5;
   `}
 `;
