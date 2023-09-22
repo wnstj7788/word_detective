@@ -6,7 +6,7 @@ services:
     image: mysql:latest
     container_name: database
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
       MYSQL_PASSWORD: ${PASSWORD}
       MYSQL_USER: ${USER}
       MYSQL_DATABASE: ${DATABASE}
