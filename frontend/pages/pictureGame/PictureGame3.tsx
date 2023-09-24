@@ -7,15 +7,21 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import QuestionCard from "../components/QuestionCard";
 import MiniCard from "../components/MiniCard";
-import { ICard } from "../../types/types";
-import { useState } from "react";
+import { ICard, IWord } from "../../types/types";
+import React, { useState, useEffect, useRef } from "react";
 import GameClearModal from "../components/GameClearModal";
 import Modal from "react-native-modal";
+import { createDndContext } from "react-native-easy-dnd";
+import { Animated } from "react-native";
+import { initialWord } from "../initialType";
+
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 
 const PictureGame3 = () => {
+  const { Provider, Droppable, Draggable } = createDndContext();
   const [count, setCount] = useState(0);
+
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
@@ -25,16 +31,44 @@ const PictureGame3 = () => {
     wordHidden: false, //글씨는 숨기지 않음
     wordHiddenIndx: 1, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
   };
-  // 미니 카드
-  const choiceList = ["사과", "오렌지", "사과", "오렌지", "사과", "오렌지"];
-  const newCards = choiceList.map(item => {
-    return {
+  const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
+  const [canDrag, setCanDrag] = useState(true);
+  //선지 8개의 배열
+  //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
+  const choiceList = ["사과", "오렌지", "오렌지", "바나나", "딸기", "사과"];
+  const [testList, setTestList] = useState<IWord[]>([]);
+  choiceList.map(word => {
+    let tempStage: IWord = { ...initialWord }; //initialWord를 복사해서 사용
+    tempStage.name = word;
+    testList.push({
+      name: word,
       imgSrc: "",
-      name: item,
-    };
+    });
   });
+
+  useEffect(() => {
+    // console.log(clickedWord);
+  }, [clickedWord]);
+
+  //미니카드 클릭했을 때 단어값 전달받기
+  const getMiniCardInfo = (word: IWord) => {
+    setClickedWord(word);
+  };
+
+  // 드롭되면 사라지는 리스트
+
+  useEffect(() => {
+    const initialList: IWord[] = choiceList.map((word, index) => ({
+      id: index,
+      name: word,
+      imgSrc: "",
+      canDrag: true, // 여기 추가
+    }));
+    setTestList(initialList);
+  }, []);
   // 모달
   const [isModalVisible, setModalVisible] = useState(false);
+  const [droppableActive, setDroppableActive] = useState(true);
 
   const openModal = () => {
     setModalVisible(true);
@@ -46,56 +80,94 @@ const PictureGame3 = () => {
 
   if (isLoaded) {
     return (
-      <Container>
-        <Modal
-          animationIn="slideInUp"
-          animationOut="slideOutDown"
-          backdropColor="rgba(0, 0, 0, 0.5)"
-          isVisible={isModalVisible}
-          onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
-          backdropTransitionOutTiming={0}
-          statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
-        >
-          <GameClearModal nextScreen="PictureGame3" word={word} />
-        </Modal>
-        <ContainerBg source={require("../../assets/background/game/fruit.png")}>
-          <ContentContainer>
-            <ACardContainer>
-              <ACardLine>
-                {newCards.slice(0, 3).map((choice, index) => {
+      <Provider>
+        <Container>
+          <Modal
+            animationIn="slideInUp"
+            animationOut="slideOutDown"
+            backdropColor="rgba(0, 0, 0, 0.5)"
+            isVisible={isModalVisible}
+            onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
+            backdropTransitionOutTiming={0}
+            statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
+          >
+            <GameClearModal nextScreen="PictureGame3" word={word} />
+          </Modal>
+          <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+            <ContentContainer>
+              <View>
+                {testList.slice(0, 3).map((choice, index) => {
                   return (
                     <ACardFirst key={index}>
                       <MiniCard
                         word={choice}
                         isFront={true}
-                        isTouchable={true}
-                        // onClick={getMiniCardInfo}
+                        isTouchable={false}
+                        onClick={getMiniCardInfo}
+                        draggable={choice.canDrag ? Draggable : undefined} // choice의 canDrag 속성에 따라 결정
                       />
                     </ACardFirst>
                   );
                 })}
-              </ACardLine>
-              <ACardLine>
-                {newCards.slice(3, 6).map((choice, index) => {
+              </View>
+              <View>
+                {testList.slice(3, 6).map((choice, index) => {
                   return (
-                    <ACardSecond key={index}>
+                    <ACardFirst key={index}>
                       <MiniCard
                         word={choice}
                         isFront={true}
-                        isTouchable={true}
-                        // onClick={getMiniCardInfo}
+                        isTouchable={false}
+                        onClick={getMiniCardInfo}
+                        draggable={choice.canDrag ? Draggable : undefined} // choice의 canDrag 속성에 따라 결정
                       />
-                    </ACardSecond>
+                    </ACardFirst>
                   );
                 })}
-              </ACardLine>
-            </ACardContainer>
-            <QCardContainer>
-              <QCardContainer></QCardContainer>
-            </QCardContainer>
-          </ContentContainer>
-        </ContainerBg>
-      </Container>
+              </View>
+              <View>
+                <Droppable
+                  onEnter={() => {}}
+                  onLeave={() => {
+                    console.log("Draggable left");
+                  }}
+                  onDrop={({ payload }) => {
+                    console.log(payload);
+                    if (word.name === payload.name) {
+                      console.log(payload);
+                      console.log("hi");
+                      const updatedTestList = testList.map(item => {
+                        if (item.id === payload.id) {
+                          return { ...item, name: "정답", canDrag: false }; // 해당 아이템의 canDrag를 false로 설정
+                        }
+                        return item;
+                      });
+                      setTestList(updatedTestList);
+                    }
+                  }}
+                >
+                  {({ active, viewProps }) => {
+                    return (
+                      <Animated.View
+                        {...viewProps}
+                        style={[
+                          {
+                            width: 300,
+                            height: 200,
+                            backgroundColor: active ? "blue" : "green",
+                          },
+                        ]}
+                      >
+                        <Text style={{ fontWeight: "bold", color: "white" }}>Drop here</Text>
+                      </Animated.View>
+                    );
+                  }}
+                </Droppable>
+              </View>
+            </ContentContainer>
+          </ContainerBg>
+        </Container>
+      </Provider>
     );
   } else {
     return null;
