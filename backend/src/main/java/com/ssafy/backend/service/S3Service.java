@@ -85,4 +85,20 @@ public class S3Service {
             throw new CustomException(ErrorCode.FILE_NOT_FOUND);
         }
     }
+
+    public String getPhotoUrl(UUID userId, Long wordId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
+        );
+
+        Word word = wordRepository.findById(wordId).orElseThrow(
+                () -> new CustomException(ErrorCode.WORD_NOT_FOUND)
+        );
+
+        Photo photo = photoRepository.findByUserAndWord(user, word).orElseThrow(
+                () -> new CustomException(ErrorCode.FILE_NOT_FOUND)
+        );
+
+        return photo.getUrl();
+    }
 }
