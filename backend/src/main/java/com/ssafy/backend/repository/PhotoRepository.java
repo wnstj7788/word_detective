@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface PhotoRepository extends JpaRepository<Photo, Long> {
     Optional<Photo> findByUserAndWord(User user, Word word);
-    long deleteByUserAndWord(User user, Word word);
+    void deleteByUserAndWord(User user, Word word);
 }
