@@ -45,6 +45,7 @@ const WordMiniCard = (props: { word: IWord; onClick(word?: IWord): void }) => {
       <CardContainer>
         <CardBackground source={require("../../assets/etc/wordMiniCard.png")}>
           <PictureImage source={getImage(props.word.name)} />
+          <WordText>{props.word.name}</WordText>
         </CardBackground>
       </CardContainer>
     );
@@ -62,7 +63,7 @@ const CardContainer = styled(Container)`
   border-radius: 30px;
 `;
 
-//카드 배경
+//카드 배경(=그림자)
 const CardBackground = styled(ContainerBg)`
   flex: 1;
   justify-content: center;
@@ -73,4 +74,26 @@ const CardBackground = styled(ContainerBg)`
 const PictureImage = styled.Image`
   width: 100px;
   height: 100px;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.3;
+  position: relative;
+  top: 25%;
+`;
+
+//카드의 글씨
+const WordText = styled.Text`
+  font-family: "BMJUA";
+  font-size: 48px;
+  color: gray;
+  padding: 0 3px;
+  /* text-shadow-color: rgba(225, 225, 225, 0.75);
+  text-shadow-offset: {
+    width: 0;
+    height: 0;
+  }
+  text-shadow-radius: 15px; */
+  z-index: 3;
+  top: -35%;
+  position: relative;
 `;
