@@ -16,6 +16,12 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
 
+    /**
+     * 유저 정보 조회 또는 생성
+     *
+     * @param userId 유저 아이디
+     * @return 유저 정보
+     */
     @Transactional
     public UserResponseDto getUserInfoOrCreate(UUID userId) {
         User user = userId == null ? userRepository.save(new User()) : userRepository.findById(userId).orElseThrow(
