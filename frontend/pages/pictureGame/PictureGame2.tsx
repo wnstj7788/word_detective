@@ -55,7 +55,7 @@ const PictureGame2 = () => {
         openModal();
       }
     } else {
-      alert("틀렸어 ㅄ아");
+      alert("떙");
     }
   };
 
@@ -67,7 +67,7 @@ const PictureGame2 = () => {
         openModal();
       }
     } else {
-      alert("틀렸어 ㅄ아");
+      alert("떙");
     }
   };
 
