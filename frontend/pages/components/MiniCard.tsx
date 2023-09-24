@@ -28,6 +28,8 @@ function getImage(name: string): any {
       return require("../../assets/card/fruit/peach.png");
     case "포도":
       return require("../../assets/card/fruit/grapes.png");
+    case "정답":
+      return require("../../assets/card/OXCard/O.png");
   }
 }
 
@@ -68,7 +70,7 @@ const MiniCard = (props: {
               // console.log("Started draggging");
             }}
             onDragEnd={() => {
-              // console.log("Ended draggging");
+              props.onClick(props.word);
             }}
             payload={props.word}
           >
