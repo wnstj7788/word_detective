@@ -50,7 +50,6 @@ const WordGame1 = () => {
 
   //클릭하면 정답인지 확인
   useEffect(() => {
-    console.log(clickedWord);
     if (checkAnswer()) {
       setModalVisible(true);
     }
