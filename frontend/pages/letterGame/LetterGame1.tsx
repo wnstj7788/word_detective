@@ -20,6 +20,7 @@ import { ICard } from "../../types/types";
 import GameClearModal from "../components/GameClearModal";
 import Modal from "react-native-modal";
 import React, { useState } from "react";
+import { shakeAnimation1 } from "../../animation/animation";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
@@ -40,29 +41,22 @@ const LetterGame1 = () => {
   const route = useRoute<StagePageRouteProp>();
   const { word } = route.params;
 
-  const shake = (index: number) => {
-    Animated.sequence([
-      Animated.timing(shakeAnimations[index], { toValue: 10, duration: 50, useNativeDriver: true }),
-      Animated.timing(shakeAnimations[index], {
-        toValue: -10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(shakeAnimations[index], {
-        toValue: 10,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(shakeAnimations[index], { toValue: 0, duration: 50, useNativeDriver: true }),
-    ]).start();
-  };
+  //선지 8개의 배열
+  //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
+  const choiceList = ["슴", "진", "과", "자", "고", "람", "막", "골"];
+  const [shakeAnimations, setShakeAnimations] = useState<ShakeAnimations>(
+    choiceList.reduce<ShakeAnimations>((acc, _, index: number) => {
+      acc[index] = new Animated.Value(0);
+      return acc;
+    }, {})
+  );
 
   const handleCardClick = (choice: string, index: number) => {
     const characters = [...word.name];
     if (choice === characters[number]) {
       openModal();
     } else {
-      shake(index);
+      shakeAnimation1(index, shakeAnimations);
       Vibration.vibrate(350);
     }
   };
@@ -76,16 +70,6 @@ const LetterGame1 = () => {
   const closeModal = () => {
     setModalVisible(false);
   };
-
-  //선지 8개의 배열
-  //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
-  const choiceList = ["슴", "진", "과", "자", "고", "람", "막", "골"];
-  const [shakeAnimations, setShakeAnimations] = useState<ShakeAnimations>(
-    choiceList.reduce<ShakeAnimations>((acc, _, index: number) => {
-      acc[index] = new Animated.Value(0);
-      return acc;
-    }, {})
-  );
 
   if (isLoaded) {
     return (
