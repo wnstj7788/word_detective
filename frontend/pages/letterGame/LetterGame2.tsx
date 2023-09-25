@@ -20,7 +20,7 @@ import GameClearModal from "../components/GameClearModal";
 import Modal from "react-native-modal";
 import React, { useState } from "react";
 import hangul from "hangul-js";
-import { shakeAnimation } from "../../animation/animation";
+import { shakeAnimation2 } from "../../animation/animation";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "LetterGame2">;
@@ -39,31 +39,7 @@ const LetterGame2 = () => {
     setModalVisible(true);
   };
   const choiceList = ["ㅅ", "ㅜ", "ㄴ", "ㅐ", "ㅓ", "ㅂ", "ㄷ", "ㅠ"];
-  // const shakeAnimation = (index: number) => {
-  //   const rotate = animValues[index];
-  //   Animated.sequence([
-  //     Animated.timing(rotate, {
-  //       toValue: 1,
-  //       duration: 50,
-  //       useNativeDriver: true,
-  //     }),
-  //     Animated.timing(rotate, {
-  //       toValue: -1,
-  //       duration: 100,
-  //       useNativeDriver: true,
-  //     }),
-  //     Animated.timing(rotate, {
-  //       toValue: 1,
-  //       duration: 100,
-  //       useNativeDriver: true,
-  //     }),
-  //     Animated.timing(rotate, {
-  //       toValue: 0,
-  //       duration: 50,
-  //       useNativeDriver: true,
-  //     }),
-  //   ]).start();
-  // };
+
   const closeModal = () => {
     setModalVisible(false);
   };
@@ -71,7 +47,7 @@ const LetterGame2 = () => {
     if (choice === "ㅅ") {
       openModal();
     } else {
-      shakeAnimation(index, animValues);
+      shakeAnimation2(index, animValues);
     }
   };
   const syllable = [...word.name];

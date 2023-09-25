@@ -1,5 +1,6 @@
 import {
   Animated,
+  Vibration,
   View,
   Text,
   Image,
@@ -20,7 +21,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import GameClearModal from "../components/GameClearModal";
 import { shuffleArray } from "../../utils/utils";
-import { shakeAnimation } from "../../animation/animation";
+import { shakeAnimation2 } from "../../animation/animation";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
@@ -67,9 +68,8 @@ const WordGame1 = () => {
       setModalVisible(true);
     } else {
       //틀림
-      console.log("틀림");
-      // const rotate = animValues[clickedWord.index ?? 0];
-      shakeAnimation(clickedWord.index ?? 0, animValues);
+      shakeAnimation2(clickedWord.index ?? 0, animValues);
+      Vibration.vibrate(350);
     }
   }, [clickedWord]);
 
