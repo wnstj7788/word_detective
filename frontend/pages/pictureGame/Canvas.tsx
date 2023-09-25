@@ -38,7 +38,7 @@ const Canvas: React.FC = () => {
       // 그리기 영역을 벗어나면 선을 그리지 않음
       if (
         locationX < width * 0.18 ||
-        locationY < height * 0.001 ||
+        locationY < height * 0.05 ||
         locationX > width * 0.9 ||
         locationY > height * 0.95
       ) {
