@@ -1,92 +1,142 @@
-import { View, Text, Image } from "react-native";
-import { Platform } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, Platform } from "react-native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { Container } from "../../styles/globalStyles";
 import styled, { css } from "styled-components/native";
 import { ICard, IWord } from "../../types/types";
-import { useEffect } from "react";
+import { Audio } from "expo-av";
 
-/**
- * 문제에 사용되는 단어 카드
- * @param word 단어 정보
- * @param type 문제 정보: 각 스테이지의 문제 정보를 ICard 타입에 맞게 정의해서 보내기
- * (WordGame1 참고)
- */
 const QuestionCard = (props: { word: IWord; type: ICard }) => {
-  const isLoaded = useCachedResources();
-  //단어를 글자단위로 쪼갠 리스트
-  let wordToLetterList: String[] = props.word.name.split("");
-  function getImage(name: string): any {
-    switch (name) {
-      case "사과":
-        return require("../../assets/card/fruit/apple.png");
-      case "오렌지":
-        return require("../../assets/card/fruit/orange.png");
-      case "수박":
-        return require("../../assets/card/fruit/watermelon.png");
-      case "토마토":
-        return require("../../assets/card/fruit/tomato.png");
-      case "체리":
-        return require("../../assets/card/fruit/cherry.png");
-      case "바나나":
-        return require("../../assets/card/fruit/banana.png");
-      case "딸기":
-        return require("../../assets/card/fruit/strawberry.png");
-      case "멜론":
-        return require("../../assets/card/fruit/melon.png");
-      case "복숭아":
-        return require("../../assets/card/fruit/peach.png");
-      case "포도":
-        return require("../../assets/card/fruit/grapes.png");
+    const isLoaded = useCachedResources();
+
+    const [soundObject, setSoundObject] = useState<Audio.Sound | null>(null);
+
+    // 각 단어에 대한 소리 파일을 매핑
+    const soundMappings: Record<string, any> = {
+        사과: require("../../assets/wav/사과.wav"),
+        오렌지: require("../../assets/wav/오렌지.wav"),
+        가위: require("../../assets/wav/가위.wav"),
+        강아지: require("../../assets/wav/강아지.wav"),
+        고양이: require("../../assets/wav/고양이.wav"),
+        그릇: require("../../assets/wav/그릇.wav"),
+        달팽이: require("../../assets/wav/달팽이.wav"),
+        딸기: require("../../assets/wav/딸기.wav"),
+        마우스: require("../../assets/wav/마우스.wav"),
+        만년필: require("../../assets/wav/만년필.wav"),
+        멜론: require("../../assets/wav/멜론.wav"),
+        바나나: require("../../assets/wav/바나나.wav"),
+        복숭아: require("../../assets/wav/복숭아.wav"),
+        사자: require("../../assets/wav/사자.wav"),
+        수박: require("../../assets/wav/수박.wav"),
+        연필: require("../../assets/wav/연필.wav"),
+        원숭이: require("../../assets/wav/원숭이.wav"),
+        의자: require("../../assets/wav/의자.wav"),
+        지우개: require("../../assets/wav/지우개.wav"),
+        체리: require("../../assets/wav/체리.wav"),
+        코끼리: require("../../assets/wav/코끼리.wav"),
+        키보드: require("../../assets/wav/키보드.wav"),
+        토끼: require("../../assets/wav/토끼.wav"),
+        판다: require("../../assets/wav/판다.wav"),
+        토마토: require("../../assets/wav/토마토.wav"),
+        포도: require("../../assets/wav/포도.wav"),
+    };
+
+    // 단어를 글자단위로 쪼갠 리스트
+    let wordToLetterList: string[] = props.word.name.split("");
+
+    function getImage(name: string): any {
+        switch (name) {
+            case "사과":
+                return require("../../assets/card/fruit/apple.png");
+            case "오렌지":
+                return require("../../assets/card/fruit/orange.png");
+            case "수박":
+                return require("../../assets/card/fruit/watermelon.png");
+            case "토마토":
+                return require("../../assets/card/fruit/tomato.png");
+            case "체리":
+                return require("../../assets/card/fruit/cherry.png");
+            case "바나나":
+                return require("../../assets/card/fruit/banana.png");
+            case "딸기":
+                return require("../../assets/card/fruit/strawberry.png");
+            case "멜론":
+                return require("../../assets/card/fruit/melon.png");
+            case "복숭아":
+                return require("../../assets/card/fruit/peach.png");
+            case "포도":
+                return require("../../assets/card/fruit/grapes.png");
+        }
     }
-  }
-  //TODO: 이미지 소스는 임시로 사과로 세팅해둠(일단 과일만 정상작동하게 변경했음)
-  if (isLoaded) {
-    return (
-      <CardContainer>
-        <ImgContainer>
-          {props.type.pictureHidden ? (
-            <QmarkImage source={require("../../assets/etc/qmark.png")} resizeMode="contain" />
-          ) : (
-            // <PictureImage source={require(`{props.word.imgSrc}`)} />
-            <PictureImage source={getImage(props.word.name)} />
-          )}
-        </ImgContainer>
-        <View>
-          {props.type.wordHidden === false ? (
-            <WordText key={props.word.name}>{props.word.name}</WordText>
-          ) : (
-            <QTextContainer>
-              {wordToLetterList.slice(0, props.type.wordHiddenIndx).map((letter, index) => {
-                // if (index >= props.type.wordHiddenIndx) return null;
-                // else return <WordText key={index}>{letter}</WordText>;
-                return <WordText key={index}>{letter}</WordText>;
-              })}
-              <WordHiddenContainer>
-                <WordHidden>{wordToLetterList[props.type.wordHiddenIndx]}</WordHidden>
-              </WordHiddenContainer>
-              {wordToLetterList
-                .slice(props.type.wordHiddenIndx + 1, wordToLetterList.length)
-                .map((letter, index) => {
-                  // if (index <= props.type.wordHiddenIndx) return null;
-                  // else return <WordText key={index}>{letter}</WordText>;
-                  return <WordText key={index}>{letter}</WordText>;
-                })}
-            </QTextContainer>
-          )}
-        </View>
-        <SoundBtn>
-          <Image source={require("../../assets/button/audioBtn.png")} resizeMode="stretch" />
-        </SoundBtn>
-      </CardContainer>
-    );
-  } else {
-    return null;
-  }
+
+    if (isLoaded) {
+        return (
+            <CardContainer>
+                <ImgContainer>
+                    {props.type.pictureHidden ? (
+                        <QmarkImage
+                            source={require("../../assets/etc/qmark.png")}
+                            resizeMode="contain"
+                        />
+                    ) : (
+                        <PictureImage source={getImage(props.word.name)} />
+                    )}
+                </ImgContainer>
+                <View>
+                    {props.type.wordHidden === false ? (
+                        <WordText key={props.word.name}>{props.word.name}</WordText>
+                    ) : (
+                        <QTextContainer>
+                            {wordToLetterList
+                                .slice(0, props.type.wordHiddenIndx)
+                                .map((letter, index) => {
+                                    return <WordText key={index}>{letter}</WordText>;
+                                })}
+                            <WordHiddenContainer>
+                                <WordHidden>
+                                    {wordToLetterList[props.type.wordHiddenIndx]}
+                                </WordHidden>
+                            </WordHiddenContainer>
+                            {wordToLetterList
+                                .slice(props.type.wordHiddenIndx + 1, wordToLetterList.length)
+                                .map((letter, index) => {
+                                    return <WordText key={index}>{letter}</WordText>;
+                                })}
+                        </QTextContainer>
+                    )}
+                </View>
+                <SoundBtn
+                    onPress={async () => {
+                        console.log("clicked");
+
+                        if (props.word !== null && soundMappings[props.word.name]) {
+                            const soundObject = new Audio.Sound();
+                            try {
+                                console.log("소리");
+
+                                await soundObject.loadAsync(soundMappings[props.word.name]);
+                                await soundObject.playAsync();
+                            } catch (error) {
+                                console.error("소리 재생 중 오류 발생:", error);
+                            }
+                        }
+                    }}
+                >
+                    <Image
+                        source={require("../../assets/button/audioBtn.png")}
+                        resizeMode="stretch"
+                    />
+                </SoundBtn>
+            </CardContainer>
+        );
+    } else {
+        return null;
+    }
 };
+
 export default QuestionCard;
 
-//전체 카드 컨테이너
+// 전체 카드 컨테이너
 const CardContainer = styled(Container)`
   width: 200px;
   max-height: 300px;
@@ -103,10 +153,10 @@ const CardContainer = styled(Container)`
     android: css`
       elevation: 5;
     `,
-  })}
+})}
 `;
 
-//이미지 영역
+// 이미지 영역
 const ImgContainer = styled.View`
   width: 175px;
   height: 175px;
@@ -116,31 +166,31 @@ const ImgContainer = styled.View`
   align-items: center;
 `;
 
-//물음표 이미지
+// 물음표 이미지
 const QmarkImage = styled.Image`
   width: 100px;
   height: 100px;
 `;
 
-//원래 카드의 이미지
+// 원래 카드의 이미지
 const PictureImage = styled.Image`
   width: 150px;
   height: 150px;
 `;
 
-//글씨 영역
+// 글씨 영역
 const QTextContainer = styled.View`
   flex-direction: row;
 `;
 
-//카드의 이름 전체 텍스트
+// 카드의 이름 전체 텍스트
 const WordText = styled.Text`
   font-family: "BMJUA";
   font-size: 48px;
   margin-top: 5px;
 `;
 
-//카드 이름 중 빈칸인 부분-빈칸
+// 카드 이름 중 빈칸인 부분-빈칸
 const WordHiddenContainer = styled.View`
   width: 50px;
   height: 50px;
@@ -151,14 +201,14 @@ const WordHiddenContainer = styled.View`
   margin: 6px 3px;
 `;
 
-//카드 이름 중 빈칸인 부분-텍스트
+// 카드 이름 중 빈칸인 부분-텍스트
 const WordHidden = styled.Text`
   font-family: "BMJUA";
   font-size: 44px;
   color: lightgray;
 `;
 
-//발음 듣기 버튼
+// 발음 듣기 버튼
 const SoundBtn = styled.TouchableOpacity`
   width: 45px;
   height: 45px;
