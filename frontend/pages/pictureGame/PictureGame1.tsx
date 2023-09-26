@@ -33,7 +33,8 @@ const PictureGame1 = () => {
               <QuestionCard word={word} type={Word1Type} />
             </QCardContainer>
             <ACardContainer>
-              <Canvas />
+              <Canvas word={word} />
+              {/* <Boom /> */}
             </ACardContainer>
           </ContentContainer>
         </ContainerBg>

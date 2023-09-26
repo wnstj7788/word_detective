@@ -1,4 +1,12 @@
-import { View, Text, Image, ImageBackground, TouchableWithoutFeedback } from "react-native";
+import {
+  Animated,
+  Vibration,
+  View,
+  Text,
+  Image,
+  ImageBackground,
+  TouchableWithoutFeedback,
+} from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
@@ -13,6 +21,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import GameClearModal from "../components/GameClearModal";
 import { shuffleArray } from "../../utils/utils";
+import { shakeAnimation2 } from "../../animation/animation";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
@@ -36,22 +45,31 @@ const WordGame1 = () => {
   //선지 8개의 배열
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
   const choiceList = ["사과", "오렌지", "수박", "토마토", "체리", "바나나", "딸기", "사과"];
+  const randList = shuffleArray(choiceList);
+
   let testList: IWord[] = [];
-  choiceList.map(word => {
-    let tempStage: IWord = { ...initialWord }; //initialWord를 복사해서 사용
-    tempStage.name = word;
+  randList.map((word, index) => {
     testList.push({
       name: word,
       imgSrc: "",
+      index: index,
     });
   });
 
-  const [shuffledChoiceList] = useState<IWord[]>(shuffleArray(testList)); //리스트를 섞기
+  const [shuffledChoiceList, setShuffledChoiceList] = useState<IWord[]>(testList); //리스트를 섞기
+  let animValues = shuffledChoiceList.map(() => new Animated.Value(0));
+  useEffect(() => {
+    animValues = shuffledChoiceList.map(() => new Animated.Value(0));
+  }, [shuffledChoiceList]);
 
   //클릭하면 정답인지 확인
   useEffect(() => {
     if (checkAnswer()) {
       setModalVisible(true);
+    } else {
+      //틀림
+      shakeAnimation2(clickedWord.index ?? 0, animValues);
+      Vibration.vibrate(350);
     }
   }, [clickedWord]);
 
@@ -91,7 +109,19 @@ const WordGame1 = () => {
               <ACardLine>
                 {shuffledChoiceList.slice(0, 4).map((choice, index) => {
                   return (
-                    <ACardFirst key={index}>
+                    <ACardFirst
+                      key={index}
+                      style={{
+                        transform: [
+                          {
+                            rotate: animValues[index].interpolate({
+                              inputRange: [-1, 1],
+                              outputRange: ["-5deg", "5deg"],
+                            }),
+                          },
+                        ],
+                      }}
+                    >
                       <MiniCard
                         word={choice}
                         isFront={true}
@@ -105,7 +135,19 @@ const WordGame1 = () => {
               <ACardLine>
                 {shuffledChoiceList.slice(4, 8).map((choice, index) => {
                   return (
-                    <ACardSecond key={index}>
+                    <ACardSecond
+                      key={index}
+                      style={{
+                        transform: [
+                          {
+                            rotate: animValues[index + 4].interpolate({
+                              inputRange: [-1, 1],
+                              outputRange: ["-5deg", "5deg"],
+                            }),
+                          },
+                        ],
+                      }}
+                    >
                       <MiniCard
                         word={choice}
                         isFront={true}
@@ -162,10 +204,10 @@ const ACard = styled.View`
   border-radius: 30px;
 `;
 
-const ACardFirst = styled(ACard)`
+const ACardFirst = Animated.createAnimatedComponent(styled(ACard)`
   margin-bottom: 10px;
-`;
+`);
 
-const ACardSecond = styled(ACard)`
+const ACardSecond = Animated.createAnimatedComponent(styled(ACard)`
   margin-top: 10px;
-`;
+`);
