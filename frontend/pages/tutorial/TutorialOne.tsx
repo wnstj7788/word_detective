@@ -23,7 +23,7 @@ const Main = () => {
             const soundObject = new Audio.Sound();
             try {
                 await soundObject.loadAsync(
-                    require("../../assets/mav/01_안녕_나는_단어탐정이야_내가_모아놓은_단어카드를_잃어버렸는데_도와줘.wav")
+                    require("../../assets/wav/01_안녕_나는_단어탐정이야_내가_모아놓은_단어카드를_잃어버렸는데_도와줘.wav")
                 );
                 await soundObject.playAsync();
                 // 사운드 재생이 끝나면 터치 가능하게 상태 변경

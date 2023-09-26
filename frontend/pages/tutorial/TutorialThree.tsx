@@ -26,7 +26,7 @@ const Main = ({route}: any) => {
             const soundObject = new Audio.Sound();
             try {
                 await soundObject.loadAsync(
-                    require("../../assets/mav/03_그림맞추기_먼저_해볼까.wav")
+                    require("../../assets/wav/03_그림맞추기_먼저_해볼까.wav")
                 );
                 await soundObject.playAsync();
                 // 사운드 재생이 끝나면 터치 가능하게 상태 변경
