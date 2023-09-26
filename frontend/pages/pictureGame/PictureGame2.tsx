@@ -14,9 +14,10 @@ import OXCard from "../components/OXCard";
 import { useState } from "react";
 import GameClearModal from "../components/GameClearModal";
 import Modal from "react-native-modal";
+
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const squareSize = width * 0.18;
 const miniCardSize = width * 0.18;
 const PictureGame2 = () => {
@@ -40,16 +41,22 @@ const PictureGame2 = () => {
   });
   // 모달
   const [isModalVisible, setModalVisible] = useState(false);
+  const openModal = () => {
+    setModalVisible(true);
+  };
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   const oAnswerCheck = () => {
     if (word.name === newCards[count].name) {
       setCount(prevCount => prevCount + 1);
 
       if (count === 7) {
-        alert("goodjob");
+        openModal();
       }
     } else {
-      alert("틀렸어 ㅄ아");
+      alert("떙");
     }
   };
 
@@ -58,10 +65,10 @@ const PictureGame2 = () => {
       setCount(prevCount => prevCount + 1);
 
       if (count === 7) {
-        alert("goodjob");
+        openModal();
       }
     } else {
-      alert("틀렸어 ㅄ아");
+      alert("떙");
     }
   };
 
@@ -69,6 +76,17 @@ const PictureGame2 = () => {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+          <Modal
+            animationIn="slideInUp"
+            animationOut="slideOutDown"
+            backdropColor="rgba(0, 0, 0, 0.5)"
+            isVisible={isModalVisible}
+            onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
+            backdropTransitionOutTiming={0}
+            statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
+          >
+            <GameClearModal nextScreen="PictureGame3" word={word}></GameClearModal>
+          </Modal>
           <ContentContainer>
             <QCardContainer>
               <QCardContainer>
@@ -77,17 +95,22 @@ const PictureGame2 = () => {
             </QCardContainer>
             <ACardContainer>
               <MiniCardContainer>
-                <BackGroundSquare/>
-                <MiniCard word={newCards[count]} isFront={true}  isTouchable={false} onClick={()=>{
-                  console.log();
-                }}/>
+                <BackGroundSquare />
+                <MiniCard
+                  word={newCards[count]}
+                  isFront={true}
+                  isTouchable={false}
+                  onClick={() => {
+                    console.log();
+                  }}
+                />
               </MiniCardContainer>
               <OXCardContainer>
                 <OXOneCard>
-                <OXCard word={word} isFront={true} onPress={() => oAnswerCheck()} />
+                  <OXCard word={word} isFront={true} onPress={() => oAnswerCheck()} />
                 </OXOneCard>
                 <OXOneCard>
-                <OXCard word={word} isFront={false} onPress={() => xAnswerCheck()} />
+                  <OXCard word={word} isFront={false} onPress={() => xAnswerCheck()} />
                 </OXOneCard>
               </OXCardContainer>
             </ACardContainer>
@@ -114,8 +137,8 @@ const QCardContainer = styled.View`
   align-items: center;
 `;
 const OXOneCard = styled.View`
-  margin:10%;
-`
+  margin: 10%;
+`;
 const ACardContainer = styled.View`
   flex: 2;
   justify-content: center;
@@ -127,19 +150,20 @@ const OXCardContainer = styled.View`
   justify-content: space-around;
   align-items: center;
 `;
-const MiniCardContainer=styled.View`
+const MiniCardContainer = styled.View`
   margin-top: 5%;
-  position:relative;
-  `;
+  position: relative;
+`;
 const BackGroundSquare = styled.View`
   position: absolute;
-  width: 27%;  
-  aspect-ratio: 1; 
+  width: 27%;
+  aspect-ratio: 1;
   border-radius: 20px;
   background-color: white;
   transform: rotate(-10deg);
   z-index: -1;
-  ${Platform.OS === 'android' && `
+  ${Platform.OS === "android" &&
+  `
     elevation: 5;
   `}
 `;

@@ -28,8 +28,10 @@ import TutorialFour from "./pages/tutorial/TutorialFour";
 import TutorialFive from "./pages/tutorial/TutorialFive";
 import CameraCon from "./pages/tutorial/CameraCon";
 import WordCanvas from "./pages/wordGame/WordCanvas";
-import WordGame3 from "./pages/wordGame/WordGame3";
 import LetterCanvas from "./pages/letterGame/LetterCanvas";
+
+import WordGame3 from "./pages/wordGame/WordGame3";
+
 
 //네비게이션 관련 타입. 넘겨줄 인자가 없으면 undefined, 있으면 객체로 써주기
 export type RootStackParamList = {
@@ -60,7 +62,7 @@ export type RootStackParamList = {
   WordGame2: {
     word: IWord;
   };
-  WordGame3:  {
+  WordGame3: {
     word: IWord;
   };
   LetterLobby: undefined;
@@ -70,32 +72,31 @@ export type RootStackParamList = {
   LetterGame2: {
     word: IWord;
   };
-  LetterGame3:{
+  LetterGame3: {
     word: IWord;
-  }
-  MiniCard:{
+  };
+  MiniCard: {
     word: IWord;
-    isFront:boolean;
-  }
+    isFront: boolean;
+  };
   WordNoteMain: undefined;
   TutorialOne: undefined;
   TutorialTwo: undefined;
   TutorialThree: {
     cameFromTutorialTwo: boolean;
-
-  }
+  };
 
   TutorialFour: {
     cameFromTutorialThree: boolean;
-
-  }
+  };
 
   TutorialFive: {
     cameFromTutorialFour: boolean;
+  };
 
-  }
+  CameraCon: undefined;
 
-  CameraCon : undefined;
+
 
 
   LetterCanvas: {
@@ -131,8 +132,7 @@ export default function App() {
         <Stack.Screen name="WordGame1" component={WordGame1} />
         <Stack.Screen name="WordGame2" component={WordGame2} />
         <Stack.Screen name="WordGame3" component={WordGame3} />
-        <Stack.Screen name="WordCanvas" component={WordCanvas} />
-        <Stack.Screen name="LetterGame3" component={LetterGame3}/>
+        <Stack.Screen name="LetterGame3" component={LetterGame3} />
         <Stack.Screen name="LetterLobby" component={LetterLobby} />
         <Stack.Screen name="LetterGame1" component={LetterGame1} />
         <Stack.Screen name="LetterGame2" component={LetterGame2} />
@@ -143,10 +143,6 @@ export default function App() {
         <Stack.Screen name="TutorialFour" component={TutorialFour} />
         <Stack.Screen name="TutorialFive" component={TutorialFive} />
         <Stack.Screen name="CameraCon" component={CameraCon} />
-        <Stack.Screen name="LetterCanvas" component={LetterCanvas}/>
-
-
-
       </Stack.Navigator>
     </NavigationContainer>
   );

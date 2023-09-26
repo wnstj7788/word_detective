@@ -9,7 +9,7 @@ import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import Canvas from "./Canvas";
 import QuestionCard from "../components/QuestionCard";
 import { ICard } from "../../types/types";
-
+import Boom from "./boom";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame1">;
 
@@ -34,6 +34,7 @@ const PictureGame1 = () => {
             </QCardContainer>
             <ACardContainer>
               <Canvas />
+              {/* <Boom /> */}
             </ACardContainer>
           </ContentContainer>
         </ContainerBg>

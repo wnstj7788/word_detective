@@ -19,6 +19,7 @@
     "expo-pixi": "^2.1.1",
     "expo-status-bar": "~1.6.0",
     "hangul-js": "^0.2.6",
+    "lottie-react-native": "5.1.6",
     "react": "18.2.0",
     "react-native": "0.72.4",
     "react-native-camera": "^4.2.1",

@@ -2,6 +2,7 @@
 export interface IWord {
   name: string;
   imgSrc: string;
+  index?: number;
 }
 
 //단어 스테이지 정보

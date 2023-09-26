@@ -1,4 +1,13 @@
-import { View, Text, Image, ImageBackground, TouchableOpacity, Animated, TouchableHighlight, Platform } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ImageBackground,
+  TouchableOpacity,
+  Animated,
+  TouchableHighlight,
+  Platform,
+} from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute, useFocusEffect } from "@react-navigation/native";
@@ -11,63 +20,40 @@ import GameClearModal from "../components/GameClearModal";
 import Modal from "react-native-modal";
 import React, { useState } from "react";
 import hangul from "hangul-js";
-type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>
-type StagePageRouteProp = RouteProp<RootStackParamList, "LetterGame2">;
-const Word1Type: ICard={
-  pictureHidden : false,
-  wordHidden: false,
-  wordHiddenIndx:1,
-}
-const LetterGame2 = () =>{
+import { shakeAnimation2 } from "../../animation/animation";
 
-  const isLoaded=useCachedResources();
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+type StagePageRouteProp = RouteProp<RootStackParamList, "LetterGame2">;
+const Word1Type: ICard = {
+  pictureHidden: false,
+  wordHidden: false,
+  wordHiddenIndx: 1,
+};
+const LetterGame2 = () => {
+  const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
-  const {word} = route.params
+  const { word } = route.params;
   const [isModalVisible, setModalVisible] = useState(false);
   const openModal = () => {
     setModalVisible(true);
   };
   const choiceList = ["ㅅ", "ㅜ", "ㄴ", "ㅐ", "ㅓ", "ㅂ", "ㄷ", "ㅠ"];
-  const shakeAnimation = (index: number) => {
-    const rotate = animValues[index];
-    Animated.sequence([
-      Animated.timing(rotate, {
-        toValue: 1,
-        duration: 50,
-        useNativeDriver: true,
-      }),
-      Animated.timing(rotate, {
-        toValue: -1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(rotate, {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(rotate, {
-        toValue: 0,
-        duration: 50,
-        useNativeDriver: true,
-      }),
-    ]).start();
+
+  const closeModal = () => {
+    setModalVisible(false);
   };
-  const closeModal = () =>{
-    setModalVisible(false)
-  }
   const handleCardClick = (choice: string, index: number) => {
     if (choice === "ㅅ") {
       openModal();
     } else {
-      shakeAnimation(index);
+      shakeAnimation2(index, animValues);
     }
   };
-  const syllable=[...word.name];
+  const syllable = [...word.name];
   const animValues = choiceList.map(() => new Animated.Value(0));
 
-  return(
+  return (
     <ContainerBg source={require("../../assets/background/game/fruit.png")}>
       <Modal
         animationIn="slideInUp"
@@ -79,7 +65,6 @@ const LetterGame2 = () =>{
         statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
       >
         <GameClearModal nextScreen="LetterGame3" word={word}></GameClearModal>
-
       </Modal>
       <ContentContainer>
         <QCardContainer>
@@ -87,40 +72,42 @@ const LetterGame2 = () =>{
         </QCardContainer>
         <CardsContainer>
           <BCardContainer>
-            {syllable.map((syll, index)=>{
-              return(
+            {syllable.map((syll, index) => {
+              return (
                 <BCard>
                   <StyledText>{syll}</StyledText>
                 </BCard>
-              )
+              );
             })}
-
           </BCardContainer>
-        <ACardContainer>
-          {choiceList.map((choice, index) => {
-            return (
-              <ACardWrapper onPress={() => handleCardClick(choice, index)}>
-                <ACard key={index} style={{
-                  transform: [
-                    {
-                      rotate: animValues[index].interpolate({
-                        inputRange: [-1, 1],
-                        outputRange: ["-5deg", "5deg"],
-                      }),
-                    },
-                  ],
-                }}>
-                  <StyledText>{choice}</StyledText>
-                </ACard>
-              </ACardWrapper>
-            );
-          })}
-        </ACardContainer>
+          <ACardContainer>
+            {choiceList.map((choice, index) => {
+              return (
+                <ACardWrapper onPress={() => handleCardClick(choice, index)}>
+                  <ACard
+                    key={index}
+                    style={{
+                      transform: [
+                        {
+                          rotate: animValues[index].interpolate({
+                            inputRange: [-1, 1],
+                            outputRange: ["-5deg", "5deg"],
+                          }),
+                        },
+                      ],
+                    }}
+                  >
+                    <StyledText>{choice}</StyledText>
+                  </ACard>
+                </ACardWrapper>
+              );
+            })}
+          </ACardContainer>
         </CardsContainer>
       </ContentContainer>
     </ContainerBg>
-  )
-}
+  );
+};
 const ACardWrapper = styled.TouchableHighlight`
   width: 17%;
   aspect-ratio: 1;
@@ -128,7 +115,6 @@ const ACardWrapper = styled.TouchableHighlight`
   border-radius: 20px;
   justify-content: center;
   align-items: center;
-  
 `;
 const BCardContainer = styled.View`
   flex-direction: row;
@@ -138,14 +124,13 @@ const BCardContainer = styled.View`
   top: 3%;
 `;
 const CardsContainer = styled.View`
-  flex : 2;
-  flex-direction : column;
+  flex: 2;
+  flex-direction: column;
 `;
 const QCardContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  
 `;
 const ACardContainer = styled.View`
   flex: 2;
@@ -157,19 +142,19 @@ const ACardContainer = styled.View`
 `;
 
 const ACard = Animated.createAnimatedComponent(styled.View`
-  
   width: 100%;
   aspect-ratio: 1;
   background-color: white;
   margin: 2%;
-  ${Platform.OS === 'android' && `
+  ${Platform.OS === "android" &&
+  `
     elevation: 5;
   `}
   border-radius: 20px;
   justify-content: center;
   align-items: center;
 `);
-const BCard=styled.View`
+const BCard = styled.View`
   margin-left: 2%;
 `;
 const StyledText = styled.Text`

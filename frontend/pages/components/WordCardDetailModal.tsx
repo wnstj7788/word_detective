@@ -1,11 +1,20 @@
 import React from "react";
 import { Modal, View, Text, TouchableOpacity } from "react-native";
 import styled, { css } from "styled-components/native";
+import { Dimensions } from "react-native";
 interface WordCardDetailModalProps {
   isVisible: boolean;
   onClose: () => void;
   item: string;
 }
+// 화면의 가로 길이를 가져옵니다.
+const screenWidth = Dimensions.get("window").width;
+// 화면의 가로 길이를 기반으로 원하는 비율로 width와 height를 계산합니다.
+const height = screenWidth * 0.4; // 화면 가로 길이의 70%
+const width = (height / 5) * 3.8; // 3:4 비율로 계산
+
+const height2 = screenWidth * 0.5;
+const width2 = (height / 3) * 3.8;
 
 const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, onClose, item }) => {
   function getImage(name: string) {
@@ -38,11 +47,29 @@ const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, on
       </ModalLeft>
 
       <ModalRight>
-        <WordStampDesign source={require("../../assets/card/wordCard2.png")}>
+        <WordStampDesign source={require("../../assets/card/wordCard2.png")} resizeMode="stretch">
           <WordTitle>{item}</WordTitle>
           <ModalCloseBtn onPress={onClose}>
             <ModalCloseBtnImg source={require("../../assets/etc/closeImg.png")}></ModalCloseBtnImg>
           </ModalCloseBtn>
+          <StampWrap>
+            <StampRow>
+              <Stamp>
+                <StampImg
+                  source={require("../../assets/button/stamp.png")}
+                  resizeMode="contain"
+                ></StampImg>
+              </Stamp>
+              <Stamp></Stamp>
+              <Stamp></Stamp>
+            </StampRow>
+
+            <StampRow>
+              <Stamp></Stamp>
+              <Stamp></Stamp>
+              <Stamp></Stamp>
+            </StampRow>
+          </StampWrap>
         </WordStampDesign>
       </ModalRight>
     </ModalContainer>
@@ -58,21 +85,16 @@ const ModalContainer = styled.View`
 
 // Modal Container 왼쪽 영역 ( 카드 이미지 )
 const ModalLeft = styled.View`
-  border-radius: 10px;
+  flex: 1;
   padding: 20px;
-  height: 300px;
-  border-radius: 0px;
-  flex: 3;
-  border: 5px solid black;
+  justify-content: center;
+  align-items: center;
 `;
 
 const WordCardDesign = styled.ImageBackground`
-  width: 270px;
-  height: 350px;
+  width: ${width}px;
+  height: ${height}px;
   position: absolute;
-  top: -20px;
-  left: 30px;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
@@ -86,25 +108,21 @@ const WordImg = styled.Image`
 // Modal Container 오른쪽 영역 ( 도장 )
 const ModalRight = styled.View`
   border-radius: 0px;
-  flex: 3;
-  border-radius: 10px;
-  padding: 20px;
-  border-radius: 0px;
-  border: 5px solid black;
+  flex: 1;
 `;
 const WordStampDesign = styled.ImageBackground`
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
+  width: ${width2}px;
+  height: ${height2}px;
   justify-content: center;
   align-items: center;
-  border: 1px solid red;
+  right: 29px;
 `;
 const ModalCloseBtn = styled.TouchableOpacity`
-  width: 20%;
-  height: 20%;
-  border: 1px solid black;
-  justify-content: flex-end;
+  width: 14%;
+  height: 14%;
+  position: absolute;
+  top: 80px;
+  right: 70px;
 `;
 
 const ModalCloseBtnImg = styled.Image`
@@ -113,11 +131,36 @@ const ModalCloseBtnImg = styled.Image`
 `;
 
 const WordTitle = styled.Text`
-  border: 1px solid blue;
   font-size: 60px;
+  color: #fcceba;
   font-family: "BMJUA";
   text-align: center;
-  text-shadow-color: white; /* 텍스트 테두리 색상 */
-  text-shadow-offset: 2px 2px; /* 텍스트 테두리 오프셋 (x, y) */
-  text-shadow-radius: 2px; /* 텍스트 테두리 반지름 */
+  text-shadow-color: black;
+  text-shadow-offset: 2px 2px;
+  text-shadow-radius: 2px;
+`;
+
+const StampWrap = styled.View`
+  width: 60%;
+  height: 40%;
+  top: 20px;
+`;
+
+const StampRow = styled.View`
+  flex: 1;
+  flex-direction: row;
+`;
+const Stamp = styled.TouchableOpacity`
+  flex: 1;
+  border: 4px dashed brown;
+  margin: 10px;
+  background-color: transparent;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StampImg = styled.Image`
+  width: 100%;
+  height: 100%;
 `;
