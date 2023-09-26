@@ -22,15 +22,6 @@ export default function Boom() {
         // Find more Lottie files at https://lottiefiles.com/featured
         source={require("../../assets/etc/animation_lmyfx756.json")}
       />
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Restart Animation"
-          onPress={() => {
-            animation.current?.reset();
-            animation.current?.play();
-          }}
-        />
-      </View>
     </View>
   );
 }
