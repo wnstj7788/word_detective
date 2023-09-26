@@ -7,6 +7,7 @@ import {
   Animated,
   TouchableHighlight,
   Platform,
+  Vibration
 } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
@@ -47,6 +48,7 @@ const LetterGame2 = () => {
     if (choice === "ㅅ") {
       openModal();
     } else {
+      Vibration.vibrate(350);
       shakeAnimation2(index, animValues);
     }
   };
