@@ -61,12 +61,12 @@ const Main = ({route}: any) => {
                                     cameFromTutorialTwo={route.params?.cameFromTutorialTwo}
                                     onPress={() => {
                                         if (isTouchable) {
-                                            navigation.navigate("TutorialFour", {cameFromTutorialThree: true});
+                                            navigation.navigate("TutorialFour", { cameFromTutorialThree: true });
                                         }
                                     }}
                                     disabled={!isTouchable}
                                 >
-                                    <BtnImg
+                                <BtnImg
                                         source={require("../../assets/button/home/HomePicMatch.png")}
                                         resizeMode="contain"
                                     />
