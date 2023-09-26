@@ -41,8 +41,6 @@ export default function App() {
             {/* 카메라 컴포넌트 */}
             <Camera
                 style={styles.camera}
-                // 앞 뒤 ^-^
-                // type={Camera.Constants.Type.back}
                 ref={(ref) => {
                     if (ref) {
                         cameraRef.current = ref;
