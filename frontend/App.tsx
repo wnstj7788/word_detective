@@ -105,6 +105,7 @@ export type RootStackParamList = {
 
   LetterCanvas: {
     list:string[];
+
   }
 
   WordCanvas : undefined;

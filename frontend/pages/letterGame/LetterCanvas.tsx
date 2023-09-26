@@ -22,7 +22,7 @@ const { height, width } = Dimensions.get("window");
 const fontSize = width * 0.20;
 import axios from "axios/index";
 // @ts-ignore
-const LetterCanvas = ({ list, alpha, pointer }) => {
+const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
   const canvasRef = useRef(null);
   const getBase64Data = () => {
     const canvas = canvasRef.current;
@@ -96,13 +96,17 @@ const LetterCanvas = ({ list, alpha, pointer }) => {
         enableTableDetection: false
       };
 
-      const response = await axios.post(
+      const response =await axios.post(
         'https://x8wazqw014.apigw.ntruss.com/custom/v1/25237/1a57d725f064d05214708ee47c86e5053efc08951c72020eb8b2a910bbb972ca/general',
         data,
         { headers }
       );
+      if(response.data.images[0].fields[0].inferText){
+        setWrite(response.data.images[0].fields[0].inferText)
+      }else{
+        setWrite("다시 입력해주세요");
+      }
 
-      console.log(response.data.images[0].fields[0].inferText);
     } catch (error) {
       // @ts-ignore
       console.error("Error response:", error.response.data);
@@ -146,10 +150,10 @@ const LetterCanvas = ({ list, alpha, pointer }) => {
       </ViewShot>
       <View style={{flexDirection:"row"}}>
         <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
-          <Text style={styles.clearButtonText}>Clear</Text>
+          <Text style={styles.clearButtonText}>지우기</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.captureButton} onPress={sendData}>
-          <Text style={styles.captureButtonText}>Capture SVG</Text>
+          <Text style={styles.captureButtonText}>정답</Text>
         </TouchableOpacity>
       </View>
 
