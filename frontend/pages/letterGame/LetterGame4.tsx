@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { View, ImageBackground, PanResponder, TouchableOpacity, Platform, Text, Image } from "react-native";
+import { View, ImageBackground, PanResponder, TouchableOpacity, Platform } from "react-native";
 import styled from "styled-components/native";
 import { ContainerBg } from "../../styles/globalStyles";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -9,61 +9,18 @@ type StagePageRouteProp = RouteProp<RootStackParamList, "LetterGame2">;
 // @ts-ignore
 import * as hangul from 'hangul-js';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import Modal from "react-native-modal";
-import GameClearModal from "../components/GameClearModal";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
-
-const LetterGame3 = () => {
-  const [isModalVisible, setModalVisible] = useState(false);
+const LetterGame4 = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
-  const [pointer, setPointer] = useState(0);
   const route = useRoute<StagePageRouteProp>();
   const {word} = route.params;
   const list : string[]=hangul.disassemble(word.name);
-  const letters : string[][]= hangul.disassemble(word.name, true);
-  const check : number[] = [letters[0].length,letters[1]? letters[1].length : 0,letters[2]? letters[2].length : 0];
-  const length : number=list.length;
-  console.log(pointer);
-
-  const openModal = () => {
-    setModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-  const concat=(pointer : number) =>{
-    let ret:string="";
-    let a = pointer;
-    let b=0;
-    while (a>0){
-      if(letters[b].length<=a){
-        ret+=hangul.assemble(letters[b]);
-        a-=letters[b].length;
-      }else{
-        ret+=hangul.assemble(letters[b].slice(0, a));
-        a=0;
-      }
-
-      b++;
-    }
-    console.log(ret);
-    return ret;
+  const click=()=>{
+    navigation.navigate("LetterGame4", {word});
   }
+  console.log(list);
   return (
     <ContainerBg source={require("../../assets/background/game/fruit.png")}>
-      <Modal
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        backdropColor="rgba(0, 0, 0, 0.5)"
-        isVisible={isModalVisible}
-        onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
-        backdropTransitionOutTiming={0}
-        statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
-      >
-        <GameClearModal nextScreen="LetterGame4" word={word}></GameClearModal>
-
-      </Modal>
       <Container>
         <ContainerA>
           <Question>
@@ -71,37 +28,29 @@ const LetterGame3 = () => {
               <QuestionImage resizeMode="contain" source={require("../../assets/card/fruit/apple.png")}/>
             </ImageContainer1>
             <ImageContainer2>
-            <QuestionText>{word.name}</QuestionText>
+              <QuestionText>{word.name}</QuestionText>
             </ImageContainer2>
             <ImageContainer3>
-              <TouchableOpacity onPress={() => {
-                if(pointer>=length-1) {
-                  openModal();
-                  return;
-                }
-              setPointer(prevPointer => prevPointer + 1)}}>
-                <Image source={require("../../assets/button/audioBtn.png")}/>
+              <TouchableOpacity onPress={click}>
+                <QuestionSound source={require("../../assets/button/audioBtn.png")}/>
               </TouchableOpacity>
             </ImageContainer3>
           </Question>
-          <Progress>
-            <Text style={{fontSize:60, fontFamily:"BMJUA", letterSpacing:30}}>{concat(pointer)}</Text>
-          </Progress>
         </ContainerA>
         <ContainerB>
-          <LetterCanvas list={list} pointer={pointer} alpha={true}></LetterCanvas>
+          <LetterCanvas list={list} pointer={0} alpha={false}></LetterCanvas>
         </ContainerB>
       </Container>
     </ContainerBg>
   );
 }
 const ImageContainer3=styled.View`
+  justify-content:center;
   align-items: center;
-  justify-content: center;
   flex:1;
 `
 const ImageContainer2=styled.View`
-  flex:2;
+flex:2;
   align-items: center;
   justify-content: center;
 `;
@@ -110,6 +59,12 @@ const ImageContainer1=styled.View`
   justify-content: center;
   align-items: center;
 `;
+const QuestionSound=styled.Image`
+  min-height: 10%;
+  resizeMode : contain;
+  align-items: center;
+  justify-content: center;
+`
 const QuestionText=styled.Text`
   font-size: 50px;
   font-family: "BMJUA";
@@ -126,24 +81,21 @@ const Progress=styled.View`
   background-color: white;
   border:black;
   border-radius: 20px;
-  justify-content: center;
-  align-items: center;
   ${Platform.OS === 'android' && `
     elevation: 10;
   `}
-  
 `;
 const Question=styled.View`
   flex: 2;
   flex-direction: row;
   margin:3% 5%;
+
   background-color: white;
   border:black;
   border-radius: 20px;
   ${Platform.OS === 'android' && `
     elevation: 10;
   `}
-  
 `;
 const Container=styled.View`
   flex: 1;
@@ -163,4 +115,4 @@ const ContainerB = styled.View`
   border-radius: 20px;
 `
 
-export default LetterGame3;
+export default LetterGame4;
