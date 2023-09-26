@@ -14,10 +14,44 @@ import Modal from "react-native-modal";
 import { createDndContext } from "react-native-easy-dnd";
 import { Animated } from "react-native";
 import { initialWord } from "../initialType";
+import Boom from "./boom";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 const { Provider, Droppable, Draggable } = createDndContext();
+function getImage(name: string): any {
+  switch (name) {
+    case "사과":
+      return require("../../assets/card/fruit/apple.png");
+    case "오렌지":
+      return require("../../assets/card/fruit/orange.png");
+    case "수박":
+      return require("../../assets/card/fruit/watermelon.png");
+    case "토마토":
+      return require("../../assets/card/fruit/tomato.png");
+    case "체리":
+      return require("../../assets/card/fruit/cherry.png");
+    case "바나나":
+      return require("../../assets/card/fruit/banana.png");
+    case "딸기":
+      return require("../../assets/card/fruit/strawberry.png");
+    case "멜론":
+      return require("../../assets/card/fruit/melon.png");
+    case "복숭아":
+      return require("../../assets/card/fruit/peach.png");
+    case "포도":
+      return require("../../assets/card/fruit/grapes.png");
+    case "정답":
+      return require("../../assets/card/OXCard/O.png");
+    default:
+      return null; // 기본 이미지 또는 null 값을 반환
+  }
+}
+
+type PictureGameWordType = {
+  word: IWord;
+  canDrag: boolean;
+};
 
 const PictureGame3 = () => {
   const [count, setCount] = useState(0);
@@ -36,13 +70,16 @@ const PictureGame3 = () => {
   // 드레그 리스트
 
   const choiceList = ["사과", "오렌지", "오렌지", "바나나", "딸기", "사과"];
-  const [testList, setTestList] = useState<IWord[]>([]);
+  const [testList, setTestList] = useState<PictureGameWordType[]>([]);
   choiceList.map(word => {
     let tempStage: IWord = { ...initialWord }; //initialWord를 복사해서 사용
     tempStage.name = word;
     testList.push({
-      name: word,
-      imgSrc: "",
+      word: {
+        name: word,
+        imgSrc: "",
+      },
+      canDrag: true,
     });
   });
 
@@ -61,10 +98,12 @@ const PictureGame3 = () => {
   // 드롭되면 사라지는 리스트
 
   useEffect(() => {
-    const initialList: IWord[] = choiceList.map((word, index) => ({
-      id: index,
-      name: word,
-      imgSrc: "",
+    const initialList: PictureGameWordType[] = choiceList.map((word, _index) => ({
+      word: {
+        index: _index,
+        name: word,
+        imgSrc: "",
+      },
       canDrag: true, // 여기 추가
     }));
     setTestList(initialList);
