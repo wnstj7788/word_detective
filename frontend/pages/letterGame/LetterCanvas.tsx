@@ -20,7 +20,7 @@ type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 const fontSize = width * 0.20;
 // @ts-ignore
-const LetterCanvas = ({ list }) => {
+const LetterCanvas = ({ list, alpha, pointer }) => {
   const [isDrawing, setIsDrawing] = useState(false);
 
   const [paths, setPaths] = useState([]);
@@ -29,15 +29,6 @@ const LetterCanvas = ({ list }) => {
   const [capturedImageURI, setCapturedImageURI] = useState(null);
   const svgRef = useRef(null);
   const navigation = useNavigation<RootStackNavigationProp>();
-  const [pointer, setPointer] = useState(0);
-  const alpha=false;
-  const condition=()=>{
-    if(alpha){
-      setPointer(pointer+1);
-    }else{
-
-    }
-  }
   // @ts-ignore
   const handleTouchStart = useCallback(event => {
     setIsDrawing(true);
@@ -54,7 +45,7 @@ const LetterCanvas = ({ list }) => {
 
     const locationX = event.nativeEvent.locationX;
     const locationY = event.nativeEvent.locationY;
-    if (locationX < width*0.265 || locationY < height*0.1 || locationX > width * 0.7 || locationY > height * 0.95) {
+    if (locationX < width*0.03 || locationY < height*0.07 || locationX > width * 0.7 || locationY > height * 0.65) {
       return;
     }
     const newPoint = `${locationX.toFixed(0)},${locationY.toFixed(0)} `;
@@ -90,10 +81,13 @@ const LetterCanvas = ({ list }) => {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          <Svg height={height * 0.7} width={width}>
-            <Text style={styles.guideline}
-
-            >{list[pointer]}</Text>
+          <View
+            style={styles.svgOverlay}
+            onStartShouldSetResponder={() => true}
+            onResponderStart={handleTouchEnd}
+          />
+          <Svg style={{  zIndex: 2 }} height={height * 0.7} width={width * 0.46}>
+            <Text style={styles.guideline}>{alpha ? list[pointer] : ""}</Text>
             <Path
               d={paths.join("")}
               stroke={isClearButtonClicked ? "transparent" : "black"}
@@ -128,6 +122,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+
+  },
+  svgOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
   },
   guideline:{
     textAlign:"center",
@@ -137,6 +140,7 @@ const styles = StyleSheet.create({
     opacity:0.5,
   },
   svgContainer: {
+    position: 'relative',
     height: height * 0.7,
     width: width * 0.65,
     alignItems:"center",

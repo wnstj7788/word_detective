@@ -9,13 +9,40 @@ import {Container, ContainerBg, MenuBtn} from "../../styles/globalStyles";
 import React, {useEffect, useState} from "react";
 import MainModal from "../tutorial/MainModal";
 import Modal from "react-native-modal";
-import MiddleSet from "../components/MiddleSet"; // 모달 패키지
+import MiddleSet from "../components/MiddleSet";
+import {Audio} from "expo-av"; // 모달 패키지
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const Main = ({route}: any) => {
     const isLoaded = useCachedResources();
     const navigation = useNavigation<RootStackNavigationProp>();
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isTouchable, setIsTouchable] = useState(false);
+
+    useEffect(() => {
+        // 페이지가 렌더링될 때 소리를 자동으로 재생
+        const playSound = async () => {
+            const soundObject = new Audio.Sound();
+            try {
+                await soundObject.loadAsync(
+                    require("../../assets/mav/04_스테이지를_눌러보자.wav")
+                );
+                await soundObject.playAsync();
+                // 사운드 재생이 끝나면 터치 가능하게 상태 변경
+                soundObject.setOnPlaybackStatusUpdate((status) => {
+                    if (status.didJustFinish) {
+                        setIsTouchable(true);
+                    }
+                });
+            } catch (error) {
+                console.error("소리 재생 중 오류 발생:", error);
+            }
+        };
+
+        // 컴포넌트가 마운트될 때 소리를 재생
+        playSound();
+    }, []);
+
 
     const closeModal = () => {
         setModalVisible(false);
@@ -42,9 +69,11 @@ const Main = ({route}: any) => {
                                 <MenuBtnDraw
                                     cameFromTutorialTwo={route.params?.cameFromTutorialThree}
                                     onPress={() => {
-                                        console.log("ddddd");
-                                        navigation.navigate("TutorialFive", {cameFromTutorialFour: true});
+                                        if (isTouchable) {
+                                            navigation.navigate("TutorialFive", {cameFromTutorialFour: true});
+                                        }
                                     }}
+                                    disabled={!isTouchable}
                                 >
                                     <BtnImg
                                         source={require("../../assets/button/gameMode/stageModeBtn.png")}

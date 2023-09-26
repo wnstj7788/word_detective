@@ -122,104 +122,103 @@ const PictureGame3 = () => {
 
   if (isLoaded) {
     return (
-      <Provider>
-        <Container>
-          <Modal
-            animationIn="slideInUp"
-            animationOut="slideOutDown"
-            backdropColor="rgba(0, 0, 0, 0.5)"
-            isVisible={isModalVisible}
-            onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
-            backdropTransitionOutTiming={0}
-            statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
-          >
-            <GameClearModal nextScreen="PictureGame3" word={word} />
-          </Modal>
-          <ContainerBg source={require("../../assets/background/game/fruit.png")}>
-            <ContentContainer>
-              <ACardContainer>
-                <ACardLine>
-                  {testList.slice(0, 3).map((choice, index) => {
-                    return (
-                      <ACardFirst key={index}>
-                        <MiniCard
-                          word={choice.word}
-                          isFront={true}
-                          isTouchable={false}
-                          onClick={getMiniCardInfo}
-                          draggable={choice.canDrag ? Draggable : undefined} // choice의 canDrag 속성에 따라 결정
-                        />
-                      </ACardFirst>
-                    );
-                  })}
-                </ACardLine>
-                <ACardLine>
-                  {testList.slice(3, 6).map((choice, index) => {
-                    return (
-                      <ACardSecond key={index}>
-                        <MiniCard
-                          word={choice.word}
-                          isFront={true}
-                          isTouchable={false}
-                          onClick={getMiniCardInfo}
-                          draggable={choice.canDrag ? Draggable : undefined} // choice의 canDrag 속성에 따라 결정
-                        />
-                      </ACardSecond>
-                    );
-                  })}
-                </ACardLine>
-              </ACardContainer>
-              <View>
-                <Droppable
-                  onEnter={() => {}}
-                  onLeave={() => {
-                    console.log("Draggable left");
-                  }}
-                  onDrop={({ payload }) => {
-                    console.log(payload);
-                    if (word.name === payload.name) {
-                      console.log(payload);
-                      console.log("hi");
-                      const updatedTestList = testList.map(item => {
-                        if (item.word.index === payload.index) {
-                          setDropList(prevList => [...prevList, payload]);
-
-                          return { ...item, name: "정답", canDrag: false }; // 해당 아이템의 canDrag를 false로 설정
-                        }
-                        return item;
-                      });
-                      setTestList(updatedTestList);
-                    }
-                  }}
-                >
-                  {({ active, viewProps }) => {
-                    return (
-                      <Animated.View
-                        {...viewProps}
-                        style={[
-                          {
-                            // backgroundColor: active ? "blue" : "green",
-                          },
-                        ]}
-                      >
-                        <ImageBackgrounds source={require("../../assets/etc/basket_pic3.png")}>
-                          {dropList.map((item, index) => (
-                            <Image
-                              key={index}
-                              source={getImage(item.name)}
-                              style={{ width: 100, height: 100, margin: 5 }}
+        <Provider>
+          <Container>
+            <Modal
+                animationIn="slideInUp"
+                animationOut="slideOutDown"
+                backdropColor="rgba(0, 0, 0, 0.5)"
+                isVisible={isModalVisible}
+                onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
+                backdropTransitionOutTiming={0}
+                statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
+            >
+              <GameClearModal nextScreen="PictureGame3" word={word} />
+            </Modal>
+            <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+              <ContentContainer>
+                <ACardContainer>
+                  <ACardLine>
+                    {testList.slice(0, 3).map((choice, index) => {
+                      return (
+                          <ACardFirst key={index}>
+                            <MiniCard
+                                word={choice}
+                                isFront={true}
+                                isTouchable={false}
+                                onClick={getMiniCardInfo}
+                                draggable={choice.canDrag ? Draggable : undefined} // choice의 canDrag 속성에 따라 결정
                             />
-                          ))}
-                        </ImageBackgrounds>
-                      </Animated.View>
-                    );
-                  }}
-                </Droppable>
-              </View>
-            </ContentContainer>
-          </ContainerBg>
-        </Container>
-      </Provider>
+                          </ACardFirst>
+                      );
+                    })}
+                  </ACardLine>
+                  <ACardLine>
+                    {testList.slice(3, 6).map((choice, index) => {
+                      return (
+                          <ACardSecond key={index}>
+                            <MiniCard
+                                word={choice}
+                                isFront={true}
+                                isTouchable={false}
+                                onClick={getMiniCardInfo}
+                                draggable={choice.canDrag ? Draggable : undefined} // choice의 canDrag 속성에 따라 결정
+                            />
+                          </ACardSecond>
+                      );
+                    })}
+                  </ACardLine>
+                </ACardContainer>
+                <View>
+                  <Droppable
+                      onEnter={() => {}}
+                      onLeave={() => {
+                        console.log("Draggable left");
+                      }}
+                      onDrop={({ payload }) => {
+                        console.log(payload);
+                        if (word.name === payload.name) {
+                          console.log(payload);
+                          console.log("hi");
+                          const updatedTestList = testList.map(item => {
+                            if (item.id === payload.id) {
+                              setDropList(prevList => [...prevList, payload]);
+                              return { ...item, name: "정답", canDrag: false }; // 해당 아이템의 canDrag를 false로 설정
+                            }
+                            return item;
+                          });
+                          setTestList(updatedTestList);
+                        }
+                      }}
+                  >
+                    {({ active, viewProps }) => {
+                      return (
+                          <Animated.View
+                              {...viewProps}
+                              style={[
+                                {
+                                  // backgroundColor: active ? "blue" : "green",
+                                },
+                              ]}
+                          >
+                            <ImageBackgrounds source={require("../../assets/etc/basket_pic3.png")}>
+                              {Array.from({ length: dropList.length }).map((_, index) => (
+                                  <Image
+                                      key={index}
+                                      source={require("../../assets/card/fruit/apple.png")}
+                                      style={{ width: 100, height: 100, margin: 5 }}
+                                  />
+                              ))}
+                            </ImageBackgrounds>
+                          </Animated.View>
+                      );
+                    }}
+                  </Droppable>
+                </View>
+              </ContentContainer>
+            </ContainerBg>
+          </Container>
+        </Provider>
     );
   } else {
     return null;

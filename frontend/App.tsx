@@ -27,10 +27,12 @@ import TutorialThree from "./pages/tutorial/TutorialThree";
 import TutorialFour from "./pages/tutorial/TutorialFour";
 import TutorialFive from "./pages/tutorial/TutorialFive";
 import CameraCon from "./pages/tutorial/CameraCon";
-import LetterCanvas from "./pages/letterGame/LetterCanvas";
-import WordCanvas from "./pages/wordGame/WordCanvas";
-import WordGame3 from "./pages/wordGame/WordGame3";
 
+import WordCanvas from "./pages/wordGame/WordCanvas";
+import LetterCanvas from "./pages/letterGame/LetterCanvas";
+
+import WordGame3 from "./pages/wordGame/WordGame3";
+import LetterGame4 from "./pages/letterGame/LetterGame4";
 //네비게이션 관련 타입. 넘겨줄 인자가 없으면 undefined, 있으면 객체로 써주기
 export type RootStackParamList = {
   Home: undefined;
@@ -73,6 +75,9 @@ export type RootStackParamList = {
   LetterGame3: {
     word: IWord;
   };
+  LetterGame4: {
+    word: IWord;
+  };
   MiniCard: {
     word: IWord;
     isFront: boolean;
@@ -92,12 +97,20 @@ export type RootStackParamList = {
     cameFromTutorialFour: boolean;
   };
 
+
   CameraCon: undefined;
 
+
+
+
   LetterCanvas: {
-    list: string[];
-  };
-  WordCanvas: undefined;
+    list:string[];
+  }
+
+  WordCanvas : undefined;
+
+
+
 };
 
 export default function App() {
@@ -134,6 +147,7 @@ export default function App() {
         <Stack.Screen name="TutorialFour" component={TutorialFour} />
         <Stack.Screen name="TutorialFive" component={TutorialFive} />
         <Stack.Screen name="CameraCon" component={CameraCon} />
+        <Stack.Screen name="LetterGame4" component={LetterGame4}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
