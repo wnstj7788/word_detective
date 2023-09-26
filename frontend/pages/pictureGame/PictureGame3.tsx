@@ -69,7 +69,7 @@ const PictureGame3 = () => {
   const [canDrag, setCanDrag] = useState(true);
   // 드레그 리스트
 
-  const choiceList = ["사과", "오렌지", "오렌지", "바나나", "딸기", "사과"];
+  const choiceList = ["사과", "오렌지", "사과", "바나나", "딸기", "사과"];
   const [testList, setTestList] = useState<PictureGameWordType[]>([]);
   choiceList.map(word => {
     let tempStage: IWord = { ...initialWord }; //initialWord를 복사해서 사용
@@ -87,8 +87,10 @@ const PictureGame3 = () => {
   const [dropList, setDropList] = useState<IWord[]>([]);
 
   useEffect(() => {
-    // console.log(clickedWord);
-  }, [clickedWord]);
+    if (dropList.length === 3) {
+      openModal();
+    }
+  }, [clickedWord, dropList]);
 
   //미니카드 클릭했을 때 단어값 전달받기
   const getMiniCardInfo = (word: IWord) => {
@@ -133,7 +135,7 @@ const PictureGame3 = () => {
             backdropTransitionOutTiming={0}
             statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
           >
-            <GameClearModal nextScreen="PictureGame3" word={word} />
+            <GameClearModal nextScreen="Main" word={word} />
           </Modal>
           <ContainerBg source={require("../../assets/background/game/fruit.png")}>
             <ContentContainer>
@@ -184,7 +186,7 @@ const PictureGame3 = () => {
                         if (item.word.index === payload.index) {
                           setDropList(prevList => [...prevList, payload]);
 
-                          return { ...item, name: "정답", canDrag: false }; // 해당 아이템의 canDrag를 false로 설정
+                          return { ...item, word: { ...item.word, name: "정답" }, canDrag: false };
                         }
                         return item;
                       });
