@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { View, ImageBackground, PanResponder, TouchableOpacity, Platform } from "react-native";
+import { View, ImageBackground, PanResponder, TouchableOpacity, Platform, Text } from "react-native";
 import styled from "styled-components/native";
 import { ContainerBg } from "../../styles/globalStyles";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -10,15 +10,19 @@ type StagePageRouteProp = RouteProp<RootStackParamList, "LetterGame2">;
 import * as hangul from 'hangul-js';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+import axios from 'axios';
 const LetterGame4 = () => {
+  const [write, setWrite] = useState("");
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
   const {word} = route.params;
   const list : string[]=hangul.disassemble(word.name);
   const click=()=>{
-    navigation.navigate("LetterGame4", {word});
+
   }
-  console.log(list);
+
+  // @ts-ignore
+
   return (
     <ContainerBg source={require("../../assets/background/game/fruit.png")}>
       <Container>
@@ -35,12 +39,18 @@ const LetterGame4 = () => {
                 <QuestionSound source={require("../../assets/button/audioBtn.png")}/>
               </TouchableOpacity>
             </ImageContainer3>
+            <Text style={{position:"absolute"}}>적은 글씨 : {write}</Text>
           </Question>
         </ContainerA>
         <ContainerB>
-          <LetterCanvas list={list} pointer={0} alpha={false}></LetterCanvas>
+          <LetterCanvas list={list}
+                        pointer={0}
+                        alpha={false}
+                        // @ts-ignore
+                        setWrite={setWrite}></LetterCanvas>
         </ContainerB>
       </Container>
+
     </ContainerBg>
   );
 }
@@ -53,6 +63,7 @@ const ImageContainer2=styled.View`
 flex:2;
   align-items: center;
   justify-content: center;
+
 `;
 const ImageContainer1=styled.View`
   flex:2;
@@ -89,7 +100,7 @@ const Question=styled.View`
   flex: 2;
   flex-direction: row;
   margin:3% 5%;
-
+  justify-content: center;
   background-color: white;
   border:black;
   border-radius: 20px;
