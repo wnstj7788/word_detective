@@ -1,58 +1,50 @@
 import React, { useRef, useState, useCallback } from "react";
-import { Dimensions, InteractionManager, Image, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Text,
+  Image,
+  InteractionManager,
+  Alert,
+} from "react-native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { Svg, Path } from "react-native-svg";
 import ViewShot from "react-native-view-shot";
-import styled from "styled-components/native";
+import QuestionCard from "../components/QuestionCard";
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import styled from "styled-components/native";
 
-type CanvasProps = {
-  paths: string[];
-  isClearButtonClicked: boolean;
-};
-
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 
-const Canvas: React.FC = () => {
-  const [paths, setPaths] = useState<string[]>([]);
-  const [isClearButtonClicked, setClearButtonClicked] = useState<boolean>(false);
-  const [capturedImageURI, setCapturedImageURI] = useState<string | null>(null);
-  const svgRef = useRef<ViewShot>(null);
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const [isDrawing, setIsDrawing] = useState(false);
-
-  const handleTouchStart = useCallback((event: any) => {
-    setIsDrawing(true);
+// @ts-ignore
+const Canvas = ({ word }) => {
+  const [paths, setPaths] = useState([]);
+  const [isClearButtonClicked, setClearButtonClicked] = useState(false);
+  const [capturedImageURI, setCapturedImageURI] = useState(null);
+  const svgRef = useRef(null);
+  const navigation = useNavigation<RootStackNavigationProp>();
+  // @ts-ignore
+  const handleTouchStart = useCallback(event => {
     const locationX = event.nativeEvent.locationX;
     const locationY = event.nativeEvent.locationY;
     const startPoint = `M${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+    // @ts-ignore
     setPaths(prev => [...prev, startPoint]);
   }, []);
 
-  const handleTouchMove = useCallback(
-    (event: any) => {
-      if (!isDrawing) return;
-      const locationX = event.nativeEvent.locationX;
-      const locationY = event.nativeEvent.locationY;
-      // 그리기 영역을 벗어나면 선을 그리지 않음
-      if (
-        locationX < width * 0.18 ||
-        locationY < height * 0.05 ||
-        locationX > width * 0.9 ||
-        locationY > height * 0.95
-      ) {
-        return;
-      }
+  // @ts-ignore
+  const handleTouchMove = useCallback(event => {
+    const locationX = event.nativeEvent.locationX;
+    const locationY = event.nativeEvent.locationY;
+    const newPoint = `${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+    // @ts-ignore
+    setPaths(prev => [...prev, newPoint]);
+  }, []);
 
-      const newPoint = `${locationX.toFixed(0)},${locationY.toFixed(0)} `;
-      setPaths(prev => [...prev, newPoint]);
-    },
-    [isDrawing]
-  );
-  const handleTouchEnd = () => {
-    setIsDrawing(false); // Stop drawing
-  };
   const handleClearButtonClick = () => {
     setPaths([]);
     setClearButtonClicked(true);
@@ -62,20 +54,26 @@ const Canvas: React.FC = () => {
   };
 
   const captureSVG = () => {
-    svgRef.current?.capture().then(uri => {
+    // @ts-ignore
+    svgRef.current.capture().then(uri => {
       setCapturedImageURI(uri);
     });
   };
 
   return (
     <Container>
-      <ViewShotStyled ref={svgRef} options={{ format: "jpg", quality: 0.9 }}>
-        <SvgContainer
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
+      <ViewShot ref={svgRef} options={{ format: "jpg", quality: 0.9 }}>
+        <SVGContainer onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}>
           <Svg height={height * 0.7} width={width}>
+            <StyledText
+              // @ts-ignore
+              x={(width * 0.65) / 2}
+              y={(height * 0.7) / 2 + 24} // 24는 폰트 크기의 절반입니다.
+              textAnchor="middle"
+              dominantBaseline="middle" // 추가된 속성
+            >
+              {word.name}를 그려보세요
+            </StyledText>
             <Path
               d={paths.join("")}
               stroke={isClearButtonClicked ? "transparent" : "black"}
@@ -84,44 +82,46 @@ const Canvas: React.FC = () => {
               strokeLinejoin={"round"}
               strokeLinecap={"round"}
             />
-            <Text>사과를 그려보세요</Text>
           </Svg>
-        </SvgContainer>
-      </ViewShotStyled>
-      <ClearButton onPress={handleClearButtonClick}>
-        <ClearButtonText>Clear</ClearButtonText>
-      </ClearButton>
+          <ClearButton onPress={handleClearButtonClick}>
+            <ClearButtonText>Clear</ClearButtonText>
+          </ClearButton>
+        </SVGContainer>
+      </ViewShot>
       {/* 미리보기 버튼 (확인용) */}
-      {/* <CaptureButton onPress={captureSVG}>
-        <CaptureButtonText>Capture SVG</CaptureButtonText>
-      </CaptureButton>
+      {/* <TouchableOpacity style={styles.captureButton} onPress={captureSVG}>
+        <Text style={styles.captureButtonText}>Capture SVG</Text>
+      </TouchableOpacity>
       {capturedImageURI && (
-        <ImageStyled source={{ uri: capturedImageURI }} />
+        <Image
+          source={{ uri: capturedImageURI }}
+          style={{ width: 200, height: 200, marginTop: 20 }}
+        />
       )} */}
     </Container>
   );
 };
 
 export default Canvas;
-
 const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
 `;
 
-const SvgContainer = styled.View`
+const SVGContainer = styled.View`
   height: ${height * 0.7}px;
   width: ${width * 0.65}px;
   border-color: black;
-  background-color: white;
+  background-color: #f8f4e8;
   border-width: 1px;
-  align-items: center;
-  justify-content: center;
 `;
 
 const ClearButton = styled.TouchableOpacity`
-  margin-top: 10px;
+  position: absolute;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
   background-color: black;
   padding-vertical: 10px;
   padding-horizontal: 20px;
@@ -134,24 +134,20 @@ const ClearButtonText = styled.Text`
   font-weight: bold;
 `;
 
-// const CaptureButton = styled.TouchableOpacity`
-//   margin-top: 10px;
-//   background-color: #007AFF;
-//   padding-vertical: 10px;
-//   padding-horizontal: 20px;
-//   border-radius: 5px;
-// `;
+const NextButton = styled.TouchableOpacity`
+  margin-top: 10px;
+  background-color: black;
+  padding-vertical: 10px;
+  padding-horizontal: 20px;
+  border-radius: 5px;
+`;
 
-// const CaptureButtonText = styled.Text`
-//   color: white;
-//   font-size: 16px;
-//   font-weight: bold;
-// `;
-
-const ViewShotStyled = styled(ViewShot)``;
-
-const ImageStyled = styled.Image`
-  width: 200px;
-  height: 200px;
-  margin-top: 20px;
+const StyledText = styled.Text`
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 48px; 
+  letter-spacing: -0.96px;
+\
 `;
