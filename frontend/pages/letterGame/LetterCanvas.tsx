@@ -1,4 +1,5 @@
 import React, { useRef, useState, useCallback } from "react";
+const secret = "dmtnb2x6U0dSUkl6cmt4c09MY0pGblZJYVFkenJySXA="
 import {
   View,
   StyleSheet,
@@ -19,9 +20,17 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 const fontSize = width * 0.20;
+import axios from "axios/index";
 // @ts-ignore
 const LetterCanvas = ({ list, alpha, pointer }) => {
+  const canvasRef = useRef(null);
+  const getBase64Data = () => {
+    const canvas = canvasRef.current;
+    // @ts-ignore
+    return canvas.toDataURL("image/jpeg");  // Use "image/png" for PNG format
+  }
   const [isDrawing, setIsDrawing] = useState(false);
+
 
   const [paths, setPaths] = useState([]);
   const route = useRoute<StagePageRouteProp>();
@@ -45,9 +54,9 @@ const LetterCanvas = ({ list, alpha, pointer }) => {
 
     const locationX = event.nativeEvent.locationX;
     const locationY = event.nativeEvent.locationY;
-    if (locationX < width*0.03 || locationY < height*0.07 || locationX > width * 0.7 || locationY > height * 0.65) {
-      return;
-    }
+    // if (locationX < width*0.03 || locationY < height*0.07 || locationX > width * 0.7 || locationY > height * 0.65) {
+    //   return;
+    // }
     const newPoint = `${locationX.toFixed(0)},${locationY.toFixed(0)} `;
 
     // @ts-ignore
@@ -64,6 +73,41 @@ const LetterCanvas = ({ list, alpha, pointer }) => {
     });
   };
 
+  const sendData = async () => {
+    try {
+      const base64Image = await captureSVG();
+      const headers = {
+        'X-OCR-SECRET': secret,
+        'Content-Type': 'application/json',
+      };
+
+      const data = {
+        version: "V1",
+        requestId: "4f2c1236-4602-425c-9746-3e74a7c9f91e",
+        timestamp: 0,
+        lang: "ko",
+        images: [
+          {
+            format: "jpg",
+            name: "대전_1반_이준혁",
+            data: capturedImageURI
+          }
+        ],
+        enableTableDetection: false
+      };
+
+      const response = await axios.post(
+        'https://x8wazqw014.apigw.ntruss.com/custom/v1/25237/1a57d725f064d05214708ee47c86e5053efc08951c72020eb8b2a910bbb972ca/general',
+        data,
+        { headers }
+      );
+
+      console.log(response.data.images[0].fields[0].inferText);
+    } catch (error) {
+      // @ts-ignore
+      console.error("Error response:", error.response.data);
+    }
+  };
   const captureSVG = () => {
     // @ts-ignore
     svgRef.current.capture().then(uri => {
@@ -74,7 +118,7 @@ const LetterCanvas = ({ list, alpha, pointer }) => {
   // @ts-ignore
   return (
     <View style={styles.container}>
-      <ViewShot ref={svgRef} options={{ format: "jpg", quality: 0.9 }}>
+      <ViewShot ref={svgRef} options={{ format: "jpg", quality: 0.9, result:"base64" }} style={{backgroundColor:"white", width:"100%", borderRadius:5}}>
         <View
           style={styles.svgContainer}
           onTouchStart={handleTouchStart}
@@ -86,7 +130,7 @@ const LetterCanvas = ({ list, alpha, pointer }) => {
             onStartShouldSetResponder={() => true}
             onResponderStart={handleTouchEnd}
           />
-          <Svg style={{  zIndex: 2 }} height={height * 0.7} width={width * 0.46}>
+          <Svg style={{  zIndex: 2 }} height={height * 0.7} width={width * 0.5}>
             <Text style={styles.guideline}>{alpha ? list[pointer] : ""}</Text>
             <Path
               d={paths.join("")}
@@ -98,21 +142,18 @@ const LetterCanvas = ({ list, alpha, pointer }) => {
             />
           </Svg>
         </View>
-      </ViewShot>
-      <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
-        <Text style={styles.clearButtonText}>Clear</Text>
-      </TouchableOpacity>
 
-      {/* 미리보기 버튼 (확인용) */}
-      {/* <TouchableOpacity style={styles.captureButton} onPress={captureSVG}>
-        <Text style={styles.captureButtonText}>Capture SVG</Text>
-      </TouchableOpacity>
-      {capturedImageURI && (
-        <Image
-          source={{ uri: capturedImageURI }}
-          style={{ width: 200, height: 200, marginTop: 20 }}
-        />
-      )} */}
+      </ViewShot>
+      <View style={{flexDirection:"row"}}>
+        <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
+          <Text style={styles.clearButtonText}>Clear</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.captureButton} onPress={sendData}>
+          <Text style={styles.captureButtonText}>Capture SVG</Text>
+        </TouchableOpacity>
+      </View>
+
+
     </View>
   );
 };
@@ -122,7 +163,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-
+    backgroundColor: "white",
+    borderRadius: 20
   },
   svgOverlay: {
     position: 'absolute',
@@ -133,7 +175,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   guideline:{
-    textAlign:"center",
+    textAlign:"auto",
     fontSize:fontSize,
     justifyContent:"center",
     color:"lightgray",
@@ -165,16 +207,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 5,
   },
-  //   captureButton: {
-  //     marginTop: 10,
-  //     backgroundColor: "#007AFF",
-  //     paddingVertical: 10,
-  //     paddingHorizontal: 20,
-  //     borderRadius: 5,
-  //   },
-  //   captureButtonText: {
-  //     color: "white",
-  //     fontSize: 16,
-  //     fontWeight: "bold",
-  //   },
+  sendButton: {
+    marginTop: 10,
+    backgroundColor: "#00C851", // or any color of your choice
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  sendButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+    captureButton: {
+      marginTop: 10,
+      backgroundColor: "#007AFF",
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 5,
+    },
+    captureButtonText: {
+      color: "white",
+      fontSize: 16,
+      fontWeight: "bold",
+    },
 });

@@ -10,15 +10,17 @@ type StagePageRouteProp = RouteProp<RootStackParamList, "LetterGame2">;
 import * as hangul from 'hangul-js';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+import axios from 'axios';
 const LetterGame4 = () => {
+
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
   const {word} = route.params;
   const list : string[]=hangul.disassemble(word.name);
   const click=()=>{
-    navigation.navigate("LetterGame4", {word});
+
   }
-  console.log(list);
+
   return (
     <ContainerBg source={require("../../assets/background/game/fruit.png")}>
       <Container>
