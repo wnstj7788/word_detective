@@ -14,7 +14,6 @@ import OXCard from "../components/OXCard";
 import { useState } from "react";
 import GameClearModal from "../components/GameClearModal";
 import Modal from "react-native-modal";
-
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 const { width, height } = Dimensions.get("window");
@@ -56,7 +55,7 @@ const PictureGame2 = () => {
         openModal();
       }
     } else {
-      alert("떙");
+      alert("틀렸어 ㅄ아");
     }
   };
 
@@ -68,7 +67,7 @@ const PictureGame2 = () => {
         openModal();
       }
     } else {
-      alert("떙");
+      alert("틀렸어 ㅄ아");
     }
   };
 

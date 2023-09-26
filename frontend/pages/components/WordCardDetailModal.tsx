@@ -54,13 +54,7 @@ const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, on
           </ModalCloseBtn>
           <StampWrap>
             <StampRow>
-              <Stamp>
-                <StampImg
-                  source={require("../../assets/button/stamp.png")}
-                  resizeMode="contain"
-                ></StampImg>
-              </Stamp>
-
+              <Stamp></Stamp>
               <Stamp></Stamp>
               <Stamp></Stamp>
             </StampRow>
@@ -119,13 +113,8 @@ const WordStampDesign = styled.ImageBackground`
   right: 29px;
 `;
 const ModalCloseBtn = styled.TouchableOpacity`
-<<<<<<< Updated upstream
-  width: 14%;
-  height: 14%;
-=======
   width: 10%;
   height: 10%;
->>>>>>> Stashed changes
   position: absolute;
   top: 80px;
   right: 70px;
@@ -147,13 +136,8 @@ const WordTitle = styled.Text`
 `;
 
 const StampWrap = styled.View`
-<<<<<<< Updated upstream
-  width: 60%;
-  height: 40%;
-=======
   width: 40%;
   height: 30%;
->>>>>>> Stashed changes
   top: 20px;
 `;
 
@@ -163,18 +147,5 @@ const StampRow = styled.View`
 `;
 const Stamp = styled.TouchableOpacity`
   flex: 1;
-  border: 4px dashed brown;
-  margin: 10px;
-  background-color: transparent;
-  border-radius: 10px;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StampImg = styled.Image`
-  width: 100%;
-  height: 100%;
-
   border: 0.5px solid black;
-
 `;

@@ -10,40 +10,12 @@ import React, {useEffect, useState} from "react";
 import MainModal from "../tutorial/MainModal";
 import Modal from "react-native-modal";
 import MiddleSet from "../components/MiddleSet"; // 모달 패키지
-import {Audio} from "expo-av";
-
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const Main = ({route}: any) => {
     const isLoaded = useCachedResources();
     const navigation = useNavigation<RootStackNavigationProp>();
     const [isModalVisible, setModalVisible] = useState(false);
-    const [isTouchable, setIsTouchable] = useState(false);
-
-    useEffect(() => {
-        // 페이지가 렌더링될 때 소리를 자동으로 재생
-        const playSound = async () => {
-            const soundObject = new Audio.Sound();
-            try {
-                await soundObject.loadAsync(
-                    require("../../assets/mav/03_그림맞추기_먼저_해볼까.wav")
-                );
-                await soundObject.playAsync();
-                // 사운드 재생이 끝나면 터치 가능하게 상태 변경
-                soundObject.setOnPlaybackStatusUpdate((status) => {
-                    if (status.didJustFinish) {
-                        setIsTouchable(true);
-                    }
-                });
-            } catch (error) {
-                console.error("소리 재생 중 오류 발생:", error);
-            }
-        };
-
-        // 컴포넌트가 마운트될 때 소리를 재생
-        playSound();
-    }, []);
-
 
     const closeModal = () => {
         setModalVisible(false);
@@ -60,13 +32,10 @@ const Main = ({route}: any) => {
                                 <MenuBtnDraw
                                     cameFromTutorialTwo={route.params?.cameFromTutorialTwo}
                                     onPress={() => {
-                                        if (isTouchable) {
-                                            navigation.navigate("TutorialFour", { cameFromTutorialThree: true });
-                                        }
+                                        navigation.navigate("TutorialFour", {cameFromTutorialThree: true});
                                     }}
-                                    disabled={!isTouchable}
                                 >
-                                <BtnImg
+                                    <BtnImg
                                         source={require("../../assets/button/home/HomePicMatch.png")}
                                         resizeMode="contain"
                                     />
@@ -189,3 +158,6 @@ const BtnText = styled.Text`
   font-size: 32px;
   color: #945023;
 `;
+
+
+
