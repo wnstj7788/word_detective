@@ -7,12 +7,40 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import Header from "../etc/Header";
 import {Container, ContainerBg, MenuBtn} from "../../styles/globalStyles";
 import MiddleSet from "../components/MiddleSet";
+import {useEffect, useState} from "react";
+import {Audio} from "expo-av";
+
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const Main = () => {
     const isLoaded = useCachedResources();
     const navigation = useNavigation<RootStackNavigationProp>();
+    const [isTouchable, setIsTouchable] = useState(false);
+
+    useEffect(() => {
+        // 페이지가 렌더링될 때 소리를 자동으로 재생
+        const playSound = async () => {
+            const soundObject = new Audio.Sound();
+            try {
+                await soundObject.loadAsync(
+                    require("../../assets/mav/02_먼저_사과_카드를_찾아보자.wav")
+                );
+                await soundObject.playAsync();
+                // 사운드 재생이 끝나면 터치 가능하게 상태 변경
+                soundObject.setOnPlaybackStatusUpdate((status) => {
+                    if (status.didJustFinish) {
+                        setIsTouchable(true);
+                    }
+                });
+            } catch (error) {
+                console.error("소리 재생 중 오류 발생:", error);
+            }
+        };
+
+        // 컴포넌트가 마운트될 때 소리를 재생
+        playSound();
+    }, []);
 
     if (isLoaded) {
         return (
@@ -21,7 +49,14 @@ const Main = () => {
                     {/* <HeaderContainer>
                         <Header />
                     </HeaderContainer> */}
-                    <TouchableWithoutFeedback onPress={() => navigation.navigate('TutorialThree', {cameFromTutorialTwo: true})}>
+                    <TouchableWithoutFeedback
+                        onPress={() => {
+                            if (isTouchable) {
+                                navigation.navigate('TutorialThree', {cameFromTutorialTwo: true});
+                            }
+                        }}
+                        disabled={!isTouchable}
+                    >
                         <MiddleSet>
                             <ContentBox>
                                 <SpeechBubbleImg
@@ -62,7 +97,6 @@ const SpeechBubbleImg = styled.ImageBackground`
   align-items: center;
   min-width: 100%;
 `;
-
 
 
 const TextTotutial = styled.Text`
