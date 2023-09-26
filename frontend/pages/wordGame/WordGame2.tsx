@@ -232,7 +232,7 @@ const DraggableContainer = styled.View`
 
 //좌측 droppable 영역
 const DroppableContainer = styled.View`
-  flex: 2;
+  flex: 2.5;
   justify-content: center;
   align-items: center;
   padding-right: 30px;

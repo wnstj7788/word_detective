@@ -46,7 +46,7 @@ const Main = ({ route }: any) => {
                 source={require("../../assets/button/home/HomeWordDivideMatch.png")}
                 resizeMode="contain"
               />
-              <BtnText>단어 나누기1</BtnText>
+              <BtnText>단어 나누기</BtnText>
             </MenuBtn>
           </BtnContainer>
           <TestContainer>
@@ -59,9 +59,16 @@ const Main = ({ route }: any) => {
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
               <Text>로그인</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("WordGame3", { word : {
-              name  : "바나나",imgSrc : "",
-              }})} >
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("WordGame3", {
+                  word: {
+                    name: "바나나",
+                    imgSrc: "",
+                  },
+                })
+              }
+            >
               <Text> 워드게임 3 </Text>
             </TouchableOpacity>
           </TestContainer>
