@@ -24,7 +24,7 @@ const Main = () => {
             const soundObject = new Audio.Sound();
             try {
                 await soundObject.loadAsync(
-                    require("../../assets/mav/02_먼저_사과_카드를_찾아보자.wav")
+                    require("../../assets/wav/02_먼저_사과_카드를_찾아보자.wav")
                 );
                 await soundObject.playAsync();
                 // 사운드 재생이 끝나면 터치 가능하게 상태 변경

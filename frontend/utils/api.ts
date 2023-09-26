@@ -2,37 +2,30 @@ import axios from "axios";
 
 //기본 axios 인스턴스 생성
 const axiosInstance = axios.create({
-  baseURL: "/",
+  baseURL: "https://j9b105.p.ssafy.io",
 });
 
 //유저 관련 api
 export const UserAPI = {
-  getAll: function () {
-    return axiosInstance.request({
-      method: "GET",
-      url: `/api/users`,
-      headers: {
-        //인증토큰 등
-      },
-    });
-  },
+  //param에 userId가 있으면 해당 유저의 스테이지 클리어 기록을 리턴 없으면 새로운 uuid를 생성해서 리턴
   getById: function (userId: number) {
     return axiosInstance.request({
       method: "GET",
-      url: `/api/users/${userId}`,
+      url: `/api/users`,
+      data: userId,
     });
   },
   //   create: function (user) {
   //     return axiosInstance.request({
   //       method: "POST",
-  //       url: `/api/v1/users`,
+  //       url: `/api/users`,
   //       data: user,
   //     });
   //   },
   //   update: function (userId, user) {
   //     return axiosInstance.request({
   //       method: "PUT",
-  //       url: `/api/v1/users/${userId}`,
+  //       url: `/api/users/${userId}`,
   //       data: user,
   //     });
   //   },
@@ -40,22 +33,24 @@ export const UserAPI = {
 
 //단어 관련 api
 export const WordAPI = {
-  getAll: function () {
+  // getAll: function () {
+  //   return axiosInstance.request({
+  //     method: "GET",
+  //     url: `/api/word`,
+  //   });
+  // },
+  // getById: function (wordId: number) {
+  //   return axiosInstance.request({
+  //     method: "GET",
+  //     url: `/api/word/${wordId}`,
+  //   });
+  // },
+  //이름 순으로 단어 조회
+  //categoryId(1 : 과일 / 2 : 동물 / 3 : 사물)
+  getByCategory: function (categoryId: number) {
     return axiosInstance.request({
       method: "GET",
-      url: `/api/word`,
-    });
-  },
-  getById: function (wordId: number) {
-    return axiosInstance.request({
-      method: "GET",
-      url: `/api/word/${wordId}`,
-    });
-  },
-  getByCategory: function (category: number) {
-    return axiosInstance.request({
-      method: "GET",
-      url: `/api/word/cate/${category}`,
+      url: `/api/word/cate/${categoryId}`,
     });
   },
 };
