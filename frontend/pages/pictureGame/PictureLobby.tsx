@@ -1,7 +1,7 @@
 import { View, Text, Image, ImageBackground } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
-import {useFocusEffect, useNavigation} from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Header from "../etc/Header";
@@ -18,34 +18,31 @@ const PictureLobby = ({ route }: any) => {
   const navigation = useNavigation<RootStackNavigationProp>();
   const [isModalVisible, setModalVisible] = useState(false);
 
-
   useFocusEffect(
-      React.useCallback(() => {
-        // 이 함수는 화면이 포커스를 받을 때 실행됩니다.
-        if (route.params?.cameFromMainModal) {
-          setModalVisible(true);
-          console.log("Returned from MainModal");
-        }
-      }, [route.params?.cameFromMainModal])
+    React.useCallback(() => {
+      // 이 함수는 화면이 포커스를 받을 때 실행됩니다.
+      if (route.params?.cameFromMainModal) {
+        setModalVisible(true);
+        console.log("Returned from MainModal");
+      }
+    }, [route.params?.cameFromMainModal])
   );
 
   const closeModal = () => {
     setModalVisible(false);
   };
 
-
   if (isLoaded) {
     return (
-      <Container>
-        <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
+      <PictureLobbyContainer>
+        <ContainerBg source={require("../../assets/background/main/pictureBackground.jpg")}>
           <HeaderContainer>
             <Header />
           </HeaderContainer>
           <BtnContainer>
-            <View style={{ position: "relative" }}>
-              <Image source={require("../../assets/character/menuDog.png")}></Image>
-              <BubbleText>그림 맞추기!</BubbleText>
-            </View>
+            <DogContainer>
+              <DogImg source={require("../../assets/character/artistDog.png")}></DogImg>
+            </DogContainer>
 
             <MenuBtn onPress={() => navigation.navigate("CameraCon")}>
               <BtnImg
@@ -62,28 +59,28 @@ const PictureLobby = ({ route }: any) => {
               <BtnText>스테이지</BtnText>
             </MenuBtn>
             <Modal
-                animationIn="slideInUp"
-                animationOut="slideOutDown"
-                backdropColor="rgba(255, 255, 255, 0.5)"
-                isVisible={isModalVisible}
-                onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
-                backdropTransitionOutTiming={0}
-                statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
+              animationIn="slideInUp"
+              animationOut="slideOutDown"
+              backdropColor="rgba(255, 255, 255, 0.5)"
+              isVisible={isModalVisible}
+              onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
+              backdropTransitionOutTiming={0}
+              statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
             >
-              <PictureModal ></PictureModal>
-
-
+              <PictureModal></PictureModal>
             </Modal>
-
           </BtnContainer>
         </ContainerBg>
-      </Container>
+      </PictureLobbyContainer>
     );
   } else {
     return null;
   }
 };
 export default PictureLobby;
+
+//전체 컨테이너
+const PictureLobbyContainer = styled.View``;
 
 //전체 컨테이너의 배경 이미지
 const HeaderContainer = styled.View`
@@ -98,6 +95,11 @@ const BtnContainer = styled.View`
   align-items: center;
 `;
 
+// 로비 강아지 컨테이너
+const DogContainer = styled.View``;
+
+const DogImg = styled.Image``;
+
 //버튼 안의 이미지(사이즈 제한)
 const BtnImg = styled.Image`
   max-width: 120px;
@@ -110,11 +112,4 @@ const BtnText = styled.Text`
   font-family: "BMJUA";
   font-size: 32px;
   color: #945023;
-`;
-const BubbleText = styled.Text`
-  position: absolute;
-  top: 10%;
-  left: 37%;
-  font-family: "BMJUA";
-  font-size: 20px;
 `;

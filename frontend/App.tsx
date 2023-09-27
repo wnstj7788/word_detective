@@ -97,21 +97,13 @@ export type RootStackParamList = {
     cameFromTutorialFour: boolean;
   };
 
-
   CameraCon: undefined;
 
-
-
-
   LetterCanvas: {
-    list:string[];
+    list: string[];
+  };
 
-  }
-
-  WordCanvas : undefined;
-
-
-
+  WordCanvas: undefined;
 };
 
 export default function App() {
@@ -148,7 +140,7 @@ export default function App() {
         <Stack.Screen name="TutorialFour" component={TutorialFour} />
         <Stack.Screen name="TutorialFive" component={TutorialFive} />
         <Stack.Screen name="CameraCon" component={CameraCon} />
-        <Stack.Screen name="LetterGame4" component={LetterGame4}/>
+        <Stack.Screen name="LetterGame4" component={LetterGame4} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -16,14 +16,13 @@ const WordLobby = () => {
   if (isLoaded) {
     return (
       <Container>
-        <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
+        <ContainerBg source={require("../../assets/background/main/wordBackground.png")}>
           <HeaderContainer>
             <Header />
           </HeaderContainer>
           <BtnContainer>
             <View style={{ position: "relative" }}>
-              <Image source={require("../../assets/character/menuDog.png")}></Image>
-              <BubbleText>단어 맞추기!</BubbleText>
+              <Image source={require("../../assets/character/wordDog.png")}></Image>
             </View>
 
             <MenuBtn onPress={() => navigation.navigate("CameraCon")}>
@@ -74,11 +73,4 @@ const BtnText = styled.Text`
   font-family: "BMJUA";
   font-size: 32px;
   color: #945023;
-`;
-const BubbleText = styled.Text`
-  position: absolute;
-  top: 10%;
-  left: 37%;
-  font-family: "BMJUA";
-  font-size: 20px;
 `;
