@@ -82,7 +82,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
       };
 
       const data = {
-        version: "V1",
+        version: "V2",
         requestId: "4f2c1236-4602-425c-9746-3e74a7c9f91e",
         timestamp: 0,
         lang: "ko",
@@ -90,7 +90,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
           {
             format: "jpg",
             name: "대전_1반_이준혁",
-            data: capturedImageURI
+            uri : capturedImageURI
           }
         ],
         enableTableDetection: false
@@ -102,7 +102,13 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
         { headers }
       );
       if(response.data.images[0].fields[0].inferText){
-        setWrite(response.data.images[0].fields[0].inferText)
+        let fulltext=""
+        // @ts-ignore
+        response.data.images[0].fields.map((item)=>{
+          fulltext+=item.inferText;
+        })
+        console.log(fulltext);
+        setWrite(fulltext);
       }else{
         setWrite("다시 입력해주세요");
       }
@@ -117,12 +123,13 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
     svgRef.current.capture().then(uri => {
       setCapturedImageURI(uri);
     });
+
   };
 
   // @ts-ignore
   return (
     <View style={styles.container}>
-      <ViewShot ref={svgRef} options={{ format: "jpg", quality: 0.9, result:"base64" }} style={{backgroundColor:"white", width:"100%", borderRadius:5}}>
+      <ViewShot ref={svgRef} options={{ format: "jpg", quality: 0.9 }} style={{backgroundColor:"white", width:"100%", borderRadius:5}}>
         <View
           style={styles.svgContainer}
           onTouchStart={handleTouchStart}
