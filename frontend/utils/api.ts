@@ -12,6 +12,11 @@ export const UserAPI = {
     return axiosInstance.request({
       method: "GET",
       url: `/api/users`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        UserID: `${localStorage.getItem("myId")}`,
+        // "Content-Type": "application/json",
+      },
       data: userId,
     });
   },
