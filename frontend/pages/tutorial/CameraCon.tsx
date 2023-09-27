@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
+import axios from "axios";
+import * as FileSystem from 'expo-file-system';
+
 
 export default function App() {
     // 카메라 권한 상태를 저장하는 상태 변수
     const [hasPermission, setHasPermission] = useState<boolean | null>(null);
 
-    // 카메라 참조를 저장하는 useRef
-    const cameraRef = useRef<Camera | null>(null);
+    const cameraRef = useRef<Camera | undefined>();
+
 
     useEffect(() => {
         // 카메라 권한을 요청하고 권한 상태를 업데이트
@@ -17,13 +20,57 @@ export default function App() {
         })();
     }, []);
 
+
+
     // 사진을 찍는 함수
     const takePicture = async () => {
         if (cameraRef.current) {
-            // 카메라에서 사진을 찍고 사진 데이터를 출력
+            // 사진을 찍고 사진 데이터를 출력
             const photo = await cameraRef.current.takePictureAsync();
             console.log(photo);
-            // photo 객체에 사진 데이터가 들어 있음
+
+            const fileUri = `${FileSystem.documentDirectory}${Date.now()}.jpg`;
+
+            try {
+                await FileSystem.moveAsync({
+                    from: photo.uri,
+                    to: fileUri,
+                });
+
+                console.log('Image saved to:', fileUri);
+
+                const formData = new FormData();
+
+                // 이미지 파일을 읽어서 FormData에 추가
+                const imageFile = await FileSystem.readAsStringAsync(fileUri, {
+                    encoding: FileSystem.EncodingType.Base64,
+                });
+
+
+                formData.append('file', imageFile); // 이미지 파일 데이터 추가
+
+                formData.append('userId', 'c06a5b6d-bf71-4d23-a2e3-17e039c6d90e');
+                formData.append('wordId', '1');
+
+                try {
+                    const response = await axios.post('https://j9b105.p.ssafy.io/api/photo', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
+
+                    if (response.status === 200) {
+                        console.log('Image upload successful');
+                        console.log('Server response:', response.data);
+                    } else {
+                        console.log('Image upload failed');
+                    }
+                } catch (error) {
+                    console.error('Error uploading image:', error);
+                }
+            } catch (error) {
+                console.error('Error saving image:', error);
+            }
         }
     };
 
@@ -41,13 +88,13 @@ export default function App() {
             {/* 카메라 컴포넌트 */}
             <Camera
                 style={styles.camera}
-                // 앞 뒤 ^-^
-                // type={Camera.Constants.Type.back}
                 ref={(ref) => {
                     if (ref) {
                         cameraRef.current = ref;
                     }
                 }}
+                zoom={0} // 원하는 줌 레벨로 설정합니다.
+                ratio="5:4" // 비율을 16:9로 설정합니다.
             >
                 {/* 카메라 버튼 컨테이너 */}
                 <View style={styles.buttonContainer}>
@@ -70,6 +117,7 @@ const styles = StyleSheet.create({
     },
     camera: {
         flex: 1,
+
     },
     buttonContainer: {
         flex: 1,

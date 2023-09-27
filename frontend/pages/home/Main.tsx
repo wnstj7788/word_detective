@@ -15,9 +15,9 @@ const Main = ({route}: any) => {
     const navigation = useNavigation<RootStackNavigationProp>();
 
     const soundFiles = {
-        pictureMatch: require("../../assets/mav/06_그림맞추기.wav"),
-        wordMatch: require("../../assets/mav/34_단어맞추기.wav"),
-      wordLetter : require("../../assets/mav/35_단어나누기.wav")
+        pictureMatch: require("../../assets/wav/06_그림맞추기.wav"),
+        wordMatch: require("../../assets/wav/34_단어맞추기.wav"),
+      wordLetter : require("../../assets/wav/35_단어나누기.wav")
         // 다른 소리 파일들을 필요에 따라 추가
     };
 

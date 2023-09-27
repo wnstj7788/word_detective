@@ -47,7 +47,7 @@ public class WordService {
         List<WordResponseDto> responseDtos = IntStream.iterate(0, i -> i < correctCnt, i -> i + 1)
                 .mapToObj(i -> WordResponseDto.fromEntity(word))
                 .collect(Collectors.toList());
-        List<Word> randomWord = wordRepository.findRandomWord(answer, randCnt - correctCnt);
+        List<Word> randomWord = wordRepository.findRandomWord(answer, randCnt);
 
         responseDtos.addAll(randomWord.stream().map(WordResponseDto::fromEntity).collect(Collectors.toList()));
 
