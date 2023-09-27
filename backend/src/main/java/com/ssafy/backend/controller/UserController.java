@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
@@ -24,7 +22,7 @@ public class UserController {
      * @return 유저 정보
      */
     @GetMapping("")
-    public ResponseEntity<UserResponseDto> getUserInfoOrCreate(@RequestParam(required = false) UUID userId) {
+    public ResponseEntity<UserResponseDto> getUserInfoOrCreate(@RequestParam(required = false) Long userId) {
         return ResponseEntity.ok(userService.getUserInfoOrCreate(userId));
     }
 }
