@@ -2,6 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Provider } from "react-redux";
+import store from "./store/store"; // 리덕스 스토어를 생성한 파일의 경로를 사용하세요.
 import Header from "./pages/etc/Header";
 import Login from "./pages/etc/Login";
 import Main from "./pages/home/Main";
@@ -109,39 +111,41 @@ export type RootStackParamList = {
 export default function App() {
   const Stack = createNativeStackNavigator<RootStackParamList>();
   return (
-    <NavigationContainer>
-      <StatusBar hidden={true} />
-      <Stack.Navigator
-        initialRouteName="Main"
-        screenOptions={{
-          headerShown: false,
-          animation: "fade",
-        }}
-      >
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Main" component={Main} />
-        <Stack.Screen name="Stage" component={Stage} />
-        <Stack.Screen name="PictureLobby" component={PictureLobby} />
-        <Stack.Screen name="PictureGame1" component={PictureGame1} />
-        <Stack.Screen name="PictureGame2" component={PictureGame2} />
-        <Stack.Screen name="PictureGame3" component={PictureGame3} />
-        <Stack.Screen name="WordLobby" component={WordLobby} />
-        <Stack.Screen name="WordGame1" component={WordGame1} />
-        <Stack.Screen name="WordGame2" component={WordGame2} />
-        <Stack.Screen name="WordGame3" component={WordGame3} />
-        <Stack.Screen name="LetterGame3" component={LetterGame3} />
-        <Stack.Screen name="LetterLobby" component={LetterLobby} />
-        <Stack.Screen name="LetterGame1" component={LetterGame1} />
-        <Stack.Screen name="LetterGame2" component={LetterGame2} />
-        <Stack.Screen name="WordNoteMain" component={WordNoteMain} />
-        <Stack.Screen name="TutorialOne" component={TutorialOne} />
-        <Stack.Screen name="TutorialTwo" component={TutorialTwo} />
-        <Stack.Screen name="TutorialThree" component={TutorialThree} />
-        <Stack.Screen name="TutorialFour" component={TutorialFour} />
-        <Stack.Screen name="TutorialFive" component={TutorialFive} />
-        <Stack.Screen name="CameraCon" component={CameraCon} />
-        <Stack.Screen name="LetterGame4" component={LetterGame4} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <StatusBar hidden={true} />
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{
+            headerShown: false,
+            animation: "fade",
+          }}
+        >
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Main" component={Main} />
+          <Stack.Screen name="Stage" component={Stage} />
+          <Stack.Screen name="PictureLobby" component={PictureLobby} />
+          <Stack.Screen name="PictureGame1" component={PictureGame1} />
+          <Stack.Screen name="PictureGame2" component={PictureGame2} />
+          <Stack.Screen name="PictureGame3" component={PictureGame3} />
+          <Stack.Screen name="WordLobby" component={WordLobby} />
+          <Stack.Screen name="WordGame1" component={WordGame1} />
+          <Stack.Screen name="WordGame2" component={WordGame2} />
+          <Stack.Screen name="WordGame3" component={WordGame3} />
+          <Stack.Screen name="LetterGame3" component={LetterGame3} />
+          <Stack.Screen name="LetterLobby" component={LetterLobby} />
+          <Stack.Screen name="LetterGame1" component={LetterGame1} />
+          <Stack.Screen name="LetterGame2" component={LetterGame2} />
+          <Stack.Screen name="WordNoteMain" component={WordNoteMain} />
+          <Stack.Screen name="TutorialOne" component={TutorialOne} />
+          <Stack.Screen name="TutorialTwo" component={TutorialTwo} />
+          <Stack.Screen name="TutorialThree" component={TutorialThree} />
+          <Stack.Screen name="TutorialFour" component={TutorialFour} />
+          <Stack.Screen name="TutorialFive" component={TutorialFive} />
+          <Stack.Screen name="CameraCon" component={CameraCon} />
+          <Stack.Screen name="LetterGame4" component={LetterGame4} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
