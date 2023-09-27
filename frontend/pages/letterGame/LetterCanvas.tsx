@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 const secret = "dmtnb2x6U0dSUkl6cmt4c09MY0pGblZJYVFkenJySXA="
 import {
   View,
@@ -21,6 +21,7 @@ type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 const fontSize = width * 0.20;
 import axios from "axios/index";
+
 // @ts-ignore
 const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
   const canvasRef = useRef(null);
@@ -72,7 +73,6 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
       setClearButtonClicked(false);
     });
   };
-
   const sendData = async () => {
     try {
       const base64Image = await captureSVG();
@@ -90,7 +90,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
           {
             format: "jpg",
             name: "대전_1반_이준혁",
-            uri : capturedImageURI
+            data : capturedImageURI
           }
         ],
         enableTableDetection: false
@@ -124,12 +124,16 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
       setCapturedImageURI(uri);
     });
 
+
   };
+  useEffect(()=>{
+    sendData();
+  },[capturedImageURI])
 
   // @ts-ignore
   return (
     <View style={styles.container}>
-      <ViewShot ref={svgRef} options={{ format: "jpg", quality: 0.9 }} style={{backgroundColor:"white", width:"100%", borderRadius:5}}>
+      <ViewShot ref={svgRef} options={{ format: "jpg", quality: 0.9, result:"base64" }} style={{backgroundColor:"white", width:"100%", borderRadius:5}}>
         <View
           style={styles.svgContainer}
           onTouchStart={handleTouchStart}
@@ -159,7 +163,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
         <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
           <Text style={styles.clearButtonText}>지우기</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.captureButton} onPress={sendData}>
+        <TouchableOpacity style={styles.captureButton} onPress={captureSVG}>
           <Text style={styles.captureButtonText}>정답</Text>
         </TouchableOpacity>
       </View>
@@ -220,7 +224,7 @@ const styles = StyleSheet.create({
   },
   sendButton: {
     marginTop: 10,
-    backgroundColor: "#00C851", // or any color of your choice
+    backgroundColor: "#00C851",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
