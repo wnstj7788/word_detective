@@ -19,7 +19,7 @@ import styled from "styled-components/native";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
-
+const customWidth = Dimensions.get("window").width;
 // @ts-ignore
 const Canvas = ({ word }) => {
   const [paths, setPaths] = useState([]);
@@ -65,15 +65,9 @@ const Canvas = ({ word }) => {
       <ViewShot ref={svgRef} options={{ format: "jpg", quality: 0.9 }}>
         <SVGContainer onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}>
           <Svg height={height * 0.7} width={width}>
-            <StyledText
-              // @ts-ignore
-              x={(width * 0.65) / 2}
-              y={(height * 0.7) / 2 + 24} // 24는 폰트 크기의 절반입니다.
-              textAnchor="middle"
-              dominantBaseline="middle" // 추가된 속성
-            >
-              {word.name}를 그려보세요
-            </StyledText>
+            <Textcontainer>
+              <StyledText>{word.name}를 그려보세요</StyledText>
+            </Textcontainer>
             <Path
               d={paths.join("")}
               stroke={isClearButtonClicked ? "transparent" : "black"}
@@ -144,10 +138,15 @@ const NextButton = styled.TouchableOpacity`
 
 const StyledText = styled.Text`
   color: rgba(0, 0, 0, 0.2);
-  font-size: 48px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 48px; 
-  letter-spacing: -0.96px;
-\
+  font-size: 30px;
+  font-weight: bold;
+`;
+
+const Textcontainer = styled.View`
+  height: ${height * 0.7}px;
+  width: ${width * 0.65}px;
+  justify-content: center;
+
+  opacity: 0.5;
+  flex-direction: row;
 `;
