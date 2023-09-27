@@ -23,8 +23,7 @@ const LetterGame3 = () => {
   const letters : string[][]= hangul.disassemble(word.name, true);
   const check : number[] = [letters[0].length,letters[1]? letters[1].length : 0,letters[2]? letters[2].length : 0];
   const length : number=list.length;
-  console.log(pointer);
-
+  const [write, setWrite] = useState("");
   const openModal = () => {
     setModalVisible(true);
   };
@@ -50,6 +49,7 @@ const LetterGame3 = () => {
     console.log(ret);
     return ret;
   }
+
   return (
     <ContainerBg source={require("../../assets/background/game/fruit.png")}>
       <Modal
@@ -89,7 +89,7 @@ const LetterGame3 = () => {
           </Progress>
         </ContainerA>
         <ContainerB>
-          <LetterCanvas list={list} pointer={pointer} alpha={true}></LetterCanvas>
+          <LetterCanvas list={list} pointer={pointer} alpha={true} setWrite={setWrite}></LetterCanvas>
         </ContainerB>
       </Container>
     </ContainerBg>
