@@ -11,12 +11,7 @@ export const UserAPI = {
   getById: function (userId: number) {
     return axiosInstance.request({
       method: "GET",
-      url: `/api/users`,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        UserID: `${localStorage.getItem("myId")}`,
-        // "Content-Type": "application/json",
-      },
+      url: `/api/user`,
       data: userId,
     });
   },
