@@ -56,7 +56,7 @@ const Login = () => {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
-          <TouchableWithoutFeedback onPress={() => loginFunc()}>
+          <TouchableWithoutFeedback onPress={() => navigation.navigate("Main")}>
             <View style={{ flex: 1, flexDirection: "row" }}>
               <View style={{ flex: 1 }} />
               <View style={{ flex: 20 }}>
