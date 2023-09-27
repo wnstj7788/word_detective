@@ -8,21 +8,36 @@ import Header from "../etc/Header";
 import {Container, ContainerBg, MenuBtn} from "../../styles/globalStyles";
 import React from "react";
 import {Audio} from "expo-av"; // Expo Audio 라이브러리 추가
+import { useDispatch } from "react-redux";
+import { setCurrentMusic } from "../../store/music";
+import GlobalMusicPlayer from "../../utils/globalMusicPlayer"; // GlobalMusicPlayer 컴포넌트 임포트 추가
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const Main = ({route}: any) => {
     const isLoaded = useCachedResources();
     const navigation = useNavigation<RootStackNavigationProp>();
+    const dispatch = useDispatch();
+
+
+
+    const handleNavigateToOtherScreen = () => {
+        console.log("Music");
+        dispatch(setCurrentMusic(require("../../assets/backgroundMusic/mainMusic.mp3")));
+        console.log("test");
+        navigation.navigate("WordLobby");
+    };
+
+
 
     const soundFiles = {
         pictureMatch: require("../../assets/wav/06_그림맞추기.wav"),
         wordMatch: require("../../assets/wav/34_단어맞추기.wav"),
-      wordLetter : require("../../assets/wav/35_단어나누기.wav")
+         wordLetter : require("../../assets/wav/35_단어나누기.wav")
         // 다른 소리 파일들을 필요에 따라 추가
     };
 
 
-    const playSound = async (soundFile: string) => {
+    const playSound = async (soundFile: string ) => {
         const {sound} = await Audio.Sound.createAsync(soundFile);
         await sound.playAsync();
     };
@@ -32,6 +47,7 @@ const Main = ({route}: any) => {
         return (
             <Container>
                 <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
+                    <GlobalMusicPlayer />
                     <HeaderContainer>
                         <Header/>
                     </HeaderContainer>
@@ -53,7 +69,8 @@ const Main = ({route}: any) => {
                         <MenuBtn onPress={async () => {
                             console.log("ddddd");
                             playSound(soundFiles.wordMatch);
-                            navigation.navigate("WordLobby");
+                            handleNavigateToOtherScreen();
+                            // navigation.navigate("WordLobby");
                         }}>
                             <BtnImg
                                 source={require("../../assets/button/home/HomeWordMatch.png")}

@@ -8,10 +8,10 @@ const axiosInstance = axios.create({
 //유저 관련 api
 export const UserAPI = {
   //param에 userId가 있으면 해당 유저의 스테이지 클리어 기록을 리턴 없으면 새로운 uuid를 생성해서 리턴
-  getById: function (userId: number) {
+  getById: function (userId?: number) {
     return axiosInstance.request({
       method: "GET",
-      url: `/api/users`,
+      url: `/api/user`,
       data: userId,
     });
   },

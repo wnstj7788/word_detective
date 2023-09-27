@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "word-detective",
-    "slug": "word-detective",
-    "version": "1.0.0",
+    "name": "단어탐정",
+    "slug": "word_detective",
+    "version": "1.0.1",
     "orientation": "landscape",
-    "icon": "./assets/icon.jpg",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -18,7 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.jpg",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
@@ -35,7 +35,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "47d36c7d-a349-4e84-b283-780029cf7413"
+        "projectId": "2217c456-6c52-4cb4-9998-4af0ba931d0d"
       }
     }
   }

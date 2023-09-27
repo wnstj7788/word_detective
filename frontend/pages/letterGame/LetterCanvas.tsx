@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 const secret = "dmtnb2x6U0dSUkl6cmt4c09MY0pGblZJYVFkenJySXA="
 import {
   View,
@@ -21,6 +21,7 @@ type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 const fontSize = width * 0.20;
 import axios from "axios/index";
+
 // @ts-ignore
 const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
   const canvasRef = useRef(null);
@@ -72,7 +73,6 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
       setClearButtonClicked(false);
     });
   };
-
   const sendData = async () => {
     try {
       const base64Image = await captureSVG();
@@ -82,7 +82,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
       };
 
       const data = {
-        version: "V1",
+        version: "V2",
         requestId: "4f2c1236-4602-425c-9746-3e74a7c9f91e",
         timestamp: 0,
         lang: "ko",
@@ -90,7 +90,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
           {
             format: "jpg",
             name: "대전_1반_이준혁",
-            data: capturedImageURI
+            data : capturedImageURI
           }
         ],
         enableTableDetection: false
@@ -102,7 +102,13 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
         { headers }
       );
       if(response.data.images[0].fields[0].inferText){
-        setWrite(response.data.images[0].fields[0].inferText)
+        let fulltext=""
+        // @ts-ignore
+        response.data.images[0].fields.map((item)=>{
+          fulltext+=item.inferText;
+        })
+        console.log(fulltext);
+        setWrite(fulltext);
       }else{
         setWrite("다시 입력해주세요");
       }
@@ -117,7 +123,12 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
     svgRef.current.capture().then(uri => {
       setCapturedImageURI(uri);
     });
+
+
   };
+  useEffect(()=>{
+    sendData();
+  },[capturedImageURI])
 
   // @ts-ignore
   return (
@@ -152,7 +163,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
         <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
           <Text style={styles.clearButtonText}>지우기</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.captureButton} onPress={sendData}>
+        <TouchableOpacity style={styles.captureButton} onPress={captureSVG}>
           <Text style={styles.captureButtonText}>정답</Text>
         </TouchableOpacity>
       </View>
@@ -213,7 +224,7 @@ const styles = StyleSheet.create({
   },
   sendButton: {
     marginTop: 10,
-    backgroundColor: "#00C851", // or any color of your choice
+    backgroundColor: "#00C851",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
