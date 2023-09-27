@@ -25,51 +25,40 @@ export default function App() {
     // 사진을 찍는 함수
     const takePicture = async () => {
         if (cameraRef.current) {
-            // 사진을 찍고 사진 데이터를 출력
             const photo = await cameraRef.current.takePictureAsync();
+
             console.log(photo);
 
-            const fileUri = `${FileSystem.documentDirectory}${Date.now()}.jpg`;
+            const cleanUri = photo.uri.startsWith('file://') ? photo.uri.slice(7) : photo.uri;
+
+            console.log(cleanUri);
+
+            const formData = new FormData();
+
+            // 직접 이미지 데이터를 추가
+            formData.append('file', {
+                uri: photo.uri, // 사진의 URI를 사용
+                name: 'photo.jpg',
+                type: 'image/jpeg', // 이미지 형식에 따라 수정하세요.
+            });
+
+            formData.append('userId', '01af21be-09a8-41e0-a8ad-2084b501ad53');
+            formData.append('wordId', '1');
 
             try {
-                await FileSystem.moveAsync({
-                    from: photo.uri,
-                    to: fileUri,
-                });
-
-                console.log('Image saved to:', fileUri);
-
-                const formData = new FormData();
-
-                // 이미지 파일을 읽어서 FormData에 추가
-                const imageFile = await FileSystem.readAsStringAsync(fileUri, {
-                    encoding: FileSystem.EncodingType.Base64,
-                });
-
-
-                formData.append('file', imageFile); // 이미지 파일 데이터 추가
-
-                formData.append('userId', 'c06a5b6d-bf71-4d23-a2e3-17e039c6d90e');
-                formData.append('wordId', '1');
-
-                try {
-                    const response = await axios.post('https://j9b105.p.ssafy.io/api/photo', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
+                const response = await axios.post('http://192.168.137.1:9999/api/photo', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
                     });
-
                     if (response.status === 200) {
                         console.log('Image upload successful');
                         console.log('Server response:', response.data);
                     } else {
                         console.log('Image upload failed');
-                    }
-                } catch (error) {
-                    console.error('Error uploading image:', error);
                 }
             } catch (error) {
-                console.error('Error saving image:', error);
+                console.error('Error uploading image:', error);
             }
         }
     };
