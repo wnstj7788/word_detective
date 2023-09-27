@@ -11,8 +11,7 @@ export const UserAPI = {
   getById: function (userId?: number) {
     return axiosInstance.request({
       method: "GET",
-      url: `/api/user`,
-      data: userId,
+      url: `/api/user?userId=${userId}`,
     });
   },
   //   create: function (user) {
@@ -50,7 +49,7 @@ export const WordAPI = {
   getByCategory: function (categoryId: number) {
     return axiosInstance.request({
       method: "GET",
-      url: `/api/word/cate/${categoryId}`,
+      url: `/api/word/${categoryId}`,
     });
   },
 };
