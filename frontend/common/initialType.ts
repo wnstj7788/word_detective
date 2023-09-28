@@ -1,15 +1,13 @@
 import { IWord, IStage, IUser } from "../types/types";
 
 export const initialWord: IWord = {
+  id: 0,
   name: "",
   imgSrc: "",
 };
 
 export const initialStage: IStage = {
-  word: {
-    name: "",
-    imgSrc: "",
-  },
+  word: initialWord,
   clear: false,
 };
 

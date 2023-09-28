@@ -9,7 +9,7 @@ import { IStage } from "../../types/types";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-const StageCard = (props: { stage: IStage; gameType: string;  isApple: boolean }) => {
+const StageCard = (props: { stage: IStage; gameType: string }) => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   function getImage(name: string): any {
@@ -38,14 +38,15 @@ const StageCard = (props: { stage: IStage; gameType: string;  isApple: boolean }
   }
 
   const cardStyle = {
-      borderWidth: 7,
-      borderColor: props.isApple ? "red" : "white",
-    };
+    borderWidth: 7,
+    borderColor: "white",
+  };
 
   if (isLoaded) {
     //gameType에 따라 스테이지로 연결
     return (
-      <CardContainer style={cardStyle} // cardStyle을 스타일로 적용
+      <CardContainer
+        style={cardStyle} // cardStyle을 스타일로 적용
         onPress={() => {
           if (props.gameType === "picture") {
             return navigation.navigate("PictureGame1", { word: props.stage.word });
