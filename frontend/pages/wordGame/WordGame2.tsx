@@ -17,7 +17,7 @@ import WordMiniCard from "../components/WordMiniCard";
 import MiniCard from "../components/MiniCard";
 import GameClearModal from "../components/GameClearModal";
 import { ICard, IWord } from "../../types/types";
-import { initialWord } from "../initialType";
+import { initialWord } from "../../common/initialType";
 import { useEffect, useState } from "react";
 import { createDndContext } from "react-native-easy-dnd"; //dragabble
 import Modal from "react-native-modal";
@@ -53,6 +53,7 @@ const WordGame2 = () => {
   dropRandList.map((word, index) => {
     dropList.push({
       word: {
+        id: 0,
         name: word,
         imgSrc: "",
         index: index,
@@ -62,6 +63,7 @@ const WordGame2 = () => {
   });
   dragRandList.map((word, index) => {
     dragList.push({
+      id: 0,
       name: word,
       imgSrc: "",
       index: index,

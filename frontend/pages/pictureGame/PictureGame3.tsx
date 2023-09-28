@@ -13,7 +13,7 @@ import GameClearModal from "../components/GameClearModal";
 import Modal from "react-native-modal";
 import { createDndContext } from "react-native-easy-dnd";
 import { Animated } from "react-native";
-import { initialWord } from "../initialType";
+import { initialWord } from "../../common/initialType";
 import Boom from "./boom";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -76,6 +76,7 @@ const PictureGame3 = () => {
     tempStage.name = word;
     testList.push({
       word: {
+        id: 0,
         name: word,
         imgSrc: "",
       },
@@ -102,6 +103,7 @@ const PictureGame3 = () => {
   useEffect(() => {
     const initialList: PictureGameWordType[] = choiceList.map((word, _index) => ({
       word: {
+        id: 0,
         index: _index,
         name: word,
         imgSrc: "",

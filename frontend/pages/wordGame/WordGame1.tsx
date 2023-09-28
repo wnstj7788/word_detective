@@ -16,7 +16,7 @@ import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import QuestionCard from "../components/QuestionCard";
 import MiniCard from "../components/MiniCard";
 import { ICard, IWord } from "../../types/types";
-import { initialWord } from "../initialType";
+import { initialWord } from "../../common/initialType";
 import { useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import GameClearModal from "../components/GameClearModal";
@@ -50,6 +50,7 @@ const WordGame1 = () => {
   let testList: IWord[] = [];
   randList.map((word, index) => {
     testList.push({
+      id: 0,
       name: word,
       imgSrc: "",
       index: index,

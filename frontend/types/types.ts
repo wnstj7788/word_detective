@@ -8,6 +8,7 @@ export interface IUser {
 
 //단어 정보
 export interface IWord {
+  id: number;
   name: string;
   imgSrc: string;
   index?: number;
