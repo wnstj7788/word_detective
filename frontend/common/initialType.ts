@@ -3,7 +3,7 @@ import { IWord, IStage, IUser } from "../types/types";
 export const initialWord: IWord = {
   id: 0,
   name: "",
-  imgSrc: "",
+  url: "",
 };
 
 export const initialStage: IStage = {

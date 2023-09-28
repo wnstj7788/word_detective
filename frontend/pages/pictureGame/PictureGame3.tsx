@@ -78,7 +78,7 @@ const PictureGame3 = () => {
       word: {
         id: 0,
         name: word,
-        imgSrc: "",
+        url: "",
       },
       canDrag: true,
     });
@@ -106,7 +106,7 @@ const PictureGame3 = () => {
         id: 0,
         index: _index,
         name: word,
-        imgSrc: "",
+        url: "",
       },
       canDrag: true, // 여기 추가
     }));

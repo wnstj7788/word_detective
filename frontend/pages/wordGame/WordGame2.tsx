@@ -55,7 +55,7 @@ const WordGame2 = () => {
       word: {
         id: 0,
         name: word,
-        imgSrc: "",
+        url: "",
         index: index,
       },
       done: false,
@@ -65,7 +65,7 @@ const WordGame2 = () => {
     dragList.push({
       id: 0,
       name: word,
-      imgSrc: "",
+      url: "",
       index: index,
     });
   });

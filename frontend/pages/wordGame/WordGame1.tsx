@@ -52,7 +52,7 @@ const WordGame1 = () => {
     testList.push({
       id: 0,
       name: word,
-      imgSrc: "",
+      url: "",
       index: index,
     });
   });

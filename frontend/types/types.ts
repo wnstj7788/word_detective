@@ -10,7 +10,7 @@ export interface IUser {
 export interface IWord {
   id: number;
   name: string;
-  imgSrc: string;
+  url: string;
   index?: number;
 }
 
