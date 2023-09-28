@@ -1,15 +1,20 @@
 import { View, Text, Image } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useInsertionEffect, useState } from "react";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
 import { Container, ContainerBg } from "../../styles/globalStyles";
 import Header from "./Header";
 import StageCard from "../components/StageCard";
-import { IStage } from "../../types/types";
-import { initialStage } from "../initialType";
+import { IStage, IWord } from "../../types/types";
+import { initialStage, initialWord } from "../../common/initialType";
+import useAppSelector from "../../store/useAppSelector";
+import { WordAPI } from "../../utils/api";
+import { setCategoryData } from "../../store/word";
+import { CATEGORY } from "../../common/const";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "Stage">;
@@ -17,43 +22,47 @@ type StagePageRouteProp = RouteProp<RootStackParamList, "Stage">;
 //TODO: 배경이 스크롤되도록 변경
 const Stage = () => {
   const isLoaded = useCachedResources();
-  // const navigation = useNavigation<RootStackNavigationProp>();
+  const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
   // 네비게이션 사이를 넘어가며 전달한 param
   //gameType = letter OR word OR picture(string)
   const { gameType } = route.params;
+  //redux에서 user와 stage리스트 가져오기
+  const stage = useAppSelector(state => state.wordList.value);
+  const user = useAppSelector(state => state.user.value);
 
   //TODO: api 호출해야, 현재는 임시 데이터로 사용중
-  const [stageList, setStageList] = useState<IStage[]>([initialStage]); //모임 데이터
-  const wordList = [
-    "사과",
-    "오렌지",
-    "수박",
-    "토마토",
-    "체리",
-    "바나나",
-    "딸기",
-    "멜론",
-    "복숭아",
-    "포도",
-  ];
-  let testList: IStage[] = [];
-  wordList.map(word => {
-    let tempStage: IStage = initialStage;
-    tempStage.word.name = word;
-    testList.push({
-      word: {
-        id: 0,
-        name: word,
-        imgSrc: "",
-      },
-      clear: false,
-    });
-  });
+  const [stageList, setStageList] = useState<IStage[]>([]);
+
+  //유저 정보는 리덕스에 있어야 함, 유저 정보가 없다면 로그인 화면으로 이동
+  if (user.userId === 0) {
+    navigation.navigate("Login");
+    return;
+  }
+
+  //user보고 gameType 게임의 클리어 스테이지 찾기
+  const getClearStageNum = (): number => {
+    if (gameType === "picture") return user.picture;
+    else if (gameType === "word") return user.word;
+    else if (gameType === "letter") return user.letter;
+    return 0;
+  };
+  //value의 배열들을 하나로 합친 배열 만들기
+  const flattenObject = (obj: Record<string, IWord[]>) => {
+    return Object.values(obj).flatMap(value => value);
+  };
 
   useEffect(() => {
-    setStageList(testList);
-  }, []);
+    let wordList = flattenObject(stage);
+    let tmpStageList: IStage[] = [];
+    wordList.map((word, index) => {
+      tmpStageList.push({
+        word: word,
+        clear: index + 1 <= getClearStageNum(),
+      });
+    });
+    setStageList(tmpStageList);
+  }, [stage]);
 
   if (isLoaded) {
     return (

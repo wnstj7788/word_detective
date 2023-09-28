@@ -17,7 +17,7 @@ import WordMiniCard from "../components/WordMiniCard";
 import MiniCard from "../components/MiniCard";
 import GameClearModal from "../components/GameClearModal";
 import { ICard, IWord } from "../../types/types";
-import { initialWord } from "../initialType";
+import { initialWord } from "../../common/initialType";
 import { useEffect, useState } from "react";
 import { createDndContext } from "react-native-easy-dnd"; //dragabble
 import Modal from "react-native-modal";

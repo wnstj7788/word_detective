@@ -7,17 +7,20 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Container, ContainerBg } from "../../styles/globalStyles";
 import styled from "styled-components/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { UserAPI } from "../../utils/api";
-import { initialUser } from "../initialType";
-import { useDispatch, useSelector } from "react-redux";
+import { UserAPI, WordAPI } from "../../utils/api";
+import { initialUser } from "../../common/initialType";
+import { useDispatch } from "react-redux";
 import { login } from "../../store/user";
 import useAppSelector from "../../store/useAppSelector";
+import { CATEGORY } from "../../common/const";
+import { setCategoryData } from "../../store/word";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const Login = () => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
+  const [loadingText, setLoadingText] = useState(""); //로딩 안내 문구
   const [user, setUser] = useState(initialUser); //유저 객체
   let isNewUser = false; //신규 유저인가?
 
@@ -34,8 +37,8 @@ const Login = () => {
   const getUserId = () => {
     //로컬 스토리지에 userId가 있는지 확인
     getData().then(res => {
-      console.log(res);
       if (res !== null) {
+        console.log("로컬에 저장된 유저 아이디: ", res);
         setUser({
           ...user,
           userId: parseInt(res),
@@ -44,6 +47,7 @@ const Login = () => {
         //없으면 api 호출해서 userId 받아오기
         isNewUser = true;
         console.log("신규유저로 가입 중");
+        setLoadingText("신규유저로 가입 중");
         const promise = UserAPI.getById();
         promise
           .then(res => {
@@ -58,6 +62,7 @@ const Login = () => {
       }
     });
     console.log("userId 할당 완료, userId : ", user.userId);
+    setLoadingText("userId 할당 완료");
     // -> 다시 api 호출해서 유저 정보 가져오기(아래 useEffect로)
   };
 
@@ -77,6 +82,7 @@ const Login = () => {
           word: res.data.word,
           letter: res.data.letter,
         });
+        setLoadingText("유저 정보 조회중");
       })
       .catch(e => {
         console.log("유저 기록 및 정보 조회 중 이하의 에러 발생 : ", e);
@@ -88,12 +94,36 @@ const Login = () => {
   useEffect(() => {
     if (user.picture === -1 || user.word === -1 || user.letter === -1) return;
     console.log("유저 정보 확인 완료");
+    setLoadingText("유저 정보 확인 완료");
     dispatch(login(user));
-    console.log("redux에 저장 완료, navigation 실행");
+    console.log("redux에 저장 완료");
+    setLoadingText("유저 정보 저장 완료");
+    loadStage();
+  }, [user.picture, user.word, user.letter]);
+
+  //스테이지 목록 리덕스에 저장
+  const loadStage = () => {
+    console.log("스테이지 목록 redux에 저장");
+    setLoadingText("스테이지 정보 로드중");
+    Object.keys(CATEGORY).map(cateNum => {
+      let cateName = CATEGORY[parseInt(cateNum)];
+      let promise = WordAPI.getByCategory(parseInt(cateNum));
+      promise
+        .then(res => {
+          dispatch(setCategoryData({ category: cateName, data: res.data }));
+        })
+        .catch(e => console.log("스테이지 목록 저장 중 에러 발생: ", e));
+    });
+    navigateNextPage();
+  };
+
+  const navigateNextPage = () => {
+    console.log("스테이지 목록 저장 완료, 다음 페이지로 이동");
+    setLoadingText("페이지 이동 중");
     //모든 처리 후 튜토리얼 또는 메인 화면으로 이동
     if (isNewUser) navigation.navigate("TutorialOne");
     else navigation.navigate("Main", {});
-  }, [user.picture, user.word, user.letter]);
+  };
 
   if (isLoaded) {
     return (
@@ -117,7 +147,12 @@ const Login = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              dispatch(login({ userId: 1, picture: 2, word: 3, letter: 4 }));
+              setUser({
+                userId: 1,
+                picture: 3,
+                word: 2,
+                letter: 1,
+              });
             }}
           >
             <Text>리덕스테스트</Text>
@@ -126,6 +161,7 @@ const Login = () => {
             유저 아이디: {userInRedux.userId} / 그림: {userInRedux.picture} / 단어:{" "}
             {userInRedux.word} / 글자: {userInRedux.letter}
           </Text>
+          <Text>{loadingText}</Text>
         </ContainerBg>
       </Container>
     );
