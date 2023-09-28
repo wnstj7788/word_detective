@@ -13,7 +13,7 @@ import { IStage, IWord } from "../../types/types";
 import { initialStage, initialWord } from "../../common/initialType";
 import useAppSelector from "../../store/useAppSelector";
 import { WordAPI } from "../../utils/api";
-import { setCategoryData } from "../../store/word";
+import { setData } from "../../store/word";
 import { CATEGORY } from "../../common/const";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -47,15 +47,11 @@ const Stage = () => {
     else if (gameType === "letter") return user.letter;
     return 0;
   };
-  //value의 배열들을 하나로 합친 배열 만들기
-  const flattenObject = (obj: Record<string, IWord[]>) => {
-    return Object.values(obj).flatMap(value => value);
-  };
 
   useEffect(() => {
-    let wordList = flattenObject(stage);
     let tmpStageList: IStage[] = [];
-    wordList.map((word, index) => {
+    let tmp: IWord[] = stage.flat();
+    tmp.map((word, index) => {
       tmpStageList.push({
         word: word,
         clear: index + 1 <= getClearStageNum(),
@@ -80,7 +76,7 @@ const Stage = () => {
             </CharacterContainer>
             <StageListContainer horizontal showsHorizontalScrollIndicator={false}>
               {stageList.map(stage => {
-                return <StageCard stage={stage} gameType={gameType} key={stage.word.name} />;
+                return <StageCard stage={stage} gameType={gameType} key={stage.word.id} />;
               })}
             </StageListContainer>
           </ContentContainer>

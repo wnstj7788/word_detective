@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../store/user";
 import useAppSelector from "../../store/useAppSelector";
 import { CATEGORY } from "../../common/const";
-import { setCategoryData } from "../../store/word";
+import { pushData } from "../../store/word";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -75,7 +75,6 @@ const Login = () => {
     const promise = UserAPI.getById(user.userId);
     promise
       .then(res => {
-        console.log(res.data);
         setUser({
           ...user,
           picture: res.data.picture,
@@ -105,15 +104,21 @@ const Login = () => {
   const loadStage = () => {
     console.log("스테이지 목록 redux에 저장");
     setLoadingText("스테이지 정보 로드중");
-    Object.keys(CATEGORY).map(cateNum => {
-      let cateName = CATEGORY[parseInt(cateNum)];
-      let promise = WordAPI.getByCategory(parseInt(cateNum));
-      promise
-        .then(res => {
-          dispatch(setCategoryData({ category: cateName, data: res.data }));
-        })
-        .catch(e => console.log("스테이지 목록 저장 중 에러 발생: ", e));
+    //프로미스 병렬처리
+    const promises = CATEGORY.map((_, index) => {
+      return WordAPI.getByCategory(index + 1).then(res => {
+        return { data: res.data };
+      });
     });
+    Promise.all(promises)
+      .then(results => {
+        results.forEach(result => {
+          const { data } = result;
+          dispatch(pushData(data));
+        });
+      })
+      .catch(e => console.log("스테이지 목록 저장 중 에러 발생: ", e));
+
     navigateNextPage();
   };
 
