@@ -33,6 +33,7 @@ const Canvas = ({word}) => {
         const locationX = event.nativeEvent.locationX;
         const locationY = event.nativeEvent.locationY;
         const startPoint = `M${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+        // @ts-ignore
         setPaths(prev => [...prev, startPoint]);
     }, []);
 

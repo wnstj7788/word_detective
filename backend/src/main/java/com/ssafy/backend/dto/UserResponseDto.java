@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 /**
  * DTO for {@link com.ssafy.backend.entity.User}
  */
@@ -15,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseDto {
-    private UUID id;
+    private Long id;
     private Integer picture;
     private Integer word;
     private Integer letter;
