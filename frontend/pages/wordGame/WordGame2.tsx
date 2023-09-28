@@ -53,6 +53,7 @@ const WordGame2 = () => {
   dropRandList.map((word, index) => {
     dropList.push({
       word: {
+        id: 0,
         name: word,
         imgSrc: "",
         index: index,
@@ -62,6 +63,7 @@ const WordGame2 = () => {
   });
   dragRandList.map((word, index) => {
     dragList.push({
+      id: 0,
       name: word,
       imgSrc: "",
       index: index,

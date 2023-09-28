@@ -43,6 +43,7 @@ const Stage = () => {
     tempStage.word.name = word;
     testList.push({
       word: {
+        id: 0,
         name: word,
         imgSrc: "",
       },

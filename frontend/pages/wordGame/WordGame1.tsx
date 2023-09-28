@@ -50,6 +50,7 @@ const WordGame1 = () => {
   let testList: IWord[] = [];
   randList.map((word, index) => {
     testList.push({
+      id: 0,
       name: word,
       imgSrc: "",
       index: index,

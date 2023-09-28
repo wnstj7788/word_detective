@@ -76,6 +76,7 @@ const PictureGame3 = () => {
     tempStage.name = word;
     testList.push({
       word: {
+        id: 0,
         name: word,
         imgSrc: "",
       },
@@ -102,6 +103,7 @@ const PictureGame3 = () => {
   useEffect(() => {
     const initialList: PictureGameWordType[] = choiceList.map((word, _index) => ({
       word: {
+        id: 0,
         index: _index,
         name: word,
         imgSrc: "",
