@@ -1,4 +1,4 @@
-import { IWord, IStage } from "../types/types";
+import { IWord, IStage, IUser } from "../types/types";
 
 export const initialWord: IWord = {
   name: "",
@@ -11,4 +11,11 @@ export const initialStage: IStage = {
     imgSrc: "",
   },
   clear: false,
+};
+
+export const initialUser: IUser = {
+  userId: 0,
+  picture: -1,
+  word: -1,
+  letter: -1,
 };
