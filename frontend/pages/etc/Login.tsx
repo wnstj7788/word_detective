@@ -27,6 +27,7 @@ const Login = () => {
   //redux
   const dispatch = useDispatch();
   const userInRedux = useAppSelector(state => state.user.value);
+  const stage = useAppSelector(state => state.wordList.value);
 
   //로컬 스토리지에서 가져오기
   const getData = () => AsyncStorage.getItem("wd-user-id");
@@ -104,20 +105,22 @@ const Login = () => {
   const loadStage = () => {
     console.log("스테이지 목록 redux에 저장");
     setLoadingText("스테이지 정보 로드중");
-    //프로미스 병렬처리
-    const promises = CATEGORY.map((_, index) => {
-      return WordAPI.getByCategory(index + 1).then(res => {
-        return { data: res.data };
-      });
-    });
-    Promise.all(promises)
-      .then(results => {
-        results.forEach(result => {
-          const { data } = result;
-          dispatch(pushData(data));
+    if (stage.length === 0) {
+      //프로미스 병렬처리
+      const promises = CATEGORY.map((_, index) => {
+        return WordAPI.getByCategory(index + 1).then(res => {
+          return { data: res.data };
         });
-      })
-      .catch(e => console.log("스테이지 목록 저장 중 에러 발생: ", e));
+      });
+      Promise.all(promises)
+        .then(results => {
+          results.forEach(result => {
+            const { data } = result;
+            dispatch(pushData(data));
+          });
+        })
+        .catch(e => console.log("스테이지 목록 저장 중 에러 발생: ", e));
+    }
 
     navigateNextPage();
   };
