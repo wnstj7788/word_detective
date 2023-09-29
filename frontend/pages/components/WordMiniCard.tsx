@@ -13,44 +13,28 @@ import { IWord } from "../../types/types";
 const WordMiniCard = (props: { word: IWord; done: boolean }) => {
   const isLoaded = useCachedResources();
 
-  //test용
-  function getImage(name: string): any {
-    switch (name) {
-      case "사과":
-        return require("../../assets/card/fruit/apple.png");
-      case "오렌지":
-        return require("../../assets/card/fruit/orange.png");
-      case "수박":
-        return require("../../assets/card/fruit/watermelon.png");
-      case "토마토":
-        return require("../../assets/card/fruit/tomato.png");
-      case "체리":
-        return require("../../assets/card/fruit/cherry.png");
-      case "바나나":
-        return require("../../assets/card/fruit/banana.png");
-      case "딸기":
-        return require("../../assets/card/fruit/strawberry.png");
-      case "멜론":
-        return require("../../assets/card/fruit/melon.png");
-      case "복숭아":
-        return require("../../assets/card/fruit/peach.png");
-      case "포도":
-        return require("../../assets/card/fruit/grapes.png");
-    }
-  }
-
   //TODO: 이미지 소스는 임시로 getImage 사용, 추후 변경해야
   if (isLoaded) {
     return (
       <CardContainer done={props.done}>
         {props.done ? (
           <CardBackgroundDone>
-            <PictureImageDone source={getImage(props.word.name)} done={props.done} />
+            <PictureImageDone
+              source={
+                props.word.url ? { uri: props.word.url } : require("../../assets/etc/qmark.png")
+              }
+              done={props.done}
+            />
             <WordTextDone done={props.done}>{props.word.name}</WordTextDone>
           </CardBackgroundDone>
         ) : (
           <CardBackground source={require("../../assets/etc/wordMiniCard.png")}>
-            <PictureImage source={getImage(props.word.name)} done={props.done} />
+            <PictureImage
+              source={
+                props.word.url ? { uri: props.word.url } : require("../../assets/etc/qmark.png")
+              }
+              done={props.done}
+            />
             <WordText done={props.done}>{props.word.name}</WordText>
           </CardBackground>
         )}

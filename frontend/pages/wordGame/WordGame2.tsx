@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { createDndContext } from "react-native-easy-dnd"; //dragabble
 import Modal from "react-native-modal";
 import { shuffleArray } from "../../utils/utils";
+import { WordAPI } from "../../utils/api";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame2">;
@@ -41,37 +42,38 @@ const WordGame2 = () => {
 
   const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
   const [isModalVisible, setModalVisible] = useState(false); //clear modal관련
+  const [shuffledDropList, setShuffledDropList] = useState<IWordWithDone[]>([]); //리스트를 섞기
+  const [shuffledDragList, setShuffledDragList] = useState<IWord[]>([initialWord]); //리스트를 섞기
 
-  //선지 6개의 배열
-  //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
-  const choiceList = ["사과", "오렌지", "수박", "바나나", "딸기", "사과"];
-  const dropRandList = shuffleArray(choiceList);
-  const dragRandList = shuffleArray(choiceList);
-
-  let dropList: IWordWithDone[] = []; //드롭될 위치들
-  let dragList: IWord[] = []; //드래그할 카드들
-  dropRandList.map((word, index) => {
-    dropList.push({
-      word: {
-        id: 0,
-        name: word,
-        url: "",
-        index: index,
-      },
-      done: false,
-    });
-  });
-  dragRandList.map((word, index) => {
-    dragList.push({
-      id: 0,
-      name: word,
-      url: "",
-      index: index,
-    });
-  });
-
-  const [shuffledDropList, setShuffledDropList] = useState<IWordWithDone[]>(dropList); //리스트를 섞기
-  const [shuffledDragList, setShuffledDragList] = useState<IWord[]>(dragList); //리스트를 섞기
+  useEffect(() => {
+    let choiceList: IWord[] = [];
+    //선지 8개 배열 choiceList에
+    const promise = WordAPI.getRandom(word.name, 2, 4);
+    promise
+      .then(res => {
+        choiceList = res.data;
+      })
+      .then(() => {
+        const dropRandList = shuffleArray(choiceList);
+        const dragRandList = shuffleArray(choiceList);
+        let dropList: IWordWithDone[] = []; //드롭될 위치들
+        dropRandList.map((word, index) => {
+          word.index = index;
+          dropList.push({
+            word: word,
+            done: false,
+          });
+        });
+        dragRandList.map((word, index) => {
+          word.index = index;
+        });
+        return { drop: dropList, drag: dragRandList };
+      })
+      .then(res => {
+        setShuffledDropList(res.drop);
+        setShuffledDragList(res.drag);
+      });
+  }, []);
 
   useEffect(() => {
     if (shuffledDragList.length === 0) {
@@ -128,19 +130,19 @@ const WordGame2 = () => {
             <ContentContainer>
               <DroppableContainer>
                 <ACardLine>
-                  {shuffledDropList.slice(0, 3).map((choice, c_index) => {
+                  {shuffledDropList.slice(0, 3).map(choice => {
                     return (
-                      <ACardFirst key={c_index}>
+                      <ACardFirst key={choice.word.index}>
                         <Droppable
                           onEnter={() => {
-                            console.log("들어옴!!");
+                            // console.log("들어옴!!");
                           }}
                           onDrop={({ payload }) => {
                             if (choice.done) {
                               return;
                             }
                             if (choice.word.name === payload.name) {
-                              console.log("정답!!!", payload);
+                              // console.log("정답!!!", payload);
                               deleteUsedCard(payload); //리스트에서 빼기
                               checkDoneCard(choice); //wordMiniCard에 전달하기
                             }
@@ -159,19 +161,19 @@ const WordGame2 = () => {
                   })}
                 </ACardLine>
                 <ACardLine>
-                  {shuffledDropList.slice(3, 6).map((choice, index) => {
+                  {shuffledDropList.slice(3, 6).map(choice => {
                     return (
-                      <ACardSecond key={index}>
+                      <ACardSecond key={choice.word.index}>
                         <Droppable
                           onEnter={() => {
-                            console.log("들어옴!!");
+                            // console.log("들어옴!!");
                           }}
                           onDrop={({ payload }) => {
                             if (choice.done) {
                               return;
                             }
                             if (choice.word.name === payload.name) {
-                              console.log("정답!!!", payload);
+                              // console.log("정답!!!", payload);
                               deleteUsedCard(payload); //리스트에서 빼기
                               checkDoneCard(choice); //wordMiniCard에 전달하기
                             }
@@ -193,7 +195,7 @@ const WordGame2 = () => {
               <DraggableContainer>
                 {shuffledDragList.map((dragCard, index) => {
                   return (
-                    <MinicardContainer>
+                    <MinicardContainer key={dragCard.index}>
                       <MiniCard
                         word={dragCard}
                         isFront={true}
