@@ -3,6 +3,12 @@ import { Audio } from "expo-av";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentMusic } from "../store/music";
 
+/**
+ * 백그라운드 노래 설정을 위한 컴포넌트
+ * @constructor
+ */
+
+
 const GlobalMusicPlayer = () => {
     const currentMusic = useSelector((state) => state.music.currentMusic);
     const dispatch = useDispatch();
@@ -11,18 +17,15 @@ const GlobalMusicPlayer = () => {
         let isMounted = true;
 
         async function playBackgroundMusic() {
-            console.log("tes1111");
             if (currentMusic) {
                 const { sound } = await Audio.Sound.createAsync(currentMusic, {
                     shouldPlay: true,
                     isLooping: true,
                 });
-                console.log("test2222");
                 if (isMounted) {
                     await sound.playAsync();
                 }
             }
-            console.log("4444");
         }
 
         playBackgroundMusic();
