@@ -40,7 +40,7 @@ public class PhotoController {
      */
     @PostMapping()
     public ResponseEntity<String> uploadFile(
-            @RequestParam("userId") UUID userId,
+            @RequestParam("userId") Long userId,
             @RequestParam("wordId") Long wordId,
             @RequestParam("file") MultipartFile file) throws IOException {
         return ResponseEntity.ok(s3Service.uploadFile(userId, wordId, file));

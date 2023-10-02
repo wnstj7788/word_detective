@@ -1,62 +1,143 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { useState, useEffect } from "react";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import Header from "./Header";
-import { MenuBtn } from "../../styles/globalStyles";
 import { Container, ContainerBg } from "../../styles/globalStyles";
 import styled from "styled-components/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { UserAPI } from "../../utils/api";
+import { UserAPI, WordAPI } from "../../utils/api";
+import { initialUser } from "../../common/initialType";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/user";
+import useAppSelector from "../../store/useAppSelector";
+import { CATEGORY } from "../../common/const";
+import { pushData } from "../../store/word";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const Login = () => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
+  const [loadingText, setLoadingText] = useState(""); //로딩 안내 문구
+  const [user, setUser] = useState(initialUser); //유저 객체
+  let isNewUser = false; //신규 유저인가?
+
+  //redux
+  const dispatch = useDispatch();
+  const userInRedux = useAppSelector(state => state.user.value);
+  const stage = useAppSelector(state => state.wordList.value);
 
   //로컬 스토리지에서 가져오기
   const getData = () => AsyncStorage.getItem("wd-user-id");
+  //로컬 스토리지에 userId 저장하기
+  const storeData = (value: number) => AsyncStorage.setItem("wd-user-id", value.toString());
 
-  //로컬 스토리지에서 가져오기
-  const setData = () => AsyncStorage.getItem("wd-user-id");
-
-  //로그인 함수
-  const loginFunc = () => {
-    let userId = null;
+  //로컬 스토리지에서 유저 아이디 확인하는 함수
+  const getUserId = () => {
     //로컬 스토리지에 userId가 있는지 확인
-    const promise = getData();
-    promise.then(res => {
-      // console.log(res);
-      userId = res;
+    getData().then(res => {
+      if (res !== null) {
+        console.log("로컬에 저장된 유저 아이디: ", res);
+        setUser({
+          ...user,
+          userId: parseInt(res),
+        });
+      } else {
+        //없으면 api 호출해서 userId 받아오기
+        isNewUser = true;
+        console.log("신규유저로 가입 중");
+        setLoadingText("신규유저로 가입 중");
+        const promise = UserAPI.getById();
+        promise
+          .then(res => {
+            setUser({
+              ...user,
+              userId: parseInt(res.data.id),
+            });
+          })
+          .catch(e => {
+            console.log("신규유저 id 생성 중 이하의 에러 발생 : ", e);
+          });
+      }
     });
-    //있으면: 해당 userId로 api 호출 -> 유저 정보(클리어 기록 등)를 가져오기
-    if (userId !== null) {
-      // console.log(userId);
-    }
-    //없으면: api 호출해서 UUID 받아오기 -> 다시 api 호출해서 유저 정보 가져오기
-    else {
-      // console.log("id없음");
-      const promise = UserAPI.getById();
-      promise.then(res => {
-        console.log(res.data.id);
-        userId = res.data.id; //api 호출 결과로 UUID 받아옴
-        //uuid를 로컬 스토리지에 저장
+    console.log("userId 할당 완료, userId : ", user.userId);
+    setLoadingText("userId 할당 완료");
+    // -> 다시 api 호출해서 유저 정보 가져오기(아래 useEffect로)
+  };
 
-        //저장한 uuid로 다시 api 호출해서 유저 정보 가져오기
+  //userId가 세팅 된 후 스테이지 클리어 정보 가져오기
+  useEffect(() => {
+    if (user.userId === 0) return;
+    if (isNewUser) storeData(user.userId); //userId를 로컬 스토리지에 저장
+
+    //저장한 userId로 다시 api 호출해서 유저 정보 가져오기
+    const promise = UserAPI.getById(user.userId);
+    promise
+      .then(res => {
+        setUser({
+          ...user,
+          picture: res.data.picture,
+          word: res.data.word,
+          letter: res.data.letter,
+        });
+        setLoadingText("유저 정보 조회중");
+      })
+      .catch(e => {
+        console.log("유저 기록 및 정보 조회 중 이하의 에러 발생 : ", e);
+        //TODO: errorCode가 USER_NOT_FOUND면 userID가 잘못된 것 -> 에러처리 필요
       });
+  }, [user.userId]);
+
+  //유저 아이디와 클리어 정보를 리덕스에 저장
+  useEffect(() => {
+    if (user.picture === -1 || user.word === -1 || user.letter === -1) return;
+    console.log("유저 정보 확인 완료");
+    setLoadingText("유저 정보 확인 완료");
+    dispatch(login(user));
+    console.log("redux에 저장 완료");
+    setLoadingText("유저 정보 저장 완료");
+    loadStage();
+  }, [user.picture, user.word, user.letter]);
+
+  //스테이지 목록 리덕스에 저장
+  const loadStage = () => {
+    console.log("스테이지 목록 redux에 저장");
+    setLoadingText("스테이지 정보 로드중");
+    if (stage.length === 0) {
+      //프로미스 병렬처리
+      const promises = CATEGORY.map((_, index) => {
+        return WordAPI.getByCategory(index + 1).then(res => {
+          return { data: res.data };
+        });
+      });
+      Promise.all(promises)
+        .then(results => {
+          results.forEach(result => {
+            const { data } = result;
+            dispatch(pushData(data));
+          });
+        })
+        .catch(e => console.log("스테이지 목록 저장 중 에러 발생: ", e));
     }
-    console.log(userId);
+
+    navigateNextPage();
+  };
+
+  const navigateNextPage = () => {
+    console.log("스테이지 목록 저장 완료, 다음 페이지로 이동");
+    setLoadingText("페이지 이동 중");
     //모든 처리 후 튜토리얼 또는 메인 화면으로 이동
-    // navigation.navigate("TutorialOne")
+    if (isNewUser) navigation.navigate("TutorialOne");
+    else navigation.navigate("Main", {});
   };
 
   if (isLoaded) {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
-          <TouchableWithoutFeedback onPress={() => navigation.navigate("Main")}>
+          <TouchableWithoutFeedback onPress={() => getUserId()}>
             <View style={{ flex: 1, flexDirection: "row" }}>
               <View style={{ flex: 1 }} />
               <View style={{ flex: 20 }}>
@@ -69,6 +150,26 @@ const Login = () => {
               <View style={{ flex: 1 }} />
             </View>
           </TouchableWithoutFeedback>
+          <TouchableOpacity onPress={() => navigation.navigate("Main", {})}>
+            <Text>Go to Main Page</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setUser({
+                userId: 1,
+                picture: 3,
+                word: 2,
+                letter: 1,
+              });
+            }}
+          >
+            <Text>리덕스테스트</Text>
+          </TouchableOpacity>
+          <Text>
+            유저 아이디: {userInRedux.userId} / 그림: {userInRedux.picture} / 단어:{" "}
+            {userInRedux.word} / 글자: {userInRedux.letter}
+          </Text>
+          <Text>{loadingText}</Text>
         </ContainerBg>
       </Container>
     );
