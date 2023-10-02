@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/photo")
@@ -24,7 +23,7 @@ public class PhotoController {
      */
     @GetMapping("{wordId}")
     public ResponseEntity<String> getPhotoUrl(
-            @RequestParam("userId") UUID userId,
+            @RequestParam("userId") Long userId,
             @PathVariable("wordId") Long wordId) {
         return ResponseEntity.ok(s3Service.getPhotoUrl(userId, wordId));
     }
