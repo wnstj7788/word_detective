@@ -21,30 +21,34 @@ const Main = ({route}: any) => {
 
     const isMusicPlaying = useRef(false); // 음악이 재생 중인지 여부를 저장하는 ref
 
-    // useEffect를 이용하여 컴포넌트가 마운트 또는 currentMusic이 변경될 때 처리
-    useEffect(() => {
-        // 디폴트 음악을 설정하고 재생 (한 번만 실행)
-        if (!isMusicPlaying.current) {
-            dispatch(setCurrentMusic(require("../../assets/backgroundMusic/mainMusic.mp3")));
-            isMusicPlaying.current = true;
-        }
-    }, []);
 
-
-    // useEffect를 이용하여 컴포넌트가 마운트 또는 currentMusic이 변경될 때 처리
     useEffect(() => {
         // 디폴트 음악을 설정하고 재생
-        dispatch(setCurrentMusic(require("../../assets/backgroundMusic/mainMusic.mp3")));
+        playDefaultMusic();
     }, []);
 
     useEffect(() => {
         if (currentMusic) {
             // 컴포넌트가 언마운트될 때 음악을 정리하는 함수를 반환
             return () => {
-                stopAndUnloadMusic(); // 음악 정리 함수 호출
+                stopAndUnloadMusic();
             };
         }
     }, [currentMusic]);
+
+    const playDefaultMusic = async () => {
+        const defaultMusic = new Audio.Sound();
+
+        try {
+            await defaultMusic.loadAsync(
+                require("../../assets/backgroundMusic/mainMusic.mp3")
+            );
+            await defaultMusic.setVolumeAsync(0.2); // 볼륨 조절 (0.5는 50% 볼륨을 나타냅니다)
+            await defaultMusic.playAsync();
+        } catch (error) {
+            console.error("디폴트 음악 재생 중 오류 발생:", error);
+        }
+    };
 
     // 음악을 중지하고 언로드하는 함수
     const stopAndUnloadMusic = async () => {
