@@ -65,7 +65,6 @@ const Main = () => {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
-          <GlobalMusicPlayer />
           <HeaderContainer>
             <Header />
           </HeaderContainer>
