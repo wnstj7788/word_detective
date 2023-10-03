@@ -134,9 +134,8 @@ const LetterGame2 = () => {
           <ACardContainer>
             {choiceList.map((choice, index) => {
               return (
-                <ACardWrapper onPress={() => handleCardClick(choice, index)}>
+                <ACardWrapper onPress={() => handleCardClick(choice, index)} key={index}>
                   <ACard
-                    key={index}
                     style={{
                       transform: [
                         {

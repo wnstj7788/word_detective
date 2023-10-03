@@ -39,6 +39,7 @@ const GlobalMusicPlayer = () => {
       await music.loadAsync(getSoundFileURL(currentMusicName)); //지정 경로에서 음악 로드
       await music.setIsLoopingAsync(true); //반복 재생 설정
       await music.setIsMutedAsync(isMuted); //음소거 여부 설정
+      await music.setVolumeAsync(0.2); //볼륨 설정(다른 소리와의 밸런스)
       await music.playAsync(); //음악 재생
       await dispatch(setIsPlaying(true));
       console.log("재생시작");
