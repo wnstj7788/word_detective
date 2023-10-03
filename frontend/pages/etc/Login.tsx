@@ -167,18 +167,6 @@ const Login = () => {
           <TouchableOpacity onPress={() => navigation.navigate("Main")}>
             <Text>Go to Main Page</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setUser({
-                userId: 1,
-                picture: 3,
-                word: 2,
-                letter: 1,
-              });
-            }}
-          >
-            <Text>리덕스테스트</Text>
-          </TouchableOpacity>
           <Text>
             유저 아이디: {userInRedux.userId} / 그림: {userInRedux.picture} / 단어:{" "}
             {userInRedux.word} / 글자: {userInRedux.letter}
