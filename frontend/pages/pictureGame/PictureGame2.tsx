@@ -11,10 +11,13 @@ import QuestionCard from "../components/QuestionCard";
 import MiniCard from "../components/MiniCard";
 import { ICard } from "../../types/types";
 import OXCard from "../components/OXCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GameClearModal from "../components/GameClearModal";
 import Modal from "react-native-modal";
-
+import { WordAPI } from "../../utils/api";
+import { shuffleArray } from "../../utils/utils";
+import constructWithOptions from "styled-components/native/dist/constructors/constructWithOptions";
+import { initialWord } from "../../common/initialType";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 const { width, height } = Dimensions.get("window");
@@ -39,6 +42,29 @@ const PictureGame2 = () => {
       name: item,
     };
   });
+  const [shuffledChoiceList, setShuffledChoiceList] = useState<IWord[]>([initialWord]); //섞은 리스트
+  useEffect(() => {
+    let choiceList: IWord[] = [];
+    //선지 8개 배열 choiceList에
+    const promise = WordAPI.getRandom(word.name, 2, 6);
+    promise
+      .then(res => {
+        choiceList = res.data;
+      })
+      .then(() => {
+        let randList = shuffleArray(choiceList);
+        randList.map((word, index) => {
+          word.index = index;
+        });
+        return randList;
+      })
+      .then(res => {
+        setShuffledChoiceList(res);
+      });
+  }, []);
+  useEffect(() => {
+    console.log(shuffledChoiceList);
+  });
   // 모달
   const [isModalVisible, setModalVisible] = useState(false);
   const openModal = () => {
@@ -49,10 +75,12 @@ const PictureGame2 = () => {
   };
 
   const oAnswerCheck = () => {
-    if (word.name === newCards[count].name) {
-      setCount(prevCount => prevCount + 1);
-
-      if (count === 7) {
+    if (word.name === shuffledChoiceList[count].name) {
+      if (count !== 7) {
+        setCount(prevCount => {
+          return prevCount + 1;
+        });
+      } else {
         openModal();
       }
     } else {
@@ -61,10 +89,12 @@ const PictureGame2 = () => {
   };
 
   const xAnswerCheck = () => {
-    if (word.name != newCards[count].name) {
-      setCount(prevCount => prevCount + 1);
-
-      if (count === 7) {
+    if (word.name != shuffledChoiceList[count].name) {
+      if (count !== 7) {
+        setCount(prevCount => {
+          return prevCount + 1;
+        });
+      } else {
         openModal();
       }
     } else {
@@ -97,7 +127,7 @@ const PictureGame2 = () => {
               <MiniCardContainer>
                 <BackGroundSquare />
                 <MiniCard
-                  word={newCards[count]}
+                  word={shuffledChoiceList[count]}
                   isFront={true}
                   isTouchable={false}
                   onClick={() => {
