@@ -51,4 +51,3 @@ def segmentation(image_path: str, user_id: int):
 
         make_image(image_path, file_name)
     return file_paths
-

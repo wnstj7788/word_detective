@@ -24,11 +24,6 @@ MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
 MYSQL_DATABASE = os.getenv("MYSQL_DATABASE")
 
 
-# MYSQL_HOST = "localhost"
-# MYSQL_USER = "root"
-# MYSQL_PASSWORD = "root"
-# MYSQL_DATABASE = "detection"
-
 class Item(BaseModel):
     pass
 
