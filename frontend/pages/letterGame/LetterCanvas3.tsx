@@ -22,6 +22,166 @@ type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 const fontSize = width * 0.2;
 import * as ImageManipulator from "expo-image-manipulator";
+
+// 여기부터 인덱스
+export const strokes = {
+  ㄱ: [
+    { start: { x: 50, y: 50 }, end: { x: 150, y: 50 }, id: 1 },
+    { start: { x: 150, y: 50 }, end: { x: 150, y: 150 }, id: 2 },
+  ],
+  ㄴ: [
+    { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
+    { start: { x: 50, y: 150 }, end: { x: 150, y: 150 }, id: 2 },
+  ],
+  ㄷ: [
+    { start: { x: 50, y: 50 }, end: { x: 150, y: 50 }, id: 1 },
+    { start: { x: 150, y: 50 }, end: { x: 150, y: 150 }, id: 2 },
+    { start: { x: 50, y: 150 }, end: { x: 150, y: 150 }, id: 3 },
+  ],
+  ㄹ: [
+    { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
+    { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
+    { start: { x: 50, y: 100 }, end: { x: 100, y: 100 }, id: 3 },
+  ],
+  ㅁ: [
+    { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
+    { start: { x: 100, y: 50 }, end: { x: 100, y: 100 }, id: 2 },
+    { start: { x: 100, y: 100 }, end: { x: 50, y: 100 }, id: 3 },
+    { start: { x: 50, y: 100 }, end: { x: 50, y: 50 }, id: 4 },
+  ],
+  ㅂ: [
+    { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
+    { start: { x: 100, y: 50 }, end: { x: 100, y: 100 }, id: 2 },
+    { start: { x: 100, y: 100 }, end: { x: 50, y: 100 }, id: 3 },
+    { start: { x: 50, y: 100 }, end: { x: 50, y: 50 }, id: 4 },
+    { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 5 },
+  ],
+  ㅅ: [
+    { start: { x: 50, y: 50 }, end: { x: 100, y: 100 }, id: 1 },
+    { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
+  ],
+  ㅇ: [
+    { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
+    { start: { x: 100, y: 50 }, end: { x: 100, y: 100 }, id: 2 },
+    { start: { x: 100, y: 100 }, end: { x: 50, y: 100 }, id: 3 },
+    { start: { x: 50, y: 100 }, end: { x: 50, y: 50 }, id: 4 },
+  ],
+  ㅈ: [
+    { start: { x: 50, y: 50 }, end: { x: 100, y: 100 }, id: 1 },
+    { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
+    { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
+  ],
+  ㅊ: [
+    { start: { x: 50, y: 50 }, end: { x: 100, y: 100 }, id: 1 },
+    { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
+    { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
+  ],
+  ㅋ: [
+    { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
+    { start: { x: 50, y: 100 }, end: { x: 75, y: 50 }, id: 2 },
+    { start: { x: 50, y: 100 }, end: { x: 75, y: 150 }, id: 3 },
+  ],
+  ㅌ: [
+    { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
+    { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 2 },
+  ],
+  ㅍ: [
+    { start: { x: 50, y: 75 }, end: { x: 100, y: 50 }, id: 1 },
+    { start: { x: 50, y: 75 }, end: { x: 100, y: 100 }, id: 2 },
+  ],
+  ㅎ: [
+    { start: { x: 50, y: 50 }, end: { x: 75, y: 75 }, id: 1 },
+    { start: { x: 100, y: 50 }, end: { x: 75, y: 75 }, id: 2 },
+    { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
+  ],
+
+  ㅏ: [
+    { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
+    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 2 },
+  ],
+  ㅐ: [
+    { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
+    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 2 },
+    { start: { x: 125, y: 75 }, end: { x: 150, y: 125 }, id: 3 },
+  ],
+  ㅑ: [
+    { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
+    { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
+    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
+  ],
+  ㅒ: [
+    { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
+    { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
+    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
+    { start: { x: 125, y: 75 }, end: { x: 150, y: 125 }, id: 4 },
+  ],
+  ㅓ: [
+    { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
+    { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 2 },
+  ],
+  ㅔ: [
+    { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
+    { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 2 },
+    { start: { x: 25, y: 75 }, end: { x: 50, y: 125 }, id: 3 },
+  ],
+  ㅕ: [
+    { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
+    { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
+    { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 3 },
+  ],
+  ㅖ: [
+    { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
+    { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
+    { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 3 },
+    { start: { x: 25, y: 75 }, end: { x: 50, y: 125 }, id: 4 },
+  ],
+  ㅗ: [
+    { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 1 },
+    { start: { x: 75, y: 75 }, end: { x: 125, y: 75 }, id: 2 },
+  ],
+  ㅘ: [
+    { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 1 },
+    { start: { x: 75, y: 75 }, end: { x: 125, y: 75 }, id: 2 },
+    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
+  ],
+  ㅙ: [
+    { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 1 },
+    { start: { x: 75, y: 75 }, end: { x: 125, y: 75 }, id: 2 },
+    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
+    { start: { x: 125, y: 75 }, end: { x: 150, y: 125 }, id: 4 },
+  ],
+  ㅛ: [
+    { start: { x: 50, y: 75 }, end: { x: 50, y: 125 }, id: 1 },
+    { start: { x: 100, y: 75 }, end: { x: 100, y: 125 }, id: 2 },
+    { start: { x: 75, y: 50 }, end: { x: 125, y: 50 }, id: 3 },
+  ],
+  ㅜ: [
+    { start: { x: 75, y: 100 }, end: { x: 75, y: 150 }, id: 1 },
+    { start: { x: 75, y: 125 }, end: { x: 125, y: 125 }, id: 2 },
+  ],
+  ㅝ: [
+    { start: { x: 75, y: 100 }, end: { x: 75, y: 150 }, id: 1 },
+    { start: { x: 75, y: 125 }, end: { x: 125, y: 125 }, id: 2 },
+    { start: { x: 25, y: 125 }, end: { x: 75, y: 125 }, id: 3 },
+  ],
+  ㅞ: [
+    { start: { x: 75, y: 100 }, end: { x: 75, y: 150 }, id: 1 },
+    { start: { x: 75, y: 125 }, end: { x: 125, y: 125 }, id: 2 },
+    { start: { x: 25, y: 125 }, end: { x: 75, y: 125 }, id: 3 },
+    { start: { x: 25, y: 115 }, end: { x: 50, y: 135 }, id: 4 },
+  ],
+  ㅠ: [
+    { start: { x: 50, y: 125 }, end: { x: 50, y: 175 }, id: 1 },
+    { start: { x: 100, y: 125 }, end: { x: 100, y: 175 }, id: 2 },
+    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
+  ],
+  ㅡ: [{ start: { x: 50, y: 125 }, end: { x: 150, y: 125 }, id: 1 }],
+  ㅢ: [
+    { start: { x: 50, y: 125 }, end: { x: 150, y: 125 }, id: 1 },
+    { start: { x: 100, y: 100 }, end: { x: 100, y: 150 }, id: 2 },
+  ],
+};
+
 // @ts-ignore
 const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
   const [isDrawing, setIsDrawing] = useState(false);
@@ -31,165 +191,6 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
   const [isClearButtonClicked, setClearButtonClicked] = useState(false);
   const svgRef = useRef(null);
   const navigation = useNavigation<RootStackNavigationProp>();
-
-  // 여기부터 인덱스
-  const strokes = {
-    ㄱ: [
-      { start: { x: 50, y: 50 }, end: { x: 150, y: 50 }, id: 1 },
-      { start: { x: 150, y: 50 }, end: { x: 150, y: 150 }, id: 2 },
-    ],
-    ㄴ: [
-      { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-      { start: { x: 50, y: 150 }, end: { x: 150, y: 150 }, id: 2 },
-    ],
-    ㄷ: [
-      { start: { x: 50, y: 50 }, end: { x: 150, y: 50 }, id: 1 },
-      { start: { x: 150, y: 50 }, end: { x: 150, y: 150 }, id: 2 },
-      { start: { x: 50, y: 150 }, end: { x: 150, y: 150 }, id: 3 },
-    ],
-    ㄹ: [
-      { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
-      { start: { x: 50, y: 100 }, end: { x: 100, y: 100 }, id: 3 },
-    ],
-    ㅁ: [
-      { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 100, y: 100 }, id: 2 },
-      { start: { x: 100, y: 100 }, end: { x: 50, y: 100 }, id: 3 },
-      { start: { x: 50, y: 100 }, end: { x: 50, y: 50 }, id: 4 },
-    ],
-    ㅂ: [
-      { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 100, y: 100 }, id: 2 },
-      { start: { x: 100, y: 100 }, end: { x: 50, y: 100 }, id: 3 },
-      { start: { x: 50, y: 100 }, end: { x: 50, y: 50 }, id: 4 },
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 5 },
-    ],
-    ㅅ: [
-      { start: { x: 50, y: 50 }, end: { x: 100, y: 100 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
-    ],
-    ㅇ: [
-      { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 100, y: 100 }, id: 2 },
-      { start: { x: 100, y: 100 }, end: { x: 50, y: 100 }, id: 3 },
-      { start: { x: 50, y: 100 }, end: { x: 50, y: 50 }, id: 4 },
-    ],
-    ㅈ: [
-      { start: { x: 50, y: 50 }, end: { x: 100, y: 100 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
-      { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
-    ],
-    ㅊ: [
-      { start: { x: 50, y: 50 }, end: { x: 100, y: 100 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
-      { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
-    ],
-    ㅋ: [
-      { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-      { start: { x: 50, y: 100 }, end: { x: 75, y: 50 }, id: 2 },
-      { start: { x: 50, y: 100 }, end: { x: 75, y: 150 }, id: 3 },
-    ],
-    ㅌ: [
-      { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 2 },
-    ],
-    ㅍ: [
-      { start: { x: 50, y: 75 }, end: { x: 100, y: 50 }, id: 1 },
-      { start: { x: 50, y: 75 }, end: { x: 100, y: 100 }, id: 2 },
-    ],
-    ㅎ: [
-      { start: { x: 50, y: 50 }, end: { x: 75, y: 75 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 75, y: 75 }, id: 2 },
-      { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
-    ],
-
-    ㅏ: [
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
-      { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 2 },
-    ],
-    ㅐ: [
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
-      { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 2 },
-      { start: { x: 125, y: 75 }, end: { x: 150, y: 125 }, id: 3 },
-    ],
-    ㅑ: [
-      { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
-      { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
-    ],
-    ㅒ: [
-      { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
-      { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
-      { start: { x: 125, y: 75 }, end: { x: 150, y: 125 }, id: 4 },
-    ],
-    ㅓ: [
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
-      { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 2 },
-    ],
-    ㅔ: [
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
-      { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 2 },
-      { start: { x: 25, y: 75 }, end: { x: 50, y: 125 }, id: 3 },
-    ],
-    ㅕ: [
-      { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
-      { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 3 },
-    ],
-    ㅖ: [
-      { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
-      { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 3 },
-      { start: { x: 25, y: 75 }, end: { x: 50, y: 125 }, id: 4 },
-    ],
-    ㅗ: [
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 1 },
-      { start: { x: 75, y: 75 }, end: { x: 125, y: 75 }, id: 2 },
-    ],
-    ㅘ: [
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 1 },
-      { start: { x: 75, y: 75 }, end: { x: 125, y: 75 }, id: 2 },
-      { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
-    ],
-    ㅙ: [
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 1 },
-      { start: { x: 75, y: 75 }, end: { x: 125, y: 75 }, id: 2 },
-      { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
-      { start: { x: 125, y: 75 }, end: { x: 150, y: 125 }, id: 4 },
-    ],
-    ㅛ: [
-      { start: { x: 50, y: 75 }, end: { x: 50, y: 125 }, id: 1 },
-      { start: { x: 100, y: 75 }, end: { x: 100, y: 125 }, id: 2 },
-      { start: { x: 75, y: 50 }, end: { x: 125, y: 50 }, id: 3 },
-    ],
-    ㅜ: [
-      { start: { x: 75, y: 100 }, end: { x: 75, y: 150 }, id: 1 },
-      { start: { x: 75, y: 125 }, end: { x: 125, y: 125 }, id: 2 },
-    ],
-    ㅝ: [
-      { start: { x: 75, y: 100 }, end: { x: 75, y: 150 }, id: 1 },
-      { start: { x: 75, y: 125 }, end: { x: 125, y: 125 }, id: 2 },
-      { start: { x: 25, y: 125 }, end: { x: 75, y: 125 }, id: 3 },
-    ],
-    ㅞ: [
-      { start: { x: 75, y: 100 }, end: { x: 75, y: 150 }, id: 1 },
-      { start: { x: 75, y: 125 }, end: { x: 125, y: 125 }, id: 2 },
-      { start: { x: 25, y: 125 }, end: { x: 75, y: 125 }, id: 3 },
-      { start: { x: 25, y: 115 }, end: { x: 50, y: 135 }, id: 4 },
-    ],
-    ㅠ: [
-      { start: { x: 50, y: 125 }, end: { x: 50, y: 175 }, id: 1 },
-      { start: { x: 100, y: 125 }, end: { x: 100, y: 175 }, id: 2 },
-      { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
-    ],
-    ㅡ: [{ start: { x: 50, y: 125 }, end: { x: 150, y: 125 }, id: 1 }],
-    ㅢ: [
-      { start: { x: 50, y: 125 }, end: { x: 150, y: 125 }, id: 1 },
-      { start: { x: 100, y: 100 }, end: { x: 100, y: 150 }, id: 2 },
-    ],
-  };
 
   const [currentStrokeIndex, setCurrentStrokeIndex] = useState(0);
   const currentJamo = list[pointer];

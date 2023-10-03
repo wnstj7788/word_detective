@@ -8,3 +8,15 @@
 export const shuffleArray = <T>(array: T[]) => {
   return array.sort(() => Math.random() - 0.5);
 };
+
+/**
+ * 난수 생성 함수
+ * @param min 최솟값(포함)
+ * @param max 최댓값(제외)
+ * @returns min이상 max 미만의 난수(number타입)
+ */
+export const getRandomInt = (min: number, max: number): number => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+};
