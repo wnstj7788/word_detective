@@ -59,7 +59,7 @@ const Canvas = ({ word }) => {
       setCapturedImageURI(uri);
     });
   };
-
+  console.log(capturedImageURI);
   return (
     <Container>
       <ViewShot ref={svgRef} options={{ format: "jpg", quality: 0.9 }}>
@@ -83,15 +83,16 @@ const Canvas = ({ word }) => {
         </SVGContainer>
       </ViewShot>
       {/* 미리보기 버튼 (확인용) */}
-      {/* <TouchableOpacity style={styles.captureButton} onPress={captureSVG}>
-        <Text style={styles.captureButtonText}>Capture SVG</Text>
-      </TouchableOpacity>
+      <StyledTouchableOpacity onPress={captureSVG}>
+        <StyledButtonText>Capture SVG</StyledButtonText>
+      </StyledTouchableOpacity>
+
       {capturedImageURI && (
         <Image
           source={{ uri: capturedImageURI }}
           style={{ width: 200, height: 200, marginTop: 20 }}
         />
-      )} */}
+      )}
     </Container>
   );
 };
@@ -149,4 +150,16 @@ const Textcontainer = styled.View`
 
   opacity: 0.5;
   flex-direction: row;
+`;
+const StyledTouchableOpacity = styled.TouchableOpacity`
+  margin-top: 10px;
+  background-color: #007aff;
+  padding: 10px 20px;
+  border-radius: 5px;
+`;
+
+const StyledButtonText = styled.Text`
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
 `;
