@@ -11,7 +11,7 @@ MYSQL_USER = "root"
 MYSQL_PASSWORD = "root"
 MYSQL_DATABASE = "detection"
 DATABASE_URL = (
-    f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}/{MYSQL_DATABASE}"
+    f"mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}/{MYSQL_DATABASE}"
 )
 
 
