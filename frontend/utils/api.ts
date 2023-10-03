@@ -15,7 +15,7 @@ export const UserAPI = {
   getById: function (userId?: number) {
     return axiosInstance.request({
       method: "GET",
-      url: `/api/user?userId=${userId}`,
+      url: userId ? `/api/user?userId=${userId}` : `/api/user`,
     });
   },
   //   create: function (user) {
