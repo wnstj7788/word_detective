@@ -86,7 +86,7 @@ const LetterGame1 = () => {
           <GameClearModal nextScreen="LetterGame2" word={
             {
               id : 1,
-              name : "가냐더려모뵤수유즈치카타파하",
+              name : "게체계개걔",
               url : "https://detective-bucket.s3.ap-northeast-2.amazonaws.com/fruit/apple.png"
             }
           }></GameClearModal>

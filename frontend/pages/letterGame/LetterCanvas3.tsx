@@ -83,27 +83,35 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
       { start: { x: width*0.24, y: height*0.44 }, end: { x: width*0.29, y: height*0.6 }, id: 3 },
     ],
     ㅊ: [
-      { start: { x: 50, y: 50 }, end: { x: 100, y: 100 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
-      { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
+      { start: { x: width*0.205, y: height*0.43 }, end: { x: width*0.27, y: height*0.43 }, id: 1 },
+      { start: { x: width*0.185, y: height*0.48 }, end: { x: width*0.29, y: height*0.48}, id: 2 },
+      { start: { x: width*0.24, y: height*0.48 }, end: { x: width*0.18, y: height*0.6 }, id: 3 },
+      {  start: { x: width*0.24, y: height*0.48 }, end: { x: width*0.29, y: height*0.6 }, id: 4 },
     ],
     ㅋ: [
-      { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-      { start: { x: 50, y: 100 }, end: { x: 75, y: 50 }, id: 2 },
-      { start: { x: 50, y: 100 }, end: { x: 75, y: 150 }, id: 3 },
+      { start: { x: width*0.19, y: height*0.445 }, end: { x: width*0.29, y: height*0.445}, id: 1 },
+      { start: { x: width*0.19, y: height*0.53 }, end: { x: width*0.29, y: height*0.53}, id: 2 },
+      { start: { x: width*0.29, y: height*0.445 }, end: { x: width*0.29, y: height*0.6 }, id: 3 },
     ],
     ㅌ: [
-      { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 2 },
+      {  start: { x: width*0.19, y: height*0.445 }, end: { x: width*0.29, y: height*0.445 }, id: 1  },
+      { start: { x: width*0.19, y: height*0.52 }, end: { x: width*0.29, y: height*0.52 }, id: 2 },
+      { start: { x: width*0.19, y: height*0.445 }, end: { x: width*0.19, y: height*0.6}, id: 3 },
+      { start: { x: width*0.19, y: height*0.6 }, end: { x: width*0.29, y: height*0.6 }, id: 4 },
     ],
     ㅍ: [
-      { start: { x: 50, y: 75 }, end: { x: 100, y: 50 }, id: 1 },
-      { start: { x: 50, y: 75 }, end: { x: 100, y: 100 }, id: 2 },
+      {   start: { x: width*0.18, y: height*0.445 }, end: { x: width*0.297, y: height*0.445 }, id: 1  },
+      { start: { x: width*0.21, y: height*0.445 }, end: { x: width*0.21, y: height*0.6}, id: 2 },
+      { start: { x: width*0.27, y: height*0.445 }, end: { x: width*0.27, y: height*0.6}, id: 3 },
+      { start: { x: width*0.19, y: height*0.6 }, end: { x: width*0.29, y: height*0.6 }, id: 4 },
     ],
     ㅎ: [
-      { start: { x: 50, y: 50 }, end: { x: 75, y: 75 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 75, y: 75 }, id: 2 },
-      { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
+      { start: { x: width*0.205, y: height*0.43 }, end: { x: width*0.27, y: height*0.43 }, id: 1  },
+      { start: { x: width*0.18, y: height*0.48 }, end: { x: width*0.3, y: height*0.48}, id: 2 },
+      { start: { x: width*0.24, y: height*0.53 }, end: { x: width*0.19, y: height*0.57}, id: 3 },
+      { start: { x: width*0.19, y: height*0.57}, end: { x: width*0.24, y: height*0.62 }, id: 4 },
+      { start: { x: width*0.24, y: height*0.62}, end: { x: width*0.29, y: height*0.57 }, id: 5 },
+      { start: { x: width*0.29, y: height*0.57 }, end: { x: width*0.24, y: height*0.53 }, id: 6 },
     ],
 
     ㅏ: [
@@ -111,9 +119,9 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
       { start: { x: width*0.223, y: height*0.52 }, end: { x: width*0.28, y: height*0.52 }, id: 2 },
     ],
     ㅐ: [
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
-      { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 2 },
-      { start: { x: 125, y: 75 }, end: { x: 150, y: 125 }, id: 3 },
+      { start: { x: width*0.215, y: height*0.4 }, end: { x: width*0.215, y: height*0.65 }, id: 1 },
+      { start: { x: width*0.215, y: height*0.52 }, end: { x: width*0.264, y: height*0.52 }, id: 2 },
+      { start: { x: width*0.264, y: height*0.4 }, end: { x: width*0.264, y: height*0.65 }, id: 3 },
     ],
     ㅑ: [
       { start: { x: width*0.223, y: height*0.4 }, end: { x: width*0.223, y: height*0.65 }, id: 1 },
@@ -121,19 +129,19 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
       { start: { x: width*0.223, y: height*0.57 }, end: { x: width*0.274, y: height*0.57 }, id: 3 },
     ],
     ㅒ: [
-      { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
-      { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
-      { start: { x: 125, y: 75 }, end: { x: 150, y: 125 }, id: 4 },
+      { start: { x: width*0.215, y: height*0.4 }, end: { x: width*0.215, y: height*0.65 }, id: 1 },
+      { start: { x: width*0.215, y: height*0.47 }, end: { x: width*0.265, y: height*0.47 }, id: 2 },
+      { start: { x: width*0.215, y: height*0.57 }, end: { x: width*0.265, y: height*0.57 }, id: 3 },
+      { start: { x: width*0.265, y: height*0.4 }, end: { x: width*0.265, y: height*0.65 }, id: 4 },
     ],
     ㅓ: [
       { start: { x: width*0.257, y: height*0.4 }, end: { x: width*0.257, y: height*0.65 }, id: 1 },
       { start: { x: width*0.2, y: height*0.52 }, end: { x: width*0.257, y: height*0.52 }, id: 2 },
     ],
     ㅔ: [
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
-      { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 2 },
-      { start: { x: 25, y: 75 }, end: { x: 50, y: 125 }, id: 3 },
+      { start: { x: width*0.192, y: height*0.52 }, end: { x: width*0.23, y: height*0.52 }, id: 1 },
+      { start: { x: width*0.236, y: height*0.4 }, end: { x: width*0.236, y: height*0.65 }, id: 2 },
+      { start: { x: width*0.274, y: height*0.4 }, end: { x: width*0.274, y: height*0.65 }, id: 3 },
     ],
     ㅕ: [
       { start: { x: width*0.257, y: height*0.4 }, end: { x: width*0.257, y: height*0.65 }, id: 1 },
@@ -141,25 +149,14 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
       { start: { x: width*0.208, y: height*0.57 }, end: { x: width*0.254, y: height*0.57 }, id: 3 },
     ],
     ㅖ: [
-      { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
-      { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 3 },
-      { start: { x: 25, y: 75 }, end: { x: 50, y: 125 }, id: 4 },
+      { start: { x: width*0.192, y: height*0.47 }, end: { x: width*0.23, y: height*0.47 }, id: 1 },
+      { start: { x: width*0.192, y: height*0.57 }, end: { x: width*0.23, y: height*0.57 }, id: 2 },
+      { start: { x: width*0.236, y: height*0.4 }, end: { x: width*0.236, y: height*0.65 }, id: 3 },
+      { start: { x: width*0.274, y: height*0.4 }, end: { x: width*0.274, y: height*0.65 }, id: 4 },
     ],
     ㅗ: [
       { start: { x: width*0.24, y: height*0.43 }, end: { x: width*0.24, y: height*0.6 }, id: 1 },
       { start: { x: width*0.17, y: height*0.6 }, end: { x: width*0.31, y: height*0.6 }, id: 2 },
-    ],
-    ㅘ: [
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 1 },
-      { start: { x: 75, y: 75 }, end: { x: 125, y: 75 }, id: 2 },
-      { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
-    ],
-    ㅙ: [
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 1 },
-      { start: { x: 75, y: 75 }, end: { x: 125, y: 75 }, id: 2 },
-      { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
-      { start: { x: 125, y: 75 }, end: { x: 150, y: 125 }, id: 4 },
     ],
     ㅛ: [
       { start: { x: width*0.21, y: height*0.445 }, end: { x: width*0.21, y: height*0.6}, id: 1 },
@@ -170,27 +167,13 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
       { start: { x: width*0.17, y: height*0.445 }, end: { x: width*0.31, y: height*0.445}, id: 1 },
       { start: { x: width*0.24, y: height*0.445 }, end: { x: width*0.24, y: height*0.6 }, id: 2 },
     ],
-    ㅝ: [
-      { start: { x: 75, y: 100 }, end: { x: 75, y: 150 }, id: 1 },
-      { start: { x: 75, y: 125 }, end: { x: 125, y: 125 }, id: 2 },
-      { start: { x: 25, y: 125 }, end: { x: 75, y: 125 }, id: 3 },
-    ],
-    ㅞ: [
-      { start: { x: 75, y: 100 }, end: { x: 75, y: 150 }, id: 1 },
-      { start: { x: 75, y: 125 }, end: { x: 125, y: 125 }, id: 2 },
-      { start: { x: 25, y: 125 }, end: { x: 75, y: 125 }, id: 3 },
-      { start: { x: 25, y: 115 }, end: { x: 50, y: 135 }, id: 4 },
-    ],
     ㅠ: [
       { start: { x: width*0.17, y: height*0.445 }, end: { x: width*0.31, y: height*0.445}, id: 1 },
       { start: { x: width*0.21, y: height*0.445 }, end: { x: width*0.21, y: height*0.6}, id: 2 },
       { start: { x: width*0.27, y: height*0.445 }, end: { x: width*0.27, y: height*0.6}, id: 3 },
     ],
     ㅡ: [{ start: { x: width*0.17, y: height*0.52 }, end: { x: width*0.31, y: height*0.52}, id: 1 }],
-    ㅢ: [
-      { start: { x: 50, y: 125 }, end: { x: 150, y: 125 }, id: 1 },
-      { start: { x: 100, y: 100 }, end: { x: 100, y: 150 }, id: 2 },
-    ],
+    ㅣ: [{ start: { x: width*0.24, y: height*0.4 }, end: { x: width*0.24, y: height*0.65 }, id: 1 }],
   };
 
   const [currentStrokeIndex, setCurrentStrokeIndex] = useState(0);
