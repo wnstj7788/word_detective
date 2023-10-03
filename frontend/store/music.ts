@@ -1,19 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 
 const musicSlice = createSlice({
     name: "music",
     initialState: {
-        currentMusic: null, // 현재 재생 중인 음악 파일 경로
+        currentMusicPath: null, // 파일 경로만 저장
     },
     reducers: {
-        setCurrentMusic: (state, action) => {
-            console.log(action.payload);
-            state.currentMusic = action.payload;
-            console.log(state.currentMusic);
+        setCurrentMusicPath: (state, action) => {
+            state.currentMusicPath = action.payload;
         },
     },
 });
 
-export const { setCurrentMusic } = musicSlice.actions;
-
+export const { setCurrentMusicPath } = musicSlice.actions;
+export const selectCurrentMusicPath = (state) => state.music.currentMusicPath;
+export const selectCurrentMusic = state => state.music.currentMusic;
 export default musicSlice.reducer;

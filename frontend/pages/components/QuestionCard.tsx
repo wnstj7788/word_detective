@@ -5,126 +5,76 @@ import { Container } from "../../styles/globalStyles";
 import styled, { css } from "styled-components/native";
 import { ICard, IWord } from "../../types/types";
 import { Audio } from "expo-av";
+import { Asset } from 'expo-asset';
 
 const QuestionCard = (props: { word: IWord; type: ICard }) => {
     const isLoaded = useCachedResources();
 
     const [soundObject, setSoundObject] = useState<Audio.Sound | null>(null);
 
-    // 각 단어에 대한 소리 파일을 매핑
-    // const soundMappings: Record<string, any> = {
-    //     사과: require("../../assets/wav/사과.wav"),
-    //     오렌지: require("../../assets/wav/오렌지.wav"),
-    //     가위: require("../../assets/wav/가위.wav"),
-    //     강아지: require("../../assets/wav/강아지.wav"),
-    //     고양이: require("../../assets/wav/고양이.wav"),
-    //     그릇: require("../../assets/wav/그릇.wav"),
-    //     달팽이: require("../../assets/wav/달팽이.wav"),
-    //     딸기: require("../../assets/wav/딸기.wav"),
-    //     마우스: require("../../assets/wav/마우스.wav"),
-    //     만년필: require("../../assets/wav/만년필.wav"),
-    //     멜론: require("../../assets/wav/멜론.wav"),
-    //     바나나: require("../../assets/wav/바나나.wav"),
-    //     복숭아: require("../../assets/wav/복숭아.wav"),
-    //     사자: require("../../assets/wav/사자.wav"),
-    //     수박: require("../../assets/wav/수박.wav"),
-    //     연필: require("../../assets/wav/연필.wav"),
-    //     원숭이: require("../../assets/wav/원숭이.wav"),
-    //     의자: require("../../assets/wav/의자.wav"),
-    //     지우개: require("../../assets/wav/지우개.wav"),
-    //     체리: require("../../assets/wav/체리.wav"),
-    //     코끼리: require("../../assets/wav/코끼리.wav"),
-    //     키보드: require("../../assets/wav/키보드.wav"),
-    //     토끼: require("../../assets/wav/토끼.wav"),
-    //     판다: require("../../assets/wav/판다.wav"),
-    //     토마토: require("../../assets/wav/토마토.wav"),
-    //     포도: require("../../assets/wav/포도.wav"),
-    // };
+
     const soundMappings: Record<string, any> = {};
 
-    switch (props.word.name) {
-        case "사과":
-            soundMappings[props.word.name] = require("../../assets/wav/사과.wav");
-            break;
-        case "오렌지":
-            soundMappings[props.word.name] = require("../../assets/wav/오렌지.wav");
-            break;
-        case "가위":
-            soundMappings[props.word.name] = require("../../assets/wav/가위.wav");
-            break;
-        case "강아지":
-            soundMappings[props.word.name] = require("../../assets/wav/강아지.wav");
-            break;
-        case "고양이":
-            soundMappings[props.word.name] = require("../../assets/wav/고양이.wav");
-            break;
-        case "그릇":
-            soundMappings[props.word.name] = require("../../assets/wav/그릇.wav");
-            break;
-        case "달팽이":
-            soundMappings[props.word.name] = require("../../assets/wav/달팽이.wav");
-            break;
-        case "딸기":
-            soundMappings[props.word.name] = require("../../assets/wav/딸기.wav");
-            break;
-        case "마우스":
-            soundMappings[props.word.name] = require("../../assets/wav/마우스.wav");
-            break;
-        case "만년필":
-            soundMappings[props.word.name] = require("../../assets/wav/만년필.wav");
-            break;
-        case "멜론":
-            soundMappings[props.word.name] = require("../../assets/wav/멜론.wav");
-            break;
-        case "바나나":
-            soundMappings[props.word.name] = require("../../assets/wav/바나나.wav");
-            break;
-        case "복숭아":
-            soundMappings[props.word.name] = require("../../assets/wav/복숭아.wav");
-            break;
-        case "사자":
-            soundMappings[props.word.name] = require("../../assets/wav/사자.wav");
-            break;
-        case "수박":
-            soundMappings[props.word.name] = require("../../assets/wav/수박.wav");
-            break;
-        case "연필":
-            soundMappings[props.word.name] = require("../../assets/wav/연필.wav");
-            break;
-        case "원숭이":
-            soundMappings[props.word.name] = require("../../assets/wav/원숭이.wav");
-            break;
-        case "의자":
-            soundMappings[props.word.name] = require("../../assets/wav/의자.wav");
-            break;
-        case "지우개":
-            soundMappings[props.word.name] = require("../../assets/wav/지우개.wav");
-            break;
-        case "체리":
-            soundMappings[props.word.name] = require("../../assets/wav/체리.wav");
-            break;
-        case "코끼리":
-            soundMappings[props.word.name] = require("../../assets/wav/코끼리.wav");
-            break;
-        case "키보드":
-            soundMappings[props.word.name] = require("../../assets/wav/키보드.wav");
-            break;
-        case "토끼":
-            soundMappings[props.word.name] = require("../../assets/wav/토끼.wav");
-            break;
-        case "판다":
-            soundMappings[props.word.name] = require("../../assets/wav/판다.wav");
-            break;
-        case "토마토":
-            soundMappings[props.word.name] = require("../../assets/wav/토마토.wav");
-            break;
-        case "포도":
-            soundMappings[props.word.name] = require("../../assets/wav/포도.wav");
-            break;
-        default:
-            // 기본값 처리 (필요에 따라 추가)
-            break;
+    function getSoundFile(wordName: string) : any {
+        switch (wordName) {
+            case "사과":
+                return require("../../assets/wav/apple.wav");
+            case "오렌지":
+                return require("../../assets/wav/orange.wav");
+            case "가위":
+                return require("../../assets/wav/scissors.wav");
+            case "강아지":
+                return require("../../assets/wav/dog.wav");
+            case "고양이":
+                return require("../../assets/wav/cat.wav");
+            case "그릇":
+                return require("../../assets/wav/bowl.wav");
+            case "달팽이":
+                return require("../../assets/wav/snail.wav");
+            case "딸기":
+                return require("../../assets/wav/strawberry.wav");
+            case "마우스":
+                return require("../../assets/wav/mouse.wav");
+            case "만년필":
+                return require("../../assets/wav/fountain_pen.wav");
+            case "멜론":
+                return require("../../assets/wav/melon.wav");
+            case "바나나":
+                return require("../../assets/wav/banana.wav");
+            case "복숭아":
+                return require("../../assets/wav/peach.wav");
+            case "사자":
+                return require("../../assets/wav/lion.wav");
+            case "수박":
+                return require("../../assets/wav/watermelon.wav");
+            case "연필":
+                return require("../../assets/wav/pencil.wav");
+            case "원숭이":
+                return require("../../assets/wav/monkey.wav");
+            case "의자":
+                return require("../../assets/wav/chair.wav");
+            case "지우개":
+                return require("../../assets/wav/eraser.wav");
+            case "체리":
+                return require("../../assets/wav/cherry.wav");
+            case "코끼리":
+                return require("../../assets/wav/elephant.wav");
+            case "키보드":
+                return require("../../assets/wav/keyboard.wav");
+            case "토끼":
+                return require("../../assets/wav/rabbit.wav");
+            case "판다":
+                return require("../../assets/wav/panda.wav");
+            case "토마토":
+                return require("../../assets/wav/tomato.wav");
+            case "포도":
+                return require("../../assets/wav/grape.wav");
+            default:
+                // 기본값 처리 (필요에 따라 추가)
+                return null;
+        }
     }
+
 
     // 단어를 글자단위로 쪼갠 리스트
     let wordToLetterList: string[] = props.word.name.split("");
@@ -194,20 +144,24 @@ const QuestionCard = (props: { word: IWord; type: ICard }) => {
                     onPress={async () => {
                         console.log("clicked");
 
-                        if (props.word !== null && soundMappings[props.word.name]) {
-                            const soundObject = new Audio.Sound();
-                            try {
-                                console.log("소리");
+                        if (props.word !== null) {
+                            const soundFile = getSoundFile(props.word.name);
 
-                                await soundObject.loadAsync(soundMappings[props.word.name]);
-                                await soundObject.playAsync();
-                            } catch (error) {
-                                console.error("소리 재생 중 오류 발생:", error);
+                            if (soundFile) {
+                                const soundObject = new Audio.Sound();
+                                try {
+                                    console.log("소리");
+                                    await soundObject.loadAsync(Asset.fromModule(soundFile));
+                                    await soundObject.playAsync();
+                                } catch (error) {
+                                    console.error("소리 재생 중 오류 발생:", error);
+                                }
                             }
                         }
                     }}
                 >
-                    <Image
+
+                <Image
                         source={require("../../assets/button/audioBtn.png")}
                         resizeMode="stretch"
                     />

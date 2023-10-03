@@ -37,9 +37,9 @@ export default function App() {
 
             // 직접 이미지 데이터를 추가
             formData.append('file', {
-                uri: photo.uri, // 사진의 URI를 사용
+                uri: photo.uri,
                 name: 'photo.jpg',
-                type: 'image/jpeg', // 이미지 형식에 따라 수정하세요.
+                type: 'image/jpeg',
             });
 
             formData.append('userId', '01af21be-09a8-41e0-a8ad-2084b501ad53');
@@ -83,7 +83,7 @@ export default function App() {
                     }
                 }}
                 zoom={0} // 원하는 줌 레벨로 설정합니다.
-                ratio="5:4" // 비율을 16:9로 설정합니다.
+                ratio="22:9" // 비율을 16:9로 설정합니다.
             >
                 {/* 카메라 버튼 컨테이너 */}
                 <View style={styles.buttonContainer}>
