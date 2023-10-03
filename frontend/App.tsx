@@ -41,16 +41,12 @@ type DataItem = {
 //네비게이션 관련 타입. 넘겨줄 인자가 없으면 undefined, 있으면 객체로 써주기
 export type RootStackParamList = {
   Home: undefined;
-  Main: {
-    cameFromTutorialTwo?: boolean;
-  };
+  Main: undefined;
   Login: undefined;
   Stage: {
     gameType: string;
   };
-  PictureLobby: {
-    cameFromMainModal?: boolean;
-  };
+  PictureLobby: undefined;
   PictureGame1: {
     word: IWord;
   };
