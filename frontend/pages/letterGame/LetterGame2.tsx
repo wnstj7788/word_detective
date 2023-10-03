@@ -7,7 +7,7 @@ import {
   Animated,
   TouchableHighlight,
   Platform,
-  Vibration
+  Vibration,
 } from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
@@ -22,6 +22,7 @@ import Modal from "react-native-modal";
 import React, { useState } from "react";
 import hangul from "hangul-js";
 import { shakeAnimation2 } from "../../animation/animation";
+import GetCardModal from "../components/GetCardModal";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "LetterGame2">;
