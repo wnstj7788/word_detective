@@ -1,39 +1,42 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { Audio } from "expo-av";
 import { useSelector, useDispatch } from "react-redux";
-import { setCurrentMusic } from "../store/music";
-
-/**
- * 백그라운드 노래 설정을 위한 컴포넌트
- * @constructor
- */
-
+import { selectCurrentMusicPath } from "../store/music"; // selectCurrentMusicPath 선택자를 가져옴
 
 const GlobalMusicPlayer = () => {
-    const currentMusic = useSelector((state) => state.music.currentMusic);
+    const currentMusicPath = useSelector(selectCurrentMusicPath); // 현재 음악 파일 경로를 선택
     const dispatch = useDispatch();
+    const [sound, setSound] = useState(null);
 
     useEffect(() => {
         let isMounted = true;
 
-        async function playBackgroundMusic() {
-            if (currentMusic) {
-                const { sound } = await Audio.Sound.createAsync(currentMusic, {
-                    shouldPlay: true,
-                    isLooping: true,
-                });
-                if (isMounted) {
-                    await sound.playAsync();
+        async function loadAndPlayBackgroundMusic() {
+            try {
+                if (currentMusicPath) {
+                    const { sound: newSound } = await Audio.Sound.createAsync(
+                        { uri: currentMusicPath },
+                        {
+                            shouldPlay: true,
+                            isLooping: true,
+                        }
+                    );
+
+                    if (isMounted) {
+                        setSound(newSound);
+                    }
                 }
+            } catch (error) {
+                console.error("Error loading and playing background music:", error);
             }
         }
 
-        playBackgroundMusic();
+        loadAndPlayBackgroundMusic();
 
         return () => {
             isMounted = false;
         };
-    }, [currentMusic]);
+    }, [currentMusicPath]);
 
     return null;
 };
