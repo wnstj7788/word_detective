@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import musicReducer from "./music";
+import musicReducer from "./music"; // music 리듀서 파일 경로에 맞게 수정
 import userReducer from "./user";
 import wordListReducer from "./word";
 
