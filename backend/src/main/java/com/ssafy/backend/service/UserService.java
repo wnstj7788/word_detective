@@ -1,5 +1,6 @@
 package com.ssafy.backend.service;
 
+import com.ssafy.backend.dto.UserRequestDto;
 import com.ssafy.backend.dto.UserResponseDto;
 import com.ssafy.backend.entity.User;
 import com.ssafy.backend.exception.CustomException;
@@ -31,6 +32,28 @@ public class UserService {
                 .picture(user.getPicture())
                 .word(user.getWord())
                 .letter(user.getLetter())
+                .build();
+    }
+    @Transactional
+    public UserResponseDto updateClear(Long userId, UserRequestDto userRequestDto) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
+        );
+
+        User updatedUser = User.builder()
+                .id(user.getId())
+                .picture(userRequestDto.getPicture())
+                .word(userRequestDto.getWord())
+                .letter(userRequestDto.getLetter())
+                .build();
+
+        userRepository.save(updatedUser);
+
+        return UserResponseDto.builder()
+                .id(updatedUser.getId())
+                .picture(updatedUser.getPicture())
+                .word(updatedUser.getWord())
+                .letter(updatedUser.getLetter())
                 .build();
     }
 }
