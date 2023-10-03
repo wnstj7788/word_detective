@@ -5,6 +5,7 @@ WORKDIR /app
 
 # requirements.txt 복사 후 패키지 설치
 COPY requirements.txt requirements.txt
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 COPY . .
