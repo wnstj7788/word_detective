@@ -88,22 +88,29 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
       { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
     ],
     ㅋ: [
-      { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-      { start: { x: 50, y: 100 }, end: { x: 75, y: 50 }, id: 2 },
-      { start: { x: 50, y: 100 }, end: { x: 75, y: 150 }, id: 3 },
+      { start: { x: width*0.19, y: height*0.445 }, end: { x: width*0.29, y: height*0.445}, id: 1 },
+      { start: { x: width*0.19, y: height*0.53 }, end: { x: width*0.29, y: height*0.53}, id: 2 },
+      { start: { x: width*0.29, y: height*0.445 }, end: { x: width*0.29, y: height*0.6 }, id: 3 },
     ],
     ㅌ: [
-      { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
-      { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 2 },
+      {  start: { x: width*0.19, y: height*0.445 }, end: { x: width*0.29, y: height*0.445 }, id: 1  },
+      { start: { x: width*0.19, y: height*0.52 }, end: { x: width*0.29, y: height*0.52 }, id: 2 },
+      { start: { x: width*0.19, y: height*0.445 }, end: { x: width*0.19, y: height*0.6}, id: 3 },
+      { start: { x: width*0.19, y: height*0.6 }, end: { x: width*0.29, y: height*0.6 }, id: 4 },
     ],
     ㅍ: [
-      { start: { x: 50, y: 75 }, end: { x: 100, y: 50 }, id: 1 },
-      { start: { x: 50, y: 75 }, end: { x: 100, y: 100 }, id: 2 },
+      {   start: { x: width*0.18, y: height*0.445 }, end: { x: width*0.297, y: height*0.445 }, id: 1  },
+      { start: { x: width*0.21, y: height*0.445 }, end: { x: width*0.21, y: height*0.6}, id: 2 },
+      { start: { x: width*0.27, y: height*0.445 }, end: { x: width*0.27, y: height*0.6}, id: 3 },
+      { start: { x: width*0.19, y: height*0.6 }, end: { x: width*0.29, y: height*0.6 }, id: 4 },
     ],
     ㅎ: [
-      { start: { x: 50, y: 50 }, end: { x: 75, y: 75 }, id: 1 },
-      { start: { x: 100, y: 50 }, end: { x: 75, y: 75 }, id: 2 },
-      { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
+      {   start: { x: width*0.205, y: height*0.43 }, end: { x: width*0.27, y: height*0.43 }, id: 1  },
+      { start: { x: width*0.18, y: height*0.48 }, end: { x: width*0.3, y: height*0.48}, id: 2 },
+      { start: { x: width*0.24, y: height*0.53 }, end: { x: width*0.19, y: height*0.57}, id: 3 },
+      { start: { x: width*0.19, y: height*0.57}, end: { x: width*0.24, y: height*0.62 }, id: 4 },
+      { start: { x: width*0.24, y: height*0.62}, end: { x: width*0.29, y: height*0.57 }, id: 5 },
+      { start: { x: width*0.29, y: height*0.57 }, end: { x: width*0.24, y: height*0.53 }, id: 6 },
     ],
 
     ㅏ: [
@@ -191,6 +198,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
       { start: { x: 50, y: 125 }, end: { x: 150, y: 125 }, id: 1 },
       { start: { x: 100, y: 100 }, end: { x: 100, y: 150 }, id: 2 },
     ],
+    ㅣ: [{ start: { x: width*0.24, y: height*0.4 }, end: { x: width*0.24, y: height*0.65 }, id: 1 }],
   };
 
   const [currentStrokeIndex, setCurrentStrokeIndex] = useState(0);
