@@ -6,114 +6,58 @@ import { RootStackParamList } from "../../App";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Audio } from "expo-av"; // Expo Audio 라이브러리 추가
-import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentMusic, setCurrentMusic } from "../../store/music";
+import { useDispatch } from "react-redux";
+import useAppSelector from "../../store/useAppSelector";
 import GlobalMusicPlayer from "../../utils/globalMusicPlayer"; // GlobalMusicPlayer 컴포넌트 임포트 추가
+import { setCurrentMusicName, setIsPlaying } from "../../store/music";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
-const Main = ({ route }: any) => {
+const Main = () => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const dispatch = useDispatch();
-  const currentMusic = useSelector(selectCurrentMusic);
-
-  const isMusicPlaying = useRef(false); // 음악이 재생 중인지 여부를 저장하는 ref
+  const currentMusicName = useAppSelector(state => state.music.currentMusicName);
+  const isMusicPlaying = useAppSelector(state => state.music.isPlaying);
 
   useEffect(() => {
-    // 디폴트 음악을 설정하고 재생
-    playDefaultMusic();
+    dispatch(setCurrentMusicName("mainMusic")); //디폴트 음악 경로 설정
   }, []);
 
   useEffect(() => {
-    if (currentMusic) {
-      // 컴포넌트가 언마운트될 때 음악을 정리하는 함수를 반환
-      return () => {
-        stopAndUnloadCurrentMusic();
-      };
-    }
-  }, [currentMusic]);
-
-  const playDefaultMusic = async () => {
-    try {
-      const defaultMusic = new Audio.Sound();
-      await defaultMusic.loadAsync(require("../../assets/backgroundMusic/mainMusic.mp3"));
-      await defaultMusic.setVolumeAsync(0.2);
-      await defaultMusic.playAsync();
-      dispatch(setCurrentMusic(defaultMusic)); // setCurrentMusic로 상태 업데이트
-    } catch (error) {
-      console.error("디폴트 음악 재생 중 오류 발생:", error);
-    }
-  };
-
-  // 음악을 중지하고 언로드하는 함수
-  const stopAndUnloadCurrentMusic = async () => {
-    if (currentMusic) {
-      try {
-        console.log("노래 멈추기 및 언로드");
-        if (currentMusic.stopAsync) {
-          await currentMusic.stopAsync();
-        }
-        currentMusic.setOnPlaybackStatusUpdate(null); // 이벤트 처리기 제거
-        if (currentMusic.unloadAsync) {
-          await currentMusic.unloadAsync();
-        }
-        console.log("음악 언로드 완료");
-      } catch (error) {
-        console.error("음악 정리 중 오류 발생:", error);
-      } finally {
-        isMusicPlaying.current = false;
-        console.log("현재 음악 상태 " + isMusicPlaying.current);
-      }
-    }
-  };
+    console.log("Main::", currentMusicName);
+  }, [currentMusicName]);
 
   const playSound = async (soundFile: string) => {
-    // 현재 재생 중인 사운드가 없을 때만 새로운 사운드 재생
-    if (!isMusicPlaying.current) {
-      const { sound } = await Audio.Sound.createAsync(soundFile);
-
-      sound.setOnPlaybackStatusUpdate(status => {
-        if (status.didJustFinish) {
-          // 음악이 종료된 경우 중복 재생 상태를 false로 설정
-          isMusicPlaying.current = false;
-        }
-      });
-
-      // 음악을 재생하고 중복 재생 상태를 true로 설정
-      await sound.playAsync();
-      isMusicPlaying.current = true;
-    }
+    const { sound } = await Audio.Sound.createAsync(getSoundFiles(soundFile));
+    await sound.playAsync();
   };
 
-  const handleNavigateToOtherScreenPictureLobby = async () => {
-    await stopAndUnloadCurrentMusic();
-    if (!isMusicPlaying.current) {
-      dispatch(setCurrentMusic(require("../../assets/backgroundMusic/pictureGameBgMusic.mp3")));
-      isMusicPlaying.current = true;
-    }
+  const handleNavigateToOtherScreenPictureLobby = () => {
+    dispatch(setCurrentMusicName("pictureBgMusic"));
     navigation.navigate("PictureLobby");
   };
 
-  const handleNavigateToOtherScreenLetterLobby = async () => {
-    await stopAndUnloadCurrentMusic();
-    if (!isMusicPlaying.current) {
-      dispatch(setCurrentMusic(require("../../assets/backgroundMusic/letterGameBgMusic.mp3")));
-      isMusicPlaying.current = true;
-    }
-    navigation.navigate("LetterLobby");
-  };
-
-  const handleNavigateToOtherScreenWordLobby = async () => {
-    await stopAndUnloadCurrentMusic();
+  const handleNavigateToOtherScreenWordLobby = () => {
+    dispatch(setCurrentMusicName("wordBgMusic"));
     navigation.navigate("WordLobby");
   };
 
-  const soundFiles = {
-    pictureMatch: require("../../assets/wav/06_그림맞추기.wav"),
-    wordMatch: require("../../assets/wav/34_단어맞추기.wav"),
-    wordLetter: require("../../assets/wav/35_단어나누기.wav"),
+  const handleNavigateToOtherScreenLetterLobby = () => {
+    dispatch(setCurrentMusicName("letterBgMusic"));
+    navigation.navigate("LetterLobby");
+  };
+
+  const getSoundFiles = (name: string): any => {
+    switch (name) {
+      case "pictureMatch":
+        return require("../../assets/wav/06_그림맞추기.wav");
+      case "wordMatch":
+        return require("../../assets/wav/34_단어맞추기.wav");
+      case "wordLetter":
+        return require("../../assets/wav/35_단어나누기.wav");
+    }
     // 다른 소리 파일들을 필요에 따라 추가
   };
 
@@ -126,11 +70,9 @@ const Main = ({ route }: any) => {
             <Header />
           </HeaderContainer>
           <BtnContainer>
-            <MenuBtnDraw
-              cameFromTutorialTwo={route.params?.cameFromTutorialTwo}
+            <MenuBtn
               onPress={async () => {
-                console.log("ddddd");
-                playSound(soundFiles.pictureMatch);
+                playSound("pictureMatch");
                 handleNavigateToOtherScreenPictureLobby();
               }}
             >
@@ -139,11 +81,10 @@ const Main = ({ route }: any) => {
                 resizeMode="contain"
               />
               <BtnText>그림 맞추기</BtnText>
-            </MenuBtnDraw>
+            </MenuBtn>
             <MenuBtn
               onPress={async () => {
-                console.log("ddddd");
-                playSound(soundFiles.wordMatch);
+                playSound("wordMatch");
                 handleNavigateToOtherScreenWordLobby();
                 // navigation.navigate("WordLobby");
               }}
@@ -156,7 +97,7 @@ const Main = ({ route }: any) => {
             </MenuBtn>
             <MenuBtn
               onPress={async () => {
-                playSound(soundFiles.wordLetter);
+                playSound("wordLetter");
                 handleNavigateToOtherScreenLetterLobby();
               }}
             >
@@ -176,18 +117,6 @@ const Main = ({ route }: any) => {
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
               <Text>로그인</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("WordGame3", {
-                  word: {
-                    name: "바나나",
-                    imgSrc: "",
-                  },
-                })
-              }
-            >
-              <Text> 워드게임 3 </Text>
             </TouchableOpacity>
           </TestContainer>
         </ContainerBg>
@@ -230,8 +159,4 @@ const BtnText = styled.Text`
 const TestContainer = styled.View`
   flex-direction: row;
   justify-content: center;
-`;
-
-const MenuBtnDraw = styled(MenuBtn)<{ cameFromTutorialTwo: boolean }>`
-  border: ${props => (props.cameFromTutorialTwo ? "10px solid red" : "10px solid #fef8df")};
 `;

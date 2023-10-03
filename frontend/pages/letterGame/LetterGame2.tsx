@@ -55,11 +55,11 @@ const LetterGame2 = () => {
     //랜덤으로 7개, 정답 1개 뽑기
     const letterList = Object.keys(strokes); //strokes에서 key배열 = ㄱㄴㄷㄹ..ㅏㅑㅓㅕ 배열
     const choiceList: string[] = []; //랜덤으로 뽑아서 여기에 넣을 것
-    setChoiceList(randomLetter(letterList, choiceList));
+    setChoiceList(randomLetter(letterList));
   }, [word]);
 
   //배열에서 랜덤하게 7개 뽑아서 세팅하기
-  const randomLetter = (originArray: string[], targetArray: string[]): string[] => {
+  const randomLetter = (originArray: string[]): string[] => {
     let cnt = 0;
     let tmpArray: string[] = [];
     while (cnt < 8) {
