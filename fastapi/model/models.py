@@ -41,8 +41,7 @@ class Photo(Base):
 user = relationship("User", back_populates="photo")
 word = relationship("Word", back_populates="photo")
 
-
 engine = create_engine(
-    "mysql+pymysql://root:detection-password@j9b105.p.ssafy.io/detection", echo=True
+    "mysql+mysqlconnector://root:detection-password@j9b105.p.ssafy.io/detection", echo=True
 )
 Base.metadata.create_all(bind=engine)
