@@ -132,6 +132,8 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
 
       setBackgroundColor("transparent");
     });
+
+
   };
   useEffect(() => {
     sendData();
@@ -232,7 +234,7 @@ const styles = StyleSheet.create({
   },
   sendButton: {
     marginTop: 10,
-    backgroundColor: "#00C851", // or any color of your choice
+    backgroundColor: "#00C851",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +44,7 @@ public class S3Service {
      * @throws IOException 파일 입출력 예외
      */
     @Transactional
-    public String uploadFile(UUID userId, Long wordId, MultipartFile file) throws IOException {
+    public String uploadFile(Long userId, Long wordId, MultipartFile file) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
@@ -99,7 +98,7 @@ public class S3Service {
      * @param wordId 단어 아이디
      * @return 사진 url
      */
-    public String getPhotoUrl(UUID userId, Long wordId) {
+    public String getPhotoUrl(Long userId, Long wordId) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );

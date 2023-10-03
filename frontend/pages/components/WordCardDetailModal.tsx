@@ -7,12 +7,13 @@ interface WordCardDetailModalProps {
   onClose: () => void;
   item: string;
 }
-// 화면의 가로 길이를 가져옵니다.
-const screenWidth = Dimensions.get("window").width;
-// 화면의 가로 길이를 기반으로 원하는 비율로 width와 height를 계산합니다.
-const height = screenWidth * 0.4; // 화면 가로 길이의 70%
-const width = (height / 5) * 3.8; // 3:4 비율로 계산
+//카드 배경
+const cardDesign1 = require("../../assets/card/wordCard1.png");
+const cardDesign2 = require("../../assets/card/cardAdvanced2.png");
 
+const screenWidth = Dimensions.get("window").width;
+const height = screenWidth * 0.4;
+const width = (height / 5) * 3.8;
 const height2 = screenWidth * 0.5;
 const width2 = (height / 3) * 3.8;
 
@@ -41,7 +42,7 @@ const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, on
   return (
     <ModalContainer>
       <ModalLeft>
-        <WordCardDesign source={require("../../assets/card/wordCard1.png")} resizeMode="stretch">
+        <WordCardDesign source={cardDesign2} resizeMode="stretch">
           <WordImg source={getImage(item)}></WordImg>
         </WordCardDesign>
       </ModalLeft>
@@ -119,13 +120,8 @@ const WordStampDesign = styled.ImageBackground`
   right: 29px;
 `;
 const ModalCloseBtn = styled.TouchableOpacity`
-<<<<<<< Updated upstream
   width: 14%;
   height: 14%;
-=======
-  width: 10%;
-  height: 10%;
->>>>>>> Stashed changes
   position: absolute;
   top: 80px;
   right: 70px;
@@ -147,13 +143,8 @@ const WordTitle = styled.Text`
 `;
 
 const StampWrap = styled.View`
-<<<<<<< Updated upstream
   width: 60%;
   height: 40%;
-=======
-  width: 40%;
-  height: 30%;
->>>>>>> Stashed changes
   top: 20px;
 `;
 
@@ -174,7 +165,4 @@ const Stamp = styled.TouchableOpacity`
 const StampImg = styled.Image`
   width: 100%;
   height: 100%;
-
-  border: 0.5px solid black;
-
 `;

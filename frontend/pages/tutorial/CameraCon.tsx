@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
+import axios from "axios";
+import * as FileSystem from 'expo-file-system';
+
 
 export default function App() {
     // 카메라 권한 상태를 저장하는 상태 변수
     const [hasPermission, setHasPermission] = useState<boolean | null>(null);
 
-    // 카메라 참조를 저장하는 useRef
-    const cameraRef = useRef<Camera | null>(null);
+    const cameraRef = useRef<Camera | undefined>();
+
 
     useEffect(() => {
         // 카메라 권한을 요청하고 권한 상태를 업데이트
@@ -17,13 +20,46 @@ export default function App() {
         })();
     }, []);
 
+
+
     // 사진을 찍는 함수
     const takePicture = async () => {
         if (cameraRef.current) {
-            // 카메라에서 사진을 찍고 사진 데이터를 출력
             const photo = await cameraRef.current.takePictureAsync();
+
             console.log(photo);
-            // photo 객체에 사진 데이터가 들어 있음
+
+            const cleanUri = photo.uri.startsWith('file://') ? photo.uri.slice(7) : photo.uri;
+
+            console.log(cleanUri);
+
+            const formData = new FormData();
+
+            // 직접 이미지 데이터를 추가
+            formData.append('file', {
+                uri: photo.uri, // 사진의 URI를 사용
+                name: 'photo.jpg',
+                type: 'image/jpeg', // 이미지 형식에 따라 수정하세요.
+            });
+
+            formData.append('userId', '01af21be-09a8-41e0-a8ad-2084b501ad53');
+            formData.append('wordId', '1');
+
+            try {
+                const response = await axios.post('http://192.168.137.1:9999/api/photo', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    });
+                    if (response.status === 200) {
+                        console.log('Image upload successful');
+                        console.log('Server response:', response.data);
+                    } else {
+                        console.log('Image upload failed');
+                }
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
         }
     };
 
@@ -41,13 +77,13 @@ export default function App() {
             {/* 카메라 컴포넌트 */}
             <Camera
                 style={styles.camera}
-                // 앞 뒤 ^-^
-                // type={Camera.Constants.Type.back}
                 ref={(ref) => {
                     if (ref) {
                         cameraRef.current = ref;
                     }
                 }}
+                zoom={0} // 원하는 줌 레벨로 설정합니다.
+                ratio="5:4" // 비율을 16:9로 설정합니다.
             >
                 {/* 카메라 버튼 컨테이너 */}
                 <View style={styles.buttonContainer}>
@@ -70,6 +106,7 @@ const styles = StyleSheet.create({
     },
     camera: {
         flex: 1,
+
     },
     buttonContainer: {
         flex: 1,

@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -23,7 +21,7 @@ public class UserService {
      * @return 유저 정보
      */
     @Transactional
-    public UserResponseDto getUserInfoOrCreate(UUID userId) {
+    public UserResponseDto getUserInfoOrCreate(Long userId) {
         User user = userId == null ? userRepository.save(new User()) : userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );

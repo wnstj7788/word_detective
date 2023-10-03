@@ -123,7 +123,7 @@ const ContainerB = styled.View`
   margin:3%;
   background-image: image("../../assets/card/fruit/apple.png");
   border: 1px black;
-  border-radius: 20px;
+
 `
 
 export default LetterGame4;
