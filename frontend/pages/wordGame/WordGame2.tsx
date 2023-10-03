@@ -23,6 +23,7 @@ import { createDndContext } from "react-native-easy-dnd"; //dragabble
 import Modal from "react-native-modal";
 import { shuffleArray } from "../../utils/utils";
 import { WordAPI } from "../../utils/api";
+import GetCardModal from "../components/GetCardModal";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame2">;
@@ -176,7 +177,7 @@ const WordGame2 = () => {
               backdropTransitionOutTiming={0}
               statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
             >
-              <GameClearModal nextScreen="WordGame3" word={word}></GameClearModal>
+              <GetCardModal nextScreen="WordGame3" word={word}></GetCardModal>
             </Modal>
             <ContentContainer>
               <DroppableContainer>

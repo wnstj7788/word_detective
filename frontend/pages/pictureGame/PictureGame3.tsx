@@ -15,38 +15,12 @@ import { createDndContext } from "react-native-easy-dnd";
 import { Animated } from "react-native";
 import { initialWord } from "../../common/initialType";
 import Boom from "./boom";
+import { shuffleArray } from "../../utils/utils";
+import { WordAPI } from "../../utils/api";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 const { Provider, Droppable, Draggable } = createDndContext();
-function getImage(name: string): any {
-  switch (name) {
-    case "사과":
-      return require("../../assets/card/fruit/apple.png");
-    case "오렌지":
-      return require("../../assets/card/fruit/orange.png");
-    case "수박":
-      return require("../../assets/card/fruit/watermelon.png");
-    case "토마토":
-      return require("../../assets/card/fruit/tomato.png");
-    case "체리":
-      return require("../../assets/card/fruit/cherry.png");
-    case "바나나":
-      return require("../../assets/card/fruit/banana.png");
-    case "딸기":
-      return require("../../assets/card/fruit/strawberry.png");
-    case "멜론":
-      return require("../../assets/card/fruit/melon.png");
-    case "복숭아":
-      return require("../../assets/card/fruit/peach.png");
-    case "포도":
-      return require("../../assets/card/fruit/grapes.png");
-    case "정답":
-      return require("../../assets/card/OXCard/O.png");
-    default:
-      return null; // 기본 이미지 또는 null 값을 반환
-  }
-}
 
 type PictureGameWordType = {
   word: IWord;
@@ -68,20 +42,36 @@ const PictureGame3 = () => {
   const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
   const [canDrag, setCanDrag] = useState(true);
   // 드레그 리스트
-
-  const choiceList = ["사과", "오렌지", "사과", "바나나", "딸기", "사과"];
-  const [testList, setTestList] = useState<PictureGameWordType[]>([]);
-  choiceList.map(word => {
-    let tempStage: IWord = { ...initialWord }; //initialWord를 복사해서 사용
-    tempStage.name = word;
-    testList.push({
-      word: {
-        id: 0,
-        name: word,
-        url: "",
-      },
-      canDrag: true,
-    });
+  const [shuffledDragList, setShuffledDragList] = useState<PictureGameWordType[]>([
+    { word: initialWord, canDrag: true },
+  ]); //리스트를 섞기
+  // const [testList, setTestList] = useState<PictureGameWordType[]>([]);
+  useEffect(() => {
+    let choiceList: IWord[] = [];
+    //선지 8개 배열 choiceList에
+    const promise = WordAPI.getRandom(word.name, 3, 3);
+    promise
+      .then(res => {
+        choiceList = res.data;
+      })
+      .then(() => {
+        const dragRandList = shuffleArray(choiceList);
+        let draglist: PictureGameWordType[] = []; //드롭될 위치들
+        dragRandList.map((word, index) => {
+          word.index = index;
+          draglist.push({
+            word: word,
+            canDrag: true,
+          });
+        });
+        return draglist;
+      })
+      .then(res => {
+        setShuffledDragList(res);
+      });
+  }, []);
+  useEffect(() => {
+    console.log(shuffledDragList);
   });
 
   // 드롭리스트
@@ -100,18 +90,13 @@ const PictureGame3 = () => {
 
   // 드롭되면 사라지는 리스트
 
-  useEffect(() => {
-    const initialList: PictureGameWordType[] = choiceList.map((word, _index) => ({
-      word: {
-        id: 0,
-        index: _index,
-        name: word,
-        url: "",
-      },
-      canDrag: true, // 여기 추가
-    }));
-    setTestList(initialList);
-  }, []);
+  // useEffect(() => {
+  //   const initialList: PictureGameWordType[] = shuffledDragList.map((_word, _index) => ({
+  //     word: _word,
+  //     canDrag: true, // 여기 추가
+  //   }));
+  //   setTestList(initialList);
+  // }, []);
 
   // 모달
   const [isModalVisible, setModalVisible] = useState(false);
@@ -143,7 +128,8 @@ const PictureGame3 = () => {
             <ContentContainer>
               <ACardContainer>
                 <ACardLine>
-                  {testList.slice(0, 3).map((choice, index) => {
+                  {shuffledDragList.slice(0, 3).map((choice, index) => {
+                    console.log(choice);
                     return (
                       <ACardFirst key={index}>
                         <MiniCard
@@ -151,14 +137,14 @@ const PictureGame3 = () => {
                           isFront={true}
                           isTouchable={false}
                           onClick={getMiniCardInfo}
-                          draggable={choice.canDrag ? Draggable : undefined} // choice의 canDrag 속성에 따라 결정
+                          draggable={choice.canDrag ? Draggable : undefined}
                         />
                       </ACardFirst>
                     );
                   })}
                 </ACardLine>
                 <ACardLine>
-                  {testList.slice(3, 6).map((choice, index) => {
+                  {shuffledDragList.slice(3, 6).map((choice, index) => {
                     return (
                       <ACardSecond key={index}>
                         <MiniCard
@@ -166,7 +152,7 @@ const PictureGame3 = () => {
                           isFront={true}
                           isTouchable={false}
                           onClick={getMiniCardInfo}
-                          draggable={choice.canDrag ? Draggable : undefined} // choice의 canDrag 속성에 따라 결정
+                          draggable={choice.canDrag ? Draggable : undefined}
                         />
                       </ACardSecond>
                     );
@@ -184,15 +170,19 @@ const PictureGame3 = () => {
                     if (word.name === payload.name) {
                       console.log(payload);
                       console.log("hi");
-                      const updatedTestList = testList.map(item => {
+                      const updatedTestList = shuffledDragList.map(item => {
                         if (item.word.index === payload.index) {
                           setDropList(prevList => [...prevList, payload]);
 
-                          return { ...item, word: { ...item.word, name: "정답" }, canDrag: false };
+                          return {
+                            ...item,
+                            word: { ...item.word, url: "" },
+                            canDrag: false,
+                          };
                         }
                         return item;
                       });
-                      setTestList(updatedTestList);
+                      setShuffledDragList(updatedTestList);
                     }
                   }}
                 >
@@ -210,7 +200,7 @@ const PictureGame3 = () => {
                           {dropList.map((item, index) => (
                             <Image
                               key={index}
-                              source={getImage(item.name)}
+                              source={{ uri: word.url }}
                               style={{ width: 100, height: 100, margin: 5 }}
                             />
                           ))}

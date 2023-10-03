@@ -12,173 +12,506 @@ import {
   ImageBackground,
 } from "react-native";
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
-import { Svg, Path, Circle, G } from "react-native-svg";
+import { Svg, Path, Circle, G, NumberProp } from "react-native-svg";
 import ViewShot from "react-native-view-shot";
 import QuestionCard from "../components/QuestionCard";
 import { RootStackParamList } from "../../App";
+
 type StagePageRouteProp = RouteProp<RootStackParamList, "LetterCanvas">;
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 const fontSize = width * 0.2;
-import * as ImageManipulator from "expo-image-manipulator";
 
 // 여기부터 인덱스
 export const strokes = {
   ㄱ: [
-    { start: { x: 50, y: 50 }, end: { x: 150, y: 50 }, id: 1 },
-    { start: { x: 150, y: 50 }, end: { x: 150, y: 150 }, id: 2 },
+    {
+      start: { x: width * 0.185, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.445 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.29, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 2,
+    },
   ],
   ㄴ: [
-    { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-    { start: { x: 50, y: 150 }, end: { x: 150, y: 150 }, id: 2 },
+    {
+      start: { x: width * 0.19, y: height * 0.445 },
+      end: { x: width * 0.19, y: height * 0.6 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.6 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 2,
+    },
   ],
   ㄷ: [
-    { start: { x: 50, y: 50 }, end: { x: 150, y: 50 }, id: 1 },
-    { start: { x: 150, y: 50 }, end: { x: 150, y: 150 }, id: 2 },
-    { start: { x: 50, y: 150 }, end: { x: 150, y: 150 }, id: 3 },
+    {
+      start: { x: width * 0.19, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.445 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.445 },
+      end: { x: width * 0.19, y: height * 0.6 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.6 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 3,
+    },
   ],
   ㄹ: [
-    { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
-    { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
-    { start: { x: 50, y: 100 }, end: { x: 100, y: 100 }, id: 3 },
+    {
+      start: { x: width * 0.19, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.445 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.29, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.52 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.52 },
+      end: { x: width * 0.29, y: height * 0.52 },
+      id: 3,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.52 },
+      end: { x: width * 0.19, y: height * 0.595 },
+      id: 4,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.595 },
+      end: { x: width * 0.29, y: height * 0.595 },
+      id: 5,
+    },
   ],
   ㅁ: [
-    { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
-    { start: { x: 100, y: 50 }, end: { x: 100, y: 100 }, id: 2 },
-    { start: { x: 100, y: 100 }, end: { x: 50, y: 100 }, id: 3 },
-    { start: { x: 50, y: 100 }, end: { x: 50, y: 50 }, id: 4 },
+    {
+      start: { x: width * 0.19, y: height * 0.445 },
+      end: { x: width * 0.19, y: height * 0.6 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.445 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.29, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 3,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.6 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 4,
+    },
   ],
   ㅂ: [
-    { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
-    { start: { x: 100, y: 50 }, end: { x: 100, y: 100 }, id: 2 },
-    { start: { x: 100, y: 100 }, end: { x: 50, y: 100 }, id: 3 },
-    { start: { x: 50, y: 100 }, end: { x: 50, y: 50 }, id: 4 },
-    { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 5 },
+    {
+      start: { x: width * 0.19, y: height * 0.445 },
+      end: { x: width * 0.19, y: height * 0.6 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.29, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.5 },
+      id: 3,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.6 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 4,
+    },
   ],
   ㅅ: [
-    { start: { x: 50, y: 50 }, end: { x: 100, y: 100 }, id: 1 },
-    { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
+    {
+      start: { x: width * 0.24, y: height * 0.44 },
+      end: { x: width * 0.19, y: height * 0.6 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.24, y: height * 0.44 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 2,
+    },
   ],
   ㅇ: [
-    { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
-    { start: { x: 100, y: 50 }, end: { x: 100, y: 100 }, id: 2 },
-    { start: { x: 100, y: 100 }, end: { x: 50, y: 100 }, id: 3 },
-    { start: { x: 50, y: 100 }, end: { x: 50, y: 50 }, id: 4 },
+    {
+      start: { x: width * 0.24, y: height * 0.435 },
+      end: { x: width * 0.185, y: height * 0.52 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.185, y: height * 0.52 },
+      end: { x: width * 0.24, y: height * 0.605 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.24, y: height * 0.605 },
+      end: { x: width * 0.295, y: height * 0.52 },
+      id: 3,
+    },
+    {
+      start: { x: width * 0.295, y: height * 0.52 },
+      end: { x: width * 0.24, y: height * 0.435 },
+      id: 4,
+    },
   ],
   ㅈ: [
-    { start: { x: 50, y: 50 }, end: { x: 100, y: 100 }, id: 1 },
-    { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
-    { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
+    {
+      start: { x: width * 0.185, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.445 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.24, y: height * 0.44 },
+      end: { x: width * 0.19, y: height * 0.6 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.24, y: height * 0.44 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 3,
+    },
   ],
   ㅊ: [
-    { start: { x: 50, y: 50 }, end: { x: 100, y: 100 }, id: 1 },
-    { start: { x: 100, y: 50 }, end: { x: 50, y: 100 }, id: 2 },
-    { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
+    {
+      start: { x: width * 0.205, y: height * 0.43 },
+      end: { x: width * 0.27, y: height * 0.43 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.185, y: height * 0.48 },
+      end: { x: width * 0.29, y: height * 0.48 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.24, y: height * 0.48 },
+      end: { x: width * 0.18, y: height * 0.6 },
+      id: 3,
+    },
+    {
+      start: { x: width * 0.24, y: height * 0.48 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 4,
+    },
   ],
   ㅋ: [
-    { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-    { start: { x: 50, y: 100 }, end: { x: 75, y: 50 }, id: 2 },
-    { start: { x: 50, y: 100 }, end: { x: 75, y: 150 }, id: 3 },
+    {
+      start: { x: width * 0.19, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.445 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.53 },
+      end: { x: width * 0.29, y: height * 0.53 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.29, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 3,
+    },
   ],
   ㅌ: [
-    { start: { x: 50, y: 50 }, end: { x: 100, y: 50 }, id: 1 },
-    { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 2 },
+    {
+      start: { x: width * 0.19, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.445 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.52 },
+      end: { x: width * 0.29, y: height * 0.52 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.445 },
+      end: { x: width * 0.19, y: height * 0.6 },
+      id: 3,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.6 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 4,
+    },
   ],
   ㅍ: [
-    { start: { x: 50, y: 75 }, end: { x: 100, y: 50 }, id: 1 },
-    { start: { x: 50, y: 75 }, end: { x: 100, y: 100 }, id: 2 },
+    {
+      start: { x: width * 0.18, y: height * 0.445 },
+      end: { x: width * 0.297, y: height * 0.445 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.21, y: height * 0.445 },
+      end: { x: width * 0.21, y: height * 0.6 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.27, y: height * 0.445 },
+      end: { x: width * 0.27, y: height * 0.6 },
+      id: 3,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.6 },
+      end: { x: width * 0.29, y: height * 0.6 },
+      id: 4,
+    },
   ],
   ㅎ: [
-    { start: { x: 50, y: 50 }, end: { x: 75, y: 75 }, id: 1 },
-    { start: { x: 100, y: 50 }, end: { x: 75, y: 75 }, id: 2 },
-    { start: { x: 75, y: 75 }, end: { x: 75, y: 150 }, id: 3 },
+    {
+      start: { x: width * 0.205, y: height * 0.43 },
+      end: { x: width * 0.27, y: height * 0.43 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.18, y: height * 0.48 },
+      end: { x: width * 0.3, y: height * 0.48 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.24, y: height * 0.53 },
+      end: { x: width * 0.19, y: height * 0.57 },
+      id: 3,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.57 },
+      end: { x: width * 0.24, y: height * 0.62 },
+      id: 4,
+    },
+    {
+      start: { x: width * 0.24, y: height * 0.62 },
+      end: { x: width * 0.29, y: height * 0.57 },
+      id: 5,
+    },
+    {
+      start: { x: width * 0.29, y: height * 0.57 },
+      end: { x: width * 0.24, y: height * 0.53 },
+      id: 6,
+    },
   ],
 
   ㅏ: [
-    { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
-    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 2 },
+    {
+      start: { x: width * 0.223, y: height * 0.4 },
+      end: { x: width * 0.223, y: height * 0.65 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.223, y: height * 0.52 },
+      end: { x: width * 0.28, y: height * 0.52 },
+      id: 2,
+    },
   ],
   ㅐ: [
-    { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
-    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 2 },
-    { start: { x: 125, y: 75 }, end: { x: 150, y: 125 }, id: 3 },
+    {
+      start: { x: width * 0.215, y: height * 0.4 },
+      end: { x: width * 0.215, y: height * 0.65 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.215, y: height * 0.52 },
+      end: { x: width * 0.264, y: height * 0.52 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.264, y: height * 0.4 },
+      end: { x: width * 0.264, y: height * 0.65 },
+      id: 3,
+    },
   ],
   ㅑ: [
-    { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-    { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
-    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
+    {
+      start: { x: width * 0.223, y: height * 0.4 },
+      end: { x: width * 0.223, y: height * 0.65 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.223, y: height * 0.47 },
+      end: { x: width * 0.274, y: height * 0.47 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.223, y: height * 0.57 },
+      end: { x: width * 0.274, y: height * 0.57 },
+      id: 3,
+    },
   ],
   ㅒ: [
-    { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-    { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
-    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
-    { start: { x: 125, y: 75 }, end: { x: 150, y: 125 }, id: 4 },
+    {
+      start: { x: width * 0.215, y: height * 0.4 },
+      end: { x: width * 0.215, y: height * 0.65 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.215, y: height * 0.47 },
+      end: { x: width * 0.265, y: height * 0.47 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.215, y: height * 0.57 },
+      end: { x: width * 0.265, y: height * 0.57 },
+      id: 3,
+    },
+    {
+      start: { x: width * 0.265, y: height * 0.4 },
+      end: { x: width * 0.265, y: height * 0.65 },
+      id: 4,
+    },
   ],
   ㅓ: [
-    { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
-    { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 2 },
+    {
+      start: { x: width * 0.257, y: height * 0.4 },
+      end: { x: width * 0.257, y: height * 0.65 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.2, y: height * 0.52 },
+      end: { x: width * 0.257, y: height * 0.52 },
+      id: 2,
+    },
   ],
   ㅔ: [
-    { start: { x: 75, y: 50 }, end: { x: 75, y: 150 }, id: 1 },
-    { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 2 },
-    { start: { x: 25, y: 75 }, end: { x: 50, y: 125 }, id: 3 },
+    {
+      start: { x: width * 0.192, y: height * 0.52 },
+      end: { x: width * 0.23, y: height * 0.52 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.236, y: height * 0.4 },
+      end: { x: width * 0.236, y: height * 0.65 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.274, y: height * 0.4 },
+      end: { x: width * 0.274, y: height * 0.65 },
+      id: 3,
+    },
   ],
   ㅕ: [
-    { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-    { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
-    { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 3 },
+    {
+      start: { x: width * 0.257, y: height * 0.4 },
+      end: { x: width * 0.257, y: height * 0.65 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.208, y: height * 0.47 },
+      end: { x: width * 0.254, y: height * 0.47 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.208, y: height * 0.57 },
+      end: { x: width * 0.254, y: height * 0.57 },
+      id: 3,
+    },
   ],
   ㅖ: [
-    { start: { x: 50, y: 50 }, end: { x: 50, y: 150 }, id: 1 },
-    { start: { x: 100, y: 50 }, end: { x: 100, y: 150 }, id: 2 },
-    { start: { x: 25, y: 100 }, end: { x: 75, y: 100 }, id: 3 },
-    { start: { x: 25, y: 75 }, end: { x: 50, y: 125 }, id: 4 },
+    {
+      start: { x: width * 0.192, y: height * 0.47 },
+      end: { x: width * 0.23, y: height * 0.47 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.192, y: height * 0.57 },
+      end: { x: width * 0.23, y: height * 0.57 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.236, y: height * 0.4 },
+      end: { x: width * 0.236, y: height * 0.65 },
+      id: 3,
+    },
+    {
+      start: { x: width * 0.274, y: height * 0.4 },
+      end: { x: width * 0.274, y: height * 0.65 },
+      id: 4,
+    },
   ],
   ㅗ: [
-    { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 1 },
-    { start: { x: 75, y: 75 }, end: { x: 125, y: 75 }, id: 2 },
-  ],
-  ㅘ: [
-    { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 1 },
-    { start: { x: 75, y: 75 }, end: { x: 125, y: 75 }, id: 2 },
-    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
-  ],
-  ㅙ: [
-    { start: { x: 75, y: 50 }, end: { x: 75, y: 100 }, id: 1 },
-    { start: { x: 75, y: 75 }, end: { x: 125, y: 75 }, id: 2 },
-    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
-    { start: { x: 125, y: 75 }, end: { x: 150, y: 125 }, id: 4 },
+    {
+      start: { x: width * 0.24, y: height * 0.43 },
+      end: { x: width * 0.24, y: height * 0.6 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.17, y: height * 0.6 },
+      end: { x: width * 0.31, y: height * 0.6 },
+      id: 2,
+    },
   ],
   ㅛ: [
-    { start: { x: 50, y: 75 }, end: { x: 50, y: 125 }, id: 1 },
-    { start: { x: 100, y: 75 }, end: { x: 100, y: 125 }, id: 2 },
-    { start: { x: 75, y: 50 }, end: { x: 125, y: 50 }, id: 3 },
+    {
+      start: { x: width * 0.21, y: height * 0.445 },
+      end: { x: width * 0.21, y: height * 0.6 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.27, y: height * 0.445 },
+      end: { x: width * 0.27, y: height * 0.6 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.17, y: height * 0.6 },
+      end: { x: width * 0.31, y: height * 0.6 },
+      id: 3,
+    },
   ],
   ㅜ: [
-    { start: { x: 75, y: 100 }, end: { x: 75, y: 150 }, id: 1 },
-    { start: { x: 75, y: 125 }, end: { x: 125, y: 125 }, id: 2 },
-  ],
-  ㅝ: [
-    { start: { x: 75, y: 100 }, end: { x: 75, y: 150 }, id: 1 },
-    { start: { x: 75, y: 125 }, end: { x: 125, y: 125 }, id: 2 },
-    { start: { x: 25, y: 125 }, end: { x: 75, y: 125 }, id: 3 },
-  ],
-  ㅞ: [
-    { start: { x: 75, y: 100 }, end: { x: 75, y: 150 }, id: 1 },
-    { start: { x: 75, y: 125 }, end: { x: 125, y: 125 }, id: 2 },
-    { start: { x: 25, y: 125 }, end: { x: 75, y: 125 }, id: 3 },
-    { start: { x: 25, y: 115 }, end: { x: 50, y: 135 }, id: 4 },
+    {
+      start: { x: width * 0.17, y: height * 0.445 },
+      end: { x: width * 0.31, y: height * 0.445 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.24, y: height * 0.445 },
+      end: { x: width * 0.24, y: height * 0.6 },
+      id: 2,
+    },
   ],
   ㅠ: [
-    { start: { x: 50, y: 125 }, end: { x: 50, y: 175 }, id: 1 },
-    { start: { x: 100, y: 125 }, end: { x: 100, y: 175 }, id: 2 },
-    { start: { x: 75, y: 100 }, end: { x: 125, y: 100 }, id: 3 },
+    {
+      start: { x: width * 0.17, y: height * 0.445 },
+      end: { x: width * 0.31, y: height * 0.445 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.21, y: height * 0.445 },
+      end: { x: width * 0.21, y: height * 0.6 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.27, y: height * 0.445 },
+      end: { x: width * 0.27, y: height * 0.6 },
+      id: 3,
+    },
   ],
-  ㅡ: [{ start: { x: 50, y: 125 }, end: { x: 150, y: 125 }, id: 1 }],
-  ㅢ: [
-    { start: { x: 50, y: 125 }, end: { x: 150, y: 125 }, id: 1 },
-    { start: { x: 100, y: 100 }, end: { x: 100, y: 150 }, id: 2 },
+  ㅡ: [
+    {
+      start: { x: width * 0.17, y: height * 0.52 },
+      end: { x: width * 0.31, y: height * 0.52 },
+      id: 1,
+    },
+  ],
+  ㅣ: [
+    {
+      start: { x: width * 0.24, y: height * 0.4 },
+      end: { x: width * 0.24, y: height * 0.65 },
+      id: 1,
+    },
   ],
 };
 
@@ -191,14 +524,23 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
   const [isClearButtonClicked, setClearButtonClicked] = useState(false);
   const svgRef = useRef(null);
   const navigation = useNavigation<RootStackNavigationProp>();
+  const [erase, setErased] = useState(false);
 
   const [currentStrokeIndex, setCurrentStrokeIndex] = useState(0);
   const currentJamo = list[pointer];
+  // @ts-ignore
   const currentWordStrokes = strokes[currentJamo] || [];
 
   // @ts-ignore
+  useEffect(() => {
+    if (erase) {
+      setPaths([]); // Clear all paths
+      setErased(false); // Reset the erase state
+      setClearButtonClicked(false);
+    }
+  }, [erase]);
   const handleTouchStart = useCallback(
-    event => {
+    (event: { nativeEvent: { locationX: any; locationY: any } }) => {
       setIsDrawing(true);
       const locationX = event.nativeEvent.locationX;
       const locationY = event.nativeEvent.locationY;
@@ -210,6 +552,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
         Math.abs(currentStrokeStart.y - locationY) < 15
       ) {
         const startPoint = `M${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+        // @ts-ignore
         setPaths(prev => [...prev, startPoint]);
       } else {
         setIsDrawing(false);
@@ -220,7 +563,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
 
   // @ts-ignore
   const handleTouchMove = useCallback(
-    event => {
+    (event: { nativeEvent: { locationX: any; locationY: any } }) => {
       if (!isDrawing) return; // 추가된 부분
 
       const locationX = event.nativeEvent.locationX;
@@ -228,6 +571,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
 
       const currentStrokeEnd = currentWordStrokes[currentStrokeIndex]?.end;
       const newPoint = `L${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+      // @ts-ignore
       setPaths(prev => [...prev, newPoint]);
 
       if (
@@ -240,7 +584,8 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
         console.log(currentWordStrokes.length);
 
         if (currentStrokeIndex === currentWordStrokes.length - 1) {
-          setPointer(prevPointer => prevPointer + 1);
+          setPointer((prevPointer: number) => prevPointer + 1);
+          handleClearButtonClick();
           setCurrentStrokeIndex(0);
         }
       }
@@ -254,11 +599,8 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
   const handleClearButtonClick = () => {
     setPaths([]);
     setClearButtonClicked(true);
-    InteractionManager.runAfterInteractions(() => {
-      setClearButtonClicked(false);
-    });
+    setClearButtonClicked(false);
   };
-
   // @ts-ignore
   return (
     <View style={[styles.container]}>
@@ -285,7 +627,14 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
               strokeLinecap={"round"}
             />
             {currentWordStrokes.map(
-              (stroke, index) =>
+              (
+                stroke: {
+                  id: React.Key | null | undefined;
+                  start: { x: NumberProp | undefined; y: NumberProp | undefined };
+                  end: { x: NumberProp | undefined; y: NumberProp | undefined };
+                },
+                index: number
+              ) =>
                 index === currentStrokeIndex && (
                   <React.Fragment key={stroke.id}>
                     <Circle cx={stroke.start.x} cy={stroke.start.y} r={10} fill="yellow" />
@@ -322,11 +671,14 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   guideline: {
-    textAlign: "auto",
+    position: "absolute",
+    left: "15%",
+    top: height * 0.25,
+    textAlign: "center",
     fontSize: fontSize,
-    justifyContent: "center",
+
     color: "lightgray",
-    opacity: 0.5,
+    opacity: 0.3,
   },
   svgContainer: {
     position: "relative",

@@ -1,28 +1,32 @@
 import os
+import shutil
+from collections import defaultdict
 
 import boto3
 from dotenv import load_dotenv
-from fastapi import FastAPI, UploadFile, HTTPException
+from fastapi import FastAPI, UploadFile, Form, File
+from pydantic import BaseModel
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from starlette.middleware.cors import CORSMiddleware
 
 from model import models
-from model.models import User
+from model.models import Word
+from segmentation.predict_image import segmentation
 
 app = FastAPI()
 
 load_dotenv()
 
-# MYSQL_HOST = os.getenv("MYSQL_HOST")
-# MYSQL_USER = os.getenv("MYSQL_USER")
-# MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
-# MYSQL_DATABASE = os.getenv("MYSQL_DATABASE")
+MYSQL_HOST = os.getenv("MYSQL_HOST")
+MYSQL_USER = os.getenv("MYSQL_USER")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
+MYSQL_DATABASE = os.getenv("MYSQL_DATABASE")
 
-MYSQL_HOST = "localhost"
-MYSQL_USER = "root"
-MYSQL_PASSWORD = "root"
-MYSQL_DATABASE = "detection"
+
+class Item(BaseModel):
+    pass
+
 
 # SQLAlchemy 엔진 생성
 SQLALCHEMY_DATABASE_URL = f"mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}/{MYSQL_DATABASE}"
@@ -57,7 +61,6 @@ secret_key = os.getenv("secret_key")
 region_name = os.getenv("region_name")
 bucket_name = os.getenv("bucket_name")
 
-
 s3_client = boto3.client(
     "s3",
     aws_access_key_id=access_key,
@@ -67,33 +70,39 @@ s3_client = boto3.client(
 
 
 @app.get("/users")
-def read_users(skip: int = 0, limit: int = 10):
+def read_users():
     db = SessionLocal()
-    users = db.query(User).offset(skip).limit(limit).all()
-    return {
-        "users": [
-            dict(
-                user_id=user.id,
-                picture=user.picture,
-                word=user.word,
-                letter=user.letter,
-            )
-            for user in users
-        ]
-    }
+    users = db.query(Word).all()
+    return users
 
 
-@app.post("/upload")
-async def upload_file(file: UploadFile):
-    file_location = f"uploads/{file.filename}"
+@app.post("/uploads")
+async def upload(userId: int = Form(...), file: UploadFile = File(...)):
+    # file 다운로드 및 저장
+    # user_id 폴더 생성
     try:
-        s3_client.upload_fileobj(
-            file.file,
-            bucket_name,
-            file_location,
-        )
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=e)
+        os.makedirs(f"segmentation/upload/{userId}")
+    except:
+        pass
 
-    file_url = f"https://{bucket_name}.s3.{region_name}.amazonaws.com/{file_location}"
-    return {"file_url": file_url}
+    # 파일 저장
+    with open(f"segmentation/upload/{userId}/{file.filename}", "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    # 파일 경로 설정
+    file_location = f"segmentation/upload/{userId}/{file.filename}"
+
+    # segmentation
+    file_paths = segmentation(image_path=file_location, user_id=userId)
+    url_list = defaultdict(list)
+    for key, value in file_paths.items():
+        for v in value:
+            s3_client.upload_file(
+                f"segmentation/result/{v}.png",
+                bucket_name,
+                f"segmentation/{v}.png",
+            )
+            url = f"https://{bucket_name}.s3.{region_name}.amazonaws.com/segmentation/{v}.png"
+            url_list[key].append(url)
+
+    return url_list
