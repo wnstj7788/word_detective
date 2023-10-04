@@ -63,7 +63,13 @@ const LetterGame3 = () => {
     console.log(ret);
     return ret;
   };
+  useEffect(()=>{
+    if(pointer>=length){
 
+      openModal();
+      return;
+    }
+  },[pointer])
   return (
     <ContainerBg source={backgroundImage}>
       <Modal
