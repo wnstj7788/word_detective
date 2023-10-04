@@ -23,6 +23,7 @@ import { createDndContext } from "react-native-easy-dnd"; //dragabble
 import Modal from "react-native-modal";
 import { shuffleArray } from "../../utils/utils";
 import { WordAPI } from "../../utils/api";
+import GetCardModal from "../components/GetCardModal";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame2">;
@@ -44,6 +45,57 @@ const WordGame2 = () => {
   const [isModalVisible, setModalVisible] = useState(false); //clear modal관련
   const [shuffledDropList, setShuffledDropList] = useState<IWordWithDone[]>([]); //리스트를 섞기
   const [shuffledDragList, setShuffledDragList] = useState<IWord[]>([initialWord]); //리스트를 섞기
+
+  //--- api 연결 안했을 때 ---
+  // useEffect(() => {
+  //   const choiceList: IWord[] = [
+  //     {
+  //       id: 1,
+  //       name: "사과",
+  //       url: "",
+  //     },
+  //     {
+  //       id: 1,
+  //       name: "사과",
+  //       url: "",
+  //     },
+  //     {
+  //       id: 1,
+  //       name: "사과",
+  //       url: "",
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "바나나",
+  //       url: "",
+  //     },
+  //     {
+  //       id: 3,
+  //       name: "딸기",
+  //       url: "",
+  //     },
+  //     {
+  //       id: 4,
+  //       name: "토마토",
+  //       url: "",
+  //     },
+  //   ];
+  //   const dropRandList = shuffleArray(choiceList);
+  //   const dragRandList = shuffleArray(choiceList);
+  //   let dropList: IWordWithDone[] = []; //드롭될 위치들
+  //   dropRandList.map((word, index) => {
+  //     word.index = index;
+  //     dropList.push({
+  //       word: word,
+  //       done: false,
+  //     });
+  //   });
+  //   dragRandList.map((word, index) => {
+  //     word.index = index;
+  //   });
+  //   setShuffledDropList(dropList);
+  //   setShuffledDragList(dragRandList);
+  // }, []);
 
   useEffect(() => {
     let choiceList: IWord[] = [];
@@ -125,7 +177,7 @@ const WordGame2 = () => {
               backdropTransitionOutTiming={0}
               statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
             >
-              <GameClearModal nextScreen="WordGame3" word={word}></GameClearModal>
+              <GetCardModal nextScreen="WordGame3" word={word}></GetCardModal>
             </Modal>
             <ContentContainer>
               <DroppableContainer>

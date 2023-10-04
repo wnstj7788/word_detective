@@ -140,14 +140,13 @@ const LetterGame1 = () => {
           backdropTransitionOutTiming={0}
           statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
         >
-          <GameClearModal
-            nextScreen="LetterGame2"
-            word={{
-              id: 1,
-              name: "리므드",
-              url: "https://detective-bucket.s3.ap-northeast-2.amazonaws.com/fruit/apple.png",
-            }}
-          ></GameClearModal>
+          <GameClearModal nextScreen="LetterGame2" word={
+            {
+              id : 1,
+              name : "게체계개걔",
+              url : "https://detective-bucket.s3.ap-northeast-2.amazonaws.com/fruit/apple.png"
+            }
+          }></GameClearModal>
         </Modal>
         <ContentContainer>
           <QCardContainer>

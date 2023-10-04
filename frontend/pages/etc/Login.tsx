@@ -12,8 +12,10 @@ import { initialUser } from "../../common/initialType";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/user";
 import useAppSelector from "../../store/useAppSelector";
+import { setCurrentMusicName } from "../../store/music";
 import { CATEGORY } from "../../common/const";
 import { pushData } from "../../store/word";
+import GlobalMusicPlayer from "../../utils/globalMusicPlayer";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -22,7 +24,7 @@ const Login = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
   const [loadingText, setLoadingText] = useState(""); //로딩 안내 문구
   const [user, setUser] = useState(initialUser); //유저 객체
-  let isNewUser = false; //신규 유저인가?
+  const [isNewUser, setIsNewUser] = useState(false); //신규 유저인가?
 
   //redux
   const dispatch = useDispatch();
@@ -34,36 +36,47 @@ const Login = () => {
   //로컬 스토리지에 userId 저장하기
   const storeData = (value: number) => AsyncStorage.setItem("wd-user-id", value.toString());
 
+  useEffect(() => {
+    dispatch(setCurrentMusicName("mainMusic")); //디폴트 음악 경로 설정
+  }, []);
+
   //로컬 스토리지에서 유저 아이디 확인하는 함수
   const getUserId = () => {
     //로컬 스토리지에 userId가 있는지 확인
-    getData().then(res => {
-      if (res !== null) {
-        console.log("로컬에 저장된 유저 아이디: ", res);
-        setUser({
-          ...user,
-          userId: parseInt(res),
-        });
-      } else {
-        //없으면 api 호출해서 userId 받아오기
-        isNewUser = true;
-        console.log("신규유저로 가입 중");
-        setLoadingText("신규유저로 가입 중");
-        const promise = UserAPI.getById();
-        promise
-          .then(res => {
-            setUser({
-              ...user,
-              userId: parseInt(res.data.id),
-            });
-          })
-          .catch(e => {
-            console.log("신규유저 id 생성 중 이하의 에러 발생 : ", e);
+    getData()
+      .then(res => {
+        console.log("local storage::", res);
+        if (res !== null) {
+          console.log("로컬에 저장된 유저 아이디: ", res);
+          setUser({
+            ...user,
+            userId: parseInt(res),
           });
-      }
-    });
-    console.log("userId 할당 완료, userId : ", user.userId);
-    setLoadingText("userId 할당 완료");
+        } else {
+          //없으면 api 호출해서 userId 받아오기
+          // isNewUser = true;
+          setIsNewUser(true);
+          console.log("신규유저로 가입 중");
+          setLoadingText("신규유저로 가입 중");
+          const promise = UserAPI.getById();
+          promise
+            .then(res => {
+              console.log(res.data.id);
+              setUser({
+                ...user,
+                userId: parseInt(res.data.id),
+              });
+            })
+            .catch(e => {
+              console.log("신규유저 id 생성 중 이하의 에러 발생 : ", e);
+            });
+        }
+      })
+      .then(() => {
+        console.log("userId 할당 완료, userId : ", user.userId);
+        setLoadingText("userId 할당 완료");
+      });
+
     // -> 다시 api 호출해서 유저 정보 가져오기(아래 useEffect로)
   };
 
@@ -130,12 +143,13 @@ const Login = () => {
     setLoadingText("페이지 이동 중");
     //모든 처리 후 튜토리얼 또는 메인 화면으로 이동
     if (isNewUser) navigation.navigate("TutorialOne");
-    else navigation.navigate("Main", {});
+    else navigation.navigate("Main");
   };
 
   if (isLoaded) {
     return (
       <Container>
+        <GlobalMusicPlayer />
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
           <TouchableWithoutFeedback onPress={() => getUserId()}>
             <View style={{ flex: 1, flexDirection: "row" }}>
@@ -150,20 +164,8 @@ const Login = () => {
               <View style={{ flex: 1 }} />
             </View>
           </TouchableWithoutFeedback>
-          <TouchableOpacity onPress={() => navigation.navigate("Main", {})}>
+          <TouchableOpacity onPress={() => navigation.navigate("Main")}>
             <Text>Go to Main Page</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setUser({
-                userId: 1,
-                picture: 3,
-                word: 2,
-                letter: 1,
-              });
-            }}
-          >
-            <Text>리덕스테스트</Text>
           </TouchableOpacity>
           <Text>
             유저 아이디: {userInRedux.userId} / 그림: {userInRedux.picture} / 단어:{" "}
