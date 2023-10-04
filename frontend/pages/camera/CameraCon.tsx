@@ -19,7 +19,7 @@ const LoadingScreen = () => {
 };
 
 
-export default function App() {
+export default function App({ route }) {
     // 카메라 권한 상태를 저장하는 상태 변수
     const [hasPermission, setHasPermission] = useState<boolean | null>(null);
 
@@ -80,7 +80,8 @@ export default function App() {
                 if (response.status === 200) {
                     console.log('Image upload successful');
                     console.log('Server response:', response.data);
-                    navigation.navigate('PhotoSelect', { data: response.data });
+                    navigation.navigate('PhotoSelect', { origin: route.params.origin, data: response.data });
+
 
                 } else {
                     console.log('Image upload failed');

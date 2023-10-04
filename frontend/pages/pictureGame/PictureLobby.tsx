@@ -34,7 +34,7 @@ const PictureLobby = () => {
               <Image source={require("../../assets/character/artistDog.png")}></Image>
             </View>
 
-            <MenuBtn onPress={() => navigation.navigate("CameraCon")}>
+            <MenuBtn onPress={() => navigation.navigate("CameraCon", { origin: 'PictureLobby' })}>
               <BtnImg
                 source={require("../../assets/button/gameMode/detectiveModeBtn.png")}
                 resizeMode="contain"
