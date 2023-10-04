@@ -24,7 +24,7 @@ import Modal from "react-native-modal";
 import { shuffleArray } from "../../utils/utils";
 import { WordAPI } from "../../utils/api";
 import GetCardModal from "../components/GetCardModal";
-
+import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame2">;
 const { Provider, Droppable, Draggable } = createDndContext();
@@ -45,7 +45,7 @@ const WordGame2 = () => {
   const [isModalVisible, setModalVisible] = useState(false); //clear modal관련
   const [shuffledDropList, setShuffledDropList] = useState<IWordWithDone[]>([]); //리스트를 섞기
   const [shuffledDragList, setShuffledDragList] = useState<IWord[]>([initialWord]); //리스트를 섞기
-
+  const backgroundImage = getBackgroundImage(word.category);
   //--- api 연결 안했을 때 ---
   // useEffect(() => {
   //   const choiceList: IWord[] = [
@@ -162,10 +162,7 @@ const WordGame2 = () => {
     return (
       <Provider>
         <Container>
-          <ContainerBg
-            source={require("../../assets/background/game/fruit.png")}
-            resizeMode="stretch"
-          >
+          <ContainerBg source={backgroundImage}>
             <Modal
               animationIn="slideInUp"
               animationOut="slideOutDown"

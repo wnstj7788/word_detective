@@ -9,7 +9,7 @@ import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import Canvas from "./Canvas";
 import QuestionCard from "../components/QuestionCard";
 import { ICard } from "../../types/types";
-
+import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame1">;
 
@@ -23,11 +23,13 @@ const PictureGame1 = () => {
     wordHidden: false, //글씨는 숨기지 않음
     wordHiddenIndx: 1, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
   };
-  console.log(word);
+  // 배경
+  const backgroundImage = getBackgroundImage(word.category);
+
   if (isLoaded) {
     return (
       <Container>
-        <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+        <ContainerBg source={backgroundImage}>
           <ContentContainer>
             <QCardContainer>
               <QuestionCard word={word} type={Word1Type} />

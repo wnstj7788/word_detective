@@ -603,7 +603,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
   };
   const handleClearButtonClick = () => {
     setPaths([]);
-    setClearButtonClicked(true);
+    // setClearButtonClicked(true);
     InteractionManager.runAfterInteractions(() => {
       setClearButtonClicked(false);
     });
