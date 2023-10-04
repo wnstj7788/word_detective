@@ -100,7 +100,7 @@ export type RootStackParamList = {
 
   CameraCon: undefined;
 
-  PhotoSelect: { data: DataItem };
+  PhotoSelect: { origin: string; data: any; };
 
   LetterCanvas: {
     list: string[];

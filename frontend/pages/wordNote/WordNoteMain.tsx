@@ -15,6 +15,7 @@ import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import GameClearModal from "../components/GameClearModal";
+import { initialWord } from "../../common/initialType";
 
 // 이미지 소스 미리 선언
 const wordNoteBgImage = require("../../assets/background/wordNoteBg.png");
@@ -23,15 +24,14 @@ const pandaImage = require("../../assets/etc/panda.png");
 const pencilImage = require("../../assets/etc/pencil.png");
 
 const WordNoteMain = () => {
-  const handleCallback = (data: string) => {
-    console.log("넘어옴");
+  const handleCallback = (data: IWord) => {
     if (data) {
       setChildItem(data);
       openModal();
     }
   };
 
-  const [childItem, setChildItem] = useState("");
+  const [childItem, setChildItem] = useState(initialWord);
   const [changeCategorySignal, setChangeCategorySignal] = useState<number>(1);
   const [isModalVisible, setModalVisible] = useState(false);
   // change 함수의 파라미터 num의 타입을 number로 선언

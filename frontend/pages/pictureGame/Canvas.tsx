@@ -72,7 +72,7 @@ const Canvas = ({ word }) => {
               d={paths.join("")}
               stroke={isClearButtonClicked ? "transparent" : "black"}
               fill={"transparent"}
-              strokeWidth={3}
+              strokeWidth={9}
               strokeLinejoin={"round"}
               strokeLinecap={"round"}
             />
@@ -83,7 +83,7 @@ const Canvas = ({ word }) => {
         </SVGContainer>
       </ViewShot>
       {/* 미리보기 버튼 (확인용) */}
-      <StyledTouchableOpacity onPress={captureSVG}>
+      {/* <StyledTouchableOpacity onPress={captureSVG}>
         <StyledButtonText>Capture SVG</StyledButtonText>
       </StyledTouchableOpacity>
 
@@ -92,7 +92,7 @@ const Canvas = ({ word }) => {
           source={{ uri: capturedImageURI }}
           style={{ width: 200, height: 200, marginTop: 20 }}
         />
-      )}
+      )} */}
     </Container>
   );
 };

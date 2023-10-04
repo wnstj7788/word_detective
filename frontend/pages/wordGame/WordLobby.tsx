@@ -25,7 +25,7 @@ const WordLobby = () => {
               <Image source={require("../../assets/character/wordDog.png")}></Image>
             </View>
 
-            <MenuBtn onPress={() => navigation.navigate("CameraCon")}>
+            <MenuBtn onPress={() => navigation.navigate("CameraCon", { origin: 'WordLobby' })}>
               <BtnImg
                 source={require("../../assets/button/gameMode/detectiveModeBtn.png")}
                 resizeMode="contain"

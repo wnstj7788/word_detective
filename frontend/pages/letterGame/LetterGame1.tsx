@@ -102,6 +102,7 @@ const LetterGame1 = () => {
   const remainingChoices = choiceList.filter(choice => choice !== currentCharacter); // 현재 문자를 제외한 배열
 
   // 배열을 랜덤으로 섞는 함수
+  // @ts-ignore
   function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -110,6 +111,8 @@ const LetterGame1 = () => {
     return array;
   }
 
+
+  // @ts-ignore
   const getSevenRandomChoices = array => {
     return shuffle(array).slice(0, 7);
   };
@@ -147,8 +150,8 @@ const LetterGame1 = () => {
             <QuestionCard word={word} type={Word1Type} />
           </QCardContainer>
           <ACardContainer>
-            {finalChoiceList.map((choice, index) => {
-              // @ts-ignore
+            {finalChoiceList.map((choice: string, index: number) => {
+
               return (
                 <ACardWrapper
                   style={{ borderRadius: 30 }}
