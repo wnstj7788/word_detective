@@ -27,7 +27,7 @@ def make_image(image_path, file_name):
 
 def segmentation(image_path: str, user_id: int):
     global masks, polygon
-    result = model.predict(image_path)[0]
+    result = model.predict(image_path, conf=0.85)[0]
     result_cls = result.boxes.cls.tolist()
     masks = result.masks
     file_paths = defaultdict(list)
