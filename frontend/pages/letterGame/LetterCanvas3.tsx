@@ -67,6 +67,38 @@ export const strokes = {
       id: 3,
     },
   ],
+  ㄸ: [
+    {
+      start: { x: width * 0.18, y: height * 0.445 },
+      end: { x: width * 0.23, y: height * 0.445 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.18, y: height * 0.445 },
+      end: { x: width * 0.18, y: height * 0.6 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.18, y: height * 0.6 },
+      end: { x: width * 0.23, y: height * 0.6 },
+      id: 3,
+    },
+    {
+      start: { x: width * 0.25, y: height * 0.445 },
+      end: { x: width * 0.29, y: height * 0.445 },
+      id: 4,
+    },
+    {
+      start: { x: width * 0.25, y: height * 0.445 },
+      end: { x: width * 0.25, y: height * 0.6 },
+      id: 5,
+    },
+    {
+      start: { x: width * 0.25, y: height * 0.6 },
+      end: { x: width * 0.3, y: height * 0.6 },
+      id: 6,
+    },
+  ],
   ㄹ: [
     {
       start: { x: width * 0.19, y: height * 0.445 },
@@ -528,6 +560,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
 
   const [currentStrokeIndex, setCurrentStrokeIndex] = useState(0);
   const currentJamo = list[pointer];
+  // @ts-ignore
   const currentWordStrokes = strokes[currentJamo] || [];
 
   // @ts-ignore
@@ -551,6 +584,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
         Math.abs(currentStrokeStart.y - locationY) < 15
       ) {
         const startPoint = `M${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+        // @ts-ignore
         setPaths(prev => [...prev, startPoint]);
       } else {
         setIsDrawing(false);
@@ -569,6 +603,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
 
       const currentStrokeEnd = currentWordStrokes[currentStrokeIndex]?.end;
       const newPoint = `L${locationX.toFixed(0)},${locationY.toFixed(0)} `;
+      // @ts-ignore
       setPaths(prev => [...prev, newPoint]);
 
       if (
@@ -582,6 +617,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
 
         if (currentStrokeIndex == currentWordStrokes.length - 1) {
           // setCurrentStrokeIndex(0);
+          // @ts-ignore
           setPointer(prevPointer => prevPointer + 1);
         }
       }

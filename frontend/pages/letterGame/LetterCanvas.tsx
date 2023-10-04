@@ -22,7 +22,6 @@ type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 const fontSize = width * 0.2;
 import axios from "axios/index";
-import * as ImageManipulator from "expo-image-manipulator";
 // @ts-ignore
 const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
   const canvasRef = useRef(null);
@@ -50,15 +49,17 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
   }, []);
 
   // @ts-ignore
+
   const handleTouchMove = useCallback(
+    // @ts-ignore
     event => {
       if (!isDrawing) return; // Only draw if currently drawing
 
       const locationX = event.nativeEvent.locationX;
       const locationY = event.nativeEvent.locationY;
-      // if (locationX < width*0.03 || locationY < height*0.07 || locationX > width * 0.7 || locationY > height * 0.65) {
-      //   return;
-      // }
+      if (locationX < width*0.2 || locationY < height*0.07 || locationX > width * 0.8 || locationY > height * 0.7) {
+        return;
+      }
       const newPoint = `${locationX.toFixed(0)},${locationY.toFixed(0)} `;
 
       // @ts-ignore
@@ -77,6 +78,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
     });
   };
   const click = () => {
+    // @ts-ignore
     setCapturedImageURI();
   };
   const sendData = async () => {
@@ -126,9 +128,9 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
   const captureSVG = () => {
     // @ts-ignore
     setBackgroundColor("white");
+    // @ts-ignore
     svgRef.current.capture().then(uri => {
       setCapturedImageURI(uri);
-      console.log(uri);
 
       setBackgroundColor("transparent");
     });
@@ -144,7 +146,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
     <View style={[styles.container]}>
       <ViewShot
         ref={svgRef}
-        options={{ format: "jpg", quality: 0.2, result: "base64" }}
+        options={{ format: "jpg", quality: 0.5, result: "base64" }}
         style={{ backgroundColor: backgroundColor, width: "100%", borderRadius: 5 }}
       >
         <View
@@ -164,7 +166,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
               d={paths.join("")}
               stroke={isClearButtonClicked ? "transparent" : "black"}
               fill={"transparent"}
-              strokeWidth={3}
+              strokeWidth={10}
               strokeLinejoin={"round"}
               strokeLinecap={"round"}
             />
@@ -188,7 +190,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "transparent",
+    backgroundColor: "white",
     // borderRadius: 20,
   },
   svgOverlay: {
