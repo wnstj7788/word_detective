@@ -22,7 +22,7 @@ public interface WordRepository extends JpaRepository<Word, Long> {
      * @param categoryId 카테고리 아이디
      * @return 카테고리별 단어 리스트
      */
-    List<Word> findByCategoryIdOrderByNameAsc(Long categoryId);
+    List<Word> findByCategoryIdOrderById(Long categoryId);
 
     /**
      * 랜덤으로 단어 조회
