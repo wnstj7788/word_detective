@@ -11,7 +11,7 @@ import { ICard, IWord } from "../../types/types";
 import { initialWord } from "../../common/initialType";
 import { useEffect, useState } from "react";
 import WordCanvas from "./WordCanvas";
-
+import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame2">;
 
@@ -27,7 +27,7 @@ const WordGame2 = () => {
   };
 
   const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
-
+  const backgroundImage = getBackgroundImage(word.category);
   useEffect(() => {
     console.log(clickedWord);
   }, [clickedWord]);
@@ -43,10 +43,7 @@ const WordGame2 = () => {
   if (isLoaded) {
     return (
       <Container>
-        <ContainerBg
-          source={require("../../assets/background/game/fruit.png")}
-          resizeMode="stretch"
-        >
+        <ContainerBg source={backgroundImage}>
           <ContentContainer>
             <QCardContainer>
               <QuestionCard word={word} type={Word3Type} />

@@ -17,7 +17,7 @@ import { initialWord } from "../../common/initialType";
 import Boom from "./boom";
 import { shuffleArray } from "../../utils/utils";
 import { WordAPI } from "../../utils/api";
-
+import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 const { Provider, Droppable, Draggable } = createDndContext();
@@ -26,6 +26,20 @@ type PictureGameWordType = {
   word: IWord;
   canDrag: boolean;
 };
+const getDropImage = category => {
+  switch (category) {
+    case 1:
+      return require("../../assets/etc/basket_pic3.png");
+    case 2:
+      return require("../../assets/etc/ground_pic3.png");
+    case 3:
+      return require("../../assets/etc/floor_pic3.png");
+    default:
+      return require("../../assets/etc/basket_pic3.png");
+  }
+};
+
+export default getDropImage;
 
 const PictureGame3 = () => {
   const [count, setCount] = useState(0);
@@ -41,6 +55,9 @@ const PictureGame3 = () => {
   };
   const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
   const [canDrag, setCanDrag] = useState(true);
+  const dropImage = getDropImage(word.category);
+  // 배경
+  const backgroundImage = getBackgroundImage(word.category);
   // 드레그 리스트
   const [shuffledDragList, setShuffledDragList] = useState<PictureGameWordType[]>([
     { word: initialWord, canDrag: true },
@@ -88,16 +105,6 @@ const PictureGame3 = () => {
     setClickedWord(word);
   };
 
-  // 드롭되면 사라지는 리스트
-
-  // useEffect(() => {
-  //   const initialList: PictureGameWordType[] = shuffledDragList.map((_word, _index) => ({
-  //     word: _word,
-  //     canDrag: true, // 여기 추가
-  //   }));
-  //   setTestList(initialList);
-  // }, []);
-
   // 모달
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -124,7 +131,7 @@ const PictureGame3 = () => {
           >
             <GameClearModal nextScreen="Main" word={word} />
           </Modal>
-          <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+          <ContainerBg source={backgroundImage}>
             <ContentContainer>
               <ACardContainer>
                 <ACardLine>
@@ -196,7 +203,7 @@ const PictureGame3 = () => {
                           },
                         ]}
                       >
-                        <ImageBackgrounds source={require("../../assets/etc/basket_pic3.png")}>
+                        <ImageBackgrounds source={dropImage}>
                           {dropList.map((item, index) => (
                             <Image
                               key={index}
