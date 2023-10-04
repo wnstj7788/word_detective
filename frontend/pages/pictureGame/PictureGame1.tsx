@@ -23,7 +23,7 @@ const PictureGame1 = () => {
     wordHidden: false, //글씨는 숨기지 않음
     wordHiddenIndx: 1, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
   };
-
+  console.log(word);
   if (isLoaded) {
     return (
       <Container>
