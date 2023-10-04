@@ -12,6 +12,7 @@ export interface IWord {
   name: string;
   url: string;
   index?: number;
+  category?: number;
 }
 
 //단어 스테이지 정보

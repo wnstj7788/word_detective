@@ -16,6 +16,7 @@ import { setCurrentMusicName } from "../../store/music";
 import { CATEGORY } from "../../common/const";
 import { pushData } from "../../store/word";
 import GlobalMusicPlayer from "../../utils/globalMusicPlayer";
+import { IWord } from "../../types/types";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -46,7 +47,7 @@ const Login = () => {
     getData()
       .then(res => {
         console.log("local storage::", res);
-        if (res !== null) {
+        if (res !== null && parseInt(res) !== 0) {
           console.log("로컬에 저장된 유저 아이디: ", res);
           setUser({
             ...user,
@@ -122,7 +123,13 @@ const Login = () => {
       //프로미스 병렬처리
       const promises = CATEGORY.map((_, index) => {
         return WordAPI.getByCategory(index + 1).then(res => {
-          return { data: res.data };
+          const originArr = res.data; //단어 배열
+          let newArr: IWord[] = []; //카테고리 추가한 배열
+          originArr.map((word: IWord) => {
+            let tmpWord: IWord = { ...word, category: index + 1 };
+            newArr.push(tmpWord);
+          });
+          return { data: newArr };
         });
       });
       Promise.all(promises)
