@@ -18,6 +18,7 @@ import { WordAPI } from "../../utils/api";
 import { shuffleArray } from "../../utils/utils";
 import constructWithOptions from "styled-components/native/dist/constructors/constructWithOptions";
 import { initialWord } from "../../common/initialType";
+import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 const { width, height } = Dimensions.get("window");
@@ -35,6 +36,8 @@ const PictureGame2 = () => {
     wordHiddenIndx: 1, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
   };
   const answer = ["사과", "오렌지", "사과", "오렌지", "사과", "오렌지", "사과", "사과", "사과"];
+  // 배경
+  const backgroundImage = getBackgroundImage(word.category);
 
   const newCards = answer.map(item => {
     return {
@@ -105,7 +108,7 @@ const PictureGame2 = () => {
   if (isLoaded) {
     return (
       <Container>
-        <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+        <ContainerBg source={backgroundImage}>
           <Modal
             animationIn="slideInUp"
             animationOut="slideOutDown"

@@ -25,7 +25,7 @@ import { shakeAnimation2 } from "../../animation/animation";
 import GetCardModal from "../components/GetCardModal";
 import { strokes } from "./LetterCanvas3";
 import { getRandomInt } from "../../utils/utils";
-
+import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "LetterGame2">;
 const Word1Type: ICard = {
@@ -44,6 +44,7 @@ const LetterGame2 = () => {
   const openModal = () => {
     setModalVisible(true);
   };
+  const backgroundImage = getBackgroundImage(word.category);
 
   // const choiceList = ["ㅅ", "ㅜ", "ㄴ", "ㅐ", "ㅓ", "ㅂ", "ㄷ", "ㅠ"];
   //정답 단어에서 어디가 빈칸일지 랜덤으로 정하기
@@ -58,16 +59,19 @@ const LetterGame2 = () => {
       setAnswer(answerLetter);
     }
     //랜덤으로 7개, 정답 1개 뽑아 선지 만들기
+  }, [word]);
+
+  useEffect(() => {
     const letterList = Object.keys(strokes); //strokes에서 key배열 = ㄱㄴㄷㄹ..ㅏㅑㅓㅕ 배열
     setChoiceList(randomLetter(letterList)); //랜덤으로 뽑아서 넣기
-  }, [word]);
+  }, [answer]);
 
   //배열에서 랜덤하게 7개 뽑아서 세팅하기
   const randomLetter = (originArray: string[]): string[] => {
     let cnt = 0;
     let tmpArray: string[] = [];
     const answerIdx = getRandomInt(0, 8); // 정답이 위치할 인덱스
-    console.log("정답 : ", answer);
+    console.log("정답;;; : ", answer);
     console.log("정답 위치: ", answerIdx);
     while (cnt < 8) {
       if (cnt === answerIdx) {
@@ -102,7 +106,7 @@ const LetterGame2 = () => {
   const animValues = choiceList.map(() => new Animated.Value(0));
 
   return (
-    <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+    <ContainerBg source={backgroundImage}>
       <Modal
         animationIn="slideInUp"
         animationOut="slideOutDown"

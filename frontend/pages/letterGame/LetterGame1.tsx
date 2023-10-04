@@ -21,7 +21,7 @@ import GameClearModal from "../components/GameClearModal";
 import Modal from "react-native-modal";
 import React, { useState } from "react";
 import { shakeAnimation1 } from "../../animation/animation";
-
+import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
 
@@ -46,7 +46,7 @@ const LetterGame1 = () => {
     wordHiddenIndx: word.name.length - 1, // 맨 마지막 문자의 인덱스를 설정
   };
   const number = Word1Type.wordHiddenIndx;
-
+  const backgroundImage = getBackgroundImage(word.category);
   //선지 8개의 배열
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
   const choiceList = [
@@ -130,7 +130,7 @@ const LetterGame1 = () => {
   console.log(currentCharacter);
   if (isLoaded) {
     return (
-      <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+      <ContainerBg source={backgroundImage}>
         <Modal
           animationIn="slideInUp"
           animationOut="slideOutDown"
@@ -140,13 +140,7 @@ const LetterGame1 = () => {
           backdropTransitionOutTiming={0}
           statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
         >
-          <GameClearModal nextScreen="LetterGame2" word={
-            {
-              id : 1,
-              name : "게체계개걔",
-              url : "https://detective-bucket.s3.ap-northeast-2.amazonaws.com/fruit/apple.png"
-            }
-          }></GameClearModal>
+          <GameClearModal nextScreen="LetterGame2" word={word}></GameClearModal>
         </Modal>
         <ContentContainer>
           <QCardContainer>

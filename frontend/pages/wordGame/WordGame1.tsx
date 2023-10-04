@@ -23,7 +23,7 @@ import GameClearModal from "../components/GameClearModal";
 import { shuffleArray } from "../../utils/utils";
 import { shakeAnimation2 } from "../../animation/animation";
 import { WordAPI } from "../../utils/api";
-
+import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
 
@@ -43,7 +43,7 @@ const WordGame1 = () => {
   const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
   const [isModalVisible, setModalVisible] = useState(false); //clear modal관련
   const [shuffledChoiceList, setShuffledChoiceList] = useState<IWord[]>([]); //섞은 리스트
-
+  const backgroundImage = getBackgroundImage(word.category);
   useEffect(() => {
     let choiceList: IWord[] = [];
     //선지 8개 배열 choiceList에
@@ -94,10 +94,7 @@ const WordGame1 = () => {
   if (isLoaded) {
     return (
       <Container>
-        <ContainerBg
-          source={require("../../assets/background/game/fruit.png")}
-          resizeMode="stretch"
-        >
+        <ContainerBg source={backgroundImage}>
           <Modal
             animationIn="slideInUp"
             animationOut="slideOutDown"
