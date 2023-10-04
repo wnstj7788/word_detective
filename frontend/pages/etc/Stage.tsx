@@ -88,6 +88,7 @@ const Stage = () => {
       tmpStageList.push({
         word: word,
         clear: index + 1 <= getClearStageNum(),
+        canStart: index + 1 <= getClearStageNum() + 1,
       });
     });
     setStageList(tmpStageList);

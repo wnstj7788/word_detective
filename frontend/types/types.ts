@@ -19,6 +19,7 @@ export interface IWord {
 export interface IStage {
   word: IWord;
   clear: boolean; //스테이지 클리어 여부
+  canStart?: boolean; //스테이지 입장 가능 여부
 }
 
 //단어 카드 타입(빈칸 표시용)
