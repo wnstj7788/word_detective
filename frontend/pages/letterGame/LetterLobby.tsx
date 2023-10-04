@@ -27,7 +27,7 @@ const LetterLobby = () => {
             <CatImg source={require("../../assets/character/cookCat.png")}></CatImg>
           </CatWrapper>
 
-          <MenuBtn onPress={() => navigation.navigate("CameraCon")}>
+          <MenuBtn onPress={() => navigation.navigate("CameraCon", { origin: 'LetterLobby' })}>
             <BtnImg
               source={require("../../assets/button/gameMode/detectiveModeBtn.png")}
               resizeMode="contain"

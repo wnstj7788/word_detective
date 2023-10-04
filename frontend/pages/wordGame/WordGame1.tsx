@@ -35,6 +35,7 @@ const Word1Type: ICard = {
 };
 
 const WordGame1 = () => {
+
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
