@@ -102,8 +102,11 @@ const CardComponent = (props: { word: IWord; isFront: boolean }) => {
   return (
     <CardContainer $isFront={props.isFront}>
       {props.isFront ? (
-        // <PictureImage source={require("../../assets/card/fruit/apple.png")} />
-        <PictureImage source={getImage(props.word.name)} />
+        <PictureImage
+          source={
+            props.word.url ? { uri: props.word.url } : require("../../assets/card/OXCard/O.png")
+          }
+        />
       ) : (
         <QmarkImage source={require("../../assets/etc/qmark.png")} resizeMode="contain" />
       )}

@@ -8,7 +8,7 @@ import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import QuestionCard from "../components/QuestionCard";
 import WordMiniCard from "../components/WordMiniCard";
 import { ICard, IWord } from "../../types/types";
-import { initialWord } from "../initialType";
+import { initialWord } from "../../common/initialType";
 import { useEffect, useState } from "react";
 import WordCanvas from "./WordCanvas";
 
@@ -26,9 +26,7 @@ const WordGame2 = () => {
     wordHiddenIndx: 0, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
   };
 
-
   const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
-
 
   useEffect(() => {
     console.log(clickedWord);
@@ -52,7 +50,6 @@ const WordGame2 = () => {
           <ContentContainer>
             <QCardContainer>
               <QuestionCard word={word} type={Word3Type} />
-
             </QCardContainer>
             <ACardContainer>
               <WordCanvas word={word} />

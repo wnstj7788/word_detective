@@ -1,15 +1,11 @@
 package com.ssafy.backend.controller;
 
+import com.ssafy.backend.dto.UserRequestDto;
 import com.ssafy.backend.dto.UserResponseDto;
 import com.ssafy.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -24,7 +20,20 @@ public class UserController {
      * @return 유저 정보
      */
     @GetMapping("")
-    public ResponseEntity<UserResponseDto> getUserInfoOrCreate(@RequestParam(required = false) UUID userId) {
+    public ResponseEntity<UserResponseDto> getUserInfoOrCreate(@RequestParam(required = false) Long userId) {
         return ResponseEntity.ok(userService.getUserInfoOrCreate(userId));
+    }
+
+    /**
+     * 유저 스테이지 클리어
+     *
+     * @param userId         유저 아이디
+     * @param userRequestDto 유저 정보
+     */
+    @PostMapping("stage/{userId}")
+    public ResponseEntity<UserResponseDto> updateClear(
+            @PathVariable("userId") Long userId,
+            @RequestBody UserRequestDto userRequestDto) {
+        return ResponseEntity.ok(userService.updateClear(userId, userRequestDto));
     }
 }

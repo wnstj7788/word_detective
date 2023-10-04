@@ -16,12 +16,13 @@ import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import QuestionCard from "../components/QuestionCard";
 import MiniCard from "../components/MiniCard";
 import { ICard, IWord } from "../../types/types";
-import { initialWord } from "../initialType";
+import { initialWord } from "../../common/initialType";
 import { useEffect, useState } from "react";
 import Modal from "react-native-modal";
 import GameClearModal from "../components/GameClearModal";
 import { shuffleArray } from "../../utils/utils";
 import { shakeAnimation2 } from "../../animation/animation";
+import { WordAPI } from "../../utils/api";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
@@ -41,22 +42,28 @@ const WordGame1 = () => {
 
   const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
   const [isModalVisible, setModalVisible] = useState(false); //clear modal관련
+  const [shuffledChoiceList, setShuffledChoiceList] = useState<IWord[]>([]); //섞은 리스트
 
-  //선지 8개의 배열
-  //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
-  const choiceList = ["사과", "오렌지", "수박", "토마토", "체리", "바나나", "딸기", "사과"];
-  const randList = shuffleArray(choiceList);
+  useEffect(() => {
+    let choiceList: IWord[] = [];
+    //선지 8개 배열 choiceList에
+    const promise = WordAPI.getRandom(word.name, 2, 6);
+    promise
+      .then(res => {
+        choiceList = res.data;
+      })
+      .then(() => {
+        let randList = shuffleArray(choiceList);
+        randList.map((word, index) => {
+          word.index = index;
+        });
+        return randList;
+      })
+      .then(res => {
+        setShuffledChoiceList(res);
+      });
+  }, []);
 
-  let testList: IWord[] = [];
-  randList.map((word, index) => {
-    testList.push({
-      name: word,
-      imgSrc: "",
-      index: index,
-    });
-  });
-
-  const [shuffledChoiceList, setShuffledChoiceList] = useState<IWord[]>(testList); //리스트를 섞기
   let animValues = shuffledChoiceList.map(() => new Animated.Value(0));
   useEffect(() => {
     animValues = shuffledChoiceList.map(() => new Animated.Value(0));
@@ -64,12 +71,15 @@ const WordGame1 = () => {
 
   //클릭하면 정답인지 확인
   useEffect(() => {
-    if (checkAnswer()) {
-      setModalVisible(true);
-    } else {
-      //틀림
-      shakeAnimation2(clickedWord.index ?? 0, animValues);
-      Vibration.vibrate(350);
+    // shuffleArray 및 animValues가 초기화된 후
+    if (shuffledChoiceList.length > 0) {
+      if (checkAnswer()) {
+        setModalVisible(true);
+      } else {
+        //틀림
+        shakeAnimation2(clickedWord.index ?? 0, animValues);
+        Vibration.vibrate(350);
+      }
     }
   }, [clickedWord]);
 
@@ -79,7 +89,7 @@ const WordGame1 = () => {
   };
 
   //클릭한 카드가 목표 단어와 같은지 확인하는 함수
-  const checkAnswer = () => (word.name === clickedWord.name ? true : false);
+  const checkAnswer = () => (word.id === clickedWord.id ? true : false);
 
   if (isLoaded) {
     return (
