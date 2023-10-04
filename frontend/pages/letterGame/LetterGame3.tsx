@@ -19,6 +19,7 @@ import * as hangul from "hangul-js";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Modal from "react-native-modal";
 import GameClearModal from "../components/GameClearModal";
+import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const LetterGame3 = () => {
@@ -29,6 +30,7 @@ const LetterGame3 = () => {
   const { word } = route.params;
   const list: string[] = hangul.disassemble(word.name);
   const letters: string[][] = hangul.disassemble(word.name, true);
+  const backgroundImage = getBackgroundImage(word.category);
   const check: number[] = [
     letters[0].length,
     letters[1] ? letters[1].length : 0,
@@ -63,7 +65,7 @@ const LetterGame3 = () => {
   };
 
   return (
-    <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+    <ContainerBg source={backgroundImage}>
       <Modal
         animationIn="slideInUp"
         animationOut="slideOutDown"
