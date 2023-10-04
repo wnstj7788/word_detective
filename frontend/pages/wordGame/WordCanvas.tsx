@@ -1,4 +1,5 @@
 import React, { useRef, useState, useCallback } from "react";
+const secret = "dmtnb2x6U0dSUkl6cmt4c09MY0pGblZJYVFkenJySXA=";
 import {
   View,
   StyleSheet,
@@ -10,7 +11,7 @@ import {
   Alert,
   ImageBackground,
 } from "react-native";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { Svg, Path } from "react-native-svg";
 import ViewShot from "react-native-view-shot";
 import QuestionCard from "../components/QuestionCard";
@@ -84,7 +85,7 @@ const Canvas = ({ word }) => {
               d={paths.join("")}
               stroke={isClearButtonClicked ? "transparent" : "black"}
               fill={"transparent"}
-              strokeWidth={3}
+              strokeWidth={8}
               strokeLinejoin={"round"}
               strokeLinecap={"round"}
             />

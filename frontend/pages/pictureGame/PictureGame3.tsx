@@ -203,7 +203,7 @@ const PictureGame3 = () => {
                           },
                         ]}
                       >
-                        <ImageBackgrounds source={dropImage}>
+                        <ImageBackgrounds source={dropImage} resizeMode="contain">
                           {dropList.map((item, index) => (
                             <Image
                               key={index}

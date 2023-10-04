@@ -25,6 +25,7 @@ const WordGame2 = () => {
     wordHidden: false, //글씨는 숨기지 않음
     wordHiddenIndx: 0, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
   };
+  const [write, setWrite] = useState("");
 
   const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
   const backgroundImage = getBackgroundImage(word.category);
@@ -36,7 +37,9 @@ const WordGame2 = () => {
   const getMiniCardInfo = (word: IWord) => {
     setClickedWord(word);
   };
-
+  useEffect(() => {
+    console.log(write);
+  }, [write]);
   //클릭한 카드가 목표 단어와 같은지 확인하는 함수
   const checkAnswer = () => (word.name === clickedWord.name ? true : false);
 
@@ -49,7 +52,7 @@ const WordGame2 = () => {
               <QuestionCard word={word} type={Word3Type} />
             </QCardContainer>
             <ACardContainer>
-              <WordCanvas word={word} />
+              <WordCanvas word={word} setWrite={setWrite} />
             </ACardContainer>
           </ContentContainer>
         </ContainerBg>
