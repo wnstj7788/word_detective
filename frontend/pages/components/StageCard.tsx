@@ -24,6 +24,10 @@ const StageCard = (props: { stage: IStage; gameType: string }) => {
       <CardContainer
         style={cardStyle} // cardStyle을 스타일로 적용
         onPress={() => {
+          if (!props.stage.canStart) {
+            alert("앞의 단어를 먼저 모으고 오자!");
+            return null;
+          }
           if (props.gameType === "picture") {
             return navigation.navigate("PictureGame1", { word: props.stage.word });
           } else if (props.gameType === "word") {
