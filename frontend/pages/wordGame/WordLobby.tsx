@@ -16,14 +16,13 @@ const WordLobby = () => {
   if (isLoaded) {
     return (
       <Container>
-        <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
+        <ContainerBg source={require("../../assets/background/wordBackground.png")}>
           <HeaderContainer>
             <Header />
           </HeaderContainer>
           <BtnContainer>
             <View style={{ position: "relative" }}>
-              <Image source={require("../../assets/character/menuDog.png")}></Image>
-              <BubbleText>단어 맞추기!</BubbleText>
+              <Image source={require("../../assets/character/wordDog.png")}></Image>
             </View>
 
             <MenuBtn onPress={() => navigation.navigate("CameraCon")}>

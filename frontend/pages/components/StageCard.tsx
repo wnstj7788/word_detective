@@ -9,43 +9,20 @@ import { IStage } from "../../types/types";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-const StageCard = (props: { stage: IStage; gameType: string;  isApple: boolean }) => {
+const StageCard = (props: { stage: IStage; gameType: string }) => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
-  function getImage(name: string): any {
-    switch (name) {
-      case "사과":
-        return require("../../assets/card/fruit/apple.png");
-      case "오렌지":
-        return require("../../assets/card/fruit/orange.png");
-      case "수박":
-        return require("../../assets/card/fruit/watermelon.png");
-      case "토마토":
-        return require("../../assets/card/fruit/tomato.png");
-      case "체리":
-        return require("../../assets/card/fruit/cherry.png");
-      case "바나나":
-        return require("../../assets/card/fruit/banana.png");
-      case "딸기":
-        return require("../../assets/card/fruit/strawberry.png");
-      case "멜론":
-        return require("../../assets/card/fruit/melon.png");
-      case "복숭아":
-        return require("../../assets/card/fruit/peach.png");
-      case "포도":
-        return require("../../assets/card/fruit/grapes.png");
-    }
-  }
 
   const cardStyle = {
-      borderWidth: 7,
-      borderColor: props.isApple ? "red" : "white",
-    };
+    borderWidth: 7,
+    borderColor: "white",
+  };
 
   if (isLoaded) {
     //gameType에 따라 스테이지로 연결
     return (
-      <CardContainer style={cardStyle} // cardStyle을 스타일로 적용
+      <CardContainer
+        style={cardStyle} // cardStyle을 스타일로 적용
         onPress={() => {
           if (props.gameType === "picture") {
             return navigation.navigate("PictureGame1", { word: props.stage.word });
@@ -64,7 +41,7 @@ const StageCard = (props: { stage: IStage; gameType: string;  isApple: boolean }
           <EmptyStar source={require("../../assets/etc/star2.png")} />
         )}
         <StageImgWrap>
-          <StageImg source={getImage(props.stage.word.name)} resizeMode={"contain"}></StageImg>
+          <StageImg source={{ uri: props.stage.word.url }} resizeMode={"contain"}></StageImg>
         </StageImgWrap>
         <StageText key={props.stage.word.name}>{props.stage.word.name}</StageText>
       </CardContainer>

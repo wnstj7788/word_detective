@@ -8,6 +8,7 @@ import Header from "../etc/Header";
 import { Container, ContainerBg, MenuBtn } from "../../styles/globalStyles";
 import Modal from "react-native-modal";
 import { useState } from "react";
+import { ResizeMode } from "expo-av";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -17,15 +18,14 @@ const LetterLobby = () => {
 
   if (isLoaded) {
     return (
-      <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
+      <ContainerBg source={require("../../assets/background/letterBackground.jpg")}>
         <HeaderContainer>
           <Header />
         </HeaderContainer>
         <BtnContainer>
-          <View style={{ position: "relative" }}>
-            <Image source={require("../../assets/character/menuDog.png")}></Image>
-            <BubbleText>단어 나누기!</BubbleText>
-          </View>
+          <CatWrapper>
+            <CatImg source={require("../../assets/character/cookCat.png")}></CatImg>
+          </CatWrapper>
 
           <MenuBtn onPress={() => navigation.navigate("CameraCon")}>
             <BtnImg
@@ -74,10 +74,7 @@ const BtnText = styled.Text`
   font-size: 32px;
   color: #945023;
 `;
-const BubbleText = styled.Text`
-  position: absolute;
-  top: 10%;
-  left: 37%;
-  font-family: "BMJUA";
-  font-size: 20px;
-`;
+
+const CatWrapper = styled.View``;
+
+const CatImg = styled.Image``;

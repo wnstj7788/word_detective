@@ -1,19 +1,41 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
+import { Audio } from "expo-av"; // Audio 타입을 사용하기 위해 import
+
+// Audio.Sound 타입 또는 null을 나타내는 인터페이스 정의
+interface MusicState {
+  //   currentMusic: Audio.Sound | null;
+  currentMusicName: string;
+  isPlaying: boolean;
+  isMuted: boolean;
+}
+
+// 초기 상태 객체 생성
+const initialState: MusicState = {
+  //   currentMusic: null,
+  currentMusicName: "",
+  isPlaying: false,
+  isMuted: false,
+};
 
 const musicSlice = createSlice({
-    name: "music",
-    initialState: {
-        currentMusic: null, // 현재 재생 중인 음악 파일 경로
+  name: "music",
+  initialState,
+  reducers: {
+    // setCurrentMusic: (state, action) => {
+    //   state.currentMusic = action.payload;
+    // },
+    setCurrentMusicName: (state, action) => {
+      state.currentMusicName = action.payload;
     },
-    reducers: {
-        setCurrentMusic: (state, action) => {
-            console.log(action.payload);
-            state.currentMusic = action.payload;
-            console.log(state.currentMusic);
-        },
+    setIsPlaying: (state, action) => {
+      state.isPlaying = action.payload;
     },
+    setIsMuted: (state, action) => {
+      state.isMuted = action.payload;
+    },
+  },
 });
 
-export const { setCurrentMusic } = musicSlice.actions;
-
 export default musicSlice.reducer;
+export const { setCurrentMusicName, setIsPlaying, setIsMuted } = musicSlice.actions;
