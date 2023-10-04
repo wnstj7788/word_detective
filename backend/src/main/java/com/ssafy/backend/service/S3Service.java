@@ -85,7 +85,7 @@ public class S3Service {
      * @param fileUrl 사진 url
      */
     private void fileDelete(String fileUrl) throws SdkClientException {
-        String key = fileUrl.substring(58); // url에서 파일 이름만 추출
+        String key = fileUrl.split(".com/")[1]; // 버킷 내 파일 경로
         AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(region).build(); // S3 클라이언트 생성
 
         s3.deleteObject(bucket, key); // S3에서 파일 삭제
