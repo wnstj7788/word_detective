@@ -1,4 +1,4 @@
-import { View, Text, Image, Animated } from "react-native";
+import { View, Text, Image, Animated, Button } from "react-native";
 import { useEffect, useInsertionEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
@@ -36,12 +36,15 @@ const Stage = () => {
   const [stageList, setStageList] = useState<IStage[]>([]);
 
   const [scrollPos, setScrollPos] = useState(0); //스크롤 위치(초기값은 0)
+  const scrollViewRef = useRef(null); //스크롤 관련 ref
+
   //throttle:10 -> 10프레임 당 한 번 발생하는 이벤트
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const position = e.nativeEvent.contentOffset.x; //스크롤의 x축(가로) 위치
     setScrollPos(position);
   };
 
+  //스크롤 위치에 따라 배경 이미지 로드하기
   const getBgUrl = () => {
     if (parseInt(scrollPos.toString()) < 2270) {
       return require("../../assets/background/stage/fruit.png");
@@ -52,6 +55,7 @@ const Stage = () => {
     }
   };
 
+  //스크롤 위치에 따라 캐릭터 이미지 로드하기
   const getCharacterUrl = () => {
     if (parseInt(scrollPos.toString()) < 2270) {
       return require("../../assets/character/fruitCharacter.png");
@@ -89,6 +93,14 @@ const Stage = () => {
     setStageList(tmpStageList);
   }, [stage]);
 
+  //화면 렌더링 될 때 스크롤 이동
+  useEffect(() => {
+    if (!isLoaded) return;
+    // if (scrollViewRef.current === null) return;
+    const initialPos = 228 * (getClearStageNum() - 1);
+    scrollViewRef.current?.scrollTo({ x: initialPos });
+  }, [isLoaded]);
+
   if (isLoaded) {
     return (
       <Container>
@@ -105,6 +117,7 @@ const Stage = () => {
               showsHorizontalScrollIndicator={false}
               scrollEventThrottle={10}
               onScroll={onScroll}
+              ref={scrollViewRef}
             >
               {stageList.map(stage => {
                 return <StageCard stage={stage} gameType={gameType} key={stage.word.id} />;
