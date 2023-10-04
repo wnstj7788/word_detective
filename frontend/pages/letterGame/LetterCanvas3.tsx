@@ -528,7 +528,6 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
 
   const [currentStrokeIndex, setCurrentStrokeIndex] = useState(0);
   const currentJamo = list[pointer];
-  // @ts-ignore
   const currentWordStrokes = strokes[currentJamo] || [];
 
   // @ts-ignore
@@ -552,7 +551,6 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
         Math.abs(currentStrokeStart.y - locationY) < 15
       ) {
         const startPoint = `M${locationX.toFixed(0)},${locationY.toFixed(0)} `;
-        // @ts-ignore
         setPaths(prev => [...prev, startPoint]);
       } else {
         setIsDrawing(false);
@@ -571,7 +569,6 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
 
       const currentStrokeEnd = currentWordStrokes[currentStrokeIndex]?.end;
       const newPoint = `L${locationX.toFixed(0)},${locationY.toFixed(0)} `;
-      // @ts-ignore
       setPaths(prev => [...prev, newPoint]);
 
       if (
@@ -580,18 +577,26 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
         Math.abs(currentStrokeEnd.y - locationY) < 15
       ) {
         setCurrentStrokeIndex(prev => prev + 1);
-        console.log(currentStrokeIndex);
-        console.log(currentWordStrokes.length);
+        // console.log(currentStrokeIndex);
+        // console.log(currentWordStrokes.length);
 
-        if (currentStrokeIndex === currentWordStrokes.length - 1) {
-          setPointer((prevPointer: number) => prevPointer + 1);
-          handleClearButtonClick();
-          setCurrentStrokeIndex(0);
+        if (currentStrokeIndex == currentWordStrokes.length - 1) {
+          // setCurrentStrokeIndex(0);
+          setPointer(prevPointer => prevPointer + 1);
         }
       }
     },
     [currentStrokeIndex, isDrawing]
   );
+
+  useEffect(() => {
+    console.log("current: ", currentStrokeIndex);
+  }, [currentStrokeIndex]);
+
+  useEffect(() => {
+    setCurrentStrokeIndex(0);
+    console.log("pointer: ", pointer);
+  }, [pointer]);
 
   const handleTouchEnd = () => {
     setIsDrawing(false); // Stop drawing
@@ -599,8 +604,11 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
   const handleClearButtonClick = () => {
     setPaths([]);
     setClearButtonClicked(true);
-    setClearButtonClicked(false);
+    InteractionManager.runAfterInteractions(() => {
+      setClearButtonClicked(false);
+    });
   };
+
   // @ts-ignore
   return (
     <View style={[styles.container]}>
@@ -653,6 +661,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
     </View>
   );
 };
+
 export default LetterCanvas;
 const styles = StyleSheet.create({
   container: {
@@ -676,9 +685,9 @@ const styles = StyleSheet.create({
     top: height * 0.25,
     textAlign: "center",
     fontSize: fontSize,
-
+    justifyContent: "center",
     color: "lightgray",
-    opacity: 0.3,
+    opacity: 0.5,
   },
   svgContainer: {
     position: "relative",

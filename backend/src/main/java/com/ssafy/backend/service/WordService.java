@@ -25,7 +25,7 @@ public class WordService {
      * @return 카테고리별 단어 목록
      */
     public List<WordResponseDto> getWordByCategory(Long categoryId) {
-        List<Word> words = wordRepository.findByCategoryIdOrderByNameAsc(categoryId);
+        List<Word> words = wordRepository.findByCategoryIdOrderById(categoryId);
         return words.stream().map(WordResponseDto::fromEntity).collect(Collectors.toList());
     }
 
