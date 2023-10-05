@@ -17,7 +17,9 @@ import { initialWord } from "../../common/initialType";
 import Boom from "./boom";
 import { shuffleArray } from "../../utils/utils";
 import { WordAPI } from "../../utils/api";
+import GetCardModal from "../components/GetCardModal";
 import getBackgroundImage from "../components/BackGroundImageSelect";
+import Stamp from "./stamp";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 const { Provider, Droppable, Draggable } = createDndContext();
@@ -120,6 +122,7 @@ const PictureGame3 = () => {
     return (
       <Provider>
         <Container>
+          <Stamp />
           <Modal
             animationIn="slideInUp"
             animationOut="slideOutDown"
@@ -129,7 +132,7 @@ const PictureGame3 = () => {
             backdropTransitionOutTiming={0}
             statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
           >
-            <GameClearModal nextScreen="Main" word={word} />
+            <GetCardModal nextScreen="WordGame3" word={word}></GetCardModal>
           </Modal>
           <ContainerBg source={backgroundImage}>
             <ContentContainer>
