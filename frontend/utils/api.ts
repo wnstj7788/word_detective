@@ -22,7 +22,7 @@ export const UserAPI = {
   stageClear: function (user: IUser) {
     return axiosInstance.request({
       method: "POST",
-      url: `/api/user/stage/${user.userId}`,
+      url: `/api/user/stage/${user.id}`,
       data: { ...user },
     });
   },

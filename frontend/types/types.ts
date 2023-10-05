@@ -1,9 +1,12 @@
 //유저 정보
 export interface IUser {
-  userId: number; //UUID
+  id: number;
   picture: number; //그림 맞추기 클리어 정보
   word: number; //단어 맞추기 클리어 정보
   letter: number; //단어 나누기 클리어 정보
+  cameraPicture?: number;
+  cameraWord?: number;
+  cameraLetter?: number;
 }
 
 //단어 정보
