@@ -3,13 +3,17 @@ import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackActions } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const GameClearModal = ({ word, onClose, nextScreen }: any) => {
   const click = () => {
+    // if (nextScreen) {
+    //   navigation.navigate(nextScreen, { word });
+    // }
     if (nextScreen) {
-      navigation.navigate(nextScreen, { word });
+      navigation.dispatch(StackActions.replace(nextScreen, { word }));
     }
   };
 
