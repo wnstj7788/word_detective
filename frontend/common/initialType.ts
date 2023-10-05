@@ -16,4 +16,7 @@ export const initialUser: IUser = {
   picture: -1,
   word: -1,
   letter: -1,
+  cameraPicture: 0,
+  cameraWord: 0,
+  cameraLetter: 0,
 };
