@@ -50,12 +50,16 @@ const WordGame2 = () => {
 
   //캔버스에서 완료 버튼 클릭 시
   const checkDone = (value: boolean) => {
+    console.log("user,", user);
+
     //api 호출
     UserAPI.stageClear({ ...user, word: word.id })
       .then(res => {
+        console.log("why,", user);
         dispatch(login(res.data));
       })
       .then(() => {
+        console.log("done:", user);
         //api 완료 시 모달 오픈
         setIsModalVisible(value);
       })

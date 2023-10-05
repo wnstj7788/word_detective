@@ -28,6 +28,7 @@ import { getRandomInt } from "../../utils/utils";
 import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "LetterGame2">;
+
 const Word1Type: ICard = {
   pictureHidden: false,
   wordHidden: false,

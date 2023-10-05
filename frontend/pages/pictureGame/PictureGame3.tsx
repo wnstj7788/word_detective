@@ -102,9 +102,12 @@ const PictureGame3 = () => {
 
   useEffect(() => {
     if (dropList.length === 3) {
+      console.log("user,", user);
+
       //api 호출
       UserAPI.stageClear({ ...user, picture: word.id })
         .then(res => {
+          console.log("yeah", user);
           dispatch(login(res.data));
         })
         .then(() => {

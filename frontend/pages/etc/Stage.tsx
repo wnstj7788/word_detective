@@ -67,7 +67,7 @@ const Stage = () => {
   };
 
   //유저 정보는 리덕스에 있어야 함, 유저 정보가 없다면 로그인 화면으로 이동
-  if (user.userId === 0) {
+  if (user.id === 0) {
     alert("유저정보 확인 불가, 로그인 화면으로 이동합니다.");
     navigation.navigate("Login");
     return;
