@@ -1,4 +1,7 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, create_engine, UUID
+import os
+
+from dotenv import load_dotenv
+from sqlalchemy import Column, Integer, String, ForeignKey, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -25,6 +28,7 @@ class Word(Base):
     category_id = Column(Integer, ForeignKey("category.category_id"))
     name = Column(String(30), nullable=False)
     url = Column(String(330))
+    cls_num = Column(Integer)
 
 
 category = relationship("Category", back_populates="word")
@@ -41,7 +45,16 @@ class Photo(Base):
 user = relationship("User", back_populates="photo")
 word = relationship("Word", back_populates="photo")
 
+# load env
+load_dotenv(".env")
+
+MYSQL_HOST = os.getenv("MYSQL_HOST")
+MYSQL_USER = os.getenv("MYSQL_USER")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
+MYSQL_DATABASE = os.getenv("MYSQL_DATABASE")
+
 engine = create_engine(
-    "mysql+mysqlconnector://root:detection-password@j9b105.p.ssafy.io/detection", echo=True
+    f"mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}/{MYSQL_DATABASE}",
+    echo=True,
 )
 Base.metadata.create_all(bind=engine)
