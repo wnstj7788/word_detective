@@ -68,7 +68,7 @@ const LetterGame4 = () => {
         backdropTransitionOutTiming={0}
         statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
       >
-        <GetCardModal nextScreen="Main" word={word}></GetCardModal>
+        <GetCardModal nextScreen="LetterLobby" word={word}></GetCardModal>
       </Modal>
       <ContainerA>
         <Text style={{ fontSize: 20, fontFamily: "BMJUA", textAlign: "center" }}>{word.name}</Text>
