@@ -43,8 +43,6 @@ const getDropImage = category => {
   }
 };
 
-export default getDropImage;
-
 const PictureGame3 = () => {
   const [count, setCount] = useState(0);
   const user = useAppSelector(state => state.user.value);
@@ -187,6 +185,10 @@ const PictureGame3 = () => {
                 </ACardLine>
               </ACardContainer>
               <View>
+                <NameTag>
+                  <Image source={{ uri: word.url }} style={{ width: 50, height: 50, margin: 5 }} />
+                  <Text style={{ fontSize: 30, fontFamily: "BMJUA" }}>를 넣어주세요.</Text>
+                </NameTag>
                 <Droppable
                   onEnter={() => {}}
                   onLeave={() => {
@@ -284,10 +286,12 @@ const ACard = styled.View`
 `;
 const ACardFirst = styled(ACard)`
   margin-bottom: 10px;
+  margin-right: 15px;
 `;
 
 const ACardSecond = styled(ACard)`
   margin-top: 10px;
+  margin-right: 15px;
 `;
 
 const ImageBackgrounds = styled(ImageBackground)`
@@ -297,4 +301,17 @@ const ImageBackgrounds = styled(ImageBackground)`
   align-items: center;
   flex-direction: row;
   z-index: 1;
+`;
+
+const NameTag = styled(View)`
+  width: 230px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  z-index: 1;
+  background-color: white;
+  left: 20px;
+  top: 50px;
+  border-radius: 10px;
 `;
