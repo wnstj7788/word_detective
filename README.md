@@ -144,7 +144,7 @@ smtp - 3.0.4
 
 ## ✔ **Git 브랜치 컨벤션**
 
-![git_strategy](./docsResource/branchConvention.png)
+
 
 - `main`
   - 배포 가능한 상태의 결과물 올리는 브랜치
