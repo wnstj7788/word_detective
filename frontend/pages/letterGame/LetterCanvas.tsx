@@ -9,7 +9,8 @@ import {
   Image,
   InteractionManager,
   Alert,
-  ImageBackground, ActivityIndicator,
+  ImageBackground,
+  ActivityIndicator,
 } from "react-native";
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { Svg, Path } from "react-native-svg";
@@ -57,7 +58,12 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, word }) => {
 
       const locationX = event.nativeEvent.locationX;
       const locationY = event.nativeEvent.locationY;
-      if (locationX < width*0.2 || locationY < height*0.07 || locationX > width * 0.8 || locationY > height * 0.7) {
+      if (
+        locationX < width * 0.2 ||
+        locationY < height * 0.07 ||
+        locationX > width * 0.8 ||
+        locationY > height * 0.7
+      ) {
         return;
       }
       const newPoint = `${locationX.toFixed(0)},${locationY.toFixed(0)} `;
@@ -85,7 +91,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, word }) => {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#0000ff" />
-        <Text style={{fontFamily : "BMJUA"}}>검사중...</Text>
+        <Text style={{ fontFamily: "BMJUA" }}>검사중...</Text>
       </View>
     );
   };
@@ -145,8 +151,6 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, word }) => {
 
       setBackgroundColor("transparent");
     });
-
-
   };
   useEffect(() => {
     sendData();
@@ -156,11 +160,17 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, word }) => {
   return (
     <View style={[styles.container]}>
       {isLoading && <LoadingScreen />}
-      <Text style={{fontSize:50, fontFamily:"BMJUA"}}>{word.name}를 써보자!</Text>
+      <Text style={{ fontSize: 50, fontFamily: "BMJUA" }}>{word.name}를 써보자!</Text>
       <ViewShot
         ref={svgRef}
         options={{ format: "jpg", quality: 0.5, result: "base64" }}
-        style={{ backgroundColor: backgroundColor, width: "100%", borderRadius: 5, flex : 3, borderColor : "blue" }}
+        style={{
+          backgroundColor: backgroundColor,
+          width: "100%",
+          borderRadius: 5,
+          flex: 3,
+          borderColor: "blue",
+        }}
       >
         <View
           style={styles.svgContainer}
@@ -188,10 +198,16 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, word }) => {
       </ViewShot>
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
-          <Text style={styles.clearButtonText}>지우기</Text>
+          <Image
+            style={{ width: 40, height: 40 }}
+            source={require("../../assets/etc/eraser_pink.png")}
+          />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.captureButton} onPress={captureSVG}>
-          <Text style={styles.captureButtonText}>정답</Text>
+        <TouchableOpacity style={styles.nextButton} onPress={captureSVG}>
+          <Image
+            style={{ width: 40, height: 40, marginRight: 10 }}
+            source={require("../../assets/etc/answer_check.png")}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -229,18 +245,24 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   loadingContainer: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)'
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   clearButton: {
     marginTop: 10,
-    backgroundColor: "black",
+
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  nextButton: {
+    marginTop: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -250,13 +272,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  nextButton: {
-    marginTop: 10,
-    backgroundColor: "black",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-  },
+
   sendButton: {
     marginTop: 10,
     backgroundColor: "#00C851",

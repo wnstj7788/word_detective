@@ -17,6 +17,8 @@ import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
+import GameClearModal from "../components/GameClearModal";
+import Modal from "react-native-modal";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 const customWidth = Dimensions.get("window").width;
@@ -61,9 +63,32 @@ const Canvas = ({ word }) => {
     });
   };
   console.log(capturedImageURI);
+
+  // 모달
+  const [isModalVisible, setModalVisible] = useState(false);
+  const openModal = () => {
+    setModalVisible(true);
+  };
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+  const Done = () => {
+    openModal();
+  };
   if (isLoaded) {
     return (
       <Container>
+        <Modal
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          backdropColor="rgba(0, 0, 0, 0.5)"
+          isVisible={isModalVisible}
+          onBackButtonPress={closeModal} // onRequestClose 대신 onBackButtonPress 사용
+          backdropTransitionOutTiming={0}
+          statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
+        >
+          <GameClearModal nextScreen="PictureGame2" word={word}></GameClearModal>
+        </Modal>
         <ViewShot ref={svgRef} options={{ format: "jpg", quality: 0.9 }}>
           <SVGContainer onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}>
             <Svg height={height * 0.7} width={width}>
@@ -79,7 +104,7 @@ const Canvas = ({ word }) => {
                 strokeLinecap={"round"}
               />
             </Svg>
-            <NextButton onPress={() => navigation.navigate("PictureGame2", { word: word })}>
+            <NextButton onPress={() => Done()}>
               <NextButtonImage source={require("../../assets/etc/answer_check.png")} />
             </NextButton>
             <ClearButton onPress={handleClearButtonClick}>
