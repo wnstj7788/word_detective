@@ -43,8 +43,6 @@ const getDropImage = category => {
   }
 };
 
-export default getDropImage;
-
 const PictureGame3 = () => {
   const [count, setCount] = useState(0);
   const user = useAppSelector(state => state.user.value);
