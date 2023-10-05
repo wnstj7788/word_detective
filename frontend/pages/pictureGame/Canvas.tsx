@@ -80,7 +80,7 @@ const Canvas = ({ word }) => {
               />
             </Svg>
             <NextButton onPress={() => navigation.navigate("PictureGame2", { word: word })}>
-              <ClearButtonImage source={require("../../assets/etc/answer_check.png")} />
+              <NextButtonImage source={require("../../assets/etc/answer_check.png")} />
             </NextButton>
             <ClearButton onPress={handleClearButtonClick}>
               <ClearButtonImage source={require("../../assets/etc/eraser_pink.png")} />
@@ -135,9 +135,14 @@ const NextButton = styled.TouchableOpacity`
 `;
 
 const ClearButtonImage = styled.Image`
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+`;
+const NextButtonImage = styled.Image`
+  width: 60px;
+  height: 60px;
+  margin-right: 50px;
 `;
 const StyledText = styled.Text`
   color: rgba(0, 0, 0, 0.2);

@@ -103,10 +103,16 @@ const Canvas = (props: { word: IWord; checkDoneFunc(value: boolean): void }) => 
       </ViewShot>
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
-          <Text style={styles.clearButtonText}>Clear</Text>
+          <Image
+            style={{ width: 40, height: 40 }}
+            source={require("../../assets/etc/eraser_pink.png")}
+          />
         </TouchableOpacity>
         <TouchableOpacity style={styles.nextButton} onPress={doneBtnClicked}>
-          <Text style={styles.clearButtonText}>Done</Text>
+          <Image
+            style={{ width: 40, height: 40, marginRight: 10 }}
+            source={require("../../assets/etc/answer_check.png")}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -129,7 +135,7 @@ const styles = StyleSheet.create({
   },
   clearButton: {
     marginTop: 10,
-    backgroundColor: "black",
+
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -141,7 +147,6 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     marginTop: 10,
-    backgroundColor: "blue",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
