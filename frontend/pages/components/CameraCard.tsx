@@ -61,7 +61,7 @@ const CameraCard = (props: {
     const wordData: IWord = {
       id: 9999,
       name: props.word.name,
-      url: getImage(props.word.imgUrl),
+      url: getImage(props.word.imgUrl).uri,
     };
 
     if (props.origin === "PictureLobby") {
