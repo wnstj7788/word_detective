@@ -25,6 +25,7 @@ import { UserAPI } from "../../utils/api";
 import useAppSelector from "../../store/useAppSelector";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/user";
+import Incorrect from "./Incorrect";
 
 const LetterGame4 = () => {
   const [write, setWrite] = useState("");
@@ -36,7 +37,14 @@ const LetterGame4 = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const user = useAppSelector(state => state.user.value);
   const dispatch = useDispatch();
-
+  // 로티
+  const [showIncorrect, setShowIncorrect] = useState(false); // 상태 추가
+  const Incorrectfeature = () => {
+    setShowIncorrect(true);
+    setTimeout(() => {
+      setShowIncorrect(false);
+    }, 2000); // 1초 후에 setShowBoom(false)를 호출하여 1초 동안 보이고 사라지도록 함
+  };
   // @ts-ignrore
   useEffect(() => {
     if (write) {
@@ -54,7 +62,7 @@ const LetterGame4 = () => {
             console.log("스테이지 클리어 api 관련 에러 발생: ", e);
           });
       } else {
-        alert(`니가 적은 것은 ${write}! 다시 적어보자!`);
+        Incorrectfeature();
       }
     }
   }, [write]);
@@ -74,16 +82,21 @@ const LetterGame4 = () => {
       >
         <GetCardModal nextScreen="LetterLobby" word={word}></GetCardModal>
       </Modal>
-      <LetterCanvas list={list}
-                        pointer={0}
-                        alpha={false}
-                        // @ts-ignore
-                        word={word}
-                        setWrite={setWrite}></LetterCanvas>
+
+      <IncorrectContainer>{showIncorrect && <Incorrect />}</IncorrectContainer>
+      <LetterCanvas
+        list={list}
+        pointer={0}
+        alpha={false}
+        // @ts-ignore
+        word={word}
+        setWrite={setWrite}
+      ></LetterCanvas>
     </ContainerBg>
   );
 };
 
+export default LetterGame4;
 const ContainerA = styled.View`
   position: absolute;
   top: 0;
@@ -93,5 +106,10 @@ const ContainerA = styled.View`
   z-index: 4;
   justify-content: center;
 `;
-
-export default LetterGame4;
+const IncorrectContainer = styled.View`
+  position: absolute;
+  top: 10%;
+  justify-content: center;
+  right: 30%;
+  z-index: 4;
+`;
