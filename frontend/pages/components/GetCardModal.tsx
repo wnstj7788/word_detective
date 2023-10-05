@@ -7,6 +7,9 @@ import { RootStackParamList } from "../../App";
 import { Dimensions } from "react-native";
 import { ICard } from "../../types/types";
 import React, { useState, useEffect, useRef } from "react";
+import { StackActions } from "@react-navigation/native";
+import { Audio } from "expo-av";
+
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const screenWidth = Dimensions.get("window").width;
 const height = screenWidth * 0.4;
@@ -19,12 +22,32 @@ const cardDesign2 = require("../../assets/card/cardAdvanced2.png");
 import StampO from "../pictureGame/stamp";
 const GetCardModal = ({ word, onClose, nextScreen }: any) => {
   const click = () => {
+    // if (nextScreen) {
+    //   navigation.navigate(nextScreen, { word });
+    // }
     if (nextScreen) {
-      navigation.navigate(nextScreen, { word });
+      navigation.dispatch(StackActions.replace(nextScreen, { word }));
     }
   };
   console.log(word);
   const navigation = useNavigation<RootStackNavigationProp>();
+
+  //소리
+  useEffect(() => {
+    // 페이지가 렌더링될 때 소리를 자동으로 재생
+    const playSound = async () => {
+      const soundObject = new Audio.Sound();
+      try {
+        await soundObject.loadAsync(require("../../assets/sound/cardGet.mp3"));
+        await soundObject.playAsync();
+      } catch (error) {
+        console.error("소리 재생 중 오류 발생:", error);
+      }
+    };
+
+    // 컴포넌트가 마운트될 때 소리를 재생
+    playSound();
+  }, []);
 
   // 도장 애니메이션
   const scaleValue = useRef(new Animated.Value(1)).current;

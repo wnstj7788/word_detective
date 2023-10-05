@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackActions } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
+import { Audio } from "expo-av";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const GameClearModal = ({ word, onClose, nextScreen }: any) => {
@@ -16,6 +17,22 @@ const GameClearModal = ({ word, onClose, nextScreen }: any) => {
       navigation.dispatch(StackActions.replace(nextScreen, { word }));
     }
   };
+
+  useEffect(() => {
+    // 페이지가 렌더링될 때 소리를 자동으로 재생
+    const playSound = async () => {
+      const soundObject = new Audio.Sound();
+      try {
+        await soundObject.loadAsync(require("../../assets/sound/tada.mp3"));
+        await soundObject.playAsync();
+      } catch (error) {
+        console.error("소리 재생 중 오류 발생:", error);
+      }
+    };
+
+    // 컴포넌트가 마운트될 때 소리를 재생
+    playSound();
+  }, []);
 
   const navigation = useNavigation<RootStackNavigationProp>();
   return (

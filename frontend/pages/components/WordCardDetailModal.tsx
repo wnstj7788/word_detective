@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal, View, Text, TouchableOpacity } from "react-native";
 import styled, { css } from "styled-components/native";
 import { Dimensions } from "react-native";
 import { IWord } from "../../types/types";
+import { Audio } from "expo-av";
+
 interface WordCardDetailModalProps {
   isVisible: boolean;
   onClose: () => void;
@@ -19,7 +21,102 @@ const width = (height / 5) * 3.8;
 const height2 = screenWidth * 0.5;
 const width2 = (height / 3) * 3.8;
 
+function getSoundFile(wordName: string): any {
+  switch (wordName) {
+    case "사과":
+      return require("../../assets/wav/apple.wav");
+    case "오렌지":
+      return require("../../assets/wav/orange.wav");
+    case "가위":
+      return require("../../assets/wav/scissors.wav");
+    case "강아지":
+      return require("../../assets/wav/dog.wav");
+    case "고양이":
+      return require("../../assets/wav/cat.wav");
+    case "그릇":
+      return require("../../assets/wav/bowl.wav");
+    case "달팽이":
+      return require("../../assets/wav/snail.wav");
+    case "딸기":
+      return require("../../assets/wav/strawberry.wav");
+    case "마우스":
+      return require("../../assets/wav/mouse.wav");
+    case "만년필":
+      return require("../../assets/wav/fountain_pen.wav");
+    case "멜론":
+      return require("../../assets/wav/melon.wav");
+    case "바나나":
+      return require("../../assets/wav/banana.wav");
+    case "복숭아":
+      return require("../../assets/wav/peach.wav");
+    case "사자":
+      return require("../../assets/wav/lion.wav");
+    case "수박":
+      return require("../../assets/wav/watermelon.wav");
+    case "연필":
+      return require("../../assets/wav/pencil.wav");
+    case "원숭이":
+      return require("../../assets/wav/monkey.wav");
+    case "의자":
+      return require("../../assets/wav/chair.wav");
+    case "지우개":
+      return require("../../assets/wav/eraser.wav");
+    case "체리":
+      return require("../../assets/wav/cherry.wav");
+    case "코끼리":
+      return require("../../assets/wav/elephant.wav");
+    case "키보드":
+      return require("../../assets/wav/keyboard.wav");
+    case "토끼":
+      return require("../../assets/wav/rabbit.wav");
+    case "판다":
+      return require("../../assets/wav/panda.wav");
+    case "토마토":
+      return require("../../assets/wav/tomato.wav");
+    case "포도":
+      return require("../../assets/wav/grape.wav");
+    case "컵":
+      return require("../../assets/wav/cup.wav");
+    case "새":
+      return require("../../assets/wav/bird.wav");
+    case "책상":
+      return require("../../assets/wav/desk.wav");
+    case "개구리":
+      return require("../../assets/wav/frog.wav");
+    case "안경":
+      return require("../../assets/wav/glasses.wav");
+    case "노트북":
+      return require("../../assets/wav/laptop.wav");
+    case "문어":
+      return require("../../assets/wav/octopus.wav");
+    case "신발":
+      return require("../../assets/wav/shoes.wav");
+    case "칫솔":
+      return require("../../assets/wav/toothbrush.wav");
+    case "거북":
+      return require("../../assets/wav/turtle.wav");
+    default:
+      // 기본값 처리 (필요에 따라 추가)
+      return null;
+  }
+}
+
 const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, onClose, item }) => {
+  useEffect(() => {
+    // 페이지가 렌더링될 때 소리를 자동으로 재생
+    const playSound = async () => {
+      const soundObject = new Audio.Sound();
+      try {
+        await soundObject.loadAsync(getSoundFile(item.name));
+        await soundObject.playAsync();
+      } catch (error) {
+        console.error("소리 재생 중 오류 발생:", error);
+      }
+    };
+
+    // 컴포넌트가 마운트될 때 소리를 재생
+    playSound();
+  }, [item]);
   return (
     <ModalContainer>
       <ModalLeft>

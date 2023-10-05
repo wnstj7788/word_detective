@@ -5,7 +5,7 @@ import useCachedResources from "../../hooks/useCachedResources";
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
+import { useDispatch, shallowEqual } from "react-redux";
 import { Container, ContainerBg } from "../../styles/globalStyles";
 import Header from "./Header";
 import StageCard from "../components/StageCard";

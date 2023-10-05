@@ -22,6 +22,8 @@ import GetCardModal from "../components/GetCardModal";
 import useAppSelector from "../../store/useAppSelector";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/user";
+import { Audio } from "expo-av";
+
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 const { Provider, Droppable, Draggable } = createDndContext();
@@ -62,6 +64,16 @@ const PictureGame3 = () => {
   const dropImage = getDropImage(word.category);
   // 배경
   const backgroundImage = getBackgroundImage(word.category);
+  //소리
+  const playSound = async () => {
+    const soundObject = new Audio.Sound();
+    try {
+      await soundObject.loadAsync(require("../../assets/sound/answer.mp3"));
+      await soundObject.playAsync();
+    } catch (error) {
+      console.error("소리 재생 중 오류 발생:", error);
+    }
+  };
   // 드레그 리스트
   const [shuffledDragList, setShuffledDragList] = useState<PictureGameWordType[]>([
     { word: initialWord, canDrag: true },
@@ -91,16 +103,12 @@ const PictureGame3 = () => {
         setShuffledDragList(res);
       });
   }, []);
-  useEffect(() => {
-    console.log(shuffledDragList);
-  });
 
   // 드롭리스트
   const [dropList, setDropList] = useState<IWord[]>([]);
 
   useEffect(() => {
     if (dropList.length === 3) {
-      console.log("user,", user);
       //이미 클리어한 스테이지 클리어 시 모달만 열고 api 호출 안함
       if (user.picture >= word.id) {
         openModal();
@@ -109,7 +117,6 @@ const PictureGame3 = () => {
       //api 호출
       UserAPI.stageClear({ ...user, picture: word.id })
         .then(res => {
-          console.log("yeah", user);
           dispatch(login(res.data));
         })
         .then(() => {
@@ -151,14 +158,13 @@ const PictureGame3 = () => {
             backdropTransitionOutTiming={0}
             statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
           >
-            <GetCardModal nextScreen="PictureLobby" word={word} />
+            <GetCardModal nextScreen="Main" word={word} />
           </Modal>
           <ContainerBg source={backgroundImage}>
             <ContentContainer>
               <ACardContainer>
                 <ACardLine>
                   {shuffledDragList.slice(0, 3).map((choice, index) => {
-                    console.log(choice);
                     return (
                       <ACardFirst key={index}>
                         <MiniCard
@@ -199,10 +205,8 @@ const PictureGame3 = () => {
                     console.log("Draggable left");
                   }}
                   onDrop={({ payload }) => {
-                    console.log(payload);
                     if (word.name === payload.name) {
-                      console.log(payload);
-                      console.log("hi");
+                      playSound();
                       const updatedTestList = shuffledDragList.map(item => {
                         if (item.word.index === payload.index) {
                           setDropList(prevList => [...prevList, payload]);

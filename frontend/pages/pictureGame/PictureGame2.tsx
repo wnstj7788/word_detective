@@ -31,6 +31,8 @@ import getBackgroundImage from "../components/BackGroundImageSelect";
 import { shakeAnimation2 } from "../../animation/animation";
 import { IWord } from "../../types/types";
 import Boom from "./boom";
+import { Audio } from "expo-av";
+
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 const { width, height } = Dimensions.get("window");
@@ -50,6 +52,16 @@ const PictureGame2 = () => {
 
   // 배경
   const backgroundImage = getBackgroundImage(word.category);
+  //소리
+  const playSound = async () => {
+    const soundObject = new Audio.Sound();
+    try {
+      await soundObject.loadAsync(require("../../assets/sound/answer.mp3"));
+      await soundObject.playAsync();
+    } catch (error) {
+      console.error("소리 재생 중 오류 발생:", error);
+    }
+  };
 
   const [shuffledChoiceList, setShuffledChoiceList] = useState<IWord[]>([initialWord]); //섞은 리스트
   useEffect(() => {
@@ -71,9 +83,7 @@ const PictureGame2 = () => {
         setShuffledChoiceList(res);
       });
   }, []);
-  useEffect(() => {
-    console.log(shuffledChoiceList);
-  });
+
   // 모달
   const [isModalVisible, setModalVisible] = useState(false);
   const openModal = () => {
@@ -102,6 +112,7 @@ const PictureGame2 = () => {
         setCount(prevCount => {
           return prevCount + 1;
         });
+        playSound(); //맞았을 때 소리
         openBoom(); // 맞았을 때 Boom 보이기
       } else {
         openModal();
@@ -118,6 +129,7 @@ const PictureGame2 = () => {
         setCount(prevCount => {
           return prevCount + 1;
         });
+        playSound(); //맞았을 때 소리
         openBoom(); // 맞았을 때 Boom 보이기
       } else {
         openModal();

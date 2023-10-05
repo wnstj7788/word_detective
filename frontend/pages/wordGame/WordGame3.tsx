@@ -51,6 +51,11 @@ const WordGame2 = () => {
   //캔버스에서 완료 버튼 클릭 시
   const checkDone = (value: boolean) => {
     console.log("user,", user);
+    //이미 클리어한 스테이지 클리어 시 모달만 열고 api 호출 안함
+    if (user.word >= word.id) {
+      setIsModalVisible(value);
+      return;
+    }
 
     //api 호출
     UserAPI.stageClear({ ...user, word: word.id })
@@ -85,7 +90,7 @@ const WordGame2 = () => {
             backdropTransitionOutTiming={0}
             statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
           >
-            <GetCardModal nextScreen="WordLobby" word={word}></GetCardModal>
+            <GetCardModal nextScreen="Main" word={word}></GetCardModal>
           </Modal>
           <ContentContainer>
             <QCardContainer>

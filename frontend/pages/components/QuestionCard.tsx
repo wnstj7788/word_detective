@@ -68,6 +68,26 @@ const QuestionCard = (props: { word: IWord; type: ICard }) => {
         return require("../../assets/wav/tomato.wav");
       case "포도":
         return require("../../assets/wav/grape.wav");
+      case "컵":
+        return require("../../assets/wav/cup.wav");
+      case "새":
+        return require("../../assets/wav/bird.wav");
+      case "책상":
+        return require("../../assets/wav/desk.wav");
+      case "개구리":
+        return require("../../assets/wav/frog.wav");
+      case "안경":
+        return require("../../assets/wav/glasses.wav");
+      case "노트북":
+        return require("../../assets/wav/laptop.wav");
+      case "문어":
+        return require("../../assets/wav/octopus.wav");
+      case "신발":
+        return require("../../assets/wav/shoes.wav");
+      case "칫솔":
+        return require("../../assets/wav/toothbrush.wav");
+      case "거북":
+        return require("../../assets/wav/turtle.wav");
       default:
         // 기본값 처리 (필요에 따라 추가)
         return null;
@@ -76,31 +96,6 @@ const QuestionCard = (props: { word: IWord; type: ICard }) => {
 
   // 단어를 글자단위로 쪼갠 리스트
   let wordToLetterList: string[] = props.word.name.split("");
-
-  function getImage(name: string): any {
-    switch (name) {
-      case "사과":
-        return require("../../assets/card/fruit/apple.png");
-      case "오렌지":
-        return require("../../assets/card/fruit/orange.png");
-      case "수박":
-        return require("../../assets/card/fruit/watermelon.png");
-      case "토마토":
-        return require("../../assets/card/fruit/tomato.png");
-      case "체리":
-        return require("../../assets/card/fruit/cherry.png");
-      case "바나나":
-        return require("../../assets/card/fruit/banana.png");
-      case "딸기":
-        return require("../../assets/card/fruit/strawberry.png");
-      case "멜론":
-        return require("../../assets/card/fruit/melon.png");
-      case "복숭아":
-        return require("../../assets/card/fruit/peach.png");
-      case "포도":
-        return require("../../assets/card/fruit/grapes.png");
-    }
-  }
 
   if (isLoaded) {
     return (

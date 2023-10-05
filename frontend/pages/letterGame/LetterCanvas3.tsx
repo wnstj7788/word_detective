@@ -16,6 +16,7 @@ import { Svg, Path, Circle, G, NumberProp } from "react-native-svg";
 import ViewShot from "react-native-view-shot";
 import QuestionCard from "../components/QuestionCard";
 import { RootStackParamList } from "../../App";
+import { Audio } from "expo-av";
 
 type StagePageRouteProp = RouteProp<RootStackParamList, "LetterCanvas">;
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -565,6 +566,17 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer, word }) => {
   const currentWordStrokes = strokes[currentJamo] || [];
   const [isLoading, setIsLoading] = useState(false);
 
+  //소리
+  const playSound = async () => {
+    const soundObject = new Audio.Sound();
+    try {
+      await soundObject.loadAsync(require("../../assets/sound/answer.mp3"));
+      await soundObject.playAsync();
+    } catch (error) {
+      console.error("소리 재생 중 오류 발생:", error);
+    }
+  };
+
   const handleTouchStart = useCallback(
     (event: { nativeEvent: { locationX: any; locationY: any } }) => {
       setIsDrawing(true);
@@ -613,6 +625,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer, word }) => {
           // setCurrentStrokeIndex(0);
           // @ts-ignore
           setPointer(prevPointer => prevPointer + 1);
+          playSound();
           handleClearButtonClick();
         }
       }

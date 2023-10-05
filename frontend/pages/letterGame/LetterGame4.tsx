@@ -49,6 +49,11 @@ const LetterGame4 = () => {
   useEffect(() => {
     if (write) {
       if (word.name === write) {
+        //이미 클리어한 스테이지 클리어 시 모달만 열고 api 호출 안함
+        if (user.letter >= word.id) {
+          setModalVisible(true);
+          return;
+        }
         //api연결
         UserAPI.stageClear({ ...user, letter: word.id })
           .then(res => {
@@ -80,7 +85,7 @@ const LetterGame4 = () => {
         backdropTransitionOutTiming={0}
         statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
       >
-        <GetCardModal nextScreen="LetterLobby" word={word}></GetCardModal>
+        <GetCardModal nextScreen="Main" word={word}></GetCardModal>
       </Modal>
 
       <IncorrectContainer>{showIncorrect && <Incorrect />}</IncorrectContainer>

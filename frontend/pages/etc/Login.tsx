@@ -1,5 +1,5 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { useState, useEffect } from "react";
+import { View, Text, Image, TouchableOpacity, Animated } from "react-native";
+import { useState, useEffect, useRef } from "react";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
@@ -17,6 +17,7 @@ import { CATEGORY } from "../../common/const";
 import { pushData } from "../../store/word";
 import GlobalMusicPlayer from "../../utils/globalMusicPlayer";
 import { IWord } from "../../types/types";
+import SparkleAnim from "./SparkleAnim";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -37,8 +38,35 @@ const Login = () => {
   //로컬 스토리지에 userId 저장하기
   const storeData = (value: number) => AsyncStorage.setItem("wd-user-id", value.toString());
 
+  // 로티
+  const [shine, setShine] = useState(false); // 상태 추가
+  const openShine = () => {
+    setShine(true);
+    setTimeout(() => {
+      setShine(false);
+    }, 100000); // 1초 후에 setShowBoom(false)를 호출하여 1초 동안 보이고 사라지도록 함
+  };
+
+  // 도장 애니메이션
+  const scaleValue = useRef(new Animated.Value(1)).current;
   useEffect(() => {
     dispatch(setCurrentMusicName("mainMusic")); //디폴트 음악 경로 설정
+    // console.log(scaleValue);
+    // // 크기를 커졌다가 줄이는 애니메이션 설정
+    // Animated.sequence([
+    //   Animated.timing(scaleValue, {
+    //     toValue: 1.5,
+    //     duration: 500,
+    //     useNativeDriver: true,
+    //   }),
+    //   Animated.timing(scaleValue, {
+    //     toValue: 1,
+    //     duration: 500,
+    //     useNativeDriver: true,
+    //   }),
+    // ]).start();
+    // console.log("....", scaleValue);
+    openShine();
   }, []);
 
   //로컬 스토리지에서 유저 아이디 확인하는 함수
@@ -192,16 +220,18 @@ const Login = () => {
       <Container>
         <GlobalMusicPlayer />
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
+          <AnimContainer1>{shine && <SparkleAnim />}</AnimContainer1>
+          <AnimContainer2>{shine && <SparkleAnim />}</AnimContainer2>
           <TouchableWithoutFeedback onPress={() => getUserId()}>
             <View style={{ flex: 1, flexDirection: "row" }}>
               <View style={{ flex: 1 }} />
-              <View style={{ flex: 20 }}>
+              <Animated.View style={{ flex: 20, transform: [{ scale: scaleValue }] }}>
                 <LoginGroupImg
                   source={require("../../assets/etc/loginGroup.png")}
                   resizeMode="contain"
                 />
                 <MainLogo source={require("../../assets/etc/mianLogo.png")} resizeMode="contain" />
-              </View>
+              </Animated.View>
               <View style={{ flex: 1 }} />
             </View>
           </TouchableWithoutFeedback>
@@ -232,4 +262,16 @@ const MainLogo = styled.Image`
   height: 204px;
   left: 247px;
   top: 105px;
+`;
+
+const AnimContainer1 = styled.View`
+  position: absolute;
+  left: 40%;
+  top: -5%;
+`;
+
+const AnimContainer2 = styled.View`
+  position: absolute;
+  left: 7%;
+  top: -30%;
 `;
