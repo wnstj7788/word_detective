@@ -16,8 +16,12 @@ import { Animated } from "react-native";
 import { initialWord } from "../../common/initialType";
 import Boom from "./boom";
 import { shuffleArray } from "../../utils/utils";
-import { WordAPI } from "../../utils/api";
+import { UserAPI, WordAPI } from "../../utils/api";
 import getBackgroundImage from "../components/BackGroundImageSelect";
+import GetCardModal from "../components/GetCardModal";
+import useAppSelector from "../../store/useAppSelector";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/user";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 const { Provider, Droppable, Draggable } = createDndContext();
@@ -43,6 +47,8 @@ export default getDropImage;
 
 const PictureGame3 = () => {
   const [count, setCount] = useState(0);
+  const user = useAppSelector(state => state.user.value);
+  const dispatch = useDispatch();
 
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -96,7 +102,18 @@ const PictureGame3 = () => {
 
   useEffect(() => {
     if (dropList.length === 3) {
-      openModal();
+      //api 호출
+      UserAPI.stageClear({ ...user, picture: word.id })
+        .then(res => {
+          dispatch(login(res.data));
+        })
+        .then(() => {
+          //모달 열기
+          openModal();
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   }, [clickedWord, dropList]);
 
@@ -129,7 +146,7 @@ const PictureGame3 = () => {
             backdropTransitionOutTiming={0}
             statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
           >
-            <GameClearModal nextScreen="Main" word={word} />
+            <GetCardModal nextScreen="PictureLobby" word={word} />
           </Modal>
           <ContainerBg source={backgroundImage}>
             <ContentContainer>

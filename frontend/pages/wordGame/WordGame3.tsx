@@ -53,7 +53,6 @@ const WordGame2 = () => {
     //api 호출
     UserAPI.stageClear({ ...user, word: word.id })
       .then(res => {
-        console.log("-----", res.data);
         dispatch(login(res.data));
       })
       .then(() => {
