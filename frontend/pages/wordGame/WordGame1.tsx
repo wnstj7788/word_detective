@@ -35,7 +35,6 @@ const Word1Type: ICard = {
 };
 
 const WordGame1 = () => {
-
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
@@ -90,7 +89,7 @@ const WordGame1 = () => {
   };
 
   //클릭한 카드가 목표 단어와 같은지 확인하는 함수
-  const checkAnswer = () => (word.id === clickedWord.id ? true : false);
+  const checkAnswer = () => (word.name === clickedWord.name ? true : false);
 
   if (isLoaded) {
     return (

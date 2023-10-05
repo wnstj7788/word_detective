@@ -51,7 +51,7 @@ const Login = () => {
           console.log("로컬에 저장된 유저 아이디: ", res);
           setUser({
             ...user,
-            userId: parseInt(res),
+            id: parseInt(res),
           });
         } else {
           //없으면 api 호출해서 userId 받아오기
@@ -65,7 +65,7 @@ const Login = () => {
               console.log(res.data.id);
               setUser({
                 ...user,
-                userId: parseInt(res.data.id),
+                id: parseInt(res.data.id),
               });
             })
             .catch(e => {
@@ -74,7 +74,7 @@ const Login = () => {
         }
       })
       .then(() => {
-        console.log("userId 할당 완료, userId : ", user.userId);
+        console.log("userId 할당 완료, userId : ", user.id);
         setLoadingText("userId 할당 완료");
       });
 
@@ -83,11 +83,11 @@ const Login = () => {
 
   //userId가 세팅 된 후 스테이지 클리어 정보 가져오기
   useEffect(() => {
-    if (user.userId === 0) return;
-    if (isNewUser) storeData(user.userId); //userId를 로컬 스토리지에 저장
+    if (user.id === 0) return;
+    if (isNewUser) storeData(user.id); //userId를 로컬 스토리지에 저장
 
     //저장한 userId로 다시 api 호출해서 유저 정보 가져오기
-    const promise = UserAPI.getById(user.userId);
+    const promise = UserAPI.getById(user.id);
     promise
       .then(res => {
         setUser({
@@ -95,6 +95,9 @@ const Login = () => {
           picture: res.data.picture,
           word: res.data.word,
           letter: res.data.letter,
+          cameraPicture: res.data.cameraPicture,
+          cameraWord: res.data.cameraWord,
+          cameraLetter: res.data.cameraLetter,
         });
         setLoadingText("유저 정보 조회중");
       })
@@ -102,7 +105,7 @@ const Login = () => {
         console.log("유저 기록 및 정보 조회 중 이하의 에러 발생 : ", e);
         //TODO: errorCode가 USER_NOT_FOUND면 userID가 잘못된 것 -> 에러처리 필요
       });
-  }, [user.userId]);
+  }, [user.id]);
 
   //유저 아이디와 클리어 정보를 리덕스에 저장
   useEffect(() => {
@@ -175,8 +178,8 @@ const Login = () => {
             <Text>Go to Main Page</Text>
           </TouchableOpacity>
           <Text>
-            유저 아이디: {userInRedux.userId} / 그림: {userInRedux.picture} / 단어:{" "}
-            {userInRedux.word} / 글자: {userInRedux.letter}
+            유저 아이디: {userInRedux.id} / 그림: {userInRedux.picture} / 단어: {userInRedux.word} /
+            글자: {userInRedux.letter}
           </Text>
           <Text>{loadingText}</Text>
         </ContainerBg>
