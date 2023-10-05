@@ -19,529 +19,531 @@ import { RootStackParamList } from "../../App";
 
 type StagePageRouteProp = RouteProp<RootStackParamList, "LetterCanvas">;
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Image as SvgImage } from 'react-native-svg';
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 const fontSize = width * 0.2;
-
+const imageWidth = 20;
+const imageHeight = 20;
 // 여기부터 인덱스
 export const strokes = {
   ㄱ: [
     {
-      start: { x: width * 0.185, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.445 },
+      start: { x: width * 0.185, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.5 },
       id: 1,
     },
     {
-      start: { x: width * 0.29, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.29, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.7 },
       id: 2,
     },
   ],
   ㄴ: [
     {
-      start: { x: width * 0.19, y: height * 0.445 },
-      end: { x: width * 0.19, y: height * 0.6 },
+      start: { x: width * 0.19, y: height * 0.5 },
+      end: { x: width * 0.19, y: height * 0.7 },
       id: 1,
     },
     {
-      start: { x: width * 0.19, y: height * 0.6 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.19, y: height * 0.7 },
+      end: { x: width * 0.29, y: height * 0.7},
       id: 2,
     },
   ],
   ㄷ: [
     {
-      start: { x: width * 0.19, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.445 },
+      start: { x: width * 0.19, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.5 },
       id: 1,
     },
     {
-      start: { x: width * 0.19, y: height * 0.445 },
-      end: { x: width * 0.19, y: height * 0.6 },
+      start: { x: width * 0.19, y: height * 0.5 },
+      end: { x: width * 0.19, y: height * 0.7 },
       id: 2,
     },
     {
-      start: { x: width * 0.19, y: height * 0.6 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.19, y: height * 0.7 },
+      end: { x: width * 0.29, y: height * 0.7 },
       id: 3,
     },
   ],
   ㄸ: [
     {
-      start: { x: width * 0.18, y: height * 0.445 },
-      end: { x: width * 0.23, y: height * 0.445 },
+      start: { x: width * 0.18, y: height * 0.5 },
+      end: { x: width * 0.23, y: height * 0.5 },
       id: 1,
     },
     {
-      start: { x: width * 0.18, y: height * 0.445 },
-      end: { x: width * 0.18, y: height * 0.6 },
+      start: { x: width * 0.18, y: height * 0.5 },
+      end: { x: width * 0.18, y: height * 0.7 },
       id: 2,
     },
     {
-      start: { x: width * 0.18, y: height * 0.6 },
-      end: { x: width * 0.23, y: height * 0.6 },
+      start: { x: width * 0.18, y: height * 0.7 },
+      end: { x: width * 0.23, y: height * 0.7 },
       id: 3,
     },
     {
-      start: { x: width * 0.25, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.445 },
+      start: { x: width * 0.25, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.5 },
       id: 4,
     },
     {
-      start: { x: width * 0.25, y: height * 0.445 },
-      end: { x: width * 0.25, y: height * 0.6 },
+      start: { x: width * 0.25, y: height * 0.5 },
+      end: { x: width * 0.25, y: height * 0.7 },
       id: 5,
     },
     {
-      start: { x: width * 0.25, y: height * 0.6 },
-      end: { x: width * 0.3, y: height * 0.6 },
+      start: { x: width * 0.25, y: height * 0.7 },
+      end: { x: width * 0.3, y: height * 0.7 },
       id: 6,
     },
   ],
   ㄹ: [
     {
-      start: { x: width * 0.19, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.445 },
+      start: { x: width * 0.19, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.5 },
       id: 1,
     },
     {
-      start: { x: width * 0.29, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.52 },
+      start: { x: width * 0.29, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.6 },
       id: 2,
     },
     {
-      start: { x: width * 0.19, y: height * 0.52 },
-      end: { x: width * 0.29, y: height * 0.52 },
+      start: { x: width * 0.19, y: height * 0.6 },
+      end: { x: width * 0.274, y: height * 0.6 },
       id: 3,
     },
     {
-      start: { x: width * 0.19, y: height * 0.52 },
-      end: { x: width * 0.19, y: height * 0.595 },
+      start: { x: width * 0.19, y: height * 0.6 },
+      end: { x: width * 0.19, y: height * 0.7 },
       id: 4,
     },
     {
-      start: { x: width * 0.19, y: height * 0.595 },
-      end: { x: width * 0.29, y: height * 0.595 },
+      start: { x: width * 0.19, y: height * 0.7 },
+      end: { x: width * 0.29, y: height * 0.7 },
       id: 5,
     },
   ],
   ㅁ: [
     {
-      start: { x: width * 0.19, y: height * 0.445 },
-      end: { x: width * 0.19, y: height * 0.6 },
+      start: { x: width * 0.19, y: height * 0.5 },
+      end: { x: width * 0.19, y: height * 0.7 },
       id: 1,
     },
     {
-      start: { x: width * 0.19, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.445 },
+      start: { x: width * 0.19, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.5 },
       id: 2,
     },
     {
-      start: { x: width * 0.29, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.29, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.7 },
       id: 3,
     },
     {
-      start: { x: width * 0.19, y: height * 0.6 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.19, y: height * 0.7 },
+      end: { x: width * 0.27, y: height * 0.7 },
       id: 4,
     },
   ],
   ㅂ: [
     {
-      start: { x: width * 0.19, y: height * 0.445 },
-      end: { x: width * 0.19, y: height * 0.6 },
+      start: { x: width * 0.19, y: height * 0.5 },
+      end: { x: width * 0.19, y: height * 0.69 },
       id: 1,
     },
     {
-      start: { x: width * 0.29, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.29, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.69 },
       id: 2,
     },
     {
-      start: { x: width * 0.19, y: height * 0.5 },
-      end: { x: width * 0.29, y: height * 0.5 },
+      start: { x: width * 0.19, y: height * 0.57 },
+      end: { x: width * 0.29, y: height * 0.57 },
       id: 3,
     },
     {
-      start: { x: width * 0.19, y: height * 0.6 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.19, y: height * 0.69 },
+      end: { x: width * 0.29, y: height * 0.69 },
       id: 4,
     },
   ],
   ㅅ: [
     {
-      start: { x: width * 0.24, y: height * 0.44 },
-      end: { x: width * 0.19, y: height * 0.6 },
+      start: { x: width * 0.24, y: height * 0.5 },
+      end: { x: width * 0.19, y: height * 0.7 },
       id: 1,
     },
     {
-      start: { x: width * 0.24, y: height * 0.44 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.24, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.7 },
       id: 2,
     },
   ],
   ㅇ: [
     {
-      start: { x: width * 0.24, y: height * 0.435 },
-      end: { x: width * 0.185, y: height * 0.52 },
+      start: { x: width * 0.24, y: height * 0.475 },
+      end: { x: width * 0.185, y: height * 0.58 },
       id: 1,
     },
     {
-      start: { x: width * 0.185, y: height * 0.52 },
-      end: { x: width * 0.24, y: height * 0.605 },
+      start: { x: width * 0.185, y: height * 0.58 },
+      end: { x: width * 0.24, y: height * 0.7 },
       id: 2,
     },
     {
-      start: { x: width * 0.24, y: height * 0.605 },
-      end: { x: width * 0.295, y: height * 0.52 },
+      start: { x: width * 0.24, y: height * 0.7 },
+      end: { x: width * 0.295, y: height * 0.58 },
       id: 3,
     },
     {
-      start: { x: width * 0.295, y: height * 0.52 },
-      end: { x: width * 0.24, y: height * 0.435 },
+      start: { x: width * 0.295, y: height * 0.58 },
+      end: { x: width * 0.24, y: height * 0.475 },
       id: 4,
     },
   ],
   ㅈ: [
     {
-      start: { x: width * 0.185, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.445 },
+      start: { x: width * 0.185, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.5 },
       id: 1,
     },
     {
-      start: { x: width * 0.24, y: height * 0.44 },
-      end: { x: width * 0.19, y: height * 0.6 },
+      start: { x: width * 0.24, y: height * 0.5 },
+      end: { x: width * 0.19, y: height * 0.7 },
       id: 2,
     },
     {
-      start: { x: width * 0.24, y: height * 0.44 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.24, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.7 },
       id: 3,
     },
   ],
   ㅊ: [
     {
-      start: { x: width * 0.205, y: height * 0.43 },
-      end: { x: width * 0.27, y: height * 0.43 },
+      start: { x: width * 0.205, y: height * 0.475 },
+      end: { x: width * 0.27, y: height * 0.475 },
       id: 1,
     },
     {
-      start: { x: width * 0.185, y: height * 0.48 },
-      end: { x: width * 0.29, y: height * 0.48 },
+      start: { x: width * 0.185, y: height * 0.55 },
+      end: { x: width * 0.29, y: height * 0.55 },
       id: 2,
     },
     {
-      start: { x: width * 0.24, y: height * 0.48 },
-      end: { x: width * 0.18, y: height * 0.6 },
+      start: { x: width * 0.24, y: height * 0.55 },
+      end: { x: width * 0.18, y: height * 0.7 },
       id: 3,
     },
     {
-      start: { x: width * 0.24, y: height * 0.48 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.24, y: height * 0.55 },
+      end: { x: width * 0.29, y: height * 0.7 },
       id: 4,
     },
   ],
   ㅋ: [
     {
-      start: { x: width * 0.19, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.445 },
+      start: { x: width * 0.19, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.5 },
       id: 1,
     },
     {
-      start: { x: width * 0.19, y: height * 0.53 },
-      end: { x: width * 0.29, y: height * 0.53 },
+      start: { x: width * 0.19, y: height * 0.6 },
+      end: { x: width * 0.29, y: height * 0.6 },
       id: 2,
     },
     {
-      start: { x: width * 0.29, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.29, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.7 },
       id: 3,
     },
   ],
   ㅌ: [
     {
-      start: { x: width * 0.19, y: height * 0.445 },
-      end: { x: width * 0.29, y: height * 0.445 },
+      start: { x: width * 0.19, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.5 },
       id: 1,
-    },
-    {
-      start: { x: width * 0.19, y: height * 0.52 },
-      end: { x: width * 0.29, y: height * 0.52 },
-      id: 2,
-    },
-    {
-      start: { x: width * 0.19, y: height * 0.445 },
-      end: { x: width * 0.19, y: height * 0.6 },
-      id: 3,
     },
     {
       start: { x: width * 0.19, y: height * 0.6 },
       end: { x: width * 0.29, y: height * 0.6 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.5 },
+      end: { x: width * 0.19, y: height * 0.7 },
+      id: 3,
+    },
+    {
+      start: { x: width * 0.19, y: height * 0.7 },
+      end: { x: width * 0.29, y: height * 0.7 },
       id: 4,
     },
   ],
   ㅍ: [
     {
-      start: { x: width * 0.18, y: height * 0.445 },
-      end: { x: width * 0.297, y: height * 0.445 },
+      start: { x: width * 0.18, y: height * 0.5 },
+      end: { x: width * 0.297, y: height * 0.5 },
       id: 1,
     },
     {
-      start: { x: width * 0.21, y: height * 0.445 },
-      end: { x: width * 0.21, y: height * 0.6 },
+      start: { x: width * 0.21, y: height * 0.5 },
+      end: { x: width * 0.21, y: height * 0.68 },
       id: 2,
     },
     {
-      start: { x: width * 0.27, y: height * 0.445 },
-      end: { x: width * 0.27, y: height * 0.6 },
+      start: { x: width * 0.27, y: height * 0.5 },
+      end: { x: width * 0.27, y: height * 0.68 },
       id: 3,
     },
     {
-      start: { x: width * 0.19, y: height * 0.6 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.19, y: height * 0.68 },
+      end: { x: width * 0.29, y: height * 0.68 },
       id: 4,
     },
   ],
   ㅎ: [
     {
-      start: { x: width * 0.205, y: height * 0.43 },
-      end: { x: width * 0.27, y: height * 0.43 },
+      start: { x: width * 0.205, y: height * 0.46 },
+      end: { x: width * 0.27, y: height * 0.46 },
       id: 1,
     },
     {
-      start: { x: width * 0.18, y: height * 0.48 },
-      end: { x: width * 0.3, y: height * 0.48 },
+      start: { x: width * 0.18, y: height * 0.55 },
+      end: { x: width * 0.3, y: height * 0.55 },
       id: 2,
     },
     {
-      start: { x: width * 0.24, y: height * 0.53 },
-      end: { x: width * 0.19, y: height * 0.57 },
+      start: { x: width * 0.24, y: height * 0.6 },
+      end: { x: width * 0.19, y: height * 0.65 },
       id: 3,
     },
     {
-      start: { x: width * 0.19, y: height * 0.57 },
-      end: { x: width * 0.24, y: height * 0.62 },
+      start: { x: width * 0.19, y: height * 0.65 },
+      end: { x: width * 0.24, y: height * 0.7 },
       id: 4,
     },
     {
-      start: { x: width * 0.24, y: height * 0.62 },
-      end: { x: width * 0.29, y: height * 0.57 },
+      start: { x: width * 0.24, y: height * 0.7 },
+      end: { x: width * 0.29, y: height * 0.65 },
       id: 5,
     },
     {
-      start: { x: width * 0.29, y: height * 0.57 },
-      end: { x: width * 0.24, y: height * 0.53 },
+      start: { x: width * 0.29, y: height * 0.65 },
+      end: { x: width * 0.24, y: height * 0.6 },
       id: 6,
     },
   ],
 
   ㅏ: [
     {
-      start: { x: width * 0.223, y: height * 0.4 },
-      end: { x: width * 0.223, y: height * 0.65 },
+      start: { x: width * 0.223, y: height * 0.45 },
+      end: { x: width * 0.223, y: height * 0.75 },
       id: 1,
     },
     {
-      start: { x: width * 0.223, y: height * 0.52 },
-      end: { x: width * 0.28, y: height * 0.52 },
+      start: { x: width * 0.223, y: height * 0.6 },
+      end: { x: width * 0.28, y: height * 0.6 },
       id: 2,
     },
   ],
   ㅐ: [
     {
-      start: { x: width * 0.215, y: height * 0.4 },
-      end: { x: width * 0.215, y: height * 0.65 },
+      start: { x: width * 0.215, y: height * 0.45 },
+      end: { x: width * 0.215, y: height * 0.75 },
       id: 1,
     },
     {
-      start: { x: width * 0.215, y: height * 0.52 },
-      end: { x: width * 0.264, y: height * 0.52 },
+      start: { x: width * 0.215, y: height * 0.59 },
+      end: { x: width * 0.264, y: height * 0.59 },
       id: 2,
     },
     {
-      start: { x: width * 0.264, y: height * 0.4 },
-      end: { x: width * 0.264, y: height * 0.65 },
+      start: { x: width * 0.264, y: height * 0.45 },
+      end: { x: width * 0.264, y: height * 0.75 },
       id: 3,
     },
   ],
   ㅑ: [
     {
-      start: { x: width * 0.223, y: height * 0.4 },
-      end: { x: width * 0.223, y: height * 0.65 },
+      start: { x: width * 0.223, y: height * 0.45 },
+      end: { x: width * 0.223, y: height * 0.75 },
       id: 1,
     },
     {
-      start: { x: width * 0.223, y: height * 0.47 },
-      end: { x: width * 0.274, y: height * 0.47 },
+      start: { x: width * 0.223, y: height * 0.52 },
+      end: { x: width * 0.274, y: height * 0.52 },
       id: 2,
     },
     {
-      start: { x: width * 0.223, y: height * 0.57 },
-      end: { x: width * 0.274, y: height * 0.57 },
+      start: { x: width * 0.223, y: height * 0.66 },
+      end: { x: width * 0.274, y: height * 0.66 },
       id: 3,
     },
   ],
   ㅒ: [
     {
-      start: { x: width * 0.215, y: height * 0.4 },
-      end: { x: width * 0.215, y: height * 0.65 },
+      start: { x: width * 0.215, y: height * 0.45 },
+      end: { x: width * 0.215, y: height * 0.75 },
       id: 1,
     },
     {
-      start: { x: width * 0.215, y: height * 0.47 },
-      end: { x: width * 0.265, y: height * 0.47 },
+      start: { x: width * 0.215, y: height * 0.52 },
+      end: { x: width * 0.265, y: height * 0.52 },
       id: 2,
     },
     {
-      start: { x: width * 0.215, y: height * 0.57 },
-      end: { x: width * 0.265, y: height * 0.57 },
+      start: { x: width * 0.215, y: height * 0.66 },
+      end: { x: width * 0.265, y: height * 0.66 },
       id: 3,
     },
     {
-      start: { x: width * 0.265, y: height * 0.4 },
-      end: { x: width * 0.265, y: height * 0.65 },
+      start: { x: width * 0.265, y: height * 0.45 },
+      end: { x: width * 0.265, y: height * 0.75 },
       id: 4,
     },
   ],
   ㅓ: [
     {
-      start: { x: width * 0.257, y: height * 0.4 },
-      end: { x: width * 0.257, y: height * 0.65 },
+      start: { x: width * 0.257, y: height * 0.45 },
+      end: { x: width * 0.257, y: height * 0.75 },
       id: 1,
     },
     {
-      start: { x: width * 0.2, y: height * 0.52 },
-      end: { x: width * 0.257, y: height * 0.52 },
+      start: { x: width * 0.2, y: height * 0.6 },
+      end: { x: width * 0.257, y: height * 0.6 },
       id: 2,
     },
   ],
   ㅔ: [
+    {
+      start: { x: width * 0.192, y: height * 0.6 },
+      end: { x: width * 0.23, y: height * 0.6 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.236, y: height * 0.45 },
+      end: { x: width * 0.236, y: height * 0.75 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.274, y: height * 0.45 },
+      end: { x: width * 0.274, y: height * 0.75 },
+      id: 3,
+    },
+  ],
+  ㅕ: [
+    {
+      start: { x: width * 0.257, y: height * 0.45 },
+      end: { x: width * 0.257, y: height * 0.75 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.208, y: height * 0.52 },
+      end: { x: width * 0.254, y: height * 0.52 },
+      id: 2,
+    },
+    {
+      start: { x: width * 0.208, y: height * 0.66 },
+      end: { x: width * 0.254, y: height * 0.66 },
+      id: 3,
+    },
+  ],
+  ㅖ: [
     {
       start: { x: width * 0.192, y: height * 0.52 },
       end: { x: width * 0.23, y: height * 0.52 },
       id: 1,
     },
     {
-      start: { x: width * 0.236, y: height * 0.4 },
-      end: { x: width * 0.236, y: height * 0.65 },
+      start: { x: width * 0.192, y: height * 0.66 },
+      end: { x: width * 0.23, y: height * 0.66 },
       id: 2,
     },
     {
-      start: { x: width * 0.274, y: height * 0.4 },
-      end: { x: width * 0.274, y: height * 0.65 },
-      id: 3,
-    },
-  ],
-  ㅕ: [
-    {
-      start: { x: width * 0.257, y: height * 0.4 },
-      end: { x: width * 0.257, y: height * 0.65 },
-      id: 1,
-    },
-    {
-      start: { x: width * 0.208, y: height * 0.47 },
-      end: { x: width * 0.254, y: height * 0.47 },
-      id: 2,
-    },
-    {
-      start: { x: width * 0.208, y: height * 0.57 },
-      end: { x: width * 0.254, y: height * 0.57 },
-      id: 3,
-    },
-  ],
-  ㅖ: [
-    {
-      start: { x: width * 0.192, y: height * 0.47 },
-      end: { x: width * 0.23, y: height * 0.47 },
-      id: 1,
-    },
-    {
-      start: { x: width * 0.192, y: height * 0.57 },
-      end: { x: width * 0.23, y: height * 0.57 },
-      id: 2,
-    },
-    {
-      start: { x: width * 0.236, y: height * 0.4 },
-      end: { x: width * 0.236, y: height * 0.65 },
+      start: { x: width * 0.236, y: height * 0.45 },
+      end: { x: width * 0.236, y: height * 0.75 },
       id: 3,
     },
     {
-      start: { x: width * 0.274, y: height * 0.4 },
-      end: { x: width * 0.274, y: height * 0.65 },
+      start: { x: width * 0.274, y: height * 0.45 },
+      end: { x: width * 0.274, y: height * 0.75 },
       id: 4,
     },
   ],
   ㅗ: [
     {
-      start: { x: width * 0.24, y: height * 0.43 },
-      end: { x: width * 0.24, y: height * 0.6 },
+      start: { x: width * 0.24, y: height * 0.49 },
+      end: { x: width * 0.24, y: height * 0.69 },
       id: 1,
     },
     {
-      start: { x: width * 0.17, y: height * 0.6 },
-      end: { x: width * 0.31, y: height * 0.6 },
+      start: { x: width * 0.17, y: height * 0.69 },
+      end: { x: width * 0.31, y: height * 0.69 },
       id: 2,
     },
   ],
   ㅛ: [
     {
-      start: { x: width * 0.21, y: height * 0.445 },
-      end: { x: width * 0.21, y: height * 0.6 },
+      start: { x: width * 0.21, y: height * 0.49 },
+      end: { x: width * 0.21, y: height * 0.69 },
       id: 1,
     },
     {
-      start: { x: width * 0.27, y: height * 0.445 },
-      end: { x: width * 0.27, y: height * 0.6 },
+      start: { x: width * 0.27, y: height * 0.49 },
+      end: { x: width * 0.27, y: height * 0.69 },
       id: 2,
     },
     {
-      start: { x: width * 0.17, y: height * 0.6 },
-      end: { x: width * 0.31, y: height * 0.6 },
+      start: { x: width * 0.17, y: height * 0.69 },
+      end: { x: width * 0.31, y: height * 0.69 },
       id: 3,
     },
   ],
   ㅜ: [
     {
-      start: { x: width * 0.17, y: height * 0.445 },
-      end: { x: width * 0.31, y: height * 0.445 },
+      start: { x: width * 0.17, y: height * 0.5 },
+      end: { x: width * 0.31, y: height * 0.5 },
       id: 1,
     },
     {
-      start: { x: width * 0.24, y: height * 0.445 },
-      end: { x: width * 0.24, y: height * 0.6 },
+      start: { x: width * 0.24, y: height * 0.5 },
+      end: { x: width * 0.24, y: height * 0.7 },
       id: 2,
     },
   ],
   ㅠ: [
     {
-      start: { x: width * 0.17, y: height * 0.445 },
-      end: { x: width * 0.31, y: height * 0.445 },
+      start: { x: width * 0.17, y: height * 0.5 },
+      end: { x: width * 0.31, y: height * 0.5 },
       id: 1,
     },
     {
-      start: { x: width * 0.21, y: height * 0.445 },
-      end: { x: width * 0.21, y: height * 0.6 },
+      start: { x: width * 0.21, y: height * 0.5 },
+      end: { x: width * 0.21, y: height * 0.7 },
       id: 2,
     },
     {
-      start: { x: width * 0.27, y: height * 0.445 },
-      end: { x: width * 0.27, y: height * 0.6 },
+      start: { x: width * 0.27, y: height * 0.5 },
+      end: { x: width * 0.27, y: height * 0.7 },
       id: 3,
     },
   ],
   ㅡ: [
     {
-      start: { x: width * 0.17, y: height * 0.52 },
-      end: { x: width * 0.31, y: height * 0.52 },
+      start: { x: width * 0.17, y: height * 0.6 },
+      end: { x: width * 0.31, y: height * 0.6 },
       id: 1,
     },
   ],
   ㅣ: [
     {
-      start: { x: width * 0.24, y: height * 0.4 },
-      end: { x: width * 0.24, y: height * 0.65 },
+      start: { x: width * 0.24, y: height * 0.45 },
+      end: { x: width * 0.24, y: height * 0.75 },
       id: 1,
     },
   ],
@@ -556,21 +558,13 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
   const [isClearButtonClicked, setClearButtonClicked] = useState(false);
   const svgRef = useRef(null);
   const navigation = useNavigation<RootStackNavigationProp>();
-  const [erase, setErased] = useState(false);
 
   const [currentStrokeIndex, setCurrentStrokeIndex] = useState(0);
   const currentJamo = list[pointer];
   // @ts-ignore
   const currentWordStrokes = strokes[currentJamo] || [];
+  const [isLoading, setIsLoading] = useState(false);
 
-  // @ts-ignore
-  useEffect(() => {
-    if (erase) {
-      setPaths([]); // Clear all paths
-      setErased(false); // Reset the erase state
-      setClearButtonClicked(false);
-    }
-  }, [erase]);
   const handleTouchStart = useCallback(
     (event: { nativeEvent: { locationX: any; locationY: any } }) => {
       setIsDrawing(true);
@@ -631,6 +625,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
 
   useEffect(() => {
     setCurrentStrokeIndex(0);
+
     console.log("pointer: ", pointer);
   }, [pointer]);
 
@@ -646,6 +641,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
   };
 
   // @ts-ignore
+
   return (
     <View style={[styles.container]}>
       <ViewShot style={{ backgroundColor: backgroundColor, width: "100%", borderRadius: 5 }}>
@@ -681,8 +677,27 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
               ) =>
                 index === currentStrokeIndex && (
                   <React.Fragment key={stroke.id}>
-                    <Circle cx={stroke.start.x} cy={stroke.start.y} r={10} fill="yellow" />
-                    <Circle cx={stroke.end.x} cy={stroke.end.y} r={10} fill="yellow" />
+                    <SvgImage
+                      // @ts-ignore
+                      x={stroke.start.x - imageWidth / 2}
+                      // @ts-ignore
+                      y={stroke.start.y - imageHeight / 2}
+                      width={imageWidth}
+                      height={imageHeight}
+                      href={require('../../assets/start.png')}
+                      preserveAspectRatio="xMidYMid slice"
+                    />
+                    <SvgImage
+                      // @ts-ignore
+                      x={stroke.end.x - imageWidth / 2}
+                      // @ts-ignore
+                      y={stroke.end.y - imageHeight / 2}
+                      width={imageWidth}
+                      height={imageHeight}
+                      href={require('../../assets/end.png')}
+                      preserveAspectRatio="xMidYMid slice"
+                    />
+
                   </React.Fragment>
                 )
             )}
