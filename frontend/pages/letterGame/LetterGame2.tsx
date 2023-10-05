@@ -47,6 +47,56 @@ const LetterGame2 = () => {
   };
   const backgroundImage = getBackgroundImage(word.category);
 
+  const getAnswerImg = () => {
+    switch (word.name) {
+      case "사과":
+        return require("../../assets/word/appleLetter2.png");
+      case "바나나":
+        return require("../../assets/word/bananaLetter2.png");
+      case "새":
+        return require("../../assets/word/birdLetter2.png");
+      case "고양이":
+        return require("../../assets/word/catLetter2.png");
+      case "체리":
+        return require("../../assets/word/cherryLetter2.png");
+      case "컵":
+        return require("../../assets/word/cupLetter2.png");
+      case "강아지":
+        return require("../../assets/word/dogLetter2.png");
+      case "코끼리":
+        return require("../../assets/word/elephantLetter2.png");
+      case "개구리":
+        return require("../../assets/word/frogLetter2.png");
+      case "포도":
+        return require("../../assets/word/grapeLetter2.png");
+      case "사자":
+        return require("../../assets/word/lionLetter2.png");
+      case "멜론":
+        return require("../../assets/word/melonLetter2.png");
+      case "문어":
+        return require("../../assets/word/octopusLetter2.png");
+      case "오렌지":
+        return require("../../assets/word/orangeLetter2.png");
+      case "판다":
+        return require("../../assets/word/pandaLetter2.png");
+      case "복숭아":
+        return require("../../assets/word/peachLetter2.png");
+      case "토끼":
+        return require("../../assets/word/rabbitLetter2.png");
+      case "딸기":
+        return require("../../assets/word/strawberryLetter2.png");
+      case "토마토":
+        return require("../../assets/word/tomatoLetter2.png");
+      case "거북":
+        return require("../../assets/word/turtleLetter2.png");
+      case "수박":
+        return require("../../assets/word/watermelonLetter2.png");
+      default:
+        // 기본값 처리 (필요에 따라 추가)
+        return null;
+    }
+  };
+
   // const choiceList = ["ㅅ", "ㅜ", "ㄴ", "ㅐ", "ㅓ", "ㅂ", "ㄷ", "ㅠ"];
   //정답 단어에서 어디가 빈칸일지 랜덤으로 정하기
   useEffect(() => {
@@ -130,7 +180,7 @@ const LetterGame2 = () => {
               );
             })} */}
             <BCard>
-              <StyledText>{answer}</StyledText>
+              <Image source={getAnswerImg()} resizeMode="contain" />
             </BCard>
           </BCardContainer>
           <ACardContainer>
