@@ -25,7 +25,7 @@ const TutorialWordNote = ({ route }: any) => {
       const soundObject = new Audio.Sound();
       try {
         await soundObject.loadAsync(
-          require("../../assets/wav/01_찾은_단어_카드는_여기서_볼_수_있어.wav")
+          require("../../assets/wav/09_찾은_단어_카드는_여기서_볼_수_있어.wav")
         );
         await soundObject.playAsync();
         // 사운드 재생이 끝나면 터치 가능하게 상태 변경
