@@ -140,6 +140,7 @@ const PictureGame3 = () => {
     return (
       <Provider>
         <Container>
+          <Stamp />
           <Modal
             animationIn="slideInUp"
             animationOut="slideOutDown"
