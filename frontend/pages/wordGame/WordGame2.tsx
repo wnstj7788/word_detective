@@ -23,7 +23,8 @@ import { createDndContext } from "react-native-easy-dnd"; //dragabble
 import Modal from "react-native-modal";
 import { shuffleArray } from "../../utils/utils";
 import { WordAPI } from "../../utils/api";
-
+import GetCardModal from "../components/GetCardModal";
+import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame2">;
 const { Provider, Droppable, Draggable } = createDndContext();
@@ -44,6 +45,57 @@ const WordGame2 = () => {
   const [isModalVisible, setModalVisible] = useState(false); //clear modal관련
   const [shuffledDropList, setShuffledDropList] = useState<IWordWithDone[]>([]); //리스트를 섞기
   const [shuffledDragList, setShuffledDragList] = useState<IWord[]>([initialWord]); //리스트를 섞기
+  const backgroundImage = getBackgroundImage(word.category);
+  //--- api 연결 안했을 때 ---
+  // useEffect(() => {
+  //   const choiceList: IWord[] = [
+  //     {
+  //       id: 1,
+  //       name: "사과",
+  //       url: "",
+  //     },
+  //     {
+  //       id: 1,
+  //       name: "사과",
+  //       url: "",
+  //     },
+  //     {
+  //       id: 1,
+  //       name: "사과",
+  //       url: "",
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "바나나",
+  //       url: "",
+  //     },
+  //     {
+  //       id: 3,
+  //       name: "딸기",
+  //       url: "",
+  //     },
+  //     {
+  //       id: 4,
+  //       name: "토마토",
+  //       url: "",
+  //     },
+  //   ];
+  //   const dropRandList = shuffleArray(choiceList);
+  //   const dragRandList = shuffleArray(choiceList);
+  //   let dropList: IWordWithDone[] = []; //드롭될 위치들
+  //   dropRandList.map((word, index) => {
+  //     word.index = index;
+  //     dropList.push({
+  //       word: word,
+  //       done: false,
+  //     });
+  //   });
+  //   dragRandList.map((word, index) => {
+  //     word.index = index;
+  //   });
+  //   setShuffledDropList(dropList);
+  //   setShuffledDragList(dragRandList);
+  // }, []);
 
   useEffect(() => {
     let choiceList: IWord[] = [];
@@ -110,10 +162,7 @@ const WordGame2 = () => {
     return (
       <Provider>
         <Container>
-          <ContainerBg
-            source={require("../../assets/background/game/fruit.png")}
-            resizeMode="stretch"
-          >
+          <ContainerBg source={backgroundImage}>
             <Modal
               animationIn="slideInUp"
               animationOut="slideOutDown"

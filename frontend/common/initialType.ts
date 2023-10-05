@@ -12,8 +12,11 @@ export const initialStage: IStage = {
 };
 
 export const initialUser: IUser = {
-  userId: 0,
+  id: 0,
   picture: -1,
   word: -1,
   letter: -1,
+  cameraPicture: 0,
+  cameraWord: 0,
+  cameraLetter: 0,
 };

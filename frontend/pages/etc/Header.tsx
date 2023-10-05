@@ -1,37 +1,50 @@
 import { View, Text, Image } from "react-native";
 import styled from "styled-components/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useDispatch } from "react-redux";
+import { setCurrentMusicName, setIsMuted } from "../../store/music";
+import useAppSelector from "../../store/useAppSelector";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const Header = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
+  const isMuted = useAppSelector(state => state.music.isMuted);
+  const dispatch = useDispatch();
 
-  const [isSoundOn, setSoundOn] = useState(true);
   const toggleSound = () => {
-    setSoundOn(!isSoundOn);
+    dispatch(setIsMuted(!isMuted));
   };
 
+  const gotoMainPageHandler = () => {
+    dispatch(setCurrentMusicName("mainMusic")); //디폴트 음악 경로 설정
+    navigation.navigate("Main");
+  };
+
+  const gotoWordNoteHandler = () => {
+    dispatch(setCurrentMusicName("mainMusic")); //디폴트 음악 경로 설정
+    navigation.navigate("WordNoteMain");
+  };
 
   return (
     <Container>
       <HeaderLeft>
-        <HeaderBtn onPress={() => navigation.navigate("Main",{})}>
+        <HeaderBtn onPress={() => gotoMainPageHandler()}>
           <Image source={require("../../assets/button/header/headerHomeBtn.png")} />
         </HeaderBtn>
-        <HeaderBtn onPress={() => navigation.navigate("WordNoteMain")}>
+        <HeaderBtn onPress={() => gotoWordNoteHandler()}>
           <Image source={require("../../assets/button/header/headerInvtBtn.png")} />
         </HeaderBtn>
       </HeaderLeft>
-      <HeaderSoundBtn onPress={toggleSound}>
+      <HeaderSoundBtn onPress={() => toggleSound()}>
         <Image
           source={
-            isSoundOn
-              ? require("../../assets/button/header/headerSoundOnBtn.png")
-              : require("../../assets/button/header/headerSoundOffBtn.png")
+            isMuted
+              ? require("../../assets/button/header/headerSoundOffBtn.png")
+              : require("../../assets/button/header/headerSoundOnBtn.png")
           }
         />
       </HeaderSoundBtn>

@@ -16,8 +16,12 @@ import { Animated } from "react-native";
 import { initialWord } from "../../common/initialType";
 import Boom from "./boom";
 import { shuffleArray } from "../../utils/utils";
-import { WordAPI } from "../../utils/api";
-
+import { UserAPI, WordAPI } from "../../utils/api";
+import getBackgroundImage from "../components/BackGroundImageSelect";
+import GetCardModal from "../components/GetCardModal";
+import useAppSelector from "../../store/useAppSelector";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/user";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 const { Provider, Droppable, Draggable } = createDndContext();
@@ -26,9 +30,23 @@ type PictureGameWordType = {
   word: IWord;
   canDrag: boolean;
 };
+const getDropImage = category => {
+  switch (category) {
+    case 1:
+      return require("../../assets/etc/basket_pic3.png");
+    case 2:
+      return require("../../assets/etc/ground_pic3.png");
+    case 3:
+      return require("../../assets/etc/floor_pic3.png");
+    default:
+      return require("../../assets/etc/basket_pic3.png");
+  }
+};
 
 const PictureGame3 = () => {
   const [count, setCount] = useState(0);
+  const user = useAppSelector(state => state.user.value);
+  const dispatch = useDispatch();
 
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -41,6 +59,9 @@ const PictureGame3 = () => {
   };
   const [clickedWord, setClickedWord] = useState<IWord>(initialWord); //클릭한 단어 정보
   const [canDrag, setCanDrag] = useState(true);
+  const dropImage = getDropImage(word.category);
+  // 배경
+  const backgroundImage = getBackgroundImage(word.category);
   // 드레그 리스트
   const [shuffledDragList, setShuffledDragList] = useState<PictureGameWordType[]>([
     { word: initialWord, canDrag: true },
@@ -79,7 +100,25 @@ const PictureGame3 = () => {
 
   useEffect(() => {
     if (dropList.length === 3) {
-      openModal();
+      console.log("user,", user);
+      //이미 클리어한 스테이지 클리어 시 모달만 열고 api 호출 안함
+      if (user.picture >= word.id) {
+        openModal();
+        return;
+      }
+      //api 호출
+      UserAPI.stageClear({ ...user, picture: word.id })
+        .then(res => {
+          console.log("yeah", user);
+          dispatch(login(res.data));
+        })
+        .then(() => {
+          //모달 열기
+          openModal();
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   }, [clickedWord, dropList]);
 
@@ -87,16 +126,6 @@ const PictureGame3 = () => {
   const getMiniCardInfo = (word: IWord) => {
     setClickedWord(word);
   };
-
-  // 드롭되면 사라지는 리스트
-
-  // useEffect(() => {
-  //   const initialList: PictureGameWordType[] = shuffledDragList.map((_word, _index) => ({
-  //     word: _word,
-  //     canDrag: true, // 여기 추가
-  //   }));
-  //   setTestList(initialList);
-  // }, []);
 
   // 모달
   const [isModalVisible, setModalVisible] = useState(false);
@@ -122,9 +151,9 @@ const PictureGame3 = () => {
             backdropTransitionOutTiming={0}
             statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
           >
-            <GameClearModal nextScreen="Main" word={word} />
+            <GetCardModal nextScreen="PictureLobby" word={word} />
           </Modal>
-          <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+          <ContainerBg source={backgroundImage}>
             <ContentContainer>
               <ACardContainer>
                 <ACardLine>
@@ -160,6 +189,10 @@ const PictureGame3 = () => {
                 </ACardLine>
               </ACardContainer>
               <View>
+                <NameTag>
+                  <Image source={{ uri: word.url }} style={{ width: 50, height: 50, margin: 5 }} />
+                  <Text style={{ fontSize: 30, fontFamily: "BMJUA" }}>를 넣어주세요.</Text>
+                </NameTag>
                 <Droppable
                   onEnter={() => {}}
                   onLeave={() => {
@@ -196,7 +229,7 @@ const PictureGame3 = () => {
                           },
                         ]}
                       >
-                        <ImageBackgrounds source={require("../../assets/etc/basket_pic3.png")}>
+                        <ImageBackgrounds source={dropImage} resizeMode="contain">
                           {dropList.map((item, index) => (
                             <Image
                               key={index}
@@ -257,10 +290,12 @@ const ACard = styled.View`
 `;
 const ACardFirst = styled(ACard)`
   margin-bottom: 10px;
+  margin-right: 15px;
 `;
 
 const ACardSecond = styled(ACard)`
   margin-top: 10px;
+  margin-right: 15px;
 `;
 
 const ImageBackgrounds = styled(ImageBackground)`
@@ -270,4 +305,17 @@ const ImageBackgrounds = styled(ImageBackground)`
   align-items: center;
   flex-direction: row;
   z-index: 1;
+`;
+
+const NameTag = styled(View)`
+  width: 230px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  z-index: 1;
+  background-color: white;
+  left: 20px;
+  top: 50px;
+  border-radius: 10px;
 `;

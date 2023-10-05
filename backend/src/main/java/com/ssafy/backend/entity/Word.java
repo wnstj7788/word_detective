@@ -15,6 +15,9 @@ public class Word {
     @Column(name = "word_id", nullable = false)
     private Long id;
 
+    @Column(name = "cls_num", nullable = false)
+    private Long clsNum;
+
     @Column(name = "name", nullable = false, length = 30)
     private String name;
 

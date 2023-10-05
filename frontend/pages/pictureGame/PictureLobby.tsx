@@ -13,20 +13,10 @@ import PictureModal from "../tutorial/PictureModal"; // 모달 패키지
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-const PictureLobby = ({ route }: any) => {
+const PictureLobby = () => {
   const isLoaded = useCachedResources();
   const navigation = useNavigation<RootStackNavigationProp>();
   const [isModalVisible, setModalVisible] = useState(false);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      // 이 함수는 화면이 포커스를 받을 때 실행됩니다.
-      if (route.params?.cameFromMainModal) {
-        setModalVisible(true);
-        console.log("Returned from MainModal");
-      }
-    }, [route.params?.cameFromMainModal])
-  );
 
   const closeModal = () => {
     setModalVisible(false);
@@ -44,7 +34,7 @@ const PictureLobby = ({ route }: any) => {
               <Image source={require("../../assets/character/artistDog.png")}></Image>
             </View>
 
-            <MenuBtn onPress={() => navigation.navigate("CameraCon")}>
+            <MenuBtn onPress={() => navigation.navigate("CameraCon", { origin: 'PictureLobby' })}>
               <BtnImg
                 source={require("../../assets/button/gameMode/detectiveModeBtn.png")}
                 resizeMode="contain"

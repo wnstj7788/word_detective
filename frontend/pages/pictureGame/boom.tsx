@@ -15,12 +15,12 @@ export default function Boom() {
         autoPlay
         ref={animation}
         style={{
-          width: 200,
-          height: 200,
-          backgroundColor: "#eee",
+          width: 800,
+          height: 800,
+          backgroundColor: "transparent",
         }}
         // Find more Lottie files at https://lottiefiles.com/featured
-        source={require("../../assets/etc/animation_lmyfx756.json")}
+        source={require("../../assets/etc/animation_lnci58on.json")}
       />
     </View>
   );
@@ -28,7 +28,7 @@ export default function Boom() {
 
 const styles = StyleSheet.create({
   animationContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
     flex: 1,

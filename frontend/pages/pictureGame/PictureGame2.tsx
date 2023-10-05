@@ -1,4 +1,13 @@
-import { View, Text, Image, ImageBackground, Platform, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ImageBackground,
+  Platform,
+  Dimensions,
+  Animated,
+  Vibration,
+} from "react-native";
 import styled from "styled-components/native";
 import useCachedResources from "../../hooks/useCachedResources";
 import { useNavigation, RouteProp, useRoute } from "@react-navigation/native";
@@ -18,6 +27,10 @@ import { WordAPI } from "../../utils/api";
 import { shuffleArray } from "../../utils/utils";
 import constructWithOptions from "styled-components/native/dist/constructors/constructWithOptions";
 import { initialWord } from "../../common/initialType";
+import getBackgroundImage from "../components/BackGroundImageSelect";
+import { shakeAnimation2 } from "../../animation/animation";
+import { IWord } from "../../types/types";
+import Boom from "./boom";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "PictureGame2">;
 const { width, height } = Dimensions.get("window");
@@ -34,14 +47,10 @@ const PictureGame2 = () => {
     wordHidden: false, //글씨는 숨기지 않음
     wordHiddenIndx: 1, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
   };
-  const answer = ["사과", "오렌지", "사과", "오렌지", "사과", "오렌지", "사과", "사과", "사과"];
 
-  const newCards = answer.map(item => {
-    return {
-      imgSrc: "",
-      name: item,
-    };
-  });
+  // 배경
+  const backgroundImage = getBackgroundImage(word.category);
+
   const [shuffledChoiceList, setShuffledChoiceList] = useState<IWord[]>([initialWord]); //섞은 리스트
   useEffect(() => {
     let choiceList: IWord[] = [];
@@ -73,6 +82,19 @@ const PictureGame2 = () => {
   const closeModal = () => {
     setModalVisible(false);
   };
+  // 로티
+  const [showBoom, setShowBoom] = useState(false); // 상태 추가
+  const openBoom = () => {
+    setShowBoom(true);
+    setTimeout(() => {
+      setShowBoom(false);
+    }, 1000); // 1초 후에 setShowBoom(false)를 호출하여 1초 동안 보이고 사라지도록 함
+  };
+  // 애니메이션
+  let animValues = shuffledChoiceList.map(() => new Animated.Value(0));
+  useEffect(() => {
+    animValues = shuffledChoiceList.map(() => new Animated.Value(0));
+  }, [shuffledChoiceList]);
 
   const oAnswerCheck = () => {
     if (word.name === shuffledChoiceList[count].name) {
@@ -80,11 +102,13 @@ const PictureGame2 = () => {
         setCount(prevCount => {
           return prevCount + 1;
         });
+        openBoom(); // 맞았을 때 Boom 보이기
       } else {
         openModal();
       }
     } else {
-      alert("떙");
+      shakeAnimation2(count, animValues);
+      Vibration.vibrate(350);
     }
   };
 
@@ -94,18 +118,20 @@ const PictureGame2 = () => {
         setCount(prevCount => {
           return prevCount + 1;
         });
+        openBoom(); // 맞았을 때 Boom 보이기
       } else {
         openModal();
       }
     } else {
-      alert("떙");
+      shakeAnimation2(count, animValues);
+      Vibration.vibrate(350);
     }
   };
 
   if (isLoaded) {
     return (
       <Container>
-        <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+        <ContainerBg source={backgroundImage}>
           <Modal
             animationIn="slideInUp"
             animationOut="slideOutDown"
@@ -118,6 +144,7 @@ const PictureGame2 = () => {
             <GameClearModal nextScreen="PictureGame3" word={word}></GameClearModal>
           </Modal>
           <ContentContainer>
+            <BoomContainer>{showBoom && <Boom />}</BoomContainer>
             <QCardContainer>
               <QCardContainer>
                 <QuestionCard word={word} type={Word1Type} />
@@ -160,7 +187,11 @@ const ContentContainer = styled.View`
   justify-content: center;
   align-items: center;
 `;
-
+const BoomContainer = styled.View`
+  position: absolute;
+  top: -50%;
+  left: 20%;
+`;
 const QCardContainer = styled.View`
   flex: 1;
   justify-content: center;

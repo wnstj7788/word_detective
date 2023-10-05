@@ -1,4 +1,5 @@
 import axios from "axios";
+import { IUser } from "../types/types";
 
 //기본 axios 인스턴스 생성
 const axiosInstance = axios.create({
@@ -15,7 +16,14 @@ export const UserAPI = {
   getById: function (userId?: number) {
     return axiosInstance.request({
       method: "GET",
-      url: `/api/user?userId=${userId}`,
+      url: userId ? `/api/user?userId=${userId}` : `/api/user`,
+    });
+  },
+  stageClear: function (user: IUser) {
+    return axiosInstance.request({
+      method: "POST",
+      url: `/api/user/stage/${user.id}`,
+      data: { ...user },
     });
   },
   //   create: function (user) {

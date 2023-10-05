@@ -9,7 +9,7 @@ import {
   Image,
   InteractionManager,
   Alert,
-  ImageBackground,
+  ImageBackground, ActivityIndicator,
 } from "react-native";
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { Svg, Path } from "react-native-svg";
@@ -22,9 +22,8 @@ type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 const fontSize = width * 0.2;
 import axios from "axios/index";
-import * as ImageManipulator from "expo-image-manipulator";
 // @ts-ignore
-const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
+const LetterCanvas = ({ list, alpha, pointer, setWrite, word }) => {
   const canvasRef = useRef(null);
   const getBase64Data = () => {
     const canvas = canvasRef.current;
@@ -50,15 +49,17 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
   }, []);
 
   // @ts-ignore
+  const [isLoading, setIsLoading] = useState(false);
   const handleTouchMove = useCallback(
+    // @ts-ignore
     event => {
       if (!isDrawing) return; // Only draw if currently drawing
 
       const locationX = event.nativeEvent.locationX;
       const locationY = event.nativeEvent.locationY;
-      // if (locationX < width*0.03 || locationY < height*0.07 || locationX > width * 0.7 || locationY > height * 0.65) {
-      //   return;
-      // }
+      if (locationX < width*0.2 || locationY < height*0.07 || locationX > width * 0.8 || locationY > height * 0.7) {
+        return;
+      }
       const newPoint = `${locationX.toFixed(0)},${locationY.toFixed(0)} `;
 
       // @ts-ignore
@@ -77,10 +78,20 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
     });
   };
   const click = () => {
+    // @ts-ignore
     setCapturedImageURI();
+  };
+  const LoadingScreen = () => {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text style={{fontFamily : "BMJUA"}}>검사중...</Text>
+      </View>
+    );
   };
   const sendData = async () => {
     try {
+      setIsLoading(true);
       const base64Image = await captureSVG();
       const headers = {
         "X-OCR-SECRET": secret,
@@ -121,14 +132,16 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
     } catch (error) {
       // @ts-ignore
       console.error("Error response:", error.response.data);
+    } finally {
+      setIsLoading(false);
     }
   };
   const captureSVG = () => {
     // @ts-ignore
     setBackgroundColor("white");
+    // @ts-ignore
     svgRef.current.capture().then(uri => {
       setCapturedImageURI(uri);
-      console.log(uri);
 
       setBackgroundColor("transparent");
     });
@@ -142,10 +155,12 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
   // @ts-ignore
   return (
     <View style={[styles.container]}>
+      {isLoading && <LoadingScreen />}
+      <Text style={{fontSize:50, fontFamily:"BMJUA"}}>{word.name}를 써보자!</Text>
       <ViewShot
         ref={svgRef}
-        options={{ format: "jpg", quality: 0.2, result: "base64" }}
-        style={{ backgroundColor: backgroundColor, width: "100%", borderRadius: 5 }}
+        options={{ format: "jpg", quality: 0.5, result: "base64" }}
+        style={{ backgroundColor: backgroundColor, width: "100%", borderRadius: 5, flex : 3, borderColor : "blue" }}
       >
         <View
           style={styles.svgContainer}
@@ -164,7 +179,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
               d={paths.join("")}
               stroke={isClearButtonClicked ? "transparent" : "black"}
               fill={"transparent"}
-              strokeWidth={3}
+              strokeWidth={10}
               strokeLinejoin={"round"}
               strokeLinecap={"round"}
             />
@@ -188,7 +203,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "transparent",
+    backgroundColor: "white",
     // borderRadius: 20,
   },
   svgOverlay: {
@@ -212,6 +227,16 @@ const styles = StyleSheet.create({
     width: width,
     alignItems: "center",
     justifyContent: "center",
+  },
+  loadingContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)'
   },
   clearButton: {
     marginTop: 10,

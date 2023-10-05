@@ -2,63 +2,44 @@ import React, { useState } from "react";
 import { Text, FlatList, Image, TouchableOpacity, View, Modal } from "react-native";
 import { BtnContainer } from "../../styles/globalStyles";
 import styled from "styled-components/native";
-import { IStage } from "../../types/types";
+import { IStage, IWord } from "../../types/types";
 import { current } from "@reduxjs/toolkit";
-
+import useAppSelector from "../../store/useAppSelector";
 // 모달
 import WordCardDetailModal from "./WordCardDetailModal";
-const WordNoteCard = (props: { categoryType: number; callbackprop(data: string): void }) => {
-  let currentWordList;
-
-  const wordList = ["사과", "오렌지", "수박", "토마토", "체리", "바나나", "딸기", "멜론"];
-  const wordList2 = ["판다", "고양이", "강아지", "코끼리", "토끼", "원숭이", "달팽이", "사자"];
-  const wordList3 = ["연필", "가위", "지우개", "만년필", "그릇", "키보드", "마우스", "의자"];
-  // console.log(num.num);
-  switch (props.categoryType) {
-    case 1:
-      currentWordList = wordList;
-      break;
-    case 2:
-      currentWordList = wordList2;
-      break;
-    case 3:
-      currentWordList = wordList3;
-      break;
-    default:
-      currentWordList = null;
-      break;
-  }
-
-  function getImage(name: string) {
-    switch (name) {
-      case "사과":
-        return require("../../assets/card/fruit/apple.png");
-      case "오렌지":
-        return require("../../assets/card/fruit/orange.png");
-      case "수박":
-        return require("../../assets/card/fruit/watermelon.png");
-      case "토마토":
-        return require("../../assets/card/fruit/tomato.png");
-      case "체리":
-        return require("../../assets/card/fruit/cherry.png");
-      case "바나나":
-        return require("../../assets/card/fruit/banana.png");
-      case "딸기":
-        return require("../../assets/card/fruit/strawberry.png");
-      case "고양이":
-        return require("../../assets/card/animal/cat.png");
-    }
-  }
-
+const WordNoteCard = (props: { categoryType: number; callbackprop(data: IWord): void }) => {
   // 모달 열기를 위한 상태와 선택된 아이템 상태 추가
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
 
+  const words = useAppSelector(state => state.wordList.value);
+  const user = useAppSelector(state => state.user.value);
+
+  // const getIsClear = (item: IWord) => {
+  //   console.log(user);
+  //   console.log(
+  //     user.picture === (0 || null) &&
+  //       user.word === (0 || null) &&
+  //       user.letter === (0 || null) &&
+  //       user.cameraPicture === (0 || null) &&
+  //       user.cameraWord === (0 || null) &&
+  //       user.cameraLetter === (0 || null)
+  //   );
+  //   return !(
+  //     user.picture === (0 || null) &&
+  //     user.word === (0 || null) &&
+  //     user.letter === (0 || null) &&
+  //     user.cameraPicture === (0 || null) &&
+  //     user.cameraWord === (0 || null) &&
+  //     user.cameraLetter === (0 || null)
+  //   );
+  // };
+
   return (
     <FlatList
       horizontal={true}
-      data={currentWordList}
-      keyExtractor={item => item}
+      data={words[props.categoryType - 1]}
+      keyExtractor={item => item.id}
       renderItem={({ item }) => (
         <CardContainer
           onPress={() => {
@@ -67,13 +48,15 @@ const WordNoteCard = (props: { categoryType: number; callbackprop(data: string):
             setSelectedItem(item);
             setModalVisible(true);
           }}
+          // $isClear={getIsClear(item)}
+          $isClear={true}
         >
           <MainLogo source={require("../../assets/logo/mainLogo2.png")}></MainLogo>
           <CardInnerContainer>
             <CardImageWrap>
-              <CardImage source={getImage(item)} resizeMode="contain"></CardImage>
+              <CardImage source={{ uri: item.url }} resizeMode="contain"></CardImage>
             </CardImageWrap>
-            <CardText>{item}</CardText>
+            <CardText>{item.name}</CardText>
           </CardInnerContainer>
         </CardContainer>
       )}
@@ -84,7 +67,7 @@ const WordNoteCard = (props: { categoryType: number; callbackprop(data: string):
 
 export default WordNoteCard;
 
-const CardContainer = styled(BtnContainer)`
+const CardContainer = styled(BtnContainer)<{ $isClear: boolean }>`
   flex: 1;
   aspect-ratio: 3/4;
   background-color: white;
@@ -92,6 +75,7 @@ const CardContainer = styled(BtnContainer)`
   border-radius: 20px 20px 0px 20px;
   justify-content: center;
   align-items: center;
+  opacity: ${props => (props.$isClear ? 1 : 0.5)};
 `;
 const CardInnerContainer = styled.View`
   background-color: beige;

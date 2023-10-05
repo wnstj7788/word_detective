@@ -19,6 +19,7 @@ import * as hangul from "hangul-js";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Modal from "react-native-modal";
 import GameClearModal from "../components/GameClearModal";
+import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const LetterGame3 = () => {
@@ -29,11 +30,13 @@ const LetterGame3 = () => {
   const { word } = route.params;
   const list: string[] = hangul.disassemble(word.name);
   const letters: string[][] = hangul.disassemble(word.name, true);
+  const backgroundImage = getBackgroundImage(word.category);
   const check: number[] = [
     letters[0].length,
     letters[1] ? letters[1].length : 0,
     letters[2] ? letters[2].length : 0,
   ];
+  const [erase, setErase] = useState(false);
   const length: number = list.length;
   const [write, setWrite] = useState("");
   const openModal = () => {
@@ -61,9 +64,15 @@ const LetterGame3 = () => {
     console.log(ret);
     return ret;
   };
+  useEffect(()=>{
+    if(pointer>=length){
 
+      openModal();
+      return;
+    }
+  },[pointer])
   return (
-    <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+    <ContainerBg source={backgroundImage}>
       <Modal
         animationIn="slideInUp"
         animationOut="slideOutDown"
@@ -81,7 +90,7 @@ const LetterGame3 = () => {
             <ImageContainer1>
               <QuestionImage
                 resizeMode="contain"
-                source={require("../../assets/card/fruit/apple.png")}
+                source={{uri : word.url}}
               />
             </ImageContainer1>
             <ImageContainer2>

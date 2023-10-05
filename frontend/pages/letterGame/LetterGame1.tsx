@@ -21,7 +21,7 @@ import GameClearModal from "../components/GameClearModal";
 import Modal from "react-native-modal";
 import React, { useState } from "react";
 import { shakeAnimation1 } from "../../animation/animation";
-
+import getBackgroundImage from "../components/BackGroundImageSelect";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
 
@@ -29,7 +29,7 @@ type StagePageRouteProp = RouteProp<RootStackParamList, "WordGame1">;
 const Word1Type: ICard = {
   pictureHidden: false, //그림 숨기기
   wordHidden: true, //글씨는 숨기지 않음
-  wordHiddenIndx: 1, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
+  wordHiddenIndx: 0, //글씨를 숨긴다면 몇번째 인덱스의 글씨를 숨기는지(0부터시작)
 };
 const number = Word1Type.wordHiddenIndx;
 interface ShakeAnimations {
@@ -40,10 +40,47 @@ const LetterGame1 = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
   const route = useRoute<StagePageRouteProp>();
   const { word } = route.params;
-
+  const Word1Type: ICard = {
+    pictureHidden: false,
+    wordHidden: true,
+    wordHiddenIndx: word.name.length - 1, // 맨 마지막 문자의 인덱스를 설정
+  };
+  const number = Word1Type.wordHiddenIndx;
+  const backgroundImage = getBackgroundImage(word.category);
   //선지 8개의 배열
   //TODO: api 로 랜덤 뽑는 기능 받아와서 채우기
-  const choiceList = ["슴", "진", "과", "자", "고", "람", "막", "골"];
+  const choiceList = [
+    "과",
+    "나",
+    "리",
+    "도",
+    "론",
+    "지",
+    "아",
+    "기",
+    "토",
+    "론",
+    "이",
+    "닭",
+    "지",
+    "래",
+    "리",
+    "자",
+    "어",
+    "다",
+    "지",
+    "끼",
+    "자",
+    "터",
+    "상",
+    "개",
+    "경",
+    "컵",
+    "필",
+    "위",
+    "발",
+    "솔",
+  ];
   const [shakeAnimations, setShakeAnimations] = useState<ShakeAnimations>(
     choiceList.reduce<ShakeAnimations>((acc, _, index: number) => {
       acc[index] = new Animated.Value(0);
@@ -53,6 +90,7 @@ const LetterGame1 = () => {
 
   const handleCardClick = (choice: string, index: number) => {
     const characters = [...word.name];
+    console.log(characters[number]);
     if (choice === characters[number]) {
       openModal();
     } else {
@@ -60,6 +98,28 @@ const LetterGame1 = () => {
       Vibration.vibrate(350);
     }
   };
+  const currentCharacter = word.name[word.name.length - 1]; // 현재 문자
+  const remainingChoices = choiceList.filter(choice => choice !== currentCharacter); // 현재 문자를 제외한 배열
+
+  // 배열을 랜덤으로 섞는 함수
+  // @ts-ignore
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+
+  // @ts-ignore
+  const getSevenRandomChoices = array => {
+    return shuffle(array).slice(0, 7);
+  };
+
+  const sevenRandomChoices = getSevenRandomChoices(remainingChoices);
+  const combinedChoices = [currentCharacter, ...sevenRandomChoices];
+  const finalChoiceList = shuffle(combinedChoices);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -70,10 +130,10 @@ const LetterGame1 = () => {
   const closeModal = () => {
     setModalVisible(false);
   };
-
+  console.log(currentCharacter);
   if (isLoaded) {
     return (
-      <ContainerBg source={require("../../assets/background/game/fruit.png")}>
+      <ContainerBg source={backgroundImage}>
         <Modal
           animationIn="slideInUp"
           animationOut="slideOutDown"
@@ -84,11 +144,7 @@ const LetterGame1 = () => {
           statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
         >
           <GameClearModal nextScreen="LetterGame2" word={
-            {
-              id : 1,
-              name : "게체계개걔",
-              url : "https://detective-bucket.s3.ap-northeast-2.amazonaws.com/fruit/apple.png"
-            }
+            word
           }></GameClearModal>
         </Modal>
         <ContentContainer>
@@ -96,8 +152,8 @@ const LetterGame1 = () => {
             <QuestionCard word={word} type={Word1Type} />
           </QCardContainer>
           <ACardContainer>
-            {choiceList.map((choice, index) => {
-              // @ts-ignore
+            {finalChoiceList.map((choice: string, index: number) => {
+
               return (
                 <ACardWrapper
                   style={{ borderRadius: 30 }}

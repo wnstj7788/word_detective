@@ -18,12 +18,22 @@ const StageCard = (props: { stage: IStage; gameType: string }) => {
     borderColor: "white",
   };
 
+  const getClearIcon = () => {
+    if (props.stage.clear) return require("../../assets/etc/star1.png");
+    else if (props.stage.canStart) return require("../../assets/etc/star2.png");
+    else return require("../../assets/etc/lock.png");
+  };
+
   if (isLoaded) {
     //gameType에 따라 스테이지로 연결
     return (
       <CardContainer
         style={cardStyle} // cardStyle을 스타일로 적용
         onPress={() => {
+          // if (!props.stage.canStart) {
+          //   alert("앞의 단어를 먼저 모으고 오자!");
+          //   return null;
+          // }
           if (props.gameType === "picture") {
             return navigation.navigate("PictureGame1", { word: props.stage.word });
           } else if (props.gameType === "word") {
@@ -35,11 +45,7 @@ const StageCard = (props: { stage: IStage; gameType: string }) => {
           }
         }}
       >
-        {props.stage.clear ? (
-          <FullStar source={require("../../assets/etc/star1.png")} />
-        ) : (
-          <EmptyStar source={require("../../assets/etc/star2.png")} />
-        )}
+        <FullStar source={getClearIcon()} />
         <StageImgWrap>
           <StageImg source={{ uri: props.stage.word.url }} resizeMode={"contain"}></StageImg>
         </StageImgWrap>

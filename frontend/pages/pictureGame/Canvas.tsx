@@ -16,12 +16,13 @@ import QuestionCard from "../components/QuestionCard";
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import styled from "styled-components/native";
-
+import useCachedResources from "../../hooks/useCachedResources";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 const customWidth = Dimensions.get("window").width;
 // @ts-ignore
 const Canvas = ({ word }) => {
+  const isLoaded = useCachedResources();
   const [paths, setPaths] = useState([]);
   const [isClearButtonClicked, setClearButtonClicked] = useState(false);
   const [capturedImageURI, setCapturedImageURI] = useState(null);
@@ -60,30 +61,34 @@ const Canvas = ({ word }) => {
     });
   };
   console.log(capturedImageURI);
-  return (
-    <Container>
-      <ViewShot ref={svgRef} options={{ format: "jpg", quality: 0.9 }}>
-        <SVGContainer onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}>
-          <Svg height={height * 0.7} width={width}>
-            <Textcontainer>
-              <StyledText>{word.name}를 그려보세요</StyledText>
-            </Textcontainer>
-            <Path
-              d={paths.join("")}
-              stroke={isClearButtonClicked ? "transparent" : "black"}
-              fill={"transparent"}
-              strokeWidth={3}
-              strokeLinejoin={"round"}
-              strokeLinecap={"round"}
-            />
-          </Svg>
-          <ClearButton onPress={handleClearButtonClick}>
-            <ClearButtonText>Clear</ClearButtonText>
-          </ClearButton>
-        </SVGContainer>
-      </ViewShot>
-      {/* 미리보기 버튼 (확인용) */}
-      <StyledTouchableOpacity onPress={captureSVG}>
+  if (isLoaded) {
+    return (
+      <Container>
+        <ViewShot ref={svgRef} options={{ format: "jpg", quality: 0.9 }}>
+          <SVGContainer onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}>
+            <Svg height={height * 0.7} width={width}>
+              <Textcontainer>
+                <StyledText>{word.name}를 그려보세요</StyledText>
+              </Textcontainer>
+              <Path
+                d={paths.join("")}
+                stroke={isClearButtonClicked ? "transparent" : "black"}
+                fill={"transparent"}
+                strokeWidth={9}
+                strokeLinejoin={"round"}
+                strokeLinecap={"round"}
+              />
+            </Svg>
+            <NextButton onPress={() => navigation.navigate("PictureGame2", { word: word })}>
+              <NextButtonImage source={require("../../assets/etc/answer_check.png")} />
+            </NextButton>
+            <ClearButton onPress={handleClearButtonClick}>
+              <ClearButtonImage source={require("../../assets/etc/eraser_pink.png")} />
+            </ClearButton>
+          </SVGContainer>
+        </ViewShot>
+        {/* 미리보기 버튼 (확인용) */}
+        {/* <StyledTouchableOpacity onPress={captureSVG}>
         <StyledButtonText>Capture SVG</StyledButtonText>
       </StyledTouchableOpacity>
 
@@ -92,9 +97,10 @@ const Canvas = ({ word }) => {
           source={{ uri: capturedImageURI }}
           style={{ width: 200, height: 200, marginTop: 20 }}
         />
-      )}
-    </Container>
-  );
+      )} */}
+      </Container>
+    );
+  }
 };
 
 export default Canvas;
@@ -114,35 +120,36 @@ const SVGContainer = styled.View`
 
 const ClearButton = styled.TouchableOpacity`
   position: absolute;
-  position: absolute;
   bottom: 10px;
   right: 10px;
-  background-color: black;
-  padding-vertical: 10px;
-  padding-horizontal: 20px;
-  border-radius: 5px;
-`;
-
-const ClearButtonText = styled.Text`
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const NextButton = styled.TouchableOpacity`
-  margin-top: 10px;
-  background-color: black;
-  padding-vertical: 10px;
-  padding-horizontal: 20px;
-  border-radius: 5px;
+  position: absolute;
+  bottom: 10px;
+  right: 40px;
+  flex-direction: row;
+  align-items: center;
 `;
 
+const ClearButtonImage = styled.Image`
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+`;
+const NextButtonImage = styled.Image`
+  width: 60px;
+  height: 60px;
+  margin-right: 50px;
+`;
 const StyledText = styled.Text`
   color: rgba(0, 0, 0, 0.2);
   font-size: 30px;
   font-weight: bold;
+  font-family: "BMJUA";
 `;
-
 const Textcontainer = styled.View`
   height: ${height * 0.7}px;
   width: ${width * 0.65}px;
@@ -150,16 +157,4 @@ const Textcontainer = styled.View`
 
   opacity: 0.5;
   flex-direction: row;
-`;
-const StyledTouchableOpacity = styled.TouchableOpacity`
-  margin-top: 10px;
-  background-color: #007aff;
-  padding: 10px 20px;
-  border-radius: 5px;
-`;
-
-const StyledButtonText = styled.Text`
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
 `;

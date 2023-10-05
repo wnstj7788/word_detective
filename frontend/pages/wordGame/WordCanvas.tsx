@@ -1,4 +1,5 @@
 import React, { useRef, useState, useCallback } from "react";
+const secret = "dmtnb2x6U0dSUkl6cmt4c09MY0pGblZJYVFkenJySXA=";
 import {
   View,
   StyleSheet,
@@ -10,19 +11,21 @@ import {
   Alert,
   ImageBackground,
 } from "react-native";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { Svg, Path } from "react-native-svg";
 import ViewShot from "react-native-view-shot";
 import QuestionCard from "../components/QuestionCard";
 import { RootStackParamList } from "../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import styled from "styled-components/native";
+import { IWord } from "../../types/types";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
 
-const Canvas = ({ word }) => {
-  const characterCount = word.name.length;
-  const characters = Array.from(word.name);
+const Canvas = (props: { word: IWord; checkDoneFunc(value: boolean): void }) => {
+  const characterCount = props.word.name.length;
+  const characters = Array.from(props.word.name);
 
   const [paths, setPaths] = useState([]);
   const [isClearButtonClicked, setClearButtonClicked] = useState(false);
@@ -53,6 +56,10 @@ const Canvas = ({ word }) => {
     });
   };
 
+  const doneBtnClicked = () => {
+    props.checkDoneFunc(true);
+  };
+
   const captureSVG = () => {
     svgRef.current.capture().then(uri => {
       setCapturedImageURI(uri);
@@ -71,7 +78,9 @@ const Canvas = ({ word }) => {
             <View style={styles.canvasContent}>
               {characters.map((char, index) => (
                 <ImageBackground
-                  source={word.url ? { uri: word.url } : require("../../assets/etc/qmark.png")} // 백그라운드 이미지 설정
+                  source={
+                    props.word.url ? { uri: props.word.url } : require("../../assets/etc/qmark.png")
+                  } // 백그라운드 이미지 설정
                   key={index}
                   style={styles.charBackground}
                   resizeMode="contain"
@@ -84,7 +93,7 @@ const Canvas = ({ word }) => {
               d={paths.join("")}
               stroke={isClearButtonClicked ? "transparent" : "black"}
               fill={"transparent"}
-              strokeWidth={3}
+              strokeWidth={8}
               strokeLinejoin={"round"}
               strokeLinecap={"round"}
             />
@@ -92,9 +101,20 @@ const Canvas = ({ word }) => {
           {/* 워드를 캔버스 내부에 위치시킵니다. */}
         </View>
       </ViewShot>
-      <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
-        <Text style={styles.clearButtonText}>Clear</Text>
-      </TouchableOpacity>
+      <View style={{ flexDirection: "row" }}>
+        <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
+          <Image
+            style={{ width: 40, height: 40 }}
+            source={require("../../assets/etc/eraser_pink.png")}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.nextButton} onPress={doneBtnClicked}>
+          <Image
+            style={{ width: 40, height: 40, marginRight: 10 }}
+            source={require("../../assets/etc/answer_check.png")}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -115,7 +135,7 @@ const styles = StyleSheet.create({
   },
   clearButton: {
     marginTop: 10,
-    backgroundColor: "black",
+
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -127,7 +147,6 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     marginTop: 10,
-    backgroundColor: "black",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -164,3 +183,14 @@ const styles = StyleSheet.create({
   //     fontWeight: "bold",
   //   },
 });
+
+const ClearButton = styled.TouchableOpacity`
+  position: absolute;
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  background-color: pink;
+  padding-vertical: 10px;
+  padding-horizontal: 20px;
+  border-radius: 5px;
+`;

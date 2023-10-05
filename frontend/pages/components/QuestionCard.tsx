@@ -5,172 +5,159 @@ import { Container } from "../../styles/globalStyles";
 import styled, { css } from "styled-components/native";
 import { ICard, IWord } from "../../types/types";
 import { Audio } from "expo-av";
-import { Asset } from 'expo-asset';
+import { Asset } from "expo-asset";
 
 const QuestionCard = (props: { word: IWord; type: ICard }) => {
-    const isLoaded = useCachedResources();
+  const isLoaded = useCachedResources();
 
-    const [soundObject, setSoundObject] = useState<Audio.Sound | null>(null);
+  const [soundObject, setSoundObject] = useState<Audio.Sound | null>(null);
 
+  const soundMappings: Record<string, any> = {};
 
-    const soundMappings: Record<string, any> = {};
-
-    function getSoundFile(wordName: string) : any {
-        switch (wordName) {
-            case "사과":
-                return require("../../assets/wav/apple.wav");
-            case "오렌지":
-                return require("../../assets/wav/orange.wav");
-            case "가위":
-                return require("../../assets/wav/scissors.wav");
-            case "강아지":
-                return require("../../assets/wav/dog.wav");
-            case "고양이":
-                return require("../../assets/wav/cat.wav");
-            case "그릇":
-                return require("../../assets/wav/bowl.wav");
-            case "달팽이":
-                return require("../../assets/wav/snail.wav");
-            case "딸기":
-                return require("../../assets/wav/strawberry.wav");
-            case "마우스":
-                return require("../../assets/wav/mouse.wav");
-            case "만년필":
-                return require("../../assets/wav/fountain_pen.wav");
-            case "멜론":
-                return require("../../assets/wav/melon.wav");
-            case "바나나":
-                return require("../../assets/wav/banana.wav");
-            case "복숭아":
-                return require("../../assets/wav/peach.wav");
-            case "사자":
-                return require("../../assets/wav/lion.wav");
-            case "수박":
-                return require("../../assets/wav/watermelon.wav");
-            case "연필":
-                return require("../../assets/wav/pencil.wav");
-            case "원숭이":
-                return require("../../assets/wav/monkey.wav");
-            case "의자":
-                return require("../../assets/wav/chair.wav");
-            case "지우개":
-                return require("../../assets/wav/eraser.wav");
-            case "체리":
-                return require("../../assets/wav/cherry.wav");
-            case "코끼리":
-                return require("../../assets/wav/elephant.wav");
-            case "키보드":
-                return require("../../assets/wav/keyboard.wav");
-            case "토끼":
-                return require("../../assets/wav/rabbit.wav");
-            case "판다":
-                return require("../../assets/wav/panda.wav");
-            case "토마토":
-                return require("../../assets/wav/tomato.wav");
-            case "포도":
-                return require("../../assets/wav/grape.wav");
-            default:
-                // 기본값 처리 (필요에 따라 추가)
-                return null;
-        }
-    }
-
-
-    // 단어를 글자단위로 쪼갠 리스트
-    let wordToLetterList: string[] = props.word.name.split("");
-
-    function getImage(name: string): any {
-        switch (name) {
-            case "사과":
-                return require("../../assets/card/fruit/apple.png");
-            case "오렌지":
-                return require("../../assets/card/fruit/orange.png");
-            case "수박":
-                return require("../../assets/card/fruit/watermelon.png");
-            case "토마토":
-                return require("../../assets/card/fruit/tomato.png");
-            case "체리":
-                return require("../../assets/card/fruit/cherry.png");
-            case "바나나":
-                return require("../../assets/card/fruit/banana.png");
-            case "딸기":
-                return require("../../assets/card/fruit/strawberry.png");
-            case "멜론":
-                return require("../../assets/card/fruit/melon.png");
-            case "복숭아":
-                return require("../../assets/card/fruit/peach.png");
-            case "포도":
-                return require("../../assets/card/fruit/grapes.png");
-        }
-    }
-
-    if (isLoaded) {
-        return (
-            <CardContainer>
-                <ImgContainer>
-                    {props.type.pictureHidden ? (
-                        <QmarkImage
-                            source={require("../../assets/etc/qmark.png")}
-                            resizeMode="contain"
-                        />
-                    ) : (
-                        <PictureImage source={getImage(props.word.name)} />
-                    )}
-                </ImgContainer>
-                <View>
-                    {props.type.wordHidden === false ? (
-                        <WordText key={props.word.name}>{props.word.name}</WordText>
-                    ) : (
-                        <QTextContainer>
-                            {wordToLetterList
-                                .slice(0, props.type.wordHiddenIndx)
-                                .map((letter, index) => {
-                                    return <WordText key={index}>{letter}</WordText>;
-                                })}
-                            <WordHiddenContainer>
-                                <WordHidden>
-                                    {wordToLetterList[props.type.wordHiddenIndx]}
-                                </WordHidden>
-                            </WordHiddenContainer>
-                            {wordToLetterList
-                                .slice(props.type.wordHiddenIndx + 1, wordToLetterList.length)
-                                .map((letter, index) => {
-                                    return <WordText key={index}>{letter}</WordText>;
-                                })}
-                        </QTextContainer>
-                    )}
-                </View>
-                <SoundBtn
-                    onPress={async () => {
-                        console.log("clicked");
-
-                        if (props.word !== null) {
-                            const soundFile = getSoundFile(props.word.name);
-
-                            if (soundFile) {
-                                const soundObject = new Audio.Sound();
-                                try {
-                                    console.log("소리");
-                                    await soundObject.loadAsync(Asset.fromModule(soundFile));
-                                    await soundObject.playAsync();
-                                } catch (error) {
-                                    console.error("소리 재생 중 오류 발생:", error);
-                                }
-                            }
-                        }
-                    }}
-                >
-
-                <Image
-                        source={require("../../assets/button/audioBtn.png")}
-                        resizeMode="stretch"
-                    />
-                </SoundBtn>
-            </CardContainer>
-        );
-    } else {
+  function getSoundFile(wordName: string): any {
+    switch (wordName) {
+      case "사과":
+        return require("../../assets/wav/apple.wav");
+      case "오렌지":
+        return require("../../assets/wav/orange.wav");
+      case "가위":
+        return require("../../assets/wav/scissors.wav");
+      case "강아지":
+        return require("../../assets/wav/dog.wav");
+      case "고양이":
+        return require("../../assets/wav/cat.wav");
+      case "그릇":
+        return require("../../assets/wav/bowl.wav");
+      case "달팽이":
+        return require("../../assets/wav/snail.wav");
+      case "딸기":
+        return require("../../assets/wav/strawberry.wav");
+      case "마우스":
+        return require("../../assets/wav/mouse.wav");
+      case "만년필":
+        return require("../../assets/wav/fountain_pen.wav");
+      case "멜론":
+        return require("../../assets/wav/melon.wav");
+      case "바나나":
+        return require("../../assets/wav/banana.wav");
+      case "복숭아":
+        return require("../../assets/wav/peach.wav");
+      case "사자":
+        return require("../../assets/wav/lion.wav");
+      case "수박":
+        return require("../../assets/wav/watermelon.wav");
+      case "연필":
+        return require("../../assets/wav/pencil.wav");
+      case "원숭이":
+        return require("../../assets/wav/monkey.wav");
+      case "의자":
+        return require("../../assets/wav/chair.wav");
+      case "지우개":
+        return require("../../assets/wav/eraser.wav");
+      case "체리":
+        return require("../../assets/wav/cherry.wav");
+      case "코끼리":
+        return require("../../assets/wav/elephant.wav");
+      case "키보드":
+        return require("../../assets/wav/keyboard.wav");
+      case "토끼":
+        return require("../../assets/wav/rabbit.wav");
+      case "판다":
+        return require("../../assets/wav/panda.wav");
+      case "토마토":
+        return require("../../assets/wav/tomato.wav");
+      case "포도":
+        return require("../../assets/wav/grape.wav");
+      default:
+        // 기본값 처리 (필요에 따라 추가)
         return null;
     }
+  }
+
+  // 단어를 글자단위로 쪼갠 리스트
+  let wordToLetterList: string[] = props.word.name.split("");
+
+  function getImage(name: string): any {
+    switch (name) {
+      case "사과":
+        return require("../../assets/card/fruit/apple.png");
+      case "오렌지":
+        return require("../../assets/card/fruit/orange.png");
+      case "수박":
+        return require("../../assets/card/fruit/watermelon.png");
+      case "토마토":
+        return require("../../assets/card/fruit/tomato.png");
+      case "체리":
+        return require("../../assets/card/fruit/cherry.png");
+      case "바나나":
+        return require("../../assets/card/fruit/banana.png");
+      case "딸기":
+        return require("../../assets/card/fruit/strawberry.png");
+      case "멜론":
+        return require("../../assets/card/fruit/melon.png");
+      case "복숭아":
+        return require("../../assets/card/fruit/peach.png");
+      case "포도":
+        return require("../../assets/card/fruit/grapes.png");
+    }
+  }
+
+  if (isLoaded) {
+    return (
+      <CardContainer>
+        <ImgContainer>
+          {props.type.pictureHidden ? (
+            <QmarkImage source={require("../../assets/etc/qmark.png")} resizeMode="contain" />
+          ) : (
+            <PictureImage source={{ uri: props.word.url }} />
+          )}
+        </ImgContainer>
+        <View>
+          {props.type.wordHidden === false ? (
+            <WordText key={props.word.name}>{props.word.name}</WordText>
+          ) : (
+            <QTextContainer>
+              {wordToLetterList.slice(0, props.type.wordHiddenIndx).map((letter, index) => {
+                return <WordText key={index}>{letter}</WordText>;
+              })}
+              <WordHiddenContainer>
+                <WordHidden>{wordToLetterList[props.type.wordHiddenIndx]}</WordHidden>
+              </WordHiddenContainer>
+              {wordToLetterList
+                .slice(props.type.wordHiddenIndx + 1, wordToLetterList.length)
+                .map((letter, index) => {
+                  return <WordText key={index}>{letter}</WordText>;
+                })}
+            </QTextContainer>
+          )}
+        </View>
+        <SoundBtn
+          onPress={async () => {
+            console.log("clicked");
+
+            if (props.word !== null) {
+              const soundFile = getSoundFile(props.word.name);
+
+              if (soundFile) {
+                const soundObject = new Audio.Sound();
+                try {
+                  console.log("소리");
+                  await soundObject.loadAsync(Asset.fromModule(soundFile));
+                  await soundObject.playAsync();
+                } catch (error) {
+                  console.error("소리 재생 중 오류 발생:", error);
+                }
+              }
+            }
+          }}
+        >
+          <Image source={require("../../assets/button/audioBtn.png")} resizeMode="stretch" />
+        </SoundBtn>
+      </CardContainer>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default QuestionCard;
@@ -192,7 +179,7 @@ const CardContainer = styled(Container)`
     android: css`
       elevation: 5;
     `,
-})}
+  })}
 `;
 
 // 이미지 영역

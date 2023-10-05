@@ -2,13 +2,15 @@ import React from "react";
 import { Modal, View, Text, TouchableOpacity } from "react-native";
 import styled, { css } from "styled-components/native";
 import { Dimensions } from "react-native";
+import { IWord } from "../../types/types";
 interface WordCardDetailModalProps {
   isVisible: boolean;
   onClose: () => void;
-  item: string;
+  item: IWord;
 }
 //카드 배경
 const cardDesign1 = require("../../assets/card/wordCard1.png");
+//진화 카드아래 코드라네영  6랩 바나나 적용해주세용
 const cardDesign2 = require("../../assets/card/cardAdvanced2.png");
 
 const screenWidth = Dimensions.get("window").width;
@@ -18,38 +20,19 @@ const height2 = screenWidth * 0.5;
 const width2 = (height / 3) * 3.8;
 
 const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, onClose, item }) => {
-  function getImage(name: string) {
-    switch (name) {
-      case "사과":
-        return require("../../assets/card/fruit/apple.png");
-      case "오렌지":
-        return require("../../assets/card/fruit/orange.png");
-      case "수박":
-        return require("../../assets/card/fruit/watermelon.png");
-      case "토마토":
-        return require("../../assets/card/fruit/tomato.png");
-      case "체리":
-        return require("../../assets/card/fruit/cherry.png");
-      case "바나나":
-        return require("../../assets/card/fruit/banana.png");
-      case "딸기":
-        return require("../../assets/card/fruit/strawberry.png");
-      case "고양이":
-        return require("../../assets/card/animal/cat.png");
-    }
-  }
-
   return (
     <ModalContainer>
       <ModalLeft>
-        <WordCardDesign source={cardDesign2} resizeMode="stretch">
-          <WordImg source={getImage(item)}></WordImg>
+        <WordCardDesign
+          source={item.name === "바나나" ? cardDesign2 : cardDesign1}
+          resizeMode="stretch"
+        >
+          <WordImg source={{ uri: item.url }}></WordImg>
         </WordCardDesign>
       </ModalLeft>
-
       <ModalRight>
         <WordStampDesign source={require("../../assets/card/wordCard2.png")} resizeMode="stretch">
-          <WordTitle>{item}</WordTitle>
+          <WordTitle>{item.name}</WordTitle>
           <ModalCloseBtn onPress={onClose}>
             <ModalCloseBtnImg source={require("../../assets/etc/closeImg.png")}></ModalCloseBtnImg>
           </ModalCloseBtn>
@@ -62,14 +45,49 @@ const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, on
                 ></StampImg>
               </Stamp>
 
-              <Stamp></Stamp>
-              <Stamp></Stamp>
+              <Stamp>
+                {item.name === "바나나" ? (
+                  <StampImg
+                    source={require("../../assets/button/stamp.png")}
+                    resizeMode="contain"
+                  ></StampImg>
+                ) : null}
+              </Stamp>
+              <Stamp>
+                {item.name === "바나나" ? (
+                  <StampImg
+                    source={require("../../assets/button/stamp.png")}
+                    resizeMode="contain"
+                  ></StampImg>
+                ) : null}
+              </Stamp>
             </StampRow>
 
             <StampRow>
-              <Stamp></Stamp>
-              <Stamp></Stamp>
-              <Stamp></Stamp>
+              <Stamp>
+                {item.name === "바나나" ? (
+                  <StampImg
+                    source={require("../../assets/button/stamp.png")}
+                    resizeMode="contain"
+                  ></StampImg>
+                ) : null}
+              </Stamp>
+              <Stamp>
+                {item.name === "바나나" ? (
+                  <StampImg
+                    source={require("../../assets/button/stamp.png")}
+                    resizeMode="contain"
+                  ></StampImg>
+                ) : null}
+              </Stamp>
+              <Stamp>
+                {item.name === "바나나" ? (
+                  <StampImg
+                    source={require("../../assets/button/stamp.png")}
+                    resizeMode="contain"
+                  ></StampImg>
+                ) : null}
+              </Stamp>
             </StampRow>
           </StampWrap>
         </WordStampDesign>

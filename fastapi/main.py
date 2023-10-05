@@ -3,8 +3,13 @@ import shutil
 from collections import defaultdict
 
 import boto3
+import cv2
+import numpy as np
+import tensorflow as tf
+from PIL import Image
 from dotenv import load_dotenv
 from fastapi import FastAPI, UploadFile, Form, File
+from keras.src.utils import img_to_array
 from pydantic import BaseModel
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -14,6 +19,33 @@ from model import models
 from model.models import Word
 from segmentation.predict_image import segmentation
 
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+
+class ObjectImage(BaseModel):
+    image: str = None
+    answer: str
+
+
+class ResultDto(BaseModel):
+    image: str = None
+    result: bool
+
+
+model = tf.keras.models.load_model("ai/keras.h5")
+
+inception_model = tf.keras.applications.InceptionV3(
+    include_top=True,
+    weights="imagenet",
+    input_tensor=None,
+    input_shape=None,
+    pooling=None,
+    classes=1000,
+    classifier_activation="softmax",
+)
+
+
 app = FastAPI()
 
 load_dotenv()
@@ -22,10 +54,6 @@ MYSQL_HOST = os.getenv("MYSQL_HOST")
 MYSQL_USER = os.getenv("MYSQL_USER")
 MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
 MYSQL_DATABASE = os.getenv("MYSQL_DATABASE")
-
-
-class Item(BaseModel):
-    pass
 
 
 # SQLAlchemy 엔진 생성
@@ -106,3 +134,30 @@ async def upload(userId: int = Form(...), file: UploadFile = File(...)):
             url_list[key].append(url)
 
     return url_list
+
+
+@app.post("/doodle")
+async def analyze_object(file: UploadFile = File(...), userId: int = Form(...)):
+    try:
+        os.rmdir(f"ai/doodle/{userId}")
+    except:
+        pass
+    try:
+        os.makedirs(f"ai/doodle/{userId}")
+    except:
+        pass
+
+    # 파일 저장
+    with open(f"ai/doodle/{userId}/{file.filename}", "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    img = Image.open(f"ai/doodle/{userId}/{file.filename}").resize((28, 28))
+    img_array = img_to_array(img)
+    img_gray = cv2.cvtColor(img_array, cv2.COLOR_RGB2GRAY)
+    img_gray = np.expand_dims(img_gray, axis=-1)
+    img_gray = np.expand_dims(img_gray, axis=0)
+    class_names = [line.rstrip("\n") for line in open("ai/mini_classes.txt")]
+    model = tf.keras.models.load_model("ai/keras.h5")
+    pred = model.predict(img_gray)[0]
+    ind = (-pred).argsort()[:10]
+    latex = [class_names[x] for x in ind]
+    return latex
