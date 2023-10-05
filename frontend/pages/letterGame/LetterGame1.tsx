@@ -143,7 +143,9 @@ const LetterGame1 = () => {
           backdropTransitionOutTiming={0}
           statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
         >
-          <GameClearModal nextScreen="LetterGame2" word={word}></GameClearModal>
+          <GameClearModal nextScreen="LetterGame2" word={
+            word
+          }></GameClearModal>
         </Modal>
         <ContentContainer>
           <QCardContainer>
