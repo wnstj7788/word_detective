@@ -10,7 +10,7 @@ import useAppSelector from "../../store/useAppSelector";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-const Header = () => {
+const Header = (props: { isHomeTuto?: boolean; isNoteTuto?: boolean }) => {
   const navigation = useNavigation<RootStackNavigationProp>();
   const isMuted = useAppSelector(state => state.music.isMuted);
   const dispatch = useDispatch();
@@ -32,10 +32,10 @@ const Header = () => {
   return (
     <Container>
       <HeaderLeft>
-        <HeaderBtn onPress={() => gotoMainPageHandler()}>
+        <HeaderBtn onPress={() => gotoMainPageHandler()} istuto={props.isHomeTuto ?? false}>
           <Image source={require("../../assets/button/header/headerHomeBtn.png")} />
         </HeaderBtn>
-        <HeaderBtn onPress={() => gotoWordNoteHandler()}>
+        <HeaderBtn onPress={() => gotoWordNoteHandler()} istuto={props.isNoteTuto ?? false}>
           <Image source={require("../../assets/button/header/headerInvtBtn.png")} />
         </HeaderBtn>
       </HeaderLeft>
@@ -71,12 +71,15 @@ const HeaderLeft = styled.View`
 `;
 
 //각 메뉴 버튼
-const HeaderBtn = styled.TouchableOpacity`
+const HeaderBtn = styled.TouchableOpacity<{ istuto: boolean }>`
   justify-content: center;
   align-items: center;
-  width: 50px;
-  height: 50px;
-  margin: 5px;
+  width: 70px;
+  height: 70px;
+  /* margin: 5px; */
+  padding: 10px;
+  background-color: ${props => (props.istuto ? `red` : `none`)};
+  border-radius: 10px;
 `;
 
 //헤더 사운드 버튼

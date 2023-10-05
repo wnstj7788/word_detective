@@ -108,8 +108,8 @@ const Main = () => {
             </MenuBtn>
           </BtnContainer>
           <TestContainer>
-            <TouchableOpacity onPress={() => navigation.navigate("TutorialOne")}>
-              <Text>튜토리얼 1</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("TutorialWordNote")}>
+              <Text>튜토리얼 단어장</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("TutorialTwo")}>
               <Text>튜토리얼 2</Text>

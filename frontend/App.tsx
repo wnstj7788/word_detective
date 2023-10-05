@@ -33,10 +33,11 @@ import TutorialFour from "./pages/tutorial/TutorialFour";
 import TutorialFive from "./pages/tutorial/TutorialFive";
 import CameraCon from "./pages/camera/CameraCon";
 import PhotoSelect from "./pages/camera/PhotoSelect";
+import TutorialWordNote from "./pages/tutorial/TutorialWordNote";
 
 type DataItem = {
   [key: string]: string[];
-}
+};
 
 //네비게이션 관련 타입. 넘겨줄 인자가 없으면 undefined, 있으면 객체로 써주기
 export type RootStackParamList = {
@@ -100,13 +101,14 @@ export type RootStackParamList = {
 
   CameraCon: undefined;
 
-  PhotoSelect: { origin: string; data: any; };
+  PhotoSelect: { origin: string; data: any };
 
   LetterCanvas: {
     list: string[];
   };
 
   WordCanvas: undefined;
+  TutorialWordNote: undefined;
 };
 
 export default function App() {
@@ -146,6 +148,7 @@ export default function App() {
           <Stack.Screen name="TutorialFive" component={TutorialFive} />
           <Stack.Screen name="CameraCon" component={CameraCon} />
           <Stack.Screen name="PhotoSelect" component={PhotoSelect} />
+          <Stack.Screen name="TutorialWordNote" component={TutorialWordNote} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
