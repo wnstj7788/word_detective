@@ -252,13 +252,13 @@ export const strokes = {
       id: 1,
     },
     {
-      start: { x: width * 0.19, y: height * 0.6 },
-      end: { x: width * 0.29, y: height * 0.6 },
+      start: { x: width * 0.29, y: height * 0.5 },
+      end: { x: width * 0.29, y: height * 0.7 },
       id: 2,
     },
     {
-      start: { x: width * 0.29, y: height * 0.5 },
-      end: { x: width * 0.29, y: height * 0.7 },
+      start: { x: width * 0.19, y: height * 0.6 },
+      end: { x: width * 0.29, y: height * 0.6 },
       id: 3,
     },
   ],
@@ -408,14 +408,15 @@ export const strokes = {
     },
   ],
   ㅓ: [
-    {
-      start: { x: width * 0.257, y: height * 0.45 },
-      end: { x: width * 0.257, y: height * 0.75 },
-      id: 1,
-    },
+
     {
       start: { x: width * 0.2, y: height * 0.6 },
       end: { x: width * 0.257, y: height * 0.6 },
+      id: 1,
+    },
+    {
+      start: { x: width * 0.257, y: height * 0.45 },
+      end: { x: width * 0.257, y: height * 0.75 },
       id: 2,
     },
   ],
@@ -625,7 +626,8 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
 
   useEffect(() => {
     setCurrentStrokeIndex(0);
-
+    handleTouchEnd();
+    handleClearButtonClick();
     console.log("pointer: ", pointer);
   }, [pointer]);
 
@@ -634,7 +636,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
   };
   const handleClearButtonClick = () => {
     setPaths([]);
-    // setClearButtonClicked(true);
+    //
     InteractionManager.runAfterInteractions(() => {
       setClearButtonClicked(false);
     });
@@ -660,7 +662,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
             <Text style={styles.guideline}>{alpha ? list[pointer] : ""}</Text>
             <Path
               d={paths.join("")}
-              stroke={isClearButtonClicked ? "transparent" : "black"}
+              stroke={isClearButtonClicked ? "blue" : "black"}
               fill={"transparent"}
               strokeWidth={3}
               strokeLinejoin={"round"}
