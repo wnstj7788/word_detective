@@ -20,12 +20,6 @@ const height2 = screenWidth * 0.5;
 const width2 = (height / 3) * 3.8;
 
 const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, onClose, item }) => {
-  // const setCardBg = () => {
-  //   if (item.name === "바나나") {
-  //     return cardDesign2;
-  //   } else return cardDesign1;
-  // };
-
   return (
     <ModalContainer>
       <ModalLeft>
