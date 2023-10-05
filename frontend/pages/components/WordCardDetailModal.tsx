@@ -20,14 +20,22 @@ const height2 = screenWidth * 0.5;
 const width2 = (height / 3) * 3.8;
 
 const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, onClose, item }) => {
+  // const setCardBg = () => {
+  //   if (item.name === "바나나") {
+  //     return cardDesign2;
+  //   } else return cardDesign1;
+  // };
+
   return (
     <ModalContainer>
       <ModalLeft>
-        <WordCardDesign source={cardDesign1} resizeMode="stretch">
+        <WordCardDesign
+          source={item.name === "바나나" ? cardDesign2 : cardDesign1}
+          resizeMode="stretch"
+        >
           <WordImg source={{ uri: item.url }}></WordImg>
         </WordCardDesign>
       </ModalLeft>
-
       <ModalRight>
         <WordStampDesign source={require("../../assets/card/wordCard2.png")} resizeMode="stretch">
           <WordTitle>{item.name}</WordTitle>
@@ -43,14 +51,49 @@ const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, on
                 ></StampImg>
               </Stamp>
 
-              <Stamp></Stamp>
-              <Stamp></Stamp>
+              <Stamp>
+                {item.name === "바나나" ? (
+                  <StampImg
+                    source={require("../../assets/button/stamp.png")}
+                    resizeMode="contain"
+                  ></StampImg>
+                ) : null}
+              </Stamp>
+              <Stamp>
+                {item.name === "바나나" ? (
+                  <StampImg
+                    source={require("../../assets/button/stamp.png")}
+                    resizeMode="contain"
+                  ></StampImg>
+                ) : null}
+              </Stamp>
             </StampRow>
 
             <StampRow>
-              <Stamp></Stamp>
-              <Stamp></Stamp>
-              <Stamp></Stamp>
+              <Stamp>
+                {item.name === "바나나" ? (
+                  <StampImg
+                    source={require("../../assets/button/stamp.png")}
+                    resizeMode="contain"
+                  ></StampImg>
+                ) : null}
+              </Stamp>
+              <Stamp>
+                {item.name === "바나나" ? (
+                  <StampImg
+                    source={require("../../assets/button/stamp.png")}
+                    resizeMode="contain"
+                  ></StampImg>
+                ) : null}
+              </Stamp>
+              <Stamp>
+                {item.name === "바나나" ? (
+                  <StampImg
+                    source={require("../../assets/button/stamp.png")}
+                    resizeMode="contain"
+                  ></StampImg>
+                ) : null}
+              </Stamp>
             </StampRow>
           </StampWrap>
         </WordStampDesign>
