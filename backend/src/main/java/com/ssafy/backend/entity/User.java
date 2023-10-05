@@ -27,10 +27,22 @@ public class User {
     @Column(name = "letter")
     private Integer letter;
 
+    @Column(name = "camera_picture")
+    private Integer cameraPicture;
+
+    @Column(name = "camera_letter")
+    private Integer cameraLetter;
+
+    @Column(name = "camera_word")
+    private Integer cameraWord;
+
     @PrePersist
     private void prePersist() {
         this.picture = 0;
         this.word = 0;
         this.letter = 0;
+        this.cameraPicture = 0;
+        this.cameraLetter = 0;
+        this.cameraWord = 0;
     }
 }
