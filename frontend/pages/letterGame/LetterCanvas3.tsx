@@ -19,7 +19,7 @@ import { RootStackParamList } from "../../App";
 
 type StagePageRouteProp = RouteProp<RootStackParamList, "LetterCanvas">;
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Image as SvgImage } from 'react-native-svg';
+import { Image as SvgImage } from "react-native-svg";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const { height, width } = Dimensions.get("window");
@@ -48,7 +48,7 @@ export const strokes = {
     },
     {
       start: { x: width * 0.19, y: height * 0.7 },
-      end: { x: width * 0.29, y: height * 0.7},
+      end: { x: width * 0.29, y: height * 0.7 },
       id: 2,
     },
   ],
@@ -614,6 +614,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer, word }) => {
           // setCurrentStrokeIndex(0);
           // @ts-ignore
           setPointer(prevPointer => prevPointer + 1);
+          handleClearButtonClick();
         }
       }
     },
@@ -686,7 +687,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer, word }) => {
                       y={stroke.start.y - imageHeight / 2}
                       width={imageWidth}
                       height={imageHeight}
-                      href={require('../../assets/start.png')}
+                      href={require("../../assets/start.png")}
                       preserveAspectRatio="xMidYMid slice"
                     />
                     <SvgImage
@@ -696,10 +697,9 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer, word }) => {
                       y={stroke.end.y - imageHeight / 2}
                       width={imageWidth}
                       height={imageHeight}
-                      href={require('../../assets/end.png')}
+                      href={require("../../assets/end.png")}
                       preserveAspectRatio="xMidYMid slice"
                     />
-
                   </React.Fragment>
                 )
             )}
