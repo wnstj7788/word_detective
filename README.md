@@ -175,10 +175,7 @@ smtp - 3.0.4
 
 
 ## 포팅 메뉴얼 
-- [Build & Distribute](doc/2.%20Build%20&%20Distribute.txt)
-- [Deployment Command](doc/3.%20Deployment%20Command.txt)
-- [EC2 Setting](doc/4.%20EC2%20Setting.txt)
-
+- [포팅 메뉴얼](doc/포팅메뉴얼.txt)
 ## ✔ 프로젝트 결과물
 
 - [기획](https://www.notion.so/71ddff8f5b7c4e8e9252daa2d3557f70)
