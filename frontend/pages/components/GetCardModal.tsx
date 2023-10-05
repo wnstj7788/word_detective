@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../App";
 import { Dimensions } from "react-native";
 import { ICard } from "../../types/types";
-
+import { useState, useEffect } from "react";
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const screenWidth = Dimensions.get("window").width;
 const height = screenWidth * 0.4;
@@ -16,6 +16,7 @@ const width2 = (height / 3) * 3.8;
 //카드 배경
 const cardDesign1 = require("../../assets/card/wordCard1.png");
 const cardDesign2 = require("../../assets/card/cardAdvanced2.png");
+
 const GetCardModal = ({ word, onClose, nextScreen }: any) => {
   const click = () => {
     if (nextScreen) {
@@ -24,6 +25,16 @@ const GetCardModal = ({ word, onClose, nextScreen }: any) => {
   };
   console.log(word);
   const navigation = useNavigation<RootStackNavigationProp>();
+
+  // 로티
+  const [showStamp, setShowStamp] = useState(true); // 상태 추가
+  const openStamp = () => {
+    setShowStamp(true);
+    setTimeout(() => {
+      setShowStamp(false);
+    }, 10000); // 1초 후에 setShowBoom(false)를 호출하여 1초 동안 보이고 사라지도록 함
+  };
+
   return (
     <ModalContainer>
       <ModalLeft>
@@ -38,7 +49,7 @@ const GetCardModal = ({ word, onClose, nextScreen }: any) => {
             source={require("../../assets/button/resultNext.png")}
           ></ModalCloseBtnImg>
         </ModalCloseBtn>
-
+        <StampContainer>{showStamp && <Stamp />}</StampContainer>
         <WordStampDesign source={require("../../assets/card/wordCard2.png")} resizeMode="stretch">
           <WordTitle>{word.name} 획득 !</WordTitle>
 
@@ -155,4 +166,7 @@ const Stamp = styled.TouchableOpacity`
 const StampImg = styled.Image`
   width: 100%;
   height: 100%;
+`;
+const StampContainer = styled.View`
+  position: absolute;
 `;

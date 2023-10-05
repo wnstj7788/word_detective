@@ -52,10 +52,7 @@ const LetterGame2 = () => {
     //word가 변경되었는데 answer 세팅이 아직이라면 세팅해주기
     if (answer === "") {
       const letters: string[][] = hangul.disassemble(word.name, true); //단어를 ㅅ ㅏ ㄱ ㅗ ㅏ 로 쪼갬
-      console.log("letters: ", letters);
-      const answerIndex1 = getRandomInt(0, letters.length);
-      const answerIndex2 = getRandomInt(0, letters[answerIndex1].length);
-      const answerLetter = letters[answerIndex1][answerIndex2]; //자모음 중 비어있는 값(정답)
+      const answerLetter = letters[0][0]; //자모음 중 비어있는 값(정답) 무조건 첫 자음으로
       setAnswer(answerLetter);
     }
     //랜덤으로 7개, 정답 1개 뽑아 선지 만들기

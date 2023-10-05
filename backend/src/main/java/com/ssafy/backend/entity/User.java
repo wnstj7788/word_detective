@@ -30,11 +30,11 @@ public class User {
     @Column(name = "camera_picture")
     private Integer cameraPicture;
 
-    @Column(name = "camera_letter")
-    private Integer cameraLetter;
-
     @Column(name = "camera_word")
     private Integer cameraWord;
+
+    @Column(name = "camera_letter")
+    private Integer cameraLetter;
 
     @PrePersist
     private void prePersist() {
@@ -42,7 +42,7 @@ public class User {
         this.word = 0;
         this.letter = 0;
         this.cameraPicture = 0;
-        this.cameraLetter = 0;
         this.cameraWord = 0;
+        this.cameraLetter = 0;
     }
 }

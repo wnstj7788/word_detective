@@ -15,12 +15,12 @@ export default function Stamp() {
         autoPlay
         ref={animation}
         style={{
-          width: 800,
-          height: 800,
+          width: 1600,
+          height: 1600,
           backgroundColor: "transparent",
         }}
         // Find more Lottie files at https://lottiefiles.com/featured
-        source={require("../../assets/etc/animation_lncppava.json")}
+        source={require("../../assets/etc/animation_lnci58on.json")}
       />
     </View>
   );
