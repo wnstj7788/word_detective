@@ -1,0 +1,134 @@
+< 스택 및 버전 상세 >
+
+FrontEnd
+
+- VisualCode : 최신판(23.10.05 기준 1.82)
+- React : 18.2.0
+- React Native : 0.72.5
+- axios : 1.5.0
+- typescript: 5.1.3
+- react-redux : 8.1.2
+- reduxjs/toolkit : 1.9.5
+- styled-components : 6.0.7
+- expo : 49.0.10
+- expo-av : 13.4.1
+- expo-camera : 13.4.4
+- expo-pixi : 2.1.1
+- expo-splash-screen : 0.20.5
+- hangul-js : 0.2.6
+- lottie-react-native : 5.1.6
+- react-navigation/native : 6.1.7
+- react-navigation/native-stack : 6.9.13
+- react-native-screens : 3.22.0
+- react-native-safe-area-context : 4.6.3
+- react-native-async-storage : 1.18.2
+- react-native-fs : 2.20.0
+- react-native-immersive : 2.0.0
+- react-native-easy-dnd : 1.0.2
+- react-native-modal : 13.0.1
+- react-native-svg : 13.9.0
+- react-native-view-shot : 3.7.0
+
+BackEnd
+
+SpringBoot
+
+- IntelliJ IDEA Ultimate
+- SpringBoot - 2.7.15
+- Java - Zulu-11
+- JPA - 3.1.14
+- MySql - 8.0.33
+- lombok - 1.18.30
+
+Fastapi
+
+- ultralytics - 8.0.188
+- SQLAlchemy - 2.0.21
+- boto3 - 1.28.55
+- python-dotenv - 1.0.0
+- fastapi - 0.103.1
+- pydantic - 2.3.0
+- starlette - 0.27.0
+- Pillow - 10.0.1
+- uvicorn - 0.15.0
+- mysql-connector-python - 8.1.0
+- pymysql - 1.1.0
+- python-multipart - 0.0.5
+
+< 실행 >
+FrontEnd: npx expo start
+BackEnd: docker-compose up -d --build
+
+< 빌드 >
+FrontEnd
+
+0. expo 계정 필요 ( userId : dayounglee / password : ssafyb105 )
+1. eas cli 설치 (npm install -g eas cli)
+2. expo 로그인 (eas login)
+3. 빌드 구성 (eas build:configure)
+4. 빌드 (eas build -p android --profile preview)
+
+BackEnd
+
+./gradew build
+
+< 배포 >
+Nginx 
+
+0. 시스템 업데이트 및 필요한 패키지 설치
+sudo apt update
+sudo apt upgrade
+
+1. Certbot 설치
+sudo apt install certbot python3-certbot-nginx
+
+2. Nginx 설정 검사
+sudo nginx -t
+
+3. 인증서 발급
+sudo certbot --nginx -d j9b105.p.ssafy.io
+
+4. Nginx 재시작
+sudo systemctl restart nginx
+
+5. site-available 작성
+
+server {
+        listen 443 ssl;
+        server_name j9b105.p.ssafy.io;
+        ssl_certificate /etc/letsencrypt/live/j9b105.p.ssafy.io/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/j9b105.p.ssafy.io/privkey.pem;
+        include /etc/letsencrypt/options-ssl-nginx.conf;
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+        client_max_body_size 100m;
+
+        location / {
+                proxy_pass http://localhost:8000;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location /api {
+                proxy_pass http://localhost:9999/api;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+        }
+}
+
+server {
+        if ($host = j9b105.p.ssafy.io) {
+                return 301 https://$host$request_uri;
+        }
+
+        listen 80;
+        server_name j9b105.p.ssafy.io;
+        location /api {
+                proxy_pass http://localhost:9999/api;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+        }
+        return 404;
+}
