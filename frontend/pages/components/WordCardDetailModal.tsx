@@ -10,6 +10,7 @@ interface WordCardDetailModalProps {
 }
 //카드 배경
 const cardDesign1 = require("../../assets/card/wordCard1.png");
+//진화 카드아래 코드라네영  6랩 바나나 적용해주세용
 const cardDesign2 = require("../../assets/card/cardAdvanced2.png");
 
 const screenWidth = Dimensions.get("window").width;
@@ -22,7 +23,7 @@ const WordCardDetailModal: React.FC<WordCardDetailModalProps> = ({ isVisible, on
   return (
     <ModalContainer>
       <ModalLeft>
-        <WordCardDesign source={cardDesign2} resizeMode="stretch">
+        <WordCardDesign source={cardDesign1} resizeMode="stretch">
           <WordImg source={{ uri: item.url }}></WordImg>
         </WordCardDesign>
       </ModalLeft>
