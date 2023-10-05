@@ -101,7 +101,11 @@ const PictureGame3 = () => {
   useEffect(() => {
     if (dropList.length === 3) {
       console.log("user,", user);
-
+      //이미 클리어한 스테이지 클리어 시 모달만 열고 api 호출 안함
+      if (user.picture >= word.id) {
+        openModal();
+        return;
+      }
       //api 호출
       UserAPI.stageClear({ ...user, picture: word.id })
         .then(res => {
