@@ -39,9 +39,6 @@ const PictureGame1 = () => {
               {/* <Boom /> */}
             </ACardContainer>
           </ContentContainer>
-          <TouchableOpacity onPress={() => navigation.navigate("PictureGame2", { word: word })}>
-            <Text>next</Text>
-          </TouchableOpacity>
         </ContainerBg>
       </Container>
     );
