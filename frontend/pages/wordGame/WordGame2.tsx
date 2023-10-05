@@ -174,7 +174,7 @@ const WordGame2 = () => {
               backdropTransitionOutTiming={0}
               statusBarTranslucent={true} // 이 옵션을 사용하여 상태 표시줄을 숨깁니다.
             >
-              <GetCardModal nextScreen="WordGame3" word={word}></GetCardModal>
+              <GameClearModal nextScreen="WordGame3" word={word}></GameClearModal>
             </Modal>
             <ContentContainer>
               <DroppableContainer>
