@@ -74,13 +74,12 @@ const LetterGame4 = () => {
       >
         <GetCardModal nextScreen="LetterLobby" word={word}></GetCardModal>
       </Modal>
-      <LetterCanvas
-        list={list}
-        pointer={0}
-        alpha={false}
-        // @ts-ignore
-        setWrite={setWrite}
-      ></LetterCanvas>
+      <LetterCanvas list={list}
+                        pointer={0}
+                        alpha={false}
+                        // @ts-ignore
+                        word={word}
+                        setWrite={setWrite}></LetterCanvas>
     </ContainerBg>
   );
 };

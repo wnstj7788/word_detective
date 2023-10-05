@@ -551,7 +551,7 @@ export const strokes = {
 };
 
 // @ts-ignore
-const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer }) => {
+const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer, word }) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState("transparent");
   const [paths, setPaths] = useState([]);

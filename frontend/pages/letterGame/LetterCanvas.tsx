@@ -23,7 +23,7 @@ const { height, width } = Dimensions.get("window");
 const fontSize = width * 0.2;
 import axios from "axios/index";
 // @ts-ignore
-const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
+const LetterCanvas = ({ list, alpha, pointer, setWrite, word }) => {
   const canvasRef = useRef(null);
   const getBase64Data = () => {
     const canvas = canvasRef.current;
@@ -156,7 +156,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
   return (
     <View style={[styles.container]}>
       {isLoading && <LoadingScreen />}
-      <Text style={{fontSize:50, fontFamily:"BMJUA"}}>사과를 써보자!</Text>
+      <Text style={{fontSize:50, fontFamily:"BMJUA"}}>{word.name}를 써보자!</Text>
       <ViewShot
         ref={svgRef}
         options={{ format: "jpg", quality: 0.5, result: "base64" }}
