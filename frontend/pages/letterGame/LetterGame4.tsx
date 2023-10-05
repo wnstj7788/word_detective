@@ -25,9 +25,12 @@ const LetterGame4 = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   // @ts-ignrore
   useEffect(()=>{
-    if(word.name===write){
-      setModalVisible(true);
-
+    if(write) {
+      if (word.name === write) {
+        setModalVisible(true);
+      } else {
+        alert(`니가 적은 것은 ${write}! 다시 적어보자!`);
+      }
     }
   }, [write])
 
@@ -46,11 +49,6 @@ const LetterGame4 = () => {
       >
         <GetCardModal nextScreen="Main" word={word}></GetCardModal>
       </Modal>
-      <ContainerA>
-        <Text style={{fontSize:20, fontFamily:"BMJUA", textAlign:"center"}}>{word.name}</Text>
-        <Text style={{textAlign:"center", fontFamily:"BMJUA"}}>적은 글자 : {write}</Text>
-
-      </ContainerA>
       <LetterCanvas list={list}
                         pointer={0}
                         alpha={false}
