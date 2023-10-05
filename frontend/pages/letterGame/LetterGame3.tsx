@@ -36,6 +36,7 @@ const LetterGame3 = () => {
     letters[1] ? letters[1].length : 0,
     letters[2] ? letters[2].length : 0,
   ];
+  const [erase, setErase] = useState(false);
   const length: number = list.length;
   const [write, setWrite] = useState("");
   const openModal = () => {
@@ -89,7 +90,7 @@ const LetterGame3 = () => {
             <ImageContainer1>
               <QuestionImage
                 resizeMode="contain"
-                source={require("../../assets/card/fruit/apple.png")}
+                source={{uri : word.url}}
               />
             </ImageContainer1>
             <ImageContainer2>
