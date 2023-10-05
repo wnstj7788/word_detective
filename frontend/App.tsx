@@ -29,6 +29,7 @@ import TutorialOne from "./pages/tutorial/TutorialOne";
 import TutorialTwo from "./pages/tutorial/TutorialTwo";
 import { IWord } from "./types/types";
 import TutorialThree from "./pages/tutorial/TutorialThree";
+import TutorialHome from "./pages/tutorial/TutorialHome";
 import TutorialFour from "./pages/tutorial/TutorialFour";
 import TutorialFive from "./pages/tutorial/TutorialFive";
 import CameraCon from "./pages/camera/CameraCon";
@@ -90,7 +91,7 @@ export type RootStackParamList = {
   TutorialThree: {
     cameFromTutorialTwo: boolean;
   };
-
+  TutorialHome: undefined;
   TutorialFour: {
     cameFromTutorialThree: boolean;
   };
@@ -146,6 +147,7 @@ export default function App() {
           <Stack.Screen name="TutorialThree" component={TutorialThree} />
           <Stack.Screen name="TutorialFour" component={TutorialFour} />
           <Stack.Screen name="TutorialFive" component={TutorialFive} />
+          <Stack.Screen name="TutorialHome" component={TutorialHome} />
           <Stack.Screen name="CameraCon" component={CameraCon} />
           <Stack.Screen name="PhotoSelect" component={PhotoSelect} />
           <Stack.Screen name="TutorialWordNote" component={TutorialWordNote} />

@@ -49,7 +49,7 @@ const Main = () => {
           <TouchableWithoutFeedback
             onPress={() => {
               if (isTouchable) {
-                navigation.navigate("TutorialThree", { cameFromTutorialTwo: true });
+                navigation.navigate("TutorialHome");
               }
             }}
             disabled={!isTouchable}

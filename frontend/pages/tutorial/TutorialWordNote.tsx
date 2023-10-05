@@ -24,7 +24,9 @@ const TutorialWordNote = ({ route }: any) => {
     const playSound = async () => {
       const soundObject = new Audio.Sound();
       try {
-        await soundObject.loadAsync(require("../../assets/wav/03_그림맞추기_먼저_해볼까.wav"));
+        await soundObject.loadAsync(
+          require("../../assets/wav/01_찾은_단어_카드는_여기서_볼_수_있어.wav")
+        );
         await soundObject.playAsync();
         // 사운드 재생이 끝나면 터치 가능하게 상태 변경
         soundObject.setOnPlaybackStatusUpdate(status => {
@@ -49,19 +51,28 @@ const TutorialWordNote = ({ route }: any) => {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
-          <Header isNoteTuto={true} />
-          <MiddleSet>
-            <MiddleSetRow>
-              <Box>
-                <SpeechBubbleImg
-                  source={require("../../assets/etc/tutoThree.png")}
-                  resizeMode="contain"
-                >
-                  <TextTotutial>찾은 단어 카드는{"\n"} 여기서 볼 수 있어.</TextTotutial>
-                </SpeechBubbleImg>
-              </Box>
-            </MiddleSetRow>
-          </MiddleSet>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              if (isTouchable) {
+                navigation.navigate("TutorialThree", { cameFromTutorialTwo: true });
+              }
+            }}
+            disabled={!isTouchable}
+          >
+            <Header isNoteTuto={true} />
+            <MiddleSet>
+              <MiddleSetRow>
+                <Box>
+                  <SpeechBubbleImg
+                    source={require("../../assets/etc/tutoThree.png")}
+                    resizeMode="contain"
+                  >
+                    <TextTotutial>찾은 단어 카드는{"\n"} 여기서 볼 수 있어.</TextTotutial>
+                  </SpeechBubbleImg>
+                </Box>
+              </MiddleSetRow>
+            </MiddleSet>
+          </TouchableWithoutFeedback>
         </ContainerBg>
       </Container>
     );
@@ -125,7 +136,7 @@ const TextTotutial = styled.Text`
   font-weight: 400;
   font-size: 30px;
   color: #000000;
-  top: -5%;
+  top: -10%;
   right: 10%;
 `;
 
@@ -140,4 +151,7 @@ const BtnText = styled.Text`
   font-family: "BMJUA";
   font-size: 32px;
   color: #945023;
+`;
+const TouchableWithoutFeedback = styled.TouchableOpacity`
+  flex: 1;
 `;

@@ -24,7 +24,9 @@ const Main = ({ route }: any) => {
     const playSound = async () => {
       const soundObject = new Audio.Sound();
       try {
-        await soundObject.loadAsync(require("../../assets/wav/03_그림맞추기_먼저_해볼까.wav"));
+        await soundObject.loadAsync(
+          require("../../assets/wav/02_처음으로_돌아가려면_이걸_눌러줘.wav")
+        );
         await soundObject.playAsync();
         // 사운드 재생이 끝나면 터치 가능하게 상태 변경
         soundObject.setOnPlaybackStatusUpdate(status => {
@@ -49,36 +51,29 @@ const Main = ({ route }: any) => {
     return (
       <Container>
         <ContainerBg source={require("../../assets/background/main/mainBackground.png")}>
-          <Header />
-          <MiddleSet>
-            <MiddleSetRow>
-              <BtnContainer>
-                <MenuBtnDraw
-                  cameFromTutorialTwo={route.params?.cameFromTutorialTwo}
-                  onPress={() => {
-                    if (isTouchable) {
-                      navigation.navigate("TutorialFour", { cameFromTutorialThree: true });
-                    }
-                  }}
-                  disabled={!isTouchable}
-                >
-                  <BtnImg
-                    source={require("../../assets/button/home/HomePicMatch.png")}
+          <TouchableWithoutFeedback
+            onPress={() => {
+              if (isTouchable) {
+                navigation.navigate("TutorialWordNote");
+              }
+            }}
+            disabled={!isTouchable}
+          >
+            <Header isHomeTuto={true} />
+            <MiddleSet>
+              <MiddleSetRow>
+                <BtnContainer></BtnContainer>
+                <Box>
+                  <SpeechBubbleImg
+                    source={require("../../assets/etc/tutoThree.png")}
                     resizeMode="contain"
-                  />
-                  <BtnText>그림 맞추기</BtnText>
-                </MenuBtnDraw>
-              </BtnContainer>
-              <Box>
-                <SpeechBubbleImg
-                  source={require("../../assets/etc/tutoThree.png")}
-                  resizeMode="contain"
-                >
-                  <TextTotutial>그림 맞추기 {"\n"}먼저 해볼까?</TextTotutial>
-                </SpeechBubbleImg>
-              </Box>
-            </MiddleSetRow>
-          </MiddleSet>
+                  >
+                    <TextTotutial>처음으로 돌아가려면 {"\n"}이걸 눌러줘!</TextTotutial>
+                  </SpeechBubbleImg>
+                </Box>
+              </MiddleSetRow>
+            </MiddleSet>
+          </TouchableWithoutFeedback>
         </ContainerBg>
       </Container>
     );
@@ -157,4 +152,8 @@ const BtnText = styled.Text`
   font-family: "BMJUA";
   font-size: 32px;
   color: #945023;
+`;
+
+const TouchableWithoutFeedback = styled.TouchableOpacity`
+  flex: 1;
 `;
