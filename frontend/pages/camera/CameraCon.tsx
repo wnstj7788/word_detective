@@ -63,7 +63,7 @@ export default function App({ route }) {
           type: "image/jpeg",
         });
 
-        formData.append("userId", user.id.toString());
+        formData.append("userId", "1");
 
         const response = await axios.post(`https://j9b105.p.ssafy.io/uploads`, formData, {
           headers: {
