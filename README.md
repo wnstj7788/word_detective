@@ -24,80 +24,51 @@ _- 아이들이 재미있게 한글 단어를 배울 수 있도록 -_
 
 **단어탐정**은 사진의 AI분석, 글자 인식 AI를 이용하여 한글 단어를 가르쳐주는 어플리케이션입니다.
 요새 비용이 높은 한글 교육으로 인해 부담감을 느끼는 학부모가 많아지고 있습니다.
-</br>그런 분들을 위해 저비용으로
+</br>그런 분들을 위해 저비용으로 단어를 공부 할 수 있는 어플리케이션을 만들었습니다.
 
-저희는 이러한 문제점을 해소하고 다양한 술에 대한 정보를 객관적 ,주관적 (후기) 데이터를 제공하며 취향 맞는 사람들과의 모임을 가능하게 합니다.
 
-또한, 평소 찾기 힘들었던 술관련 행사도 한 눈에 확인 할 수 있어 취미생활을 이어나갈 수는 환경을 제공합니다.
+## 주요 기능
 
-</br>
-뿐만 아니라 자신이 경험한 술들은 자신의 술장에 들어가 자신이 경험한 술을 영원히 기억할 수 있습니다.
+## 단어 게임
 
-## 🍷 주요 기능
+- 여러 한글 교육 커리큘럼을 참고하여 세 단계로 나눈 게임 여러개를 구성
+  - 아이들이 물체의 개념을 이해할 수 있도록 한 그림 맞추기
+  - 아이들이 물체와 통단어를 연결할 수 있도록 한 단어 맞추기
+  - 아이들이 단어를 분해하여 글자를 이해할 수도록 있게 한 단어 나누기
+  - 한 단계를 클리어하면 그 물체의 카드를 줌과 동시에 도장 하나를 부여함.
+- AI인식을 통한 물체 인식(탐정 모드)
+  - 사진을 찍을 시 AI를 이용하여 물체를 인식하고 그 물체만 잘라낸 사진을 이용하여 게임 플레이 가능
 
-## 술장
+## 단어장
 
-- 최상단 음주 관련 행사 배너를 출력합니다
-  - "시음행사", "주류 박람회", "양조장 투어" 등 행사 정보를 출력함으로 취미 생활을 이어나갈 수 있도록 독려 합니다.
-- 중단에 서비스가 현재 제공하고 있는 술을 보여줍니다.
-  - 후기를 남기고(보고) 싶은 술을 검색하여 해당 술에 대한 여러 유저의 주관적, 객관적 데이터를 수집할 수 있습니다.
-- 하단에 현재 가장 인기있는 후기들을 보여줍니다.
-  - 현재 유저들 사이에서 인기 있는 주종을 알 수 있으며 다양한 유저와 소통 할 수 있는 장을 제공합니다.
-    <br/>
+- 자기가 얻은 단어 카드와 거기에 찍힌 도장을 확인 가능 
+  - 도장을 다 모을시, 카드의 외형이 변화함.
+  - 카드 종류에서 카드 클릭시 카드를 자세히 확인 가능
 
-## 취향에 맞는 모임 조성
-
-- 원하는 술에 대한 모임을 생성 및 참여 가능
-  - 선호하는 연령, 간수치(매너지수), 인원, 장소, 시간 설정으로 맞춤 모임을 생성 및 참여가 가능합니다.
-- 참여 신청
-  - 자신이 원하는 모임을 발견 시 참여 신청이 가능합니다.
-  - 방장은 들어온 신청을 보고 수락 및 거절이 가능합니다.
-  - 모임에 참여하게 되면 단체 채팅방이 생성되어 모임 전까지 그라운드룰, 세부 정보 등을 공유할 수 있습니다.
-    <br/>
-
-## 마이 페이지(유저 페이지)
-
-- 유저의 간수치(메너수치), 술병(자신의 경험한 술)을 확인 할 수 있습니다
-- 유저의 팔로워/ 팔로잉 유저들을 확인 할 수 있습니다.
-- 악성유저의 경우 신고기능을 제공합니다
-- 유저와 관련된 모임들을 한 번에 확인 가능합니다
-- 유저가 경험했던 술을 한 눈에 확인 할 수 있습니다.
-  - 술을 모집하는 경험을 통해 재미요소를 추가할 예정입니다.
-  - 해당 기능을 통해 해당 유저의 취향을 확인 할 수 있습니다.
-- DM 기능을 통해 취향 맞는 사람과의 소통을 도모합니다.
-  <br/>
 
 ## ✔ 주요 기술
 
-**Backend - Springboot**
+**FrontEnd**
 
-- IntelliJ
-- MySQL DB
-- Spring Boot
-- stomp
-- OAuth API (kakao, google, naver)
-- JPA
+VisualCode : 최신판 </br>
+React - 18.2.0 </br>
+axios - 1.4.0 </br>
+stompjs - 2.3.3 </br>
+redux - 4.2.1 </br>
+styled-components - 6.0.7
 
-**Frontend**
-- Node(18.X.X) LTS
-- Vite : 4.4.0
-- vite-plugin-pwa : 0.16.4
-- React : 18.2.0
-- Typescript : 5.0.2
-- @formkit/auto-animate : 0.7.0,
-- @stomp/stompjs : 7.0.0,
-- axios : 1.4.0,
-- react-dom : 18.2.0,
-- react-modal : 3.16.1,
-- react-router-dom : 6.14.1,
-- react-slick : 0.29.0,
-- react-textarea-autosize : 8.5.2,
-- slick-carousel : 1.8.1,
-- sockjs-client : 1.6.1,
-- styled-components : 6.0.4,
-- react-tooltip : 5.20.0
-- browser-image-compression : 2.0.2
-- react-swipeable-list : 1.9.1
+
+**BackEnd**
+
+IntelliJ IDEA Ultimate </br>
+SpringBoot - 3.0.6 </br>
+Java - Zulu-17 </br>
+SpringSecurity </br>
+JPA </br>
+QueryDsl - 5.0.0 </br>
+MySql - 8.0.34 </br>
+Stomp </br>
+smtp - 3.0.4
 
 **Environment**
 
@@ -114,8 +85,6 @@ _- 아이들이 재미있게 한글 단어를 배울 수 있도록 -_
 - Notion
 - JIRA
 - MatterMost
-- POSTMan
-- GitMInd
 - Canva
 
 ## ✔ 협업 환경
@@ -140,24 +109,16 @@ _- 아이들이 재미있게 한글 단어를 배울 수 있도록 -_
   - 간트차트 관리
   - 스토리보드, 스퀀스다이어그램, 기능명세서 등 모두가 공유해야 하는 문서 관리
 
-- POSTMan
-  - POSTMan 이용해 필요한 API 테스트 및 실행
-  - API 변동 사항을 한눈에 볼 수 있으며, 인수 또는 반환값 스키마를 제공
-
-## ✔ 팀원 역할 분배
-
-s
+  
 ## 👪  팀 소개
 
-| <img src="https://avatars.githubusercontent.com/u/70623636?v=4" width="150"> |   <img src="docs/images/user/young.jpg" width="150">    |       <img src="docs/images/user/jun.JPG" width="150">       
-|:----------------------------------------------------------------------------:|:-------------------------------------------------------:|:------------------------------------------------------------:|
-|              [이현욱](https://github.com/Devwooki)</br>팀장 : BE 개발               | [인영교](https://github.com/yeongkyo1997) </br> BE 개발 및 배포 |     [최준서](https://github.com/wnstj7788)  </br> BE 개발 및 기획    |
-|             <img src="docs/images/user/dayoung.jpg" width="150">             |    <img src="docs/images/user/huck.jpg" width="150">    |       <img src="docs/images/user/bin.jpg" width="150">       
-|                [이다영](https://github.com/dayoung100)  </br> FE 개발  및 디자인      |          [강동혁](https://github.com/ztarhyuk127)   </br> FE 개발       |      [여현빈](https://github.com/godzz733)    </br> FE 개발       |
+|         <img src="doc/강경인.png" width="150">          |       <img src="doc/인영교.png" width="150">       |        <img src="doc/최준서.png" width="150">         
+|:----------------------------------------------------:|:-----------------------------------------------:|:--------------------------------------------------:|
+| [강경인](https://github.com/gangins)</br>팀장 및 Frontend  | [인영교](https://github.com/yeongkyo1997) </br> AI | [최준서](https://github.com/wnstj7788)  </br> Backend |
+|         <img src="doc/이다영.png" width="150">          |       <img src="doc/송원규.png" width="150">       |        <img src="doc/이준혁.png" width="150">         
+| [이다영](https://github.com/dayoung100)  </br> FrontEnd |            [송원규]()   </br>  Frontend            | [이준혁](https://github.com/human3452)    </br> Infra |
 
-<br/><br/>
 
-<!-- 자유 양식 -->
 
 ## 프로젝트 상세 설명
 
@@ -207,48 +168,53 @@ s
 ---
 
 - [기능명세서 및 요구사항 명세서](https://docs.google.com/spreadsheets/d/1ORhAyYP_sGaXwou7e7pbeROBb1EwLq6k0hua8qWM9TE/edit#gid=0)
-- [아키텍처](docs/images/architecture.png)
-- [와이어프레임](https://www.figma.com/proto/rwMbAwmZPkt54BI3MRie6N/%EB%84%A4%EC%9D%B4%EB%B8%8C%EB%A3%A8?node-id=1212-1618&starting-point-node-id=1212%3A1618) 
-- [API](https://documenter.getpostman.com/view/26249570/2s9Y5R1m6X)
-- [ERD](docs/images/ERD.png) 
-- [회의록](https://www.notion.so/wookdev/8408634b3a0044c8bfa6a6899015e6bb?v=dd2f346799f6490aaec4d346b881829d&pvs=4)
+- [와이어프레임](https://www.figma.com/file/nnb1pg3tIveVGLMCbZHMRv/%EB%8B%A8%EC%96%B4%ED%83%90%EC%A0%95?type=design&node-id=0-1&mode=design) 
+- [API](doc/detection.json)
+- [ERD](https://www.erdcloud.com/d/DbipTiL4btwvYzZwj) 
+- [회의록](https://www.notion.so/243e190f32d042df9f6030ce00b776b1)
 
 
 ## 포팅 메뉴얼 
-- [포팅메뉴얼](https://wookdev.notion.site/ab44cde17ec34f659ef8216d046a9334?pvs=4)
+- [Build & Distribute](doc/2.%20Build%20&%20Distribute.txt)
+- [Deployment Command](doc/3.%20Deployment%20Command.txt)
+- [EC2 Setting](doc/4.%20EC2%20Setting.txt)
 
 ## ✔ 프로젝트 결과물
 
-- [기획발표자료](https://www.canva.com/design/DAFrbMapsEo/4UPn_Rj0y7Y_4z8ZKB4axA/edit?utm_content=DAFrbMapsEo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
-- [중간발표자료](https://www.canva.com/design/DAFrbLSqKrU/v8Sp5kq6dnlUdGYDFqFfnQ/edit?utm_content=DAFrbLSqKrU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
-- [최종발표자료](https://www.canva.com/design/DAFqjZrSWQc/dZBUYNXj-oBvEQDHuIFKIw/edit?utm_content=DAFqjZrSWQc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) 
+- [기획](https://www.notion.so/71ddff8f5b7c4e8e9252daa2d3557f70)
+- [중간발표자료](https://www.canva.com/design/DAFuMRPZYC0/OxGI6UGW98kL13sQHU_tdQ/edit)
+- [최종발표자료](doc/단어%20탐정%20최종.pdf) 
 
-## 🎵 NeighBrew 서비스 화면
+## 🎵 단어탐정 서비스 화면
 ### 로그인
 
- <img src="docs/images/page/loginPage.png">
+ <img src="doc/title.jpg">
 
 
-### 메인화면(술장)
 
- <img src="docs/images/page/MainPage.png">
- <img src="docs/images/page/drinkSearch.png">
+### 메뉴 화면
 
-
-### 모임 등록
-
- <img src="docs/images/page/meetMaking.png">
+  <img src="doc/menu.jpg">
 
 
-### 모임 참여
- <img src="docs/images/page/joinMeeting.png">
+### 그림 맞추기
+ <img src="doc/그림1.jpg">
+ <img src="doc/그림2.jpg">
+ <img src="doc/그림3.jpg">
 
-### 모임 관리 및 수정
- <img src="docs/images/page/modifyMeeting.png">
+### 단어 맞추기
+ <img src="doc/단어1.jpg">
+ <img src="doc/단어2.jpg">
+ <img src="doc/단어3.jpg">
 
+### 단어 나누기
+ <img src="doc/나누기1.jpg">
+ <img src="doc/나누기2.jpg">
+<img src="doc/클리어모달.jpg">  
+ <img src="doc/나누기3.jpg">
+ <img src="doc/나누기4.jpg">
+ <img src="doc/나누기5.jpg">
 
-### 마이페이지
-<img src="docs/images/page/myInfo.png">
-
-### 유저페이지
-<img src="docs/images/page/userInfo.png">
+### 단어장
+<img src="doc/단어장1.jpg">
+<img src="doc/단어장2.jpg"> 
