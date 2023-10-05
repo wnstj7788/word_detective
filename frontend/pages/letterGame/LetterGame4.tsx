@@ -39,19 +39,23 @@ const LetterGame4 = () => {
 
   // @ts-ignrore
   useEffect(() => {
-    if (word.name === write) {
-      //api연결
-      UserAPI.stageClear({ ...user, letter: word.id })
-        .then(res => {
-          dispatch(login(res.data));
-        })
-        .then(() => {
-          //모달 오픈
-          setModalVisible(true);
-        })
-        .catch(e => {
-          console.log("스테이지 클리어 api 관련 에러 발생: ", e);
-        });
+    if (write) {
+      if (word.name === write) {
+        //api연결
+        UserAPI.stageClear({ ...user, letter: word.id })
+          .then(res => {
+            dispatch(login(res.data));
+          })
+          .then(() => {
+            //모달 오픈
+            setModalVisible(true);
+          })
+          .catch(e => {
+            console.log("스테이지 클리어 api 관련 에러 발생: ", e);
+          });
+      } else {
+        alert(`니가 적은 것은 ${write}! 다시 적어보자!`);
+      }
     }
   }, [write]);
 
@@ -70,10 +74,6 @@ const LetterGame4 = () => {
       >
         <GetCardModal nextScreen="LetterLobby" word={word}></GetCardModal>
       </Modal>
-      <ContainerA>
-        <Text style={{ fontSize: 20, fontFamily: "BMJUA", textAlign: "center" }}>{word.name}</Text>
-        <Text style={{ textAlign: "center", fontFamily: "BMJUA" }}>적은 글자 : {write}</Text>
-      </ContainerA>
       <LetterCanvas
         list={list}
         pointer={0}
