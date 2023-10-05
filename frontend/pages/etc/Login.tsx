@@ -43,6 +43,37 @@ const Login = () => {
 
   //로컬 스토리지에서 유저 아이디 확인하는 함수
   const getUserId = () => {
+    console.log("uuuuu::", user);
+    //이 타이밍에 user에 id 값이 있음 -> 바로 메인 페이지로 이동
+    if (user.id > 0) {
+      //스테이지 클리어 정보가 없는가?
+      if (user.picture === -1 || user.word === -1 || user.letter === -1) {
+        if (isNewUser) storeData(user.id); //userId를 로컬 스토리지에 저장
+
+        //저장한 userId로 다시 api 호출해서 유저 정보 가져오기
+        const promise = UserAPI.getById(user.id);
+        promise
+          .then(res => {
+            setUser({
+              ...user,
+              picture: res.data.picture,
+              word: res.data.word,
+              letter: res.data.letter,
+              cameraPicture: res.data.cameraPicture,
+              cameraWord: res.data.cameraWord,
+              cameraLetter: res.data.cameraLetter,
+            });
+            setLoadingText("유저 정보 조회중");
+          })
+          .catch(e => {
+            console.log("유저 기록 및 정보 조회 중 이하의 에러 발생 : ", e);
+            //TODO: errorCode가 USER_NOT_FOUND면 userID가 잘못된 것 -> 에러처리 필요
+          });
+      }
+      //스테이지 목록 정보가 없는가?
+      else if (stage.length === 0) loadStage();
+      else navigateNextPage();
+    }
     //로컬 스토리지에 userId가 있는지 확인
     getData()
       .then(res => {
@@ -174,14 +205,6 @@ const Login = () => {
               <View style={{ flex: 1 }} />
             </View>
           </TouchableWithoutFeedback>
-          <TouchableOpacity onPress={() => navigation.navigate("Main")}>
-            <Text>Go to Main Page</Text>
-          </TouchableOpacity>
-          <Text>
-            유저 아이디: {userInRedux.id} / 그림: {userInRedux.picture} / 단어: {userInRedux.word} /
-            글자: {userInRedux.letter}
-          </Text>
-          <Text>{loadingText}</Text>
         </ContainerBg>
       </Container>
     );

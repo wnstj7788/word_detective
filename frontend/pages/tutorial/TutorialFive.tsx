@@ -10,6 +10,8 @@ import StageCard from "../components/StageCard";
 import { IStage } from "../../types/types";
 import { initialStage } from "../../common/initialType";
 import Header from "../etc/Header";
+import { Audio } from "expo-av";
+import useAppSelector from "../../store/useAppSelector";
 
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type StagePageRouteProp = RouteProp<RootStackParamList, "Stage">;
@@ -21,26 +23,31 @@ const Stage = () => {
   const route = useRoute<StagePageRouteProp>();
   // 네비게이션 사이를 넘어가며 전달한 param
   //gameType = letter OR word OR picture(string)
-  const { gameType } = route.params;
+  const gameType = "picture";
+  const words = useAppSelector(state => state.wordList.value);
 
   //TODO: api 호출해야, 현재는 임시 데이터로 사용중
-  const [stageList, setStageList] = useState<IStage[]>([initialStage]); //모임 데이터
-  const wordList = ["사과"];
-  let testList: IStage[] = [];
-  wordList.map(word => {
-    let tempStage: IStage = initialStage;
-    tempStage.word.name = word;
-    testList.push({
-      word: {
-        name: word,
-        imgSrc: "",
-      },
-      clear: false,
-    });
-  });
+  // const [stageList, setStageList] = useState<IStage[]>([initialStage]); //모임 데이터
+  const stage: IStage = {
+    word: words[0][0],
+    clear: false,
+    canStart: true,
+  };
 
   useEffect(() => {
-    setStageList(testList);
+    // 페이지가 렌더링될 때 소리를 자동으로 재생
+    const playSound = async () => {
+      const soundObject = new Audio.Sound();
+      try {
+        await soundObject.loadAsync(require("../../assets/wav/05_사과를_눌러보자.wav"));
+        await soundObject.playAsync();
+      } catch (error) {
+        console.error("소리 재생 중 오류 발생:", error);
+      }
+    };
+
+    // 컴포넌트가 마운트될 때 소리를 재생
+    playSound();
   }, []);
 
   if (isLoaded) {
@@ -58,18 +65,7 @@ const Stage = () => {
               <Image source={require("../../assets/character/fruitCharacter.png")} />
             </CharacterContainer>
             <StageListContainer>
-              {stageList.map(stage => {
-                // "사과" 여부를 판단하여 isApple prop을 전달합니다.
-                const isApple = stage.word.name === "사과";
-                return (
-                  <StageCard
-                    stage={stage}
-                    gameType={gameType}
-                    key={stage.word.name}
-                    isApple={isApple}
-                  />
-                );
-              })}
+              <StageCard stage={stage} gameType={gameType} />
             </StageListContainer>
             <SpeechBubbleImg
               source={require("../../assets/etc/tutoThree.png")}
