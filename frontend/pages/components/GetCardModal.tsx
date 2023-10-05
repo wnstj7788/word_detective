@@ -46,7 +46,10 @@ const GetCardModal = ({ word, onClose, nextScreen }: any) => {
   return (
     <ModalContainer>
       <ModalLeft>
-        <WordCardDesign source={cardDesign2} resizeMode="stretch">
+        <WordCardDesign
+          source={word.name === "바나나" ? cardDesign2 : cardDesign1}
+          resizeMode="stretch"
+        >
           <WordImg source={{ uri: word.url }}></WordImg>
         </WordCardDesign>
       </ModalLeft>

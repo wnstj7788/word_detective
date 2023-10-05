@@ -13,12 +13,33 @@ const WordNoteCard = (props: { categoryType: number; callbackprop(data: IWord): 
   const [selectedItem, setSelectedItem] = useState("");
 
   const words = useAppSelector(state => state.wordList.value);
+  const user = useAppSelector(state => state.user.value);
+
+  // const getIsClear = (item: IWord) => {
+  //   console.log(user);
+  //   console.log(
+  //     user.picture === (0 || null) &&
+  //       user.word === (0 || null) &&
+  //       user.letter === (0 || null) &&
+  //       user.cameraPicture === (0 || null) &&
+  //       user.cameraWord === (0 || null) &&
+  //       user.cameraLetter === (0 || null)
+  //   );
+  //   return !(
+  //     user.picture === (0 || null) &&
+  //     user.word === (0 || null) &&
+  //     user.letter === (0 || null) &&
+  //     user.cameraPicture === (0 || null) &&
+  //     user.cameraWord === (0 || null) &&
+  //     user.cameraLetter === (0 || null)
+  //   );
+  // };
 
   return (
     <FlatList
       horizontal={true}
       data={words[props.categoryType - 1]}
-      keyExtractor={item => item}
+      keyExtractor={item => item.id}
       renderItem={({ item }) => (
         <CardContainer
           onPress={() => {
@@ -27,6 +48,8 @@ const WordNoteCard = (props: { categoryType: number; callbackprop(data: IWord): 
             setSelectedItem(item);
             setModalVisible(true);
           }}
+          // $isClear={getIsClear(item)}
+          $isClear={true}
         >
           <MainLogo source={require("../../assets/logo/mainLogo2.png")}></MainLogo>
           <CardInnerContainer>
@@ -44,7 +67,7 @@ const WordNoteCard = (props: { categoryType: number; callbackprop(data: IWord): 
 
 export default WordNoteCard;
 
-const CardContainer = styled(BtnContainer)`
+const CardContainer = styled(BtnContainer)<{ $isClear: boolean }>`
   flex: 1;
   aspect-ratio: 3/4;
   background-color: white;
@@ -52,6 +75,7 @@ const CardContainer = styled(BtnContainer)`
   border-radius: 20px 20px 0px 20px;
   justify-content: center;
   align-items: center;
+  opacity: ${props => (props.$isClear ? 1 : 0.5)};
 `;
 const CardInnerContainer = styled.View`
   background-color: beige;
