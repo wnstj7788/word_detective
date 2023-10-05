@@ -53,6 +53,7 @@ const LetterGame4 = () => {
                         pointer={0}
                         alpha={false}
                         // @ts-ignore
+                        word={word}
                         setWrite={setWrite}></LetterCanvas>
     </ContainerBg>
   );
