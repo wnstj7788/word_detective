@@ -408,7 +408,6 @@ export const strokes = {
     },
   ],
   ㅓ: [
-
     {
       start: { x: width * 0.2, y: height * 0.6 },
       end: { x: width * 0.257, y: height * 0.6 },
@@ -706,9 +705,13 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite, setPointer, word }) => {
           </Svg>
         </View>
       </ViewShot>
-      <View style={{ flexDirection: "row" }}>
+
+      <View style={{ flexDirection: "row", top: -70, left: 140 }}>
         <TouchableOpacity style={styles.clearButton} onPress={handleClearButtonClick}>
-          <Text style={styles.clearButtonText}>지우기</Text>
+          <Image
+            style={{ width: 40, height: 40 }}
+            source={require("../../assets/etc/eraser_pink.png")}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -751,7 +754,7 @@ const styles = StyleSheet.create({
   },
   clearButton: {
     marginTop: 10,
-    backgroundColor: "black",
+
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
