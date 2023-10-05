@@ -16,4 +16,8 @@ public class UserRequestDto {
     private Integer picture;
     private Integer word;
     private Integer letter;
+    private Integer cameraPicture;
+    private Integer cameraWord;
+    private Integer cameraLetter;
+
 }
