@@ -9,7 +9,7 @@ import {
   Image,
   InteractionManager,
   Alert,
-  ImageBackground,
+  ImageBackground, ActivityIndicator,
 } from "react-native";
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { Svg, Path } from "react-native-svg";
@@ -23,7 +23,7 @@ const { height, width } = Dimensions.get("window");
 const fontSize = width * 0.2;
 import axios from "axios/index";
 // @ts-ignore
-const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
+const LetterCanvas = ({ list, alpha, pointer, setWrite, word }) => {
   const canvasRef = useRef(null);
   const getBase64Data = () => {
     const canvas = canvasRef.current;
@@ -49,7 +49,7 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
   }, []);
 
   // @ts-ignore
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleTouchMove = useCallback(
     // @ts-ignore
     event => {
@@ -81,8 +81,17 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
     // @ts-ignore
     setCapturedImageURI();
   };
+  const LoadingScreen = () => {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text style={{fontFamily : "BMJUA"}}>검사중...</Text>
+      </View>
+    );
+  };
   const sendData = async () => {
     try {
+      setIsLoading(true);
       const base64Image = await captureSVG();
       const headers = {
         "X-OCR-SECRET": secret,
@@ -123,6 +132,8 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
     } catch (error) {
       // @ts-ignore
       console.error("Error response:", error.response.data);
+    } finally {
+      setIsLoading(false);
     }
   };
   const captureSVG = () => {
@@ -144,10 +155,12 @@ const LetterCanvas = ({ list, alpha, pointer, setWrite }) => {
   // @ts-ignore
   return (
     <View style={[styles.container]}>
+      {isLoading && <LoadingScreen />}
+      <Text style={{fontSize:50, fontFamily:"BMJUA"}}>{word.name}를 써보자!</Text>
       <ViewShot
         ref={svgRef}
         options={{ format: "jpg", quality: 0.5, result: "base64" }}
-        style={{ backgroundColor: backgroundColor, width: "100%", borderRadius: 5 }}
+        style={{ backgroundColor: backgroundColor, width: "100%", borderRadius: 5, flex : 3, borderColor : "blue" }}
       >
         <View
           style={styles.svgContainer}
@@ -214,6 +227,16 @@ const styles = StyleSheet.create({
     width: width,
     alignItems: "center",
     justifyContent: "center",
+  },
+  loadingContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)'
   },
   clearButton: {
     marginTop: 10,

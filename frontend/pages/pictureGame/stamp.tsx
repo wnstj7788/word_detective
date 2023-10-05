@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { Button, StyleSheet, View } from "react-native";
 import LottieView from "lottie-react-native";
 
-export default function Boom() {
+export default function StampO() {
   const animation = useRef(null);
   useEffect(() => {
     // You can control the ref programmatically, rather than using autoPlay
@@ -15,12 +15,12 @@ export default function Boom() {
         autoPlay
         ref={animation}
         style={{
-          width: 800,
-          height: 800,
+          width: 200,
+          height: 200,
           backgroundColor: "transparent",
         }}
         // Find more Lottie files at https://lottiefiles.com/featured
-        source={require("../../assets/etc/animation_lnci58on.json")}
+        source={require("../../assets/etc/animation_lncppava.json")}
       />
     </View>
   );
