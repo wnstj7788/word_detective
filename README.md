@@ -2,7 +2,7 @@
 
 ![타이틀이미지](doc/title.jpg)
 
-## 소개 영상 보기 : [UCC 링크](https://youtu.be/UZKUr7McmJw)
+## 소개 영상 보기 : [UCC 링크]()
 
 ## 프로젝트 진행 기간
 
