@@ -174,7 +174,7 @@ smtp - 3.0.4
 
 
 ## 포팅 메뉴얼 
-- [포팅 메뉴얼](doc/포팅메뉴얼.txt)
+- [포팅 메뉴얼](exec/포팅메뉴얼.txt)
 ## ✔ 프로젝트 결과물
 
 - [기획](https://www.notion.so/71ddff8f5b7c4e8e9252daa2d3557f70)
