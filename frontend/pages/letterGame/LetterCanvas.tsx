@@ -1,5 +1,4 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
-const secret = "dmtnb2x6U0dSUkl6cmt4c09MY0pGblZJYVFkenJySXA=";
 import {
   View,
   StyleSheet,
