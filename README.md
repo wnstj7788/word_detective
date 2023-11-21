@@ -48,34 +48,39 @@ _- 아이들이 재미있게 한글 단어를 배울 수 있도록 -_
 
 ## ✔ 주요 기술
 
-**FrontEnd**
-
-VisualCode : 최신판 </br>
-React - 18.2.0 </br>
-axios - 1.4.0 </br>
-stompjs - 2.3.3 </br>
-redux - 4.2.1 </br>
-styled-components - 6.0.7
-
-
-**BackEnd**
-
-IntelliJ IDEA Ultimate </br>
-SpringBoot - 3.0.6 </br>
-Java - Zulu-17 </br>
-SpringSecurity </br>
-JPA </br>
-QueryDsl - 5.0.0 </br>
-MySql - 8.0.34 </br>
-Stomp </br>
-smtp - 3.0.4
-
-**Environment**
-
-- AWS EC2
-- NGINX
-- SSL
-- Docker
+- **BackEnd**
+    - Spring boot
+        - SpringBoot - 2.7.15
+        - Java - Zulu-11
+        - JPA - 3.1.14
+        - MySql - 8.0.33
+        - lombok - 1.18.30
+    - FastApi
+        - ultralytics - 8.0.188
+        - SQLAlchemy - 2.0.21
+        - boto3 - 1.28.55
+        - python-dotenv - 1.0.0- fastapi
+        - pydantic - 2.3.0
+        - starlette - 0.27.0
+        - mysql-connector-python - 8.1.0
+        - pymysql - 1.1.0
+        - python-multipart - 0.0.5
+- **FrontEnd**
+    - VisualCode : 최신판(23.10.05 기준 1.82)
+    - React : 18.2.0
+    - React Native : 0.72.5
+    - axios : 1.5.0
+    - typescript: 5.1.3
+    - react-redux : 8.1.2
+    - reduxjs/toolkit : 1.9.5
+    - styled-components : 6.0.7
+- **Environment**
+    - AWS EC2
+    - Ubuntu 20.04 LTS
+    - Docker 24.0.6
+    - Nginx 1.18.0 (Ubuntu)
+- **외부API**
+  - 클로바 OCR
 
 ## ✔ 협업 툴
 
