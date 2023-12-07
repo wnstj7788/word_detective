@@ -119,7 +119,7 @@ _- 아이들이 재미있게 한글 단어를 배울 수 있도록 -_
 
 |         <img src="doc/강경인.png" width="150">          |       <img src="doc/인영교.png" width="150">       |        <img src="doc/최준서.png" width="150">         
 |:----------------------------------------------------:|:-----------------------------------------------:|:--------------------------------------------------:|
-| [강경인](https://github.com/gangins)</br>팀장 및 Frontend  | [인영교](https://github.com/yeongkyo1997) </br> AI | [최준서](https://github.com/wnstj7788)  </br> Backend |
+| [강경인](https://github.com/gangins)</br>팀장 및 Frontend  | [인영교](https://github.com/yeongkyo1997) </br> AI | [최준서](https://github.com/wnstj7788)  </br> Frontend |
 |         <img src="doc/이다영.png" width="150">          |       <img src="doc/송원규.png" width="150">       |        <img src="doc/이준혁.png" width="150">         
 | [이다영](https://github.com/dayoung100)  </br> FrontEnd |            [송원규]()   </br>  Frontend            | [이준혁](https://github.com/human3452)    </br> Infra |
 
